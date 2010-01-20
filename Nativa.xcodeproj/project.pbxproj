@@ -9,10 +9,6 @@
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* NativaAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* NativaAppDelegate.m */; };
-		8107580D10FFCA50003FF9A6 /* Sidebar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107580810FFCA50003FF9A6 /* Sidebar.m */; };
-		8107580E10FFCA50003FF9A6 /* SidebarBadgeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107580A10FFCA50003FF9A6 /* SidebarBadgeCell.m */; };
-		8107580F10FFCA50003FF9A6 /* SidebarNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107580C10FFCA50003FF9A6 /* SidebarNode.m */; };
-		8107582410FFCE31003FF9A6 /* SidebarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107582310FFCE31003FF9A6 /* SidebarController.m */; };
 		8107590410FFDF30003FF9A6 /* Filterbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 810758FE10FFDF30003FF9A6 /* Filterbar.m */; };
 		8107590510FFDF30003FF9A6 /* FilterbarGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590110FFDF30003FF9A6 /* FilterbarGroup.m */; };
 		8107590610FFDF30003FF9A6 /* FilterbarGroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590310FFDF30003FF9A6 /* FilterbarGroupItem.m */; };
@@ -51,14 +47,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		8107580710FFCA50003FF9A6 /* Sidebar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sidebar.h; sourceTree = "<group>"; };
-		8107580810FFCA50003FF9A6 /* Sidebar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sidebar.m; sourceTree = "<group>"; };
-		8107580910FFCA50003FF9A6 /* SidebarBadgeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarBadgeCell.h; sourceTree = "<group>"; };
-		8107580A10FFCA50003FF9A6 /* SidebarBadgeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarBadgeCell.m; sourceTree = "<group>"; };
-		8107580B10FFCA50003FF9A6 /* SidebarNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarNode.h; sourceTree = "<group>"; };
-		8107580C10FFCA50003FF9A6 /* SidebarNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarNode.m; sourceTree = "<group>"; };
-		8107582210FFCE31003FF9A6 /* SidebarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SidebarController.h; sourceTree = "<group>"; };
-		8107582310FFCE31003FF9A6 /* SidebarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarController.m; sourceTree = "<group>"; };
 		810758FD10FFDF30003FF9A6 /* Filterbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filterbar.h; sourceTree = "<group>"; };
 		810758FE10FFDF30003FF9A6 /* Filterbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Filterbar.m; sourceTree = "<group>"; };
 		810758FF10FFDF30003FF9A6 /* FilterbarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterbarDelegate.h; sourceTree = "<group>"; };
@@ -204,19 +192,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		8107580610FFCA50003FF9A6 /* Sidebar */ = {
-			isa = PBXGroup;
-			children = (
-				8107580710FFCA50003FF9A6 /* Sidebar.h */,
-				8107580810FFCA50003FF9A6 /* Sidebar.m */,
-				8107580910FFCA50003FF9A6 /* SidebarBadgeCell.h */,
-				8107580A10FFCA50003FF9A6 /* SidebarBadgeCell.m */,
-				8107580B10FFCA50003FF9A6 /* SidebarNode.h */,
-				8107580C10FFCA50003FF9A6 /* SidebarNode.m */,
-			);
-			path = Sidebar;
-			sourceTree = "<group>";
-		};
 		810758FC10FFDF30003FF9A6 /* Filterbar */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,9 +221,6 @@
 			children = (
 				8107590910FFDF4F003FF9A6 /* FilterbarController.h */,
 				8107590A10FFDF4F003FF9A6 /* FilterbarController.m */,
-				8107582210FFCE31003FF9A6 /* SidebarController.h */,
-				8107582310FFCE31003FF9A6 /* SidebarController.m */,
-				8107580610FFCA50003FF9A6 /* Sidebar */,
 				810758FC10FFDF30003FF9A6 /* Filterbar */,
 				810CD80B10FBCF0600963D10 /* TorrentDropView.h */,
 				810CD80C10FBCF0600963D10 /* TorrentDropView.m */,
@@ -386,10 +358,6 @@
 				81E6BD3D10FE87FB0083856D /* AddCommand.m in Sources */,
 				81E6BE2F10FEB47B0083856D /* GlobalTorrentController.m in Sources */,
 				81E6BED410FF66730083856D /* EraseCommand.m in Sources */,
-				8107580D10FFCA50003FF9A6 /* Sidebar.m in Sources */,
-				8107580E10FFCA50003FF9A6 /* SidebarBadgeCell.m in Sources */,
-				8107580F10FFCA50003FF9A6 /* SidebarNode.m in Sources */,
-				8107582410FFCE31003FF9A6 /* SidebarController.m in Sources */,
 				8107590410FFDF30003FF9A6 /* Filterbar.m in Sources */,
 				8107590510FFDF30003FF9A6 /* FilterbarGroup.m in Sources */,
 				8107590610FFDF30003FF9A6 /* FilterbarGroupItem.m in Sources */,
