@@ -47,16 +47,18 @@
 
 - (NSArray *) arguments;
 {
-	NSMutableArray*  arguments = [[NSMutableArray alloc] init];
-	[arguments autorelease];
-	NSURLRequest* request = [NSURLRequest requestWithURL:_url];
-	NSURLResponse *returningResponse = nil;
-	NSError* connError = nil;
-	NSData *content = [NSURLConnection sendSynchronousRequest:request returningResponse:&returningResponse error:&connError];
-	NSLog(@"%@", connError);
-//	NSLog(@"%Q", returningResponse);
-	[arguments addObject:content];
-	return arguments;
+	if (_arguments == nil)
+	{
+		NSURLRequest* request = [NSURLRequest requestWithURL:_url];
+		NSURLResponse *returningResponse = nil;
+		NSError* connError = nil;
+		NSData *content = [NSURLConnection sendSynchronousRequest:request returningResponse:&returningResponse error:&connError];
+		NSLog(@"%@", connError);
+		//	NSLog(@"%Q", returningResponse);
+		_arguments = [NSArray arrayWithObjects:content, nil];
+		[_arguments retain];
+	}
+	return _arguments;
 }
 
 - (void)dealloc
@@ -64,6 +66,7 @@
 	[_response release];
 	[_error release];
 	[_url release];
+	[_arguments release];
 	[super dealloc];
 }
 

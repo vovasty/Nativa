@@ -15,6 +15,7 @@
 	NSString* _error;
 	NSURL* _url;
 	BOOL _start;
+	NSArray* _arguments;
 }
 @property (assign)BOOL start;
 @property (readonly, retain) NSURL * url;
