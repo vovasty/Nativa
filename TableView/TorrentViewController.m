@@ -169,12 +169,11 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 // We make the "group rows" have the standard height, while all other image rows have a larger height
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-//    if ([[self _entityForRow:row] isKindOfClass:[Torrent class]]) {
-//        return [tableView rowHeight];
-//    } else {
-//        return 75.0;
-//    }
-	return 75.0;
+    if ([[self _entityForRow:row] isKindOfClass:[Torrent class]]) {
+        return [tableView rowHeight];
+    } else {
+        return 17.0;
+    }
 }
 
 @end
