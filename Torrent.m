@@ -11,32 +11,10 @@
 
 @implementation Torrent
 
-@synthesize name, size, progress, thash, downloaded, uploaded, state;
-
-- (id) init
-{
-	self = [super init];
-	if (self != nil)
-	{
-		// Set up discrete progress.
-		progress = [[NSProgressIndicator alloc] init];
-		[progress setStyle:NSProgressIndicatorBarStyle];
-		[progress setIndeterminate:NO];
-		[progress setControlSize:NSSmallControlSize];
-		[progress setMinValue:0];
-		[progress setMaxValue:100];
-		[progress startAnimation:nil];
-		[progress setHidden:NO];
-		
-		[progress setDoubleValue:0];
-	}
-	return self;
-}
+@synthesize name, size, thash, downloaded, uploaded, state;
 
 - (void)dealloc
 {
-	[progress removeFromSuperview];
-	[progress release];
 	[name release];
 	[thash release];
 	[_icon release];
@@ -58,27 +36,18 @@
 	self.downloaded = anotherItem.downloaded;
 	self.uploaded = anotherItem.uploaded;
 	self.state = anotherItem.state;
-	[progress setDoubleValue:[self donePercent]];
 }
 
-- (double) donePercent
+- (double) progress
 {
-	return ((float)downloaded/(float)size)*100;
+	return ((float)downloaded/(float)size);
 }
 
 - (NSImage*) icon
 {
-//	static int x = 0;
-
 	if (!_icon)
-		{
-			_icon = [[[NSWorkspace sharedWorkspace] iconForFileType: [[self name] pathExtension]] retain];
-//			_icon = [[NSImage alloc] initByReferencingFile:[NSString stringWithFormat: @"/Users/vovasty/%d.jpg", x]];
-//			x += x>6?(-x+1):1;
-//			[_icon retain];
-			//_icon = [[[NSWorkspace sharedWorkspace] iconForFileType: @"txt"] retain];
-		}
-		
-		return _icon;
+		_icon = [[[NSWorkspace sharedWorkspace] iconForFileType: [[self name] pathExtension]] retain];
+
+	return _icon;
 }
 @end
