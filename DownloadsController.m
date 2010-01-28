@@ -56,7 +56,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 - (void)_update
 {
 	__block DownloadsController *blockSelf = self;
-	ArrayResponseBlock response = [[^(NSArray * lst) {
+	ArrayResponseBlock response = [^(NSArray * lst) {
 		NSUInteger idx;
 #warning multiple objects?
 		Torrent* stored_obj;
@@ -73,7 +73,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		}
 		[[NSNotificationCenter defaultCenter] postNotificationName: NOTIFY_UPDATE_DOWNLOADS object: blockSelf];
 		
-	} copy] autorelease];
+	} copy];
 	[[GlobalTorrentController sharedGlobalTorrentController].defaultRTorrent list:response];
+	[response release];
 }
 @end
