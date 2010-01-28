@@ -27,7 +27,6 @@
 	id<RTorrentCommand> _command;
 	
     BOOL _isExecuting;
-    BOOL _isFinished;
 	
 	id<TorrentControllerDelegate> _delegate;
 	
@@ -36,15 +35,10 @@
 
 - (id)initWithConnection:(RTConnection *) conn;
 
-- (void)start;
-
 @property (retain) id<RTorrentCommand> command;
 
-@property (retain) id<TorrentControllerDelegate> delegate;
+@property (assign) id<TorrentControllerDelegate> delegate;
 
-@property (retain) RTConnection* connection;
-
-@property (readonly) BOOL isExecuting;
-@property (readonly) BOOL isFinished;
+@property (assign) RTConnection* connection;
 
 @end

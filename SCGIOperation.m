@@ -27,9 +27,6 @@
 
 @implementation SCGIOperation
 
-@synthesize isExecuting = _isExecuting;
-@synthesize isFinished = _isFinished;
-
 @synthesize command = _command;
 @synthesize connection = _connection;
 @synthesize delegate = _delegate;
@@ -41,18 +38,14 @@
 		return nil;
 	
 	_connection = [conn retain];
-	_isExecuting = NO;
-	_isFinished = NO;
 	return self;
 }
 
 
-- (void)start;
+- (void)main;
 {
 	self.pool = [[NSAutoreleasePool alloc] init];
-	[self willChangeValueForKey:@"isExecuting"];
     _isExecuting = YES;
-    [self didChangeValueForKey:@"isExecuting"];
 	
 	_carriageReturn = FALSE;
 	_headers_not_found = TRUE;
@@ -108,12 +101,7 @@
 
 - (void)finish;
 {
-	[self willChangeValueForKey:@"isExecuting"];
-	[self willChangeValueForKey:@"isFinished"];
 	_isExecuting = NO;
-	_isFinished = YES;
-	[self didChangeValueForKey:@"isExecuting"];
-	[self didChangeValueForKey:@"isFinished"];
 }
 
 - (void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode 
