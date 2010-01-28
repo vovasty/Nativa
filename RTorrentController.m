@@ -62,8 +62,8 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	operation.delegate = self;
 	command.response = response;
 	[_queue addOperation:operation];
-	[operation release];
 	[command release];
+	[operation release];
 }
 
 - (void) start:(NSString *)hash response:(VoidResponseBlock) response;
@@ -73,8 +73,8 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	operation.command = command;
 	operation.delegate = self;
 	[_queue addOperation:operation];
-	[operation release];
 	[command release];
+	[operation release];
 }
 
 - (void) stop:(NSString *)hash response:(VoidResponseBlock) response;
@@ -84,19 +84,20 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	operation.command = command;
 	operation.delegate = self;
 	[_queue addOperation:operation];
-	[operation release];
 	[command release];
+	[operation release];
 }
 
 - (void) add:(NSString *) torrentUrl response:(VoidResponseBlock) response;
 {
 	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
 	AddCommand* command = [AddCommand command:torrentUrl response:response];
+	[command retain];
 	operation.command = command;
 	operation.delegate = self;
 	[_queue addOperation:operation];
-	[operation release];
 	[command release];
+	[operation release];
 }
 
 - (void) erase:(NSString *)hash response:(VoidResponseBlock) response;
@@ -106,8 +107,8 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	operation.command = command;
 	operation.delegate = self;
 	[_queue addOperation:operation];
-	[operation release];
 	[command release];
+	[operation release];
 }
 
 - (void) setError:(id<RTorrentCommand>) ec;
