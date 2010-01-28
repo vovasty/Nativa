@@ -9,6 +9,7 @@
 #import "Controller.h"
 #import "TorrentDropView.h"
 #import "GlobalTorrentController.h"
+#import "RTorrentCommand.h"
 
 static NSString* FilesDroppedContext = @"FilesDroppedContext";
 
@@ -31,21 +32,22 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 {
     if (context == &FilesDroppedContext)
     {
-		NSMutableArray* urls = [[NSMutableArray alloc] init];
-		[urls retain];
 		for(NSString *file in [_dropView fileNames])
 		{
 			if ([[file pathExtension] isEqualToString:@"torrent"])
 			{
 				NSURL* url = [NSURL fileURLWithPath:file];
-				[urls addObject:url];
-				[[GlobalTorrentController sharedGlobalTorrentController].defaultRTorrent add:[url absoluteString] response:nil];
+				NSArray* urls = [NSArray arrayWithObjects:url, nil];
+				__block Controller *blockSelf = self;
+				VoidResponseBlock response = [^{ 
+#warning memory leak here (recycleURLs)
+					[[NSWorkspace sharedWorkspace] recycleURLs: urls
+											 completionHandler:nil];
+				} copy];
+				[[GlobalTorrentController sharedGlobalTorrentController].defaultRTorrent add:[url absoluteString] response:response];
+				[response release];
 			}
 		}
-
-		[[NSWorkspace sharedWorkspace] recycleURLs: urls
-								 completionHandler:nil];
-		[urls release];
     }
     else
     {
