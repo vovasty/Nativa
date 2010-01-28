@@ -36,7 +36,8 @@
 
 - (void) processResponse:(id) data;
 {
-	_response();
+	if (_response)
+		_response();
 }
 
 - (NSString *) command;
