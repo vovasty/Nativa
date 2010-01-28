@@ -20,6 +20,8 @@
 - (void) setError:(NSString*) error;
 
 - (void)finish;
+
+@property (nonatomic, assign) NSAutoreleasePool *pool;
 @end
 
 
@@ -31,7 +33,7 @@
 @synthesize command = _command;
 @synthesize connection = _connection;
 @synthesize delegate = _delegate;
-
+@synthesize pool;
 - (id)initWithConnection:(RTConnection *) conn;
 {
 	self = [super init];
@@ -47,14 +49,7 @@
 
 - (void)start;
 {
-	//http://www.dribin.org/dave/blog/archives/2009/09/13/snowy_concurrent_operations/
-	//run start on main thread
-	if (![NSThread isMainThread])
-    {
-        [self performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:NO];
-        return;
-    }
-	
+	self.pool = [[NSAutoreleasePool alloc] init];
 	[self willChangeValueForKey:@"isExecuting"];
     _isExecuting = YES;
     [self didChangeValueForKey:@"isExecuting"];
@@ -67,28 +62,14 @@
 	[_connection openStreams:&iStream oStream:&oStream delegate:self];
 	[iStream retain];
 	[oStream retain];
-//	
-//	
-//	NSHost *host = [NSHost hostWithAddress:@"127.0.0.1"];
-//	if (host != nil)
-//	{
-//		[NSStream getStreamsToHost:host port:5000 inputStream:&iStream
-//					  outputStream:&oStream];
-//		
-//		[iStream retain];
-//		[iStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
-//						   forMode:NSDefaultRunLoopMode];
-//		iStream.delegate = self;
-//		
-//		[oStream retain];
-//		[oStream scheduleInRunLoop:[NSRunLoop currentRunLoop]
-//						   forMode:NSDefaultRunLoopMode];
-//		oStream.delegate = self;
-//		
-//		
-//		[iStream open];
-//		[oStream open];
-//	}
+	
+	do {
+		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+	} while (_isExecuting);
+	
+	
+	[pool release];
+    self.pool = nil;	
 }
 
 

@@ -30,6 +30,8 @@
     BOOL _isFinished;
 	
 	id<TorrentControllerDelegate> _delegate;
+	
+	NSAutoreleasePool *pool;
 }
 
 - (id)initWithConnection:(RTConnection *) conn;
