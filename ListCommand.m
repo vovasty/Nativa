@@ -7,7 +7,7 @@
 //
 
 #import "ListCommand.h"
-#import "TorrentItem.h"
+#import "Torrent.h"
 
 @implementation ListCommand
 
@@ -39,7 +39,7 @@
 	NSMutableArray* result = [[NSMutableArray alloc] init];
 	for (NSArray* row in data)
 	{
-		TorrentItem* r = [[TorrentItem alloc] init];
+		Torrent* r = [[Torrent alloc] init];
 		r.thash = [row objectAtIndex:0];
 		r.name = [row objectAtIndex:1];
 		NSNumber*  chunk_size = [row  objectAtIndex:2];

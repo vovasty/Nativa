@@ -10,8 +10,11 @@
 #import "Filterbar.h"
 
 @interface FilterbarController : NSObject {
+@private
 	IBOutlet NSTextField *bodyText;
 	IBOutlet Filterbar *filterBar;
+	NSPredicate *_filter;
 }
-
++ (FilterbarController *)sharedFilterbarController;
+@property (retain) NSPredicate* filter;
 @end

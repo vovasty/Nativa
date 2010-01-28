@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "TorrentState.h"
 
-@interface TorrentItem : NSObject 
+@interface Torrent : NSObject 
 {
 	NSProgressIndicator *progress;
 	
@@ -20,6 +20,8 @@
 	unsigned long int size;
 	
 	enum TorrentState state;
+	
+	NSImage* _icon;
 }
 @property (readwrite, retain) NSString* name;
 @property (readwrite, retain) NSString* thash;
@@ -29,6 +31,7 @@
 @property (readwrite, retain) NSProgressIndicator *progress;
 @property enum TorrentState state;
 
-- (void) update: (TorrentItem *) anotherItem;
+- (void) update: (Torrent *) anotherItem;
 - (double) donePercent;
+- (NSImage*) icon;
 @end

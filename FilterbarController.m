@@ -8,13 +8,18 @@
 
 #import "FilterbarController.h"
 #import "TorrentState.h"
+#import "SynthesizeSingleton.h"
 
 static NSString *FILTER_ALL = @"All";
-static NSString *FILTER_DOWNLOAD = @"Download";
-static NSString *FILTER_UPLOAD = @"Upload";
+static NSString *FILTER_DOWNLOAD = @"Downloading";
+static NSString *FILTER_UPLOAD = @"Uploading";
+static NSString *FILTER_STOP = @"Paused";
 
 
 @implementation FilterbarController
+SYNTHESIZE_SINGLETON_FOR_CLASS(FilterbarController);
+
+@synthesize filter = _filter;
 
 - (void)awakeFromNib {
 	[filterBar addGroup:@"Status"];
@@ -26,7 +31,7 @@ static NSString *FILTER_UPLOAD = @"Upload";
 		itemIdentifiersForGroup:(NSString *)groupIdentifier
 {
 	if (groupIdentifier == @"Status")
-		return [NSArray arrayWithObjects:FILTER_ALL, FILTER_DOWNLOAD, FILTER_UPLOAD, nil];
+		return [NSArray arrayWithObjects:FILTER_ALL, FILTER_DOWNLOAD, FILTER_UPLOAD, FILTER_STOP, nil];
 	return nil;
 }
 
@@ -49,17 +54,19 @@ static NSString *FILTER_UPLOAD = @"Upload";
 			fromItem:(NSString *)itemIdentifier
 			groupIdentifier:(NSString *)groupIdentifier
 {
-	NSPredicate *filter;
 	if (itemIdentifier == FILTER_UPLOAD)
 	{
-		filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"SELF.state == %d",seed]];
+		[FilterbarController sharedFilterbarController].filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"SELF.state == %d",seed]];
 	}
 	else if (itemIdentifier == FILTER_DOWNLOAD)
 	{
-		filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"SELF.state == %d",leech]];
+		[FilterbarController sharedFilterbarController].filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"SELF.state == %d",leech]];
+	}
+	else if (itemIdentifier == FILTER_STOP)
+	{
+		[FilterbarController sharedFilterbarController].filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"SELF.state == %d",stop]];
 	}
 	else 
-		filter = nil;
-	[[NSNotificationCenter defaultCenter] postNotificationName: @"FilterTorrents" object: filter]; //incase sort by tracker
+		[FilterbarController sharedFilterbarController].filter = nil;
 }
 @end

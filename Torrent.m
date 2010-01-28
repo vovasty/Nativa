@@ -6,10 +6,10 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "TorrentItem.h"
+#import "Torrent.h"
 
 
-@implementation TorrentItem
+@implementation Torrent
 
 @synthesize name, size, progress, thash, downloaded, uploaded, state;
 
@@ -39,6 +39,7 @@
 	[progress release];
 	[name release];
 	[thash release];
+	[_icon release];
 	[super dealloc];
 }
 
@@ -52,7 +53,7 @@
 	return [thash hash] == [anObject hash];
 }
 
-- (void) update: (TorrentItem *) anotherItem;
+- (void) update: (Torrent *) anotherItem;
 {
 	self.downloaded = anotherItem.downloaded;
 	self.uploaded = anotherItem.uploaded;
@@ -60,8 +61,24 @@
 	[progress setDoubleValue:[self donePercent]];
 }
 
-- (double) donePercent;
+- (double) donePercent
 {
 	return ((float)downloaded/(float)size)*100;
+}
+
+- (NSImage*) icon
+{
+//	static int x = 0;
+
+	if (!_icon)
+		{
+			_icon = [[[NSWorkspace sharedWorkspace] iconForFileType: [[self name] pathExtension]] retain];
+//			_icon = [[NSImage alloc] initByReferencingFile:[NSString stringWithFormat: @"/Users/vovasty/%d.jpg", x]];
+//			x += x>6?(-x+1):1;
+//			[_icon retain];
+			//_icon = [[[NSWorkspace sharedWorkspace] iconForFileType: @"txt"] retain];
+		}
+		
+		return _icon;
 }
 @end

@@ -14,10 +14,8 @@
 		8107590610FFDF30003FF9A6 /* FilterbarGroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590310FFDF30003FF9A6 /* FilterbarGroupItem.m */; };
 		8107590B10FFDF4F003FF9A6 /* FilterbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590A10FFDF4F003FF9A6 /* FilterbarController.m */; };
 		810CD80D10FBCF0600963D10 /* TorrentDropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 810CD80C10FBCF0600963D10 /* TorrentDropView.m */; };
-		811B054210F69E2A000D1DDC /* BDController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B053C10F69E2A000D1DDC /* BDController.m */; };
-		811B054310F69E2A000D1DDC /* BDDiscreteProgressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B053E10F69E2A000D1DDC /* BDDiscreteProgressCell.m */; };
 		811B056810F6A030000D1DDC /* SCGI.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B056710F6A030000D1DDC /* SCGI.m */; };
-		811B05A210F6A1C7000D1DDC /* TorrentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B05A110F6A1C7000D1DDC /* TorrentItem.m */; };
+		811B05A210F6A1C7000D1DDC /* Torrent.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B05A110F6A1C7000D1DDC /* Torrent.m */; };
 		811B05A710F6A1DE000D1DDC /* RTorrentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B05A610F6A1DE000D1DDC /* RTorrentController.m */; };
 		812A725010FD0A0300795D8B /* RTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A724F10FD0A0300795D8B /* RTConnection.m */; };
 		812A726D10FD0D3D00795D8B /* SCGIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A726C10FD0D3D00795D8B /* SCGIOperation.m */; };
@@ -26,6 +24,13 @@
 		814FF9771100AB7100335707 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF96B1100AB7100335707 /* NSStringAdditions.m */; };
 		814FF9781100AB7100335707 /* XMLRPCEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF96D1100AB7100335707 /* XMLRPCEncoder.m */; };
 		814FF97C1100AB7100335707 /* XMLRPCTreeBasedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF9751100AB7100335707 /* XMLRPCTreeBasedParser.m */; };
+		819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3BE91110CD5200F7007C /* DownloadsController.m */; };
+		819D3E0C1110EE6E00F7007C /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3E0B1110EE6E00F7007C /* Controller.m */; };
+		81DF15D4110FADA100AFCE02 /* TorrentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15C8110FADA100AFCE02 /* TorrentViewController.m */; };
+		81DF15D6110FADA100AFCE02 /* TorrentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CC110FADA100AFCE02 /* TorrentTableView.m */; };
+		81DF15D7110FADA100AFCE02 /* TorrentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CE110FADA100AFCE02 /* TorrentCell.m */; };
+		81DF15D8110FADA100AFCE02 /* ProgressCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15D0110FADA100AFCE02 /* ProgressCell.m */; };
+		81DF15D9110FADA100AFCE02 /* ProgressGradients.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15D2110FADA100AFCE02 /* ProgressGradients.m */; };
 		81E6BCB710FE80420083856D /* StartCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BCB610FE80420083856D /* StartCommand.m */; };
 		81E6BCED10FE84C90083856D /* StopCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BCEC10FE84C90083856D /* StopCommand.m */; };
 		81E6BD3D10FE87FB0083856D /* AddCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BD3C10FE87FB0083856D /* AddCommand.m */; };
@@ -58,14 +63,10 @@
 		8107590A10FFDF4F003FF9A6 /* FilterbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterbarController.m; sourceTree = "<group>"; };
 		810CD80B10FBCF0600963D10 /* TorrentDropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentDropView.h; sourceTree = "<group>"; };
 		810CD80C10FBCF0600963D10 /* TorrentDropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentDropView.m; sourceTree = "<group>"; };
-		811B053B10F69E2A000D1DDC /* BDController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDController.h; sourceTree = "<group>"; };
-		811B053C10F69E2A000D1DDC /* BDController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDController.m; sourceTree = "<group>"; };
-		811B053D10F69E2A000D1DDC /* BDDiscreteProgressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BDDiscreteProgressCell.h; sourceTree = "<group>"; };
-		811B053E10F69E2A000D1DDC /* BDDiscreteProgressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BDDiscreteProgressCell.m; sourceTree = "<group>"; };
 		811B056610F6A030000D1DDC /* SCGI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCGI.h; sourceTree = "<group>"; };
 		811B056710F6A030000D1DDC /* SCGI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCGI.m; sourceTree = "<group>"; };
-		811B05A010F6A1C7000D1DDC /* TorrentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentItem.h; sourceTree = "<group>"; };
-		811B05A110F6A1C7000D1DDC /* TorrentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentItem.m; sourceTree = "<group>"; };
+		811B05A010F6A1C7000D1DDC /* Torrent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Torrent.h; sourceTree = "<group>"; };
+		811B05A110F6A1C7000D1DDC /* Torrent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Torrent.m; sourceTree = "<group>"; };
 		811B05A510F6A1DE000D1DDC /* RTorrentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RTorrentController.h; path = ../Nativa.old1/RTorrentController.h; sourceTree = "<group>"; };
 		811B05A610F6A1DE000D1DDC /* RTorrentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RTorrentController.m; path = ../Nativa.old1/RTorrentController.m; sourceTree = "<group>"; };
 		812A710710FCFB1600795D8B /* TorrentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentDelegate.h; sourceTree = "<group>"; };
@@ -85,7 +86,21 @@
 		814FF9741100AB7100335707 /* XMLRPCTreeBasedParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLRPCTreeBasedParser.h; sourceTree = "<group>"; };
 		814FF9751100AB7100335707 /* XMLRPCTreeBasedParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLRPCTreeBasedParser.m; sourceTree = "<group>"; };
 		814FFC891100DDF300335707 /* TorrentState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TorrentState.h; path = "../Nativa copy2/TorrentState.h"; sourceTree = "<group>"; };
+		819D3BE81110CD5200F7007C /* DownloadsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadsController.h; sourceTree = "<group>"; };
+		819D3BE91110CD5200F7007C /* DownloadsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsController.m; sourceTree = "<group>"; };
+		819D3E0A1110EE6E00F7007C /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
+		819D3E0B1110EE6E00F7007C /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
 		81D1B9051106834700C8A69A /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
+		81DF15C7110FADA100AFCE02 /* TorrentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentViewController.h; sourceTree = "<group>"; };
+		81DF15C8110FADA100AFCE02 /* TorrentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentViewController.m; sourceTree = "<group>"; };
+		81DF15CB110FADA100AFCE02 /* TorrentTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentTableView.h; sourceTree = "<group>"; };
+		81DF15CC110FADA100AFCE02 /* TorrentTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentTableView.m; sourceTree = "<group>"; };
+		81DF15CD110FADA100AFCE02 /* TorrentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentCell.h; sourceTree = "<group>"; };
+		81DF15CE110FADA100AFCE02 /* TorrentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentCell.m; sourceTree = "<group>"; };
+		81DF15CF110FADA100AFCE02 /* ProgressCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressCell.h; sourceTree = "<group>"; };
+		81DF15D0110FADA100AFCE02 /* ProgressCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressCell.m; sourceTree = "<group>"; };
+		81DF15D1110FADA100AFCE02 /* ProgressGradients.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressGradients.h; sourceTree = "<group>"; };
+		81DF15D2110FADA100AFCE02 /* ProgressGradients.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressGradients.m; sourceTree = "<group>"; };
 		81E6BCB510FE80420083856D /* StartCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StartCommand.h; sourceTree = "<group>"; };
 		81E6BCB610FE80420083856D /* StartCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StartCommand.m; sourceTree = "<group>"; };
 		81E6BCEB10FE84C90083856D /* StopCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopCommand.h; sourceTree = "<group>"; };
@@ -118,10 +133,12 @@
 				811B059D10F6A1B3000D1DDC /* Torrent */,
 				811B056910F6A055000D1DDC /* UI */,
 				811B055A10F6A019000D1DDC /* Network */,
-				811B053B10F69E2A000D1DDC /* BDController.h */,
-				811B053C10F69E2A000D1DDC /* BDController.m */,
 				256AC3D80F4B6AC300CF3369 /* NativaAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* NativaAppDelegate.m */,
+				819D3BE81110CD5200F7007C /* DownloadsController.h */,
+				819D3BE91110CD5200F7007C /* DownloadsController.m */,
+				819D3E0A1110EE6E00F7007C /* Controller.h */,
+				819D3E0B1110EE6E00F7007C /* Controller.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -219,13 +236,12 @@
 		811B056910F6A055000D1DDC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				81DF15C4110FADA100AFCE02 /* TableView */,
 				8107590910FFDF4F003FF9A6 /* FilterbarController.h */,
 				8107590A10FFDF4F003FF9A6 /* FilterbarController.m */,
 				810758FC10FFDF30003FF9A6 /* Filterbar */,
 				810CD80B10FBCF0600963D10 /* TorrentDropView.h */,
 				810CD80C10FBCF0600963D10 /* TorrentDropView.m */,
-				811B053D10F69E2A000D1DDC /* BDDiscreteProgressCell.h */,
-				811B053E10F69E2A000D1DDC /* BDDiscreteProgressCell.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -236,8 +252,8 @@
 				81D1B9051106834700C8A69A /* SynthesizeSingleton.h */,
 				814FFC891100DDF300335707 /* TorrentState.h */,
 				812A724410FD099800795D8B /* RTorrent */,
-				811B05A010F6A1C7000D1DDC /* TorrentItem.h */,
-				811B05A110F6A1C7000D1DDC /* TorrentItem.m */,
+				811B05A010F6A1C7000D1DDC /* Torrent.h */,
+				811B05A110F6A1C7000D1DDC /* Torrent.m */,
 				811B05A510F6A1DE000D1DDC /* RTorrentController.h */,
 				811B05A610F6A1DE000D1DDC /* RTorrentController.m */,
 				812A710710FCFB1600795D8B /* TorrentDelegate.h */,
@@ -282,6 +298,23 @@
 				814FF9751100AB7100335707 /* XMLRPCTreeBasedParser.m */,
 			);
 			path = XMLRPC;
+			sourceTree = "<group>";
+		};
+		81DF15C4110FADA100AFCE02 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				81DF15C7110FADA100AFCE02 /* TorrentViewController.h */,
+				81DF15C8110FADA100AFCE02 /* TorrentViewController.m */,
+				81DF15CB110FADA100AFCE02 /* TorrentTableView.h */,
+				81DF15CC110FADA100AFCE02 /* TorrentTableView.m */,
+				81DF15CD110FADA100AFCE02 /* TorrentCell.h */,
+				81DF15CE110FADA100AFCE02 /* TorrentCell.m */,
+				81DF15CF110FADA100AFCE02 /* ProgressCell.h */,
+				81DF15D0110FADA100AFCE02 /* ProgressCell.m */,
+				81DF15D1110FADA100AFCE02 /* ProgressGradients.h */,
+				81DF15D2110FADA100AFCE02 /* ProgressGradients.m */,
+			);
+			path = TableView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -344,10 +377,8 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				256AC3DA0F4B6AC300CF3369 /* NativaAppDelegate.m in Sources */,
-				811B054210F69E2A000D1DDC /* BDController.m in Sources */,
-				811B054310F69E2A000D1DDC /* BDDiscreteProgressCell.m in Sources */,
 				811B056810F6A030000D1DDC /* SCGI.m in Sources */,
-				811B05A210F6A1C7000D1DDC /* TorrentItem.m in Sources */,
+				811B05A210F6A1C7000D1DDC /* Torrent.m in Sources */,
 				811B05A710F6A1DE000D1DDC /* RTorrentController.m in Sources */,
 				810CD80D10FBCF0600963D10 /* TorrentDropView.m in Sources */,
 				812A725010FD0A0300795D8B /* RTConnection.m in Sources */,
@@ -366,6 +397,13 @@
 				814FF9771100AB7100335707 /* NSStringAdditions.m in Sources */,
 				814FF9781100AB7100335707 /* XMLRPCEncoder.m in Sources */,
 				814FF97C1100AB7100335707 /* XMLRPCTreeBasedParser.m in Sources */,
+				81DF15D4110FADA100AFCE02 /* TorrentViewController.m in Sources */,
+				81DF15D6110FADA100AFCE02 /* TorrentTableView.m in Sources */,
+				81DF15D7110FADA100AFCE02 /* TorrentCell.m in Sources */,
+				81DF15D8110FADA100AFCE02 /* ProgressCell.m in Sources */,
+				81DF15D9110FADA100AFCE02 /* ProgressGradients.m in Sources */,
+				819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */,
+				819D3E0C1110EE6E00F7007C /* Controller.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

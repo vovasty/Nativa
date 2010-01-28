@@ -54,7 +54,6 @@
         [self performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:NO];
         return;
     }
-	NSLog(@"start");
 	
 	[self willChangeValueForKey:@"isExecuting"];
     _isExecuting = YES;
