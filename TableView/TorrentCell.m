@@ -57,33 +57,29 @@
 #define FILL_COLOR_RECT_SIZE 25.0
 #define INSET_FROM_IMAGE_TO_TEXT 4.0
 
+@interface TorrentCell(Private)
+- (void) drawImage: (NSImage *) image inRect: (NSRect) rect;
+@end
+
+
 @implementation TorrentCell
 
 - (id)copyWithZone:(NSZone *)zone {
     TorrentCell *result = [super copyWithZone:zone];
     if (result != nil) {
         // Retain or copy all our ivars
-        result->_imageCell = [_imageCell copyWithZone:zone];
 		result->_progressCell = [_progressCell copyWithZone:zone];
     }
     return result;
 }
 
 - (void)dealloc {
-    [_imageCell release];
 	[_progressCell release];
     [super dealloc];
 }
 
 - (void)setRepresentedObject:(id)anObject
 {
-	if (_imageCell == nil)
-	{
-		_imageCell = [[NSImageCell alloc] init];
-		[_imageCell setControlView:self.controlView];
-		[_imageCell setBackgroundStyle:self.backgroundStyle];
-		
-	}
 	if (_progressCell == nil)
 	{
 		_progressCell = [[ProgressCell alloc] init];
@@ -91,21 +87,17 @@
 		[_progressCell setBackgroundStyle:self.backgroundStyle];
 		[_progressCell setTextColor:[NSColor grayColor]];
 	}
-	Torrent* t=[self representedObject];
-	_imageCell.image=t.icon;
 	[_progressCell setRepresentedObject:anObject];
 	[super setRepresentedObject:anObject];
 }
 
 - (void)setControlView:(NSView *)controlView {
     [super setControlView:controlView];
-    [_imageCell setControlView:controlView];
 	[_progressCell setControlView:controlView];
 }
 
 - (void)setBackgroundStyle:(NSBackgroundStyle)style {
     [super setBackgroundStyle:style];
-    [_imageCell setBackgroundStyle:style];
 	[_progressCell setBackgroundStyle:style];
 }
 
@@ -183,9 +175,10 @@
 }
 
 - (void)drawInteriorWithFrame:(NSRect)frame inView:(NSView *)controlView {
-    if (_imageCell) {
+	Torrent* t = [self representedObject];
+    if (t.icon) {
         NSRect imageFrame = [self _imageFrameForInteriorFrame:frame];
-        [_imageCell drawWithFrame:imageFrame inView:controlView];
+        [self drawImage:t.icon inRect:imageFrame];
     }
 	if (_progressCell)
 	{
@@ -194,5 +187,11 @@
 	}
     NSRect titleFrame = [self _titleFrameForInteriorFrame:frame];
     [super drawInteriorWithFrame:titleFrame inView:controlView];
+}
+
+//stolen from Transmission
+- (void) drawImage: (NSImage *) image inRect: (NSRect) rect
+{
+	[image drawInRect: rect fromRect: NSZeroRect operation: NSCompositeSourceOver fraction: 1.0 respectFlipped: YES hints: nil];
 }
 @end

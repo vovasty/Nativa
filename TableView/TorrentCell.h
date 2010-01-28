@@ -53,7 +53,6 @@
 @interface TorrentCell : NSTextFieldCell {
 @private
     // Our cell delegates some drawing and other operations to subcells
-    NSImageCell *_imageCell;
 	ProgressCell *_progressCell;
 }
 @end
