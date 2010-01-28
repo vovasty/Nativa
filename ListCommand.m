@@ -19,16 +19,16 @@
 	switch ([state intValue]) {
 		case 1: //started
 			if (opened==0)
-				return stop;
+				return stopped;
 			else
 			{
-				if (done>=100)
-					return seed;
+				if (done>=1)
+					return seeding;
 				else
-					return leech;
+					return leeching;
 			}
 		case 0: //stopped
-			return stop;
+			return stopped;
 	}
 	return unknown;
 }
@@ -49,7 +49,7 @@
 		r.downloaded = [completed_chunks longValue] * [chunk_size longValue];
 		NSNumber* state = [row  objectAtIndex:5];
 		NSNumber* opened = [row  objectAtIndex:6];
-		r.state = [self defineTorrentState:state opened:opened done:[r donePercent]];
+		r.state = [self defineTorrentState:state opened:opened done:[r progress]];
 		[result addObject:r];
 		[r autorelease];
 	}

@@ -17,32 +17,32 @@
     self = [super init];
     [self setUsesSingleLineMode:YES];
     [self setLineBreakMode:NSLineBreakByTruncatingTail];
+	_barBorderColor = [[NSColor colorWithCalibratedWhite: 0.0 alpha: 0.2] retain];
     return self;
 }
 
 - (void)dealloc {
+	[_barBorderColor release];
     [super dealloc];
 }
 
 - (void) drawRegularBar: (NSRect) barRect
 {
-    Torrent * torrent = [self representedObject];
+	Torrent * torrent = [self representedObject];
     
     NSRect haveRect, missingRect;
-    NSDivideRect(barRect, &haveRect, &missingRect, round([torrent donePercent]/100 * NSWidth(barRect)), NSMinXEdge);
-    if (!NSIsEmptyRect(haveRect))
+    NSDivideRect(barRect, &haveRect, &missingRect, round([torrent progress] * NSWidth(barRect)), NSMinXEdge);
+	if (!NSIsEmptyRect(haveRect))
     {
-
 		switch ([torrent state]) {
-			case seed:
+			case seeding:
 				[[ProgressGradients progressGreenGradient] drawInRect: haveRect angle: 90];
 				break;
-			case leech:
+			case leeching:
 				[[ProgressGradients progressBlueGradient] drawInRect: haveRect angle: 90];
 				break;
-			case stop:
+			case stopped:
 				[[ProgressGradients progressGrayGradient] drawInRect: haveRect angle: 90];
-				NSLog(@"%@", [torrent name]);
 				break;
 			default:
 				break;
@@ -52,6 +52,13 @@
 		[[ProgressGradients progressRedGradient] drawInRect: missingRect angle: 90];
 }
 
+- (void) drawBar: (NSRect) barRect
+{
+	[self drawRegularBar: barRect];
+	[_barBorderColor set];
+    [NSBezierPath strokeRect: NSInsetRect(barRect, 0.5, 0.5)];
+}
+
 - (void)drawInteriorWithFrame:(NSRect)frame inView:(NSView *)controlView {
 	NSRect progressRect = NSMakeRect(frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
 	//	progressRect.origin.x += 20;
@@ -59,7 +66,7 @@
 	//progressRect.size.width -= 24;
 	progressRect.size.height = 5;
 	
-	[self drawRegularBar:progressRect];
+	[self drawBar:progressRect];
 	
     //[super drawInteriorWithFrame:progressRect inView:controlView];
 }

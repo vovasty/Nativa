@@ -10,5 +10,8 @@
 
 
 @interface ProgressCell : NSTextFieldCell 
-
+{
+@private
+	NSColor* _barBorderColor;
+}
 @end

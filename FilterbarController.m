@@ -7,7 +7,7 @@
 //
 
 #import "FilterbarController.h"
-#import "TorrentState.h"
+#import "Torrent.h"
 #import "SynthesizeSingleton.h"
 
 static NSString *FILTER_ALL = @"All";
@@ -56,15 +56,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FilterbarController);
 {
 	if (itemIdentifier == FILTER_UPLOAD)
 	{
-		[FilterbarController sharedFilterbarController].filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"SELF.state == %d",seed]];
+		[FilterbarController sharedFilterbarController].filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"SELF.state == %d",seeding]];
 	}
 	else if (itemIdentifier == FILTER_DOWNLOAD)
 	{
-		[FilterbarController sharedFilterbarController].filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"SELF.state == %d",leech]];
+		[FilterbarController sharedFilterbarController].filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"SELF.state == %d",leeching]];
 	}
 	else if (itemIdentifier == FILTER_STOP)
 	{
-		[FilterbarController sharedFilterbarController].filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"SELF.state == %d",stop]];
+		[FilterbarController sharedFilterbarController].filter = [NSPredicate predicateWithFormat:[NSString stringWithFormat: @"SELF.state == %d",stopped]];
 	}
 	else 
 		[FilterbarController sharedFilterbarController].filter = nil;
