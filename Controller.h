@@ -8,9 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TorrentDropView;
+@class TorrentDropView, PreferenceController;
 @interface Controller : NSObject {
 	IBOutlet TorrentDropView* _dropView;
+	
+	PreferenceController* _preferenceController;
 }
 
+-(IBAction)showPreferencePanel:(id)sender;
 @end

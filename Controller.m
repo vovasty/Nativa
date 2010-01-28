@@ -10,6 +10,7 @@
 #import "TorrentDropView.h"
 #import "GlobalTorrentController.h"
 #import "RTorrentCommand.h"
+#import "PreferenceController.h"
 
 static NSString* FilesDroppedContext = @"FilesDroppedContext";
 
@@ -56,5 +57,11 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
                                change:change
                               context:context];
     }
+}
+-(IBAction)showPreferencePanel:(id)sender;
+{
+	if(_preferenceController == nil)
+		_preferenceController = [[PreferenceController alloc] init];
+	[_preferenceController showWindow:self];
 }
 @end
