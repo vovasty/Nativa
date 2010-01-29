@@ -74,9 +74,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	[_rtorrent stop:hash response:response];
 }
 
-- (void) add:(NSURL *) torrentUrl response:(VoidResponseBlock) response
+- (void) add:(NSArray *) filesNames
 {
-	[_rtorrent add:torrentUrl response:response];
+	for(NSString *file in filesNames)
+	{
+		NSURL* url = [NSURL fileURLWithPath:file];
+		NSArray* urls = [NSArray arrayWithObjects:url, nil];
+		__block DownloadsController *blockSelf = self;
+		VoidResponseBlock response = [^{ 
+#warning memory leak here (recycleURLs)
+				[[NSWorkspace sharedWorkspace] recycleURLs: urls
+							completionHandler:nil];
+		} copy];
+		[_rtorrent add:url response:response];
+		[response release];
+	}
 }
 
 - (void) erase:(NSString *) hash response:(VoidResponseBlock) response

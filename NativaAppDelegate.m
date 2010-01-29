@@ -7,6 +7,7 @@
 //
 
 #import "NativaAppDelegate.h"
+#import "DownloadsController.h"
 
 @implementation NativaAppDelegate
 
@@ -17,8 +18,8 @@
 }
 
 
-- (void) application: (NSApplication *) app openFiles: (NSArray *) filenames
+- (void) application: (NSApplication *) app openFiles: (NSArray *) fileNames
 {
-    NSLog(@"open files %@", filenames);
+    [[DownloadsController sharedDownloadsController] add:fileNames];
 }
 @end

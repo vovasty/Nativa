@@ -81,22 +81,7 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 {
     if (context == &FilesDroppedContext)
     {
-		for(NSString *file in [_dropView fileNames])
-		{
-			if ([[file pathExtension] isEqualToString:@"torrent"])
-			{
-				NSURL* url = [NSURL fileURLWithPath:file];
-				NSArray* urls = [NSArray arrayWithObjects:url, nil];
-				__block Controller *blockSelf = self;
-				VoidResponseBlock response = [^{ 
-#warning memory leak here (recycleURLs)
-					[[NSWorkspace sharedWorkspace] recycleURLs: urls
-											 completionHandler:nil];
-				} copy];
-				[[DownloadsController sharedDownloadsController] add:url response:response];
-				[response release];
-			}
-		}
+		[[DownloadsController sharedDownloadsController] add:[_dropView fileNames]];
     }
     else
     {
