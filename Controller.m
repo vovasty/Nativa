@@ -93,7 +93,7 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 					[[NSWorkspace sharedWorkspace] recycleURLs: urls
 											 completionHandler:nil];
 				} copy];
-				[[DownloadsController sharedDownloadsController] add:[url absoluteString] response:response];
+				[[DownloadsController sharedDownloadsController] add:url response:response];
 				[response release];
 			}
 		}

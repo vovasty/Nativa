@@ -74,7 +74,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	[_rtorrent stop:hash response:response];
 }
 
-- (void) add:(NSString *) torrentUrl response:(VoidResponseBlock) response
+- (void) add:(NSURL *) torrentUrl response:(VoidResponseBlock) response
 {
 	[_rtorrent add:torrentUrl response:response];
 }

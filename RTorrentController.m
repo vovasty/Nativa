@@ -89,10 +89,10 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	[operation release];
 }
 
-- (void) add:(NSString *) torrentUrl response:(VoidResponseBlock) response;
+- (void) add:(NSURL *) torrentUrl response:(VoidResponseBlock) response;
 {
 	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
-	AddCommand* command = [[AddCommand  alloc] initWithHashAndResponse:torrentUrl response:response];
+	AddCommand* command = [[AddCommand  alloc] initWithUrlAndResponse:torrentUrl response:response];
 	[command retain];
 	operation.command = command;
 	operation.delegate = self;

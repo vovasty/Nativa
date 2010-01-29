@@ -32,7 +32,7 @@ extern NSString* const NINotifyUpdateDownloads;
 
 - (void) stop:(NSString *) hash response:(VoidResponseBlock) response;
 
-- (void) add:(NSString *) torrentUrl response:(VoidResponseBlock) response;
+- (void) add:(NSURL *) torrentUrl response:(VoidResponseBlock) response;
 
 - (void) erase:(NSString *) hash response:(VoidResponseBlock) response;
 
