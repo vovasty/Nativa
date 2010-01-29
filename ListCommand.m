@@ -53,7 +53,6 @@
 			NSNumber* opened = [row  objectAtIndex:6];
 			r.state = [self defineTorrentState:state opened:opened done:[r progress]];
 			[result addObject:r];
-			[r autorelease];
 		}
 		[result autorelease];
 	}

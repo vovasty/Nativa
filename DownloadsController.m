@@ -68,6 +68,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 			{
 				stored_obj = [blockSelf->_downloads objectAtIndex:idx];
 				[stored_obj update:obj];
+				[obj release];
 			}
 		}
 		[[NSNotificationCenter defaultCenter] postNotificationName: NOTIFY_UPDATE_DOWNLOADS object: blockSelf];
