@@ -7,16 +7,38 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "TorrentDelegate.h"
 
-static NSString* NOTIFY_UPDATE_DOWNLOADS = @"NativaUpdateDownloads";
+extern NSString* const NINotifyUpdateDownloads;
+
+@class RTorrentController;
+
 @interface DownloadsController : NSObject {
 @private
 	NSMutableArray* _downloads;
 	NSTimer* _timer;
+	RTorrentController* _rtorrent;
 }
+
 + (DownloadsController *)sharedDownloadsController;
--(void) start;
--(void) stop;
+
+-(void) startUpdates;
+
+-(void) stopUpdates;
+
 -(NSArray*) downloads;
+
+- (void) start:(NSString *) hash response:(VoidResponseBlock) response;
+
+- (void) stop:(NSString *) hash response:(VoidResponseBlock) response;
+
+- (void) add:(NSString *) torrentUrl response:(VoidResponseBlock) response;
+
+- (void) erase:(NSString *) hash response:(VoidResponseBlock) response;
+
+- (void) setGlobalDownloadSpeed:(int) speed response:(VoidResponseBlock) response;
+
+- (void) getGlobalDownloadSpeed:(NumberResponseBlock) response;
+
 @end
 

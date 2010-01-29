@@ -46,7 +46,6 @@
 		81E6BCB710FE80420083856D /* StartCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BCB610FE80420083856D /* StartCommand.m */; };
 		81E6BCED10FE84C90083856D /* StopCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BCEC10FE84C90083856D /* StopCommand.m */; };
 		81E6BD3D10FE87FB0083856D /* AddCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BD3C10FE87FB0083856D /* AddCommand.m */; };
-		81E6BE2F10FEB47B0083856D /* GlobalTorrentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BE2E10FEB47B0083856D /* GlobalTorrentController.m */; };
 		81E6BED410FF66730083856D /* EraseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BED310FF66730083856D /* EraseCommand.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -137,8 +136,6 @@
 		81E6BCEC10FE84C90083856D /* StopCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopCommand.m; sourceTree = "<group>"; };
 		81E6BD3B10FE87FB0083856D /* AddCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddCommand.h; sourceTree = "<group>"; };
 		81E6BD3C10FE87FB0083856D /* AddCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddCommand.m; sourceTree = "<group>"; };
-		81E6BE2D10FEB47B0083856D /* GlobalTorrentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalTorrentController.h; sourceTree = "<group>"; };
-		81E6BE2E10FEB47B0083856D /* GlobalTorrentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalTorrentController.m; sourceTree = "<group>"; };
 		81E6BED210FF66730083856D /* EraseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EraseCommand.h; sourceTree = "<group>"; };
 		81E6BED310FF66730083856D /* EraseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EraseCommand.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Nativa-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Nativa-Info.plist"; sourceTree = "<group>"; };
@@ -306,8 +303,6 @@
 				811B05A010F6A1C7000D1DDC /* Torrent.h */,
 				811B05A110F6A1C7000D1DDC /* Torrent.m */,
 				812A710710FCFB1600795D8B /* TorrentDelegate.h */,
-				81E6BE2D10FEB47B0083856D /* GlobalTorrentController.h */,
-				81E6BE2E10FEB47B0083856D /* GlobalTorrentController.m */,
 			);
 			name = Torrent;
 			sourceTree = "<group>";
@@ -455,7 +450,6 @@
 				81E6BCB710FE80420083856D /* StartCommand.m in Sources */,
 				81E6BCED10FE84C90083856D /* StopCommand.m in Sources */,
 				81E6BD3D10FE87FB0083856D /* AddCommand.m in Sources */,
-				81E6BE2F10FEB47B0083856D /* GlobalTorrentController.m in Sources */,
 				81E6BED410FF66730083856D /* EraseCommand.m in Sources */,
 				8107590410FFDF30003FF9A6 /* Filterbar.m in Sources */,
 				8107590510FFDF30003FF9A6 /* FilterbarGroup.m in Sources */,

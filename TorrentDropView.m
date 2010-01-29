@@ -7,7 +7,6 @@
 //
 
 #import "TorrentDropView.h"
-#import "GlobalTorrentController.h";
 
 @implementation TorrentDropView
 

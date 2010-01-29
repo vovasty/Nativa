@@ -9,13 +9,15 @@
 #import "DownloadsController.h"
 #import "SynthesizeSingleton.h"
 #import "Torrent.h"
-#import "GlobalTorrentController.h"
 #import "TorrentDelegate.h"
+#import "RTConnection.h"
+#import "RTorrentController.h"
+
+NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
 @interface DownloadsController(Private)
 
 - (void)_update;
-
 @end
 
 @implementation DownloadsController
@@ -26,23 +28,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
     if (self == nil)
         return nil;
 	_downloads = [[[NSMutableArray alloc] init] retain];
+	RTConnection *connection = [[[RTConnection alloc] initWithHostPort:@"192.168.1.206" port:5000] autorelease];
+	_rtorrent = [[RTorrentController alloc] initWithConnection:connection];
+	[_rtorrent retain];
 	return self;
 }
 
 -(void)dealloc
 {
 	[_downloads release];
+	[_rtorrent release];
 	[super dealloc];
 }
 
--(void) start;
+#pragma mark -
+#pragma mark public methods
+
+-(void) startUpdates;
 {
 	[_timer invalidate];
 	_timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(_update) userInfo:nil repeats:YES];
 	[_timer retain];
 	[[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];	
 }
--(void) stop;
+-(void) stopUpdates;
 {
 	[_timer invalidate];
 }
@@ -51,6 +60,43 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 {
 	return _downloads;
 }
+
+#pragma mark -
+#pragma mark concrete torrent methods
+
+- (void) start:(NSString *) hash response:(VoidResponseBlock) response
+{
+	[_rtorrent start:hash response:response];
+}
+
+- (void) stop:(NSString *) hash response:(VoidResponseBlock) response
+{
+	[_rtorrent stop:hash response:response];
+}
+
+- (void) add:(NSString *) torrentUrl response:(VoidResponseBlock) response
+{
+	[_rtorrent add:torrentUrl response:response];
+}
+
+- (void) erase:(NSString *) hash response:(VoidResponseBlock) response
+{
+	[_rtorrent erase:hash response:response];
+}
+
+#pragma mark -
+#pragma mark global state methods
+
+- (void) setGlobalDownloadSpeed:(int) speed response:(VoidResponseBlock) response
+{
+	[_rtorrent setGlobalDownloadSpeed:speed response:response];
+}
+
+- (void) getGlobalDownloadSpeed:(NumberResponseBlock) response
+{
+	[_rtorrent getGlobalDownloadSpeed:response];
+}
+
 
 - (void)_update
 {
@@ -61,7 +107,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		NSUInteger idx;
 #warning multiple objects?
 		Torrent* stored_obj;
-		for (Torrent *obj in lst)
+		for (Torrent *obj in array)
 		{
 			idx = [blockSelf->_downloads indexOfObject:obj];
 			if (idx ==  NSNotFound)
@@ -73,10 +119,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 				[obj release];
 			}
 		}
-		[[NSNotificationCenter defaultCenter] postNotificationName: NOTIFY_UPDATE_DOWNLOADS object: blockSelf];
+		[[NSNotificationCenter defaultCenter] postNotificationName: NINotifyUpdateDownloads object: blockSelf];
 		
 	} copy];
-	[[GlobalTorrentController sharedGlobalTorrentController].defaultRTorrent list:response];
+	[_rtorrent list:response];
 	[response release];
 }
 @end

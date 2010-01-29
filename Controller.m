@@ -8,10 +8,8 @@
 
 #import "Controller.h"
 #import "TorrentDropView.h"
-#import "GlobalTorrentController.h"
-#import "RTorrentCommand.h"
+#import "DownloadsController.h"
 #import "PreferenceController.h"
-#import "GlobalTorrentController.h"
 #include "TorrentViewController.h"
 #include "Torrent.h"
 #include "TorrentDelegate.h"
@@ -27,6 +25,11 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 	//Put defaults into dictionary
 	[defaultValues setObject:[NSNumber numberWithInt:65536]
 					  forKey:NITurtleSpeedKey];
+	
+	[defaultValues setObject:[NSNumber numberWithBool:YES]
+					  forKey:NITrashDownloadDescriptorsKey];
+
+	
 	//Register the dictionary of defaults
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
 }
@@ -40,14 +43,29 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
     return self;
 }
 
+-(void)checkSpeedLimit
+{
+	//check speed limit
+	__block Controller *blockSelf = self;
+	NumberResponseBlock response = [^(NSNumber* speed, NSString* error) {
+		if (error == nil)
+		{
+			if ([speed intValue]>0)
+				[blockSelf->_turtleButton setState: NSOnState];
+			else 
+				[blockSelf->_turtleButton setState: NSOffState];
+		}
+	} copy];
+	[[DownloadsController sharedDownloadsController] getGlobalDownloadSpeed:response];
+	[response release];
+}
+
+
 - (void)awakeFromNib
 {
 	[self setupToolbar];
+
 	[self checkSpeedLimit];
-	
-	
-	[[GlobalTorrentController sharedGlobalTorrentController] defaultRTorrent];
-	
 	
 	[_dropView addObserver:self
 			   forKeyPath:@"fileNames"
@@ -75,7 +93,7 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 					[[NSWorkspace sharedWorkspace] recycleURLs: urls
 											 completionHandler:nil];
 				} copy];
-				[[GlobalTorrentController sharedGlobalTorrentController].defaultRTorrent add:[url absoluteString] response:response];
+				[[DownloadsController sharedDownloadsController] add:[url absoluteString] response:response];
 				[response release];
 			}
 		}
@@ -88,12 +106,14 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
                               context:context];
     }
 }
+
 -(IBAction)showPreferencePanel:(id)sender;
 {
 	if(_preferenceController == nil)
 		_preferenceController = [[PreferenceController alloc] init];
 	[_preferenceController showWindow:self];
 }
+
 -(IBAction)toggleTurtleSpeed:(id)sender
 {
 	__block Controller *blockSelf = self;
@@ -102,26 +122,10 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 		[blockSelf checkSpeedLimit];
 	}copy];
 	int speed = [_turtleButton state] == NSOnState?[_defaults integerForKey:NITurtleSpeedKey]:0;
-	[[[GlobalTorrentController sharedGlobalTorrentController] defaultRTorrent] setGlobalDownloadSpeed:speed response:response];
+	[[DownloadsController sharedDownloadsController] setGlobalDownloadSpeed:speed response:response];
 	[response release];
 }
 
--(void)checkSpeedLimit
-{
-	//check speed limit
-	__block Controller *blockSelf = self;
-	NumberResponseBlock response = [^(NSNumber* speed, NSString* error) {
-		if (error == nil)
-		{
-			if ([speed intValue]>0)
-				[blockSelf->_turtleButton setState: NSOnState];
-			else 
-				[blockSelf->_turtleButton setState: NSOffState];
-		}
-	} copy];
-	[[GlobalTorrentController sharedGlobalTorrentController].defaultRTorrent getGlobalDownloadSpeed:response];
-	[response release];
-}
 
 - (NSArray *) selectedTorrents
 {
@@ -143,24 +147,21 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 
 -(IBAction)removeNoDeleteSelectedTorrents:(id)sender
 {
-	id<TorrentController> rtController = [[GlobalTorrentController sharedGlobalTorrentController] defaultRTorrent];
 	NSArray * torrents = [self selectedTorrents];
 	for (Torrent *t in torrents)
-		[rtController erase:t.thash response:nil];
+		[[DownloadsController sharedDownloadsController] erase:t.thash response:nil];
 }
 -(IBAction)stopSelectedTorrents:(id)sender
 {
-	id<TorrentController> rtController = [[GlobalTorrentController sharedGlobalTorrentController] defaultRTorrent];
 	NSArray * torrents = [self selectedTorrents];
 	for (Torrent *t in torrents)
-		[rtController stop:t.thash response:nil];
+		[[DownloadsController sharedDownloadsController] stop:t.thash response:nil];
 }
 -(IBAction)resumeSelectedTorrents:(id)sender
 {
-	id<TorrentController> rtController = [[GlobalTorrentController sharedGlobalTorrentController] defaultRTorrent];
 	NSArray * torrents = [self selectedTorrents];
 	for (Torrent *t in torrents)
-		[rtController start:t.thash response:nil];
+		[[DownloadsController sharedDownloadsController] start:t.thash response:nil];
 }
 
 @end

@@ -7,7 +7,10 @@
 //
 
 #import "PreferenceController.h"
+
 NSString* const NITurtleSpeedKey = @"TurtleSpeed";
+
+NSString* const NITrashDownloadDescriptorsKey = @"TrashDownloadDescriptorsKey";
 
 @implementation PreferenceController
 -(id)init

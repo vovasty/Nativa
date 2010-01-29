@@ -16,4 +16,9 @@
 	// Insert code here to initialize your application 
 }
 
+
+- (void) application: (NSApplication *) app openFiles: (NSArray *) filenames
+{
+    NSLog(@"open files %@", filenames);
+}
 @end

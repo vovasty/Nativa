@@ -70,9 +70,9 @@ static NSString* FilterTorrents = @"FilterTorrents";
 }
 
 - (void)awakeFromNib {
-    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(updateList:) name: NOTIFY_UPDATE_DOWNLOADS object: nil];
+    [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(updateList:) name: NINotifyUpdateDownloads object: nil];
 	_tableContents = [[[NSArray alloc] init] retain]; 
-	[[DownloadsController sharedDownloadsController] start];
+	[[DownloadsController sharedDownloadsController] startUpdates];
 	[[FilterbarController sharedFilterbarController] addObserver:self
 													 forKeyPath:@"filter"
 													  options:0
