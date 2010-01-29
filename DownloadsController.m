@@ -55,7 +55,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 - (void)_update
 {
 	__block DownloadsController *blockSelf = self;
-	ArrayResponseBlock response = [^(NSArray * lst) {
+	ArrayResponseBlock response = [^(NSArray *array, NSString* error) {
+		if (error != nil)
+			return;
 		NSUInteger idx;
 #warning multiple objects?
 		Torrent* stored_obj;
