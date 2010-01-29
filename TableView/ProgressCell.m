@@ -22,7 +22,8 @@
 }
 
 - (void)dealloc {
-	[_barBorderColor release];
+//	this will cause BAD_ACCESS
+//	[_barBorderColor release];
     [super dealloc];
 }
 
