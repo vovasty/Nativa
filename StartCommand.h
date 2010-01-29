@@ -13,12 +13,9 @@
 {
 	VoidResponseBlock _response;
 	NSString* _thash;
-	NSString* _error;
 }
 
 @property (retain) VoidResponseBlock response;
 @property (retain) NSString* thash;
-@property (retain) NSString* error;
-+ (id)command:(NSString *)hash response:(VoidResponseBlock) resp;
 - (id)initWithHashAndResponse:(NSString *)hash response:(VoidResponseBlock) resp;
 @end

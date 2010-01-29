@@ -10,5 +10,4 @@
 #import "StartCommand.h"
 
 @interface StopCommand : StartCommand
-+ (id)command:(NSString *)hash response:(VoidResponseBlock) resp;
 @end

@@ -16,6 +16,7 @@
 #import "EraseCommand.h"
 #import "RTorrentCommand.h"
 #import "TorrentDelegate.h"
+#import "SetGlobalDownloadSpeed.h"
 
 
 static NSString * OperationsChangedContext = @"OperationsChangedContext";
@@ -69,7 +70,7 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 - (void) start:(NSString *)hash response:(VoidResponseBlock) response;
 {
 	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
-	StartCommand* command = [StartCommand command:hash response:response];
+	StartCommand* command = [[StartCommand alloc] initWithHashAndResponse:hash response:response];
 	operation.command = command;
 	operation.delegate = self;
 	[_queue addOperation:operation];
@@ -80,7 +81,7 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 - (void) stop:(NSString *)hash response:(VoidResponseBlock) response;
 {
 	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
-	StopCommand* command = [StopCommand command:hash response:response];
+	StopCommand* command = [[StopCommand  alloc] initWithHashAndResponse:hash response:response];
 	operation.command = command;
 	operation.delegate = self;
 	[_queue addOperation:operation];
@@ -91,7 +92,7 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 - (void) add:(NSString *) torrentUrl response:(VoidResponseBlock) response;
 {
 	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
-	AddCommand* command = [AddCommand command:torrentUrl response:response];
+	AddCommand* command = [[AddCommand  alloc] initWithHashAndResponse:torrentUrl response:response];
 	[command retain];
 	operation.command = command;
 	operation.delegate = self;
@@ -103,12 +104,23 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 - (void) erase:(NSString *)hash response:(VoidResponseBlock) response;
 {
 	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
-	EraseCommand* command = [EraseCommand command:hash response:response];
+	EraseCommand* command = [[EraseCommand  alloc] initWithHashAndResponse:hash response:response];
 	operation.command = command;
 	operation.delegate = self;
 	[_queue addOperation:operation];
 	[command release];
 	[operation release];
+}
+- (void) setGlobalDownloadSpeed:(int) speed response:(VoidResponseBlock) response;
+{
+	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
+	SetGlobalDownloadSpeed* command = [[SetGlobalDownloadSpeed alloc] initWithSpeedAndResponse:speed response:response];
+	operation.command = command;
+	operation.delegate = self;
+	[_queue addOperation:operation];
+	[command release];
+	[operation release];
+	
 }
 
 - (void) setError:(id<RTorrentCommand>) ec;

@@ -180,7 +180,7 @@
 			if ([xmlrpcResponse isFault])
 				[self setError:result];
 			else
-				[_command processResponse:result];
+				[_command processResponse:result error:nil];
 			[xmlrpcResponse release];
 			[self finish];
             break;
@@ -198,7 +198,7 @@
 {
 	[self requestDidSent];
 	[self responseDidReceived];
-	[_command setError:error];
+	[_command processResponse:nil error:error];
 	[_delegate setError:_command];
 	[self finish];
 }

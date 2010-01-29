@@ -10,12 +10,6 @@
 
 
 @implementation EraseCommand
-+ (id)command:(NSString *)hash response:(VoidResponseBlock) resp;
-{
-	EraseCommand* operation = [[self alloc] initWithHashAndResponse:hash response:resp];
-    return [operation autorelease];
-}
-
 - (NSString *) command;
 {
 	return @"d.erase";

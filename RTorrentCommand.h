@@ -8,18 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef void(^VoidResponseBlock)(void);
-typedef void(^ArrayResponseBlock)(NSArray *);
+typedef void(^VoidResponseBlock)(NSString* error);
+typedef void(^ArrayResponseBlock)(NSArray *array, NSString* error);
 
 @protocol RTorrentCommand<NSObject>
 
-- (void) processResponse:(id) data;
+- (void) processResponse:(id) data error:(NSString *) error;
 
 - (NSString *) command;
 
 - (NSArray *) arguments;
 
-- (void) setError: (NSString*) error;
-
-- (NSString*) error;
 @end

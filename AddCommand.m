@@ -11,16 +11,8 @@
 
 @implementation AddCommand
 @synthesize url = _url;
-@synthesize error = _error;
 @synthesize response = _response;
 @synthesize start = _start;
-
-+ (id)command:(NSString *)urlString response:(VoidResponseBlock) resp;
-{
-	NSURL * url = [NSURL URLWithString:urlString];
-	AddCommand * operation = [[self alloc] initWithUrlAndResponse:url response:resp];
-    return [operation autorelease];
-}
 
 - (id)initWithUrlAndResponse:(NSURL *)url response:(VoidResponseBlock) resp;
 {
@@ -34,10 +26,10 @@
 }
 
 
-- (void) processResponse:(id) data;
+- (void) processResponse:(id) data error:(NSString *) error;
 {
 	if (_response)
-		_response();
+		_response(error);
 }
 
 - (NSString *) command;
@@ -53,7 +45,7 @@
 		NSURLResponse *returningResponse = nil;
 		NSError* connError = nil;
 		NSData *content = [NSURLConnection sendSynchronousRequest:request returningResponse:&returningResponse error:&connError];
-		NSLog(@"%@", connError);
+		NSLog(@"oops! %@", connError);
 		//	NSLog(@"%Q", returningResponse);
 		_arguments = [NSArray arrayWithObjects:content, nil];
 		[_arguments retain];
@@ -64,14 +56,8 @@
 - (void)dealloc
 {
 	[_response release];
-	[_error release];
 	[_url release];
 	[_arguments release];
 	[super dealloc];
-}
-
-- (void) setError: (NSString*) err;
-{
-	self.error = err;
 }
 @end

@@ -12,8 +12,6 @@
 @interface ListCommand : NSObject<RTorrentCommand>
 {
 	ArrayResponseBlock _response;
-	NSString *_error;
 }
 @property (retain) ArrayResponseBlock response;
-@property (retain) NSString *error;
 @end

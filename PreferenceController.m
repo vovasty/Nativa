@@ -7,7 +7,8 @@
 //
 
 #import "PreferenceController.h"
-
+NSString* const NITurtleSpeedKey = @"TurtleSpeed";
+NSString* const NITurtleSpeedSetKey = @"TurtleSpeedSet";
 
 @implementation PreferenceController
 -(id)init
@@ -19,11 +20,18 @@
 
 -(void)windowDidLoad
 {
-//init here
+	[_turtleSpeed setIntValue:[self turtleSpeed]];
 }
 
 - (IBAction)changeTurtleSpeed:(id)sender
 {
-	NSLog(@"turtleSpeed: %d", [_turtleSpeed intValue]);
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	[defaults setInteger:[_turtleSpeed intValue] forKey:NITurtleSpeedKey];
+}
+
+- (int) turtleSpeed
+{
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	return [defaults integerForKey:NITurtleSpeedKey];
 }
 @end

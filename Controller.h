@@ -11,9 +11,11 @@
 @class TorrentDropView, PreferenceController;
 @interface Controller : NSObject {
 	IBOutlet TorrentDropView* _dropView;
-	
+	IBOutlet NSTextField* _message;
+	NSUserDefaults* _defaults;
 	PreferenceController* _preferenceController;
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
+-(IBAction)toggleTurtleSpeed:(id)sender;
 @end

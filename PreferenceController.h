@@ -7,11 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+extern NSString* const NITurtleSpeedKey;
+extern NSString* const NITurtleSpeedSetKey;
 
 @interface PreferenceController : NSWindowController 
 {
 	IBOutlet NSTextField* _turtleSpeed;
 }
 - (IBAction)changeTurtleSpeed:(id)sender;
+- (int) turtleSpeed;
 @end

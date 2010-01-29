@@ -17,6 +17,10 @@
 		811B056810F6A030000D1DDC /* SCGI.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B056710F6A030000D1DDC /* SCGI.m */; };
 		811B05A210F6A1C7000D1DDC /* Torrent.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B05A110F6A1C7000D1DDC /* Torrent.m */; };
 		811EA5601111F5A6001D16D0 /* RTorrentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA55F1111F5A6001D16D0 /* RTorrentController.m */; };
+		811EA5D31111FAD1001D16D0 /* TurtleTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */; };
+		811EA7EE11122806001D16D0 /* PreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA7ED11122806001D16D0 /* PreferenceController.m */; };
+		811EA7F0111229AB001D16D0 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 811EA7EF111229AB001D16D0 /* Preferences.xib */; };
+		811EA98E11124D93001D16D0 /* SetGlobalDownloadSpeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeed.m */; };
 		812A725010FD0A0300795D8B /* RTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A724F10FD0A0300795D8B /* RTConnection.m */; };
 		812A726D10FD0D3D00795D8B /* SCGIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A726C10FD0D3D00795D8B /* SCGIOperation.m */; };
 		812A731010FD1C0A00795D8B /* ListCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A730F10FD1C0A00795D8B /* ListCommand.m */; };
@@ -69,7 +73,12 @@
 		811B05A110F6A1C7000D1DDC /* Torrent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Torrent.m; sourceTree = "<group>"; };
 		811EA55E1111F5A6001D16D0 /* RTorrentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTorrentController.h; sourceTree = "<group>"; };
 		811EA55F1111F5A6001D16D0 /* RTorrentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTorrentController.m; sourceTree = "<group>"; };
-		811EA5611111F619001D16D0 /* TorrentState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentState.h; sourceTree = "<group>"; };
+		811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TurtleTemplate.png; sourceTree = "<group>"; };
+		811EA7EC11122806001D16D0 /* PreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferenceController.h; sourceTree = "<group>"; };
+		811EA7ED11122806001D16D0 /* PreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferenceController.m; sourceTree = "<group>"; };
+		811EA7EF111229AB001D16D0 /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
+		811EA98C11124D93001D16D0 /* SetGlobalDownloadSpeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetGlobalDownloadSpeed.h; sourceTree = "<group>"; };
+		811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetGlobalDownloadSpeed.m; sourceTree = "<group>"; };
 		812A710710FCFB1600795D8B /* TorrentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentDelegate.h; sourceTree = "<group>"; };
 		812A724E10FD0A0300795D8B /* RTConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTConnection.h; sourceTree = "<group>"; };
 		812A724F10FD0A0300795D8B /* RTConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTConnection.m; sourceTree = "<group>"; };
@@ -193,9 +202,11 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				811EA5D11111FAD1001D16D0 /* images */,
 				8D1107310486CEB800E47090 /* Nativa-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
+				811EA7EF111229AB001D16D0 /* Preferences.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -242,6 +253,8 @@
 				810758FC10FFDF30003FF9A6 /* Filterbar */,
 				810CD80B10FBCF0600963D10 /* TorrentDropView.h */,
 				810CD80C10FBCF0600963D10 /* TorrentDropView.m */,
+				811EA7EC11122806001D16D0 /* PreferenceController.h */,
+				811EA7ED11122806001D16D0 /* PreferenceController.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -249,7 +262,6 @@
 		811B059D10F6A1B3000D1DDC /* Torrent */ = {
 			isa = PBXGroup;
 			children = (
-				811EA5611111F619001D16D0 /* TorrentState.h */,
 				811EA55E1111F5A6001D16D0 /* RTorrentController.h */,
 				811EA55F1111F5A6001D16D0 /* RTorrentController.m */,
 				81D1B9051106834700C8A69A /* SynthesizeSingleton.h */,
@@ -261,6 +273,14 @@
 				81E6BE2E10FEB47B0083856D /* GlobalTorrentController.m */,
 			);
 			name = Torrent;
+			sourceTree = "<group>";
+		};
+		811EA5D11111FAD1001D16D0 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */,
+			);
+			path = images;
 			sourceTree = "<group>";
 		};
 		812A724410FD099800795D8B /* RTorrent */ = {
@@ -281,6 +301,8 @@
 				81E6BD3C10FE87FB0083856D /* AddCommand.m */,
 				81E6BED210FF66730083856D /* EraseCommand.h */,
 				81E6BED310FF66730083856D /* EraseCommand.m */,
+				811EA98C11124D93001D16D0 /* SetGlobalDownloadSpeed.h */,
+				811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeed.m */,
 			);
 			name = RTorrent;
 			sourceTree = "<group>";
@@ -365,6 +387,8 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+				811EA5D31111FAD1001D16D0 /* TurtleTemplate.png in Resources */,
+				811EA7F0111229AB001D16D0 /* Preferences.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -404,6 +428,8 @@
 				819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */,
 				819D3E0C1110EE6E00F7007C /* Controller.m in Sources */,
 				811EA5601111F5A6001D16D0 /* RTorrentController.m in Sources */,
+				811EA7EE11122806001D16D0 /* PreferenceController.m in Sources */,
+				811EA98E11124D93001D16D0 /* SetGlobalDownloadSpeed.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

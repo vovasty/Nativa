@@ -10,12 +10,6 @@
 
 
 @implementation StopCommand
-+ (id)command:(NSString *)hash response:(VoidResponseBlock) resp;
-{
-	StopCommand * operation = [[self alloc] initWithHashAndResponse:hash response:resp];
-    return [operation autorelease];
-}
-
 - (NSString *) command;
 {
 	return @"d.stop";

@@ -40,8 +40,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	[_timer invalidate];
 	_timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(_update) userInfo:nil repeats:YES];
 	[_timer retain];
-	[[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];
-	
+	[[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];	
 }
 -(void) stop;
 {
