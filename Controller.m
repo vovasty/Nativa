@@ -12,6 +12,9 @@
 #import "RTorrentCommand.h"
 #import "PreferenceController.h"
 #import "GlobalTorrentController.h"
+#include "TorrentViewController.h"
+#include "Torrent.h"
+#include "TorrentDelegate.h"
 
 static NSString* FilesDroppedContext = @"FilesDroppedContext";
 
@@ -41,6 +44,7 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 
 - (void)awakeFromNib
 {
+	[self setupToolbar];
 	[_dropView addObserver:self
 			   forKeyPath:@"fileNames"
 				  options:0
@@ -96,4 +100,45 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 	[[[GlobalTorrentController sharedGlobalTorrentController] defaultRTorrent] setGlobalDownloadSpeed:speed response:response];
 	[response release];
 }
+
+- (NSArray *) selectedTorrents
+{
+	NSIndexSet * selectedIndexes = [_downloadsView selectedRowIndexes];
+    NSMutableArray * torrents = [NSMutableArray arrayWithCapacity: [selectedIndexes count]]; //take a shot at guessing capacity
+    
+	TorrentViewController* dataSource = [_downloadsView dataSource];
+	
+    for (NSUInteger i = [selectedIndexes firstIndex]; i != NSNotFound; i = [selectedIndexes indexGreaterThanIndex: i])
+    {
+        id item = [dataSource itemAtRow: i];
+        if ([item isKindOfClass: [Torrent class]])
+            [torrents addObject: item];
+    }
+    
+    return torrents;
+}
+
+
+-(IBAction)removeNoDeleteSelectedTorrents:(id)sender
+{
+	id<TorrentController> rtController = [[GlobalTorrentController sharedGlobalTorrentController] defaultRTorrent];
+	NSArray * torrents = [self selectedTorrents];
+	for (Torrent *t in torrents)
+		[rtController erase:t.thash response:nil];
+}
+-(IBAction)stopSelectedTorrents:(id)sender
+{
+	id<TorrentController> rtController = [[GlobalTorrentController sharedGlobalTorrentController] defaultRTorrent];
+	NSArray * torrents = [self selectedTorrents];
+	for (Torrent *t in torrents)
+		[rtController stop:t.thash response:nil];
+}
+-(IBAction)resumeSelectedTorrents:(id)sender
+{
+	id<TorrentController> rtController = [[GlobalTorrentController sharedGlobalTorrentController] defaultRTorrent];
+	NSArray * torrents = [self selectedTorrents];
+	for (Torrent *t in torrents)
+		[rtController start:t.thash response:nil];
+}
+
 @end

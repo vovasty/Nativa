@@ -13,6 +13,13 @@
 		8107590510FFDF30003FF9A6 /* FilterbarGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590110FFDF30003FF9A6 /* FilterbarGroup.m */; };
 		8107590610FFDF30003FF9A6 /* FilterbarGroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590310FFDF30003FF9A6 /* FilterbarGroupItem.m */; };
 		8107590B10FFDF4F003FF9A6 /* FilterbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590A10FFDF4F003FF9A6 /* FilterbarController.m */; };
+		810AEEFD11132FE400933772 /* ToolbarRemoveTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */; };
+		810AEF331113353200933772 /* ButtonToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 810AEF301113353200933772 /* ButtonToolbarItem.m */; };
+		810AEF341113353200933772 /* ToolbarControllerAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 810AEF321113353200933772 /* ToolbarControllerAdditions.m */; };
+		810AEF37111335B000933772 /* ToolbarPauseSelectedTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 810AEF35111335B000933772 /* ToolbarPauseSelectedTemplate.png */; };
+		810AEF38111335B000933772 /* ToolbarResumeSelectedTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 810AEF36111335B000933772 /* ToolbarResumeSelectedTemplate.png */; };
+		810AEF3D1113360D00933772 /* GroupToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 810AEF3C1113360D00933772 /* GroupToolbarItem.m */; };
+		810AEF421113365600933772 /* ToolbarSegmentedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 810AEF411113365600933772 /* ToolbarSegmentedCell.m */; };
 		810CD80D10FBCF0600963D10 /* TorrentDropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 810CD80C10FBCF0600963D10 /* TorrentDropView.m */; };
 		811B056810F6A030000D1DDC /* SCGI.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B056710F6A030000D1DDC /* SCGI.m */; };
 		811B05A210F6A1C7000D1DDC /* Torrent.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B05A110F6A1C7000D1DDC /* Torrent.m */; };
@@ -65,6 +72,17 @@
 		8107590310FFDF30003FF9A6 /* FilterbarGroupItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterbarGroupItem.m; sourceTree = "<group>"; };
 		8107590910FFDF4F003FF9A6 /* FilterbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterbarController.h; sourceTree = "<group>"; };
 		8107590A10FFDF4F003FF9A6 /* FilterbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterbarController.m; sourceTree = "<group>"; };
+		810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarRemoveTemplate.png; sourceTree = "<group>"; };
+		810AEF2F1113353200933772 /* ButtonToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonToolbarItem.h; sourceTree = "<group>"; };
+		810AEF301113353200933772 /* ButtonToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonToolbarItem.m; sourceTree = "<group>"; };
+		810AEF311113353200933772 /* ToolbarControllerAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolbarControllerAdditions.h; sourceTree = "<group>"; };
+		810AEF321113353200933772 /* ToolbarControllerAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolbarControllerAdditions.m; sourceTree = "<group>"; };
+		810AEF35111335B000933772 /* ToolbarPauseSelectedTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarPauseSelectedTemplate.png; sourceTree = "<group>"; };
+		810AEF36111335B000933772 /* ToolbarResumeSelectedTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarResumeSelectedTemplate.png; sourceTree = "<group>"; };
+		810AEF3B1113360D00933772 /* GroupToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupToolbarItem.h; sourceTree = "<group>"; };
+		810AEF3C1113360D00933772 /* GroupToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupToolbarItem.m; sourceTree = "<group>"; };
+		810AEF401113365600933772 /* ToolbarSegmentedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ToolbarSegmentedCell.h; sourceTree = "<group>"; };
+		810AEF411113365600933772 /* ToolbarSegmentedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolbarSegmentedCell.m; sourceTree = "<group>"; };
 		810CD80B10FBCF0600963D10 /* TorrentDropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentDropView.h; sourceTree = "<group>"; };
 		810CD80C10FBCF0600963D10 /* TorrentDropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentDropView.m; sourceTree = "<group>"; };
 		811B056610F6A030000D1DDC /* SCGI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCGI.h; sourceTree = "<group>"; };
@@ -234,6 +252,21 @@
 			path = Filterbar;
 			sourceTree = "<group>";
 		};
+		810AEF2E1113353200933772 /* Toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				810AEF401113365600933772 /* ToolbarSegmentedCell.h */,
+				810AEF411113365600933772 /* ToolbarSegmentedCell.m */,
+				810AEF3B1113360D00933772 /* GroupToolbarItem.h */,
+				810AEF3C1113360D00933772 /* GroupToolbarItem.m */,
+				810AEF2F1113353200933772 /* ButtonToolbarItem.h */,
+				810AEF301113353200933772 /* ButtonToolbarItem.m */,
+				810AEF311113353200933772 /* ToolbarControllerAdditions.h */,
+				810AEF321113353200933772 /* ToolbarControllerAdditions.m */,
+			);
+			path = Toolbar;
+			sourceTree = "<group>";
+		};
 		811B055A10F6A019000D1DDC /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,6 +280,7 @@
 		811B056910F6A055000D1DDC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				810AEF2E1113353200933772 /* Toolbar */,
 				81DF15C4110FADA100AFCE02 /* TableView */,
 				8107590910FFDF4F003FF9A6 /* FilterbarController.h */,
 				8107590A10FFDF4F003FF9A6 /* FilterbarController.m */,
@@ -278,6 +312,9 @@
 		811EA5D11111FAD1001D16D0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				810AEF35111335B000933772 /* ToolbarPauseSelectedTemplate.png */,
+				810AEF36111335B000933772 /* ToolbarResumeSelectedTemplate.png */,
+				810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */,
 				811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */,
 			);
 			path = images;
@@ -389,6 +426,9 @@
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 				811EA5D31111FAD1001D16D0 /* TurtleTemplate.png in Resources */,
 				811EA7F0111229AB001D16D0 /* Preferences.xib in Resources */,
+				810AEEFD11132FE400933772 /* ToolbarRemoveTemplate.png in Resources */,
+				810AEF37111335B000933772 /* ToolbarPauseSelectedTemplate.png in Resources */,
+				810AEF38111335B000933772 /* ToolbarResumeSelectedTemplate.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +470,10 @@
 				811EA5601111F5A6001D16D0 /* RTorrentController.m in Sources */,
 				811EA7EE11122806001D16D0 /* PreferenceController.m in Sources */,
 				811EA98E11124D93001D16D0 /* SetGlobalDownloadSpeed.m in Sources */,
+				810AEF331113353200933772 /* ButtonToolbarItem.m in Sources */,
+				810AEF341113353200933772 /* ToolbarControllerAdditions.m in Sources */,
+				810AEF3D1113360D00933772 /* GroupToolbarItem.m in Sources */,
+				810AEF421113365600933772 /* ToolbarSegmentedCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

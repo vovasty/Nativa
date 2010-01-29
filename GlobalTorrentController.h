@@ -7,15 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "SynthesizeSingleton.h"
-
-@class TorrentController;
+#import "TorrentDelegate.h"
 
 @interface GlobalTorrentController : NSObject 
 {
-	TorrentController* rtorrent;
+	id<TorrentController> rtorrent;
 }
 
 + (GlobalTorrentController *)sharedGlobalTorrentController;
-@property (readonly) TorrentController* defaultRTorrent;
+
+@property (readonly) id<TorrentController> defaultRTorrent;
+
 @end

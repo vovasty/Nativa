@@ -9,10 +9,13 @@
 #import "GlobalTorrentController.h"
 #import "RTConnection.h"
 #import "RTorrentController.h"
+#import "SynthesizeSingleton.h"
 
 @implementation GlobalTorrentController
 SYNTHESIZE_SINGLETON_FOR_CLASS(GlobalTorrentController);
+
 @synthesize defaultRTorrent = _rtorrent;
+
 -(id)init;
 {
     self = [super init];

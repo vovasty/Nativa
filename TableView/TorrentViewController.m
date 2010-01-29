@@ -112,7 +112,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 	[_tableViewMain reloadData];
 }
 
-- (Torrent *)_entityForRow:(NSInteger)row {
+- (Torrent *)itemAtRow:(NSInteger)row {
     return (Torrent *)[_tableContents objectAtIndex:row];
 }
 
@@ -131,7 +131,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 }
 
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    return [self _entityForRow:row].name;
+    return [self itemAtRow:row].name;
 }
 
 - (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
@@ -143,7 +143,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 // We want to make "group rows" for the folders
 - (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row {
-//    if ([[self _entityForRow:row] isKindOfClass:[ATDesktopFolderEntity class]]) {
+//    if ([[self itemAtRow:row] isKindOfClass:[ATDesktopFolderEntity class]]) {
 //        return YES;
 //    } else {
 //        return NO;
@@ -154,7 +154,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 // We want a regular text field cell that we setup in the nib for the group rows, and the default one setup for the tablecolumn for all others
 - (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     if (tableColumn != nil) {
-//        if ([[self _entityForRow:row] isKindOfClass:[ATDesktopFolderEntity class]]) {
+//        if ([[self itemAtRow:row] isKindOfClass:[ATDesktopFolderEntity class]]) {
 //            // Use a shared cell setup in IB via an IBOutlet
 //            return _sharedGroupTitleCell;
 //        } else {
@@ -169,7 +169,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 // We make the "group rows" have the standard height, while all other image rows have a larger height
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-    if ([[self _entityForRow:row] isKindOfClass:[Torrent class]]) {
+    if ([[self itemAtRow:row] isKindOfClass:[Torrent class]]) {
         return [tableView rowHeight];
     } else {
         return 17.0;

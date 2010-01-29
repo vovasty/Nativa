@@ -50,6 +50,8 @@
 
 #import "TorrentTableView.h"
 
+@class Torrent;
+
 @interface TorrentViewController : NSObject <NSTableViewDelegate, NSTableViewDataSource, TorrentTableViewDelegate> {
 @private
     NSArray *_tableContents;
@@ -57,4 +59,5 @@
     IBOutlet NSTableView *_tableViewMain;
     IBOutlet NSTextFieldCell *_sharedGroupTitleCell;
 }
+-(Torrent *)itemAtRow:(NSInteger) index;
 @end

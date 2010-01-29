@@ -12,10 +12,15 @@
 @interface Controller : NSObject {
 	IBOutlet TorrentDropView* _dropView;
 	IBOutlet NSTextField* _message;
+	IBOutlet NSWindow* _window;
+	IBOutlet NSTableView* _downloadsView;
 	NSUserDefaults* _defaults;
 	PreferenceController* _preferenceController;
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
 -(IBAction)toggleTurtleSpeed:(id)sender;
+-(IBAction)removeNoDeleteSelectedTorrents:(id)sender;
+-(IBAction)stopSelectedTorrents:(id)sender;
+-(IBAction)resumeSelectedTorrents:(id)sender;
 @end
