@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 extern NSString* const NITurtleSpeedKey;
-extern NSString* const NITurtleSpeedSetKey;
 
 @interface PreferenceController : NSWindowController 
 {

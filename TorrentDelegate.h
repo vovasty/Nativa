@@ -29,6 +29,8 @@
 
 - (void) setGlobalDownloadSpeed:(int) speed response:(VoidResponseBlock) response;
 
+- (void) getGlobalDownloadSpeed:(NumberResponseBlock) response;
+
 - (id<RTorrentCommand>) errorCommand;
 @end
 

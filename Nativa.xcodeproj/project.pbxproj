@@ -37,6 +37,7 @@
 		814FF97C1100AB7100335707 /* XMLRPCTreeBasedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF9751100AB7100335707 /* XMLRPCTreeBasedParser.m */; };
 		819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3BE91110CD5200F7007C /* DownloadsController.m */; };
 		819D3E0C1110EE6E00F7007C /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3E0B1110EE6E00F7007C /* Controller.m */; };
+		81B737E411136F6900A11521 /* GetGlobalDownloadSpeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B737E311136F6900A11521 /* GetGlobalDownloadSpeed.m */; };
 		81DF15D4110FADA100AFCE02 /* TorrentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15C8110FADA100AFCE02 /* TorrentViewController.m */; };
 		81DF15D6110FADA100AFCE02 /* TorrentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CC110FADA100AFCE02 /* TorrentTableView.m */; };
 		81DF15D7110FADA100AFCE02 /* TorrentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CE110FADA100AFCE02 /* TorrentCell.m */; };
@@ -117,6 +118,8 @@
 		819D3BE91110CD5200F7007C /* DownloadsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsController.m; sourceTree = "<group>"; };
 		819D3E0A1110EE6E00F7007C /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		819D3E0B1110EE6E00F7007C /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
+		81B737E211136F6900A11521 /* GetGlobalDownloadSpeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGlobalDownloadSpeed.h; sourceTree = "<group>"; };
+		81B737E311136F6900A11521 /* GetGlobalDownloadSpeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGlobalDownloadSpeed.m; sourceTree = "<group>"; };
 		81D1B9051106834700C8A69A /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		81DF15C7110FADA100AFCE02 /* TorrentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentViewController.h; sourceTree = "<group>"; };
 		81DF15C8110FADA100AFCE02 /* TorrentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentViewController.m; sourceTree = "<group>"; };
@@ -340,6 +343,8 @@
 				81E6BED310FF66730083856D /* EraseCommand.m */,
 				811EA98C11124D93001D16D0 /* SetGlobalDownloadSpeed.h */,
 				811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeed.m */,
+				81B737E211136F6900A11521 /* GetGlobalDownloadSpeed.h */,
+				81B737E311136F6900A11521 /* GetGlobalDownloadSpeed.m */,
 			);
 			name = RTorrent;
 			sourceTree = "<group>";
@@ -474,6 +479,7 @@
 				810AEF341113353200933772 /* ToolbarControllerAdditions.m in Sources */,
 				810AEF3D1113360D00933772 /* GroupToolbarItem.m in Sources */,
 				810AEF421113365600933772 /* ToolbarSegmentedCell.m in Sources */,
+				81B737E411136F6900A11521 /* GetGlobalDownloadSpeed.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,6 +10,7 @@
 
 typedef void(^VoidResponseBlock)(NSString* error);
 typedef void(^ArrayResponseBlock)(NSArray *array, NSString* error);
+typedef void(^NumberResponseBlock)(NSNumber *number, NSString* error);
 
 @protocol RTorrentCommand<NSObject>
 

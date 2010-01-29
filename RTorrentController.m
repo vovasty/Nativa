@@ -17,7 +17,7 @@
 #import "RTorrentCommand.h"
 #import "TorrentDelegate.h"
 #import "SetGlobalDownloadSpeed.h"
-
+#import "GetGlobalDownloadSpeed.h"
 
 static NSString * OperationsChangedContext = @"OperationsChangedContext";
 
@@ -121,6 +121,17 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	[command release];
 	[operation release];
 	
+}
+
+- (void) getGlobalDownloadSpeed:(NumberResponseBlock) response
+{
+	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
+	GetGlobalDownloadSpeed* command = [[GetGlobalDownloadSpeed alloc] initWithResponse:response];
+	operation.command = command;
+	operation.delegate = self;
+	[_queue addOperation:operation];
+	[command release];
+	[operation release];
 }
 
 - (void) setError:(id<RTorrentCommand>) ec;

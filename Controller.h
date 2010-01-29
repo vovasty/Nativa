@@ -14,6 +14,7 @@
 	IBOutlet NSTextField* _message;
 	IBOutlet NSWindow* _window;
 	IBOutlet NSTableView* _downloadsView;
+	IBOutlet NSButton* _turtleButton;
 	NSUserDefaults* _defaults;
 	PreferenceController* _preferenceController;
 }

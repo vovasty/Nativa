@@ -25,10 +25,8 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 	NSMutableDictionary* defaultValues = [NSMutableDictionary dictionary];
 	
 	//Put defaults into dictionary
-	[defaultValues setObject:[NSNumber numberWithInt:50]
+	[defaultValues setObject:[NSNumber numberWithInt:65536]
 					  forKey:NITurtleSpeedKey];
-	[defaultValues setObject:[NSNumber numberWithBool:NO]
-					  forKey:NITurtleSpeedSetKey];
 	//Register the dictionary of defaults
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
 }
@@ -45,6 +43,12 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 - (void)awakeFromNib
 {
 	[self setupToolbar];
+	[self checkSpeedLimit];
+	
+	
+	[[GlobalTorrentController sharedGlobalTorrentController] defaultRTorrent];
+	
+	
 	[_dropView addObserver:self
 			   forKeyPath:@"fileNames"
 				  options:0
@@ -95,9 +99,27 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 	__block Controller *blockSelf = self;
 	VoidResponseBlock response = [^(NSString* error){
 		[blockSelf->_message setStringValue:error==nil?@"":error];
+		[blockSelf checkSpeedLimit];
 	}copy];
-	int speed = [_defaults boolForKey:NITurtleSpeedSetKey]?[_defaults integerForKey:NITurtleSpeedKey]:0;
+	int speed = [_turtleButton state] == NSOnState?[_defaults integerForKey:NITurtleSpeedKey]:0;
 	[[[GlobalTorrentController sharedGlobalTorrentController] defaultRTorrent] setGlobalDownloadSpeed:speed response:response];
+	[response release];
+}
+
+-(void)checkSpeedLimit
+{
+	//check speed limit
+	__block Controller *blockSelf = self;
+	NumberResponseBlock response = [^(NSNumber* speed, NSString* error) {
+		if (error == nil)
+		{
+			if ([speed intValue]>0)
+				[blockSelf->_turtleButton setState: NSOnState];
+			else 
+				[blockSelf->_turtleButton setState: NSOffState];
+		}
+	} copy];
+	[[GlobalTorrentController sharedGlobalTorrentController].defaultRTorrent getGlobalDownloadSpeed:response];
 	[response release];
 }
 

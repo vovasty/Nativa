@@ -8,7 +8,6 @@
 
 #import "PreferenceController.h"
 NSString* const NITurtleSpeedKey = @"TurtleSpeed";
-NSString* const NITurtleSpeedSetKey = @"TurtleSpeedSet";
 
 @implementation PreferenceController
 -(id)init
