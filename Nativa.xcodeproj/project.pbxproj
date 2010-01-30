@@ -42,6 +42,9 @@
 		81B73ABC1113994700A11521 /* DownArrowTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B73ABB1113994700A11521 /* DownArrowTemplate.png */; };
 		81B73ABF111399DC00A11521 /* StatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73ABE111399DC00A11521 /* StatusBarView.m */; };
 		81B73AFC1113B34000A11521 /* StatusbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73AFB1113B34000A11521 /* StatusbarController.m */; };
+		81B73B221113B67A00A11521 /* GetGlobalDownloadSpeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73B211113B67A00A11521 /* GetGlobalDownloadSpeed.m */; };
+		81B73B251113B6F200A11521 /* GetGlobalUploadSpeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73B241113B6F200A11521 /* GetGlobalUploadSpeed.m */; };
+		81B73C061113C50200A11521 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73C051113C50200A11521 /* NSStringAdditions.m */; };
 		81DF15D4110FADA100AFCE02 /* TorrentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15C8110FADA100AFCE02 /* TorrentViewController.m */; };
 		81DF15D6110FADA100AFCE02 /* TorrentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CC110FADA100AFCE02 /* TorrentTableView.m */; };
 		81DF15D7110FADA100AFCE02 /* TorrentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CE110FADA100AFCE02 /* TorrentCell.m */; };
@@ -129,6 +132,12 @@
 		81B73ABE111399DC00A11521 /* StatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusBarView.m; sourceTree = "<group>"; };
 		81B73AFA1113B34000A11521 /* StatusbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusbarController.h; sourceTree = "<group>"; };
 		81B73AFB1113B34000A11521 /* StatusbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusbarController.m; sourceTree = "<group>"; };
+		81B73B201113B67A00A11521 /* GetGlobalDownloadSpeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGlobalDownloadSpeed.h; sourceTree = "<group>"; };
+		81B73B211113B67A00A11521 /* GetGlobalDownloadSpeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGlobalDownloadSpeed.m; sourceTree = "<group>"; };
+		81B73B231113B6F200A11521 /* GetGlobalUploadSpeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGlobalUploadSpeed.h; sourceTree = "<group>"; };
+		81B73B241113B6F200A11521 /* GetGlobalUploadSpeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGlobalUploadSpeed.m; sourceTree = "<group>"; };
+		81B73C041113C50200A11521 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
+		81B73C051113C50200A11521 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
 		81D1B9051106834700C8A69A /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		81DF15C7110FADA100AFCE02 /* TorrentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentViewController.h; sourceTree = "<group>"; };
 		81DF15C8110FADA100AFCE02 /* TorrentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentViewController.m; sourceTree = "<group>"; };
@@ -167,6 +176,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				81B73C031113C50200A11521 /* additions */,
 				811B059D10F6A1B3000D1DDC /* Torrent */,
 				811B056910F6A055000D1DDC /* UI */,
 				811B055A10F6A019000D1DDC /* Network */,
@@ -356,6 +366,10 @@
 				811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m */,
 				81B737E211136F6900A11521 /* GetGlobalDownloadSpeedLimit.h */,
 				81B737E311136F6900A11521 /* GetGlobalDownloadSpeedLimit.m */,
+				81B73B201113B67A00A11521 /* GetGlobalDownloadSpeed.h */,
+				81B73B211113B67A00A11521 /* GetGlobalDownloadSpeed.m */,
+				81B73B231113B6F200A11521 /* GetGlobalUploadSpeed.h */,
+				81B73B241113B6F200A11521 /* GetGlobalUploadSpeed.m */,
 			);
 			name = RTorrent;
 			sourceTree = "<group>";
@@ -373,6 +387,15 @@
 				814FF9751100AB7100335707 /* XMLRPCTreeBasedParser.m */,
 			);
 			path = XMLRPC;
+			sourceTree = "<group>";
+		};
+		81B73C031113C50200A11521 /* additions */ = {
+			isa = PBXGroup;
+			children = (
+				81B73C041113C50200A11521 /* NSStringAdditions.h */,
+				81B73C051113C50200A11521 /* NSStringAdditions.m */,
+			);
+			path = additions;
 			sourceTree = "<group>";
 		};
 		81DF15C4110FADA100AFCE02 /* TableView */ = {
@@ -494,6 +517,9 @@
 				81B737E411136F6900A11521 /* GetGlobalDownloadSpeedLimit.m in Sources */,
 				81B73ABF111399DC00A11521 /* StatusBarView.m in Sources */,
 				81B73AFC1113B34000A11521 /* StatusbarController.m in Sources */,
+				81B73B221113B67A00A11521 /* GetGlobalDownloadSpeed.m in Sources */,
+				81B73B251113B6F200A11521 /* GetGlobalUploadSpeed.m in Sources */,
+				81B73C061113C50200A11521 /* NSStringAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

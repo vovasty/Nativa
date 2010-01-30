@@ -21,7 +21,13 @@ NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 @end
 
 @implementation DownloadsController
+
 SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
+
+@synthesize	globalUploadSpeed = _globalUploadSpeed;
+@synthesize globalDownloadSpeed = _globalDownloadSpeed;
+
+
 -(id)init;
 {
     self = [super init];
@@ -46,14 +52,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 -(void) startUpdates;
 {
-	[_timer invalidate];
-	_timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(_update) userInfo:nil repeats:YES];
-	[_timer retain];
-	[[NSRunLoop currentRunLoop] addTimer:_timer forMode:NSDefaultRunLoopMode];	
+	[_updateListTimer invalidate];
+	_updateListTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(_updateList) userInfo:nil repeats:YES];
+	[_updateListTimer retain];
+	[[NSRunLoop currentRunLoop] addTimer:_updateListTimer forMode:NSDefaultRunLoopMode];	
+	
+	[_updateGlobalsTimer invalidate];
+	_updateGlobalsTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(_updateGlobals) userInfo:nil repeats:YES];
+	[_updateGlobalsTimer retain];
+	[[NSRunLoop currentRunLoop] addTimer:_updateGlobalsTimer forMode:NSDefaultRunLoopMode];
 }
 -(void) stopUpdates;
 {
-	[_timer invalidate];
+	[_updateListTimer invalidate];
 }
 
 -(NSArray*) downloads;
@@ -110,7 +121,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 }
 
 
-- (void)_update
+- (void)_updateList
 {
 	__block DownloadsController *blockSelf = self;
 	ArrayResponseBlock response = [^(NSArray *array, NSString* error) {
@@ -136,5 +147,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	} copy];
 	[_rtorrent list:response];
 	[response release];
+}
+
+- (void)_updateGlobals
+{
+	__block DownloadsController *blockSelf = self;
+#warning multicall?
+	NumberResponseBlock responseUpload = [^(NSNumber *speed, NSString* error) {
+		if (error != nil)
+			return;
+		blockSelf.globalUploadSpeed = speed;
+	} copy];
+	
+	[_rtorrent getGlobalUploadSpeed:responseUpload];
+	
+	[responseUpload release];
+	
+	NumberResponseBlock responseDownload = [^(NSNumber *speed, NSString* error) {
+		if (error != nil)
+			return;
+		blockSelf.globalDownloadSpeed = speed;
+	} copy];
+	[_rtorrent getGlobalDownloadSpeed:responseDownload];
+	
+	[responseDownload release];
 }
 @end

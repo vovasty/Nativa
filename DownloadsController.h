@@ -16,9 +16,15 @@ extern NSString* const NINotifyUpdateDownloads;
 @interface DownloadsController : NSObject {
 @private
 	NSMutableArray* _downloads;
-	NSTimer* _timer;
+	NSTimer* _updateListTimer;
+	NSTimer* _updateGlobalsTimer;
 	RTorrentController* _rtorrent;
+	NSNumber* _globalUploadSpeed;
+	NSNumber* _globalDownloadSpeed;
 }
+@property (retain)	NSNumber* globalUploadSpeed;
+@property (retain)	NSNumber* globalDownloadSpeed;
+
 
 + (DownloadsController *)sharedDownloadsController;
 

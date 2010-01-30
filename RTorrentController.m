@@ -18,8 +18,14 @@
 #import "TorrentDelegate.h"
 #import "SetGlobalDownloadSpeedLimit.h"
 #import "GetGlobalDownloadSpeedLimit.h"
+#import "GetGlobalDownloadSpeed.h"
+#import "GetGlobalUploadSpeed.h"
 
 static NSString * OperationsChangedContext = @"OperationsChangedContext";
+
+@interface RTorrentController(Private)
+-(void)_runCommand:(id<RTorrentCommand>) command;
+@end
 
 @implementation RTorrentController
 
@@ -127,6 +133,27 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 {
 	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
 	GetGlobalDownloadSpeedLimit* command = [[GetGlobalDownloadSpeedLimit alloc] initWithResponse:response];
+	operation.command = command;
+	operation.delegate = self;
+	[_queue addOperation:operation];
+	[command release];
+	[operation release];
+}
+
+
+- (void) getGlobalDownloadSpeed:(NumberResponseBlock) response
+{
+	[self _runCommand:[[GetGlobalDownloadSpeed alloc] initWithResponse:response]];
+}
+
+- (void) getGlobalUploadSpeed:(NumberResponseBlock) response
+{
+	[self _runCommand:[[GetGlobalUploadSpeed alloc] initWithResponse:response]];
+}
+
+-(void)_runCommand:(id<RTorrentCommand>) command
+{
+	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
 	operation.command = command;
 	operation.delegate = self;
 	[_queue addOperation:operation];
