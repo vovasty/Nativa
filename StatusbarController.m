@@ -38,7 +38,6 @@ static NSString* GlobalDownloadContext = @"GlobalDownloadContext";
 		CGFloat down = [[DownloadsController sharedDownloadsController].globalDownloadSpeed floatValue];
 		[_globalSpeedUp setStringValue:[NSString stringForSpeed:up]];
 		[_globalSpeedDown setStringValue:[NSString stringForSpeed:down]];
-		NSLog(@"%@", [NSString stringForSpeed:up]);
     }
     else
     {
