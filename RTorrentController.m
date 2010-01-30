@@ -16,8 +16,8 @@
 #import "EraseCommand.h"
 #import "RTorrentCommand.h"
 #import "TorrentDelegate.h"
-#import "SetGlobalDownloadSpeed.h"
-#import "GetGlobalDownloadSpeed.h"
+#import "SetGlobalDownloadSpeedLimit.h"
+#import "GetGlobalDownloadSpeedLimit.h"
 
 static NSString * OperationsChangedContext = @"OperationsChangedContext";
 
@@ -111,10 +111,10 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	[command release];
 	[operation release];
 }
-- (void) setGlobalDownloadSpeed:(int) speed response:(VoidResponseBlock) response;
+- (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 {
 	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
-	SetGlobalDownloadSpeed* command = [[SetGlobalDownloadSpeed alloc] initWithSpeedAndResponse:speed response:response];
+	SetGlobalDownloadSpeedLimit* command = [[SetGlobalDownloadSpeedLimit alloc] initWithSpeedAndResponse:speed response:response];
 	operation.command = command;
 	operation.delegate = self;
 	[_queue addOperation:operation];
@@ -123,10 +123,10 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	
 }
 
-- (void) getGlobalDownloadSpeed:(NumberResponseBlock) response
+- (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response
 {
 	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
-	GetGlobalDownloadSpeed* command = [[GetGlobalDownloadSpeed alloc] initWithResponse:response];
+	GetGlobalDownloadSpeedLimit* command = [[GetGlobalDownloadSpeedLimit alloc] initWithResponse:response];
 	operation.command = command;
 	operation.delegate = self;
 	[_queue addOperation:operation];

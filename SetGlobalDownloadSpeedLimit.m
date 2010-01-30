@@ -6,10 +6,10 @@
 //  Copyright 2010 aramzamzam.net. All rights reserved.
 //
 
-#import "SetGlobalDownloadSpeed.h"
+#import "SetGlobalDownloadSpeedLimit.h"
 
 
-@implementation SetGlobalDownloadSpeed
+@implementation SetGlobalDownloadSpeedLimit
 @synthesize speed = _speed;
 @synthesize response = _response;
 

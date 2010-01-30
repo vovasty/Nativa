@@ -99,14 +99,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 #pragma mark -
 #pragma mark global state methods
 
-- (void) setGlobalDownloadSpeed:(int) speed response:(VoidResponseBlock) response
+- (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response
 {
-	[_rtorrent setGlobalDownloadSpeed:speed response:response];
+	[_rtorrent setGlobalDownloadSpeedLimit:speed response:response];
 }
 
-- (void) getGlobalDownloadSpeed:(NumberResponseBlock) response
+- (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response
 {
-	[_rtorrent getGlobalDownloadSpeed:response];
+	[_rtorrent getGlobalDownloadSpeedLimit:response];
 }
 
 

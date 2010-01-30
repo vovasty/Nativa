@@ -6,10 +6,10 @@
 //  Copyright 2010 aramzamzam.net. All rights reserved.
 //
 
-#import "GetGlobalDownloadSpeed.h"
+#import "GetGlobalDownloadSpeedLimit.h"
 
 
-@implementation GetGlobalDownloadSpeed
+@implementation GetGlobalDownloadSpeedLimit
 @synthesize response = _response;
 
 - (id)initWithResponse:(NumberResponseBlock) resp;

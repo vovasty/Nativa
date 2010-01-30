@@ -56,7 +56,7 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 				[blockSelf->_turtleButton setState: NSOffState];
 		}
 	} copy];
-	[[DownloadsController sharedDownloadsController] getGlobalDownloadSpeed:response];
+	[[DownloadsController sharedDownloadsController] getGlobalDownloadSpeedLimit:response];
 	[response release];
 }
 
@@ -107,7 +107,7 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 		[blockSelf checkSpeedLimit];
 	}copy];
 	int speed = [_turtleButton state] == NSOnState?[_defaults integerForKey:NITurtleSpeedKey]:0;
-	[[DownloadsController sharedDownloadsController] setGlobalDownloadSpeed:speed response:response];
+	[[DownloadsController sharedDownloadsController] setGlobalDownloadSpeedLimit:speed response:response];
 	[response release];
 }
 

@@ -27,9 +27,9 @@
 
 - (void) erase:(NSString *) hash response:(VoidResponseBlock) response;
 
-- (void) setGlobalDownloadSpeed:(int) speed response:(VoidResponseBlock) response;
+- (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 
-- (void) getGlobalDownloadSpeed:(NumberResponseBlock) response;
+- (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response;
 
 - (id<RTorrentCommand>) errorCommand;
 @end

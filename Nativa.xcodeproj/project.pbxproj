@@ -27,7 +27,7 @@
 		811EA5D31111FAD1001D16D0 /* TurtleTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */; };
 		811EA7EE11122806001D16D0 /* PreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA7ED11122806001D16D0 /* PreferenceController.m */; };
 		811EA7F0111229AB001D16D0 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 811EA7EF111229AB001D16D0 /* Preferences.xib */; };
-		811EA98E11124D93001D16D0 /* SetGlobalDownloadSpeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeed.m */; };
+		811EA98E11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m */; };
 		812A725010FD0A0300795D8B /* RTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A724F10FD0A0300795D8B /* RTConnection.m */; };
 		812A726D10FD0D3D00795D8B /* SCGIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A726C10FD0D3D00795D8B /* SCGIOperation.m */; };
 		812A731010FD1C0A00795D8B /* ListCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A730F10FD1C0A00795D8B /* ListCommand.m */; };
@@ -37,7 +37,11 @@
 		814FF97C1100AB7100335707 /* XMLRPCTreeBasedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF9751100AB7100335707 /* XMLRPCTreeBasedParser.m */; };
 		819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3BE91110CD5200F7007C /* DownloadsController.m */; };
 		819D3E0C1110EE6E00F7007C /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3E0B1110EE6E00F7007C /* Controller.m */; };
-		81B737E411136F6900A11521 /* GetGlobalDownloadSpeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B737E311136F6900A11521 /* GetGlobalDownloadSpeed.m */; };
+		81B737E411136F6900A11521 /* GetGlobalDownloadSpeedLimit.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B737E311136F6900A11521 /* GetGlobalDownloadSpeedLimit.m */; };
+		81B73ABA1113993800A11521 /* UpArrowTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B73AB91113993800A11521 /* UpArrowTemplate.png */; };
+		81B73ABC1113994700A11521 /* DownArrowTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B73ABB1113994700A11521 /* DownArrowTemplate.png */; };
+		81B73ABF111399DC00A11521 /* StatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73ABE111399DC00A11521 /* StatusBarView.m */; };
+		81B73AFC1113B34000A11521 /* StatusbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73AFB1113B34000A11521 /* StatusbarController.m */; };
 		81DF15D4110FADA100AFCE02 /* TorrentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15C8110FADA100AFCE02 /* TorrentViewController.m */; };
 		81DF15D6110FADA100AFCE02 /* TorrentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CC110FADA100AFCE02 /* TorrentTableView.m */; };
 		81DF15D7110FADA100AFCE02 /* TorrentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CE110FADA100AFCE02 /* TorrentCell.m */; };
@@ -95,8 +99,8 @@
 		811EA7EC11122806001D16D0 /* PreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferenceController.h; sourceTree = "<group>"; };
 		811EA7ED11122806001D16D0 /* PreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferenceController.m; sourceTree = "<group>"; };
 		811EA7EF111229AB001D16D0 /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
-		811EA98C11124D93001D16D0 /* SetGlobalDownloadSpeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetGlobalDownloadSpeed.h; sourceTree = "<group>"; };
-		811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetGlobalDownloadSpeed.m; sourceTree = "<group>"; };
+		811EA98C11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetGlobalDownloadSpeedLimit.h; sourceTree = "<group>"; };
+		811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetGlobalDownloadSpeedLimit.m; sourceTree = "<group>"; };
 		812A710710FCFB1600795D8B /* TorrentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentDelegate.h; sourceTree = "<group>"; };
 		812A724E10FD0A0300795D8B /* RTConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTConnection.h; sourceTree = "<group>"; };
 		812A724F10FD0A0300795D8B /* RTConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTConnection.m; sourceTree = "<group>"; };
@@ -117,8 +121,14 @@
 		819D3BE91110CD5200F7007C /* DownloadsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsController.m; sourceTree = "<group>"; };
 		819D3E0A1110EE6E00F7007C /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		819D3E0B1110EE6E00F7007C /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
-		81B737E211136F6900A11521 /* GetGlobalDownloadSpeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGlobalDownloadSpeed.h; sourceTree = "<group>"; };
-		81B737E311136F6900A11521 /* GetGlobalDownloadSpeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGlobalDownloadSpeed.m; sourceTree = "<group>"; };
+		81B737E211136F6900A11521 /* GetGlobalDownloadSpeedLimit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGlobalDownloadSpeedLimit.h; sourceTree = "<group>"; };
+		81B737E311136F6900A11521 /* GetGlobalDownloadSpeedLimit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGlobalDownloadSpeedLimit.m; sourceTree = "<group>"; };
+		81B73AB91113993800A11521 /* UpArrowTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpArrowTemplate.png; sourceTree = "<group>"; };
+		81B73ABB1113994700A11521 /* DownArrowTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DownArrowTemplate.png; sourceTree = "<group>"; };
+		81B73ABD111399DC00A11521 /* StatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusBarView.h; sourceTree = "<group>"; };
+		81B73ABE111399DC00A11521 /* StatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusBarView.m; sourceTree = "<group>"; };
+		81B73AFA1113B34000A11521 /* StatusbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusbarController.h; sourceTree = "<group>"; };
+		81B73AFB1113B34000A11521 /* StatusbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusbarController.m; sourceTree = "<group>"; };
 		81D1B9051106834700C8A69A /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		81DF15C7110FADA100AFCE02 /* TorrentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentViewController.h; sourceTree = "<group>"; };
 		81DF15C8110FADA100AFCE02 /* TorrentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentViewController.m; sourceTree = "<group>"; };
@@ -280,6 +290,8 @@
 		811B056910F6A055000D1DDC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				81B73ABD111399DC00A11521 /* StatusBarView.h */,
+				81B73ABE111399DC00A11521 /* StatusBarView.m */,
 				810AEF2E1113353200933772 /* Toolbar */,
 				81DF15C4110FADA100AFCE02 /* TableView */,
 				8107590910FFDF4F003FF9A6 /* FilterbarController.h */,
@@ -289,6 +301,8 @@
 				810CD80C10FBCF0600963D10 /* TorrentDropView.m */,
 				811EA7EC11122806001D16D0 /* PreferenceController.h */,
 				811EA7ED11122806001D16D0 /* PreferenceController.m */,
+				81B73AFA1113B34000A11521 /* StatusbarController.h */,
+				81B73AFB1113B34000A11521 /* StatusbarController.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -310,6 +324,8 @@
 		811EA5D11111FAD1001D16D0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81B73ABB1113994700A11521 /* DownArrowTemplate.png */,
+				81B73AB91113993800A11521 /* UpArrowTemplate.png */,
 				810AEF35111335B000933772 /* ToolbarPauseSelectedTemplate.png */,
 				810AEF36111335B000933772 /* ToolbarResumeSelectedTemplate.png */,
 				810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */,
@@ -336,10 +352,10 @@
 				81E6BD3C10FE87FB0083856D /* AddCommand.m */,
 				81E6BED210FF66730083856D /* EraseCommand.h */,
 				81E6BED310FF66730083856D /* EraseCommand.m */,
-				811EA98C11124D93001D16D0 /* SetGlobalDownloadSpeed.h */,
-				811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeed.m */,
-				81B737E211136F6900A11521 /* GetGlobalDownloadSpeed.h */,
-				81B737E311136F6900A11521 /* GetGlobalDownloadSpeed.m */,
+				811EA98C11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.h */,
+				811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m */,
+				81B737E211136F6900A11521 /* GetGlobalDownloadSpeedLimit.h */,
+				81B737E311136F6900A11521 /* GetGlobalDownloadSpeedLimit.m */,
 			);
 			name = RTorrent;
 			sourceTree = "<group>";
@@ -429,6 +445,8 @@
 				810AEEFD11132FE400933772 /* ToolbarRemoveTemplate.png in Resources */,
 				810AEF37111335B000933772 /* ToolbarPauseSelectedTemplate.png in Resources */,
 				810AEF38111335B000933772 /* ToolbarResumeSelectedTemplate.png in Resources */,
+				81B73ABA1113993800A11521 /* UpArrowTemplate.png in Resources */,
+				81B73ABC1113994700A11521 /* DownArrowTemplate.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,12 +486,14 @@
 				819D3E0C1110EE6E00F7007C /* Controller.m in Sources */,
 				811EA5601111F5A6001D16D0 /* RTorrentController.m in Sources */,
 				811EA7EE11122806001D16D0 /* PreferenceController.m in Sources */,
-				811EA98E11124D93001D16D0 /* SetGlobalDownloadSpeed.m in Sources */,
+				811EA98E11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m in Sources */,
 				810AEF331113353200933772 /* ButtonToolbarItem.m in Sources */,
 				810AEF341113353200933772 /* ToolbarControllerAdditions.m in Sources */,
 				810AEF3D1113360D00933772 /* GroupToolbarItem.m in Sources */,
 				810AEF421113365600933772 /* ToolbarSegmentedCell.m in Sources */,
-				81B737E411136F6900A11521 /* GetGlobalDownloadSpeed.m in Sources */,
+				81B737E411136F6900A11521 /* GetGlobalDownloadSpeedLimit.m in Sources */,
+				81B73ABF111399DC00A11521 /* StatusBarView.m in Sources */,
+				81B73AFC1113B34000A11521 /* StatusbarController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

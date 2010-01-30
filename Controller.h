@@ -8,7 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TorrentDropView, PreferenceController;
+@class TorrentDropView, PreferenceController, StatusBarView;
+
 @interface Controller : NSObject {
 	IBOutlet TorrentDropView* _dropView;
 	IBOutlet NSTextField* _message;
