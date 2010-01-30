@@ -17,17 +17,33 @@ enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknow
 	NSString* thash;
 	
 	unsigned long int size;
+
+	unsigned long int downloaded;
+	
+	unsigned long int uploaded;
 	
 	enum TorrentState state;
 	
 	NSImage* _icon;
+	
+	unsigned int speedDownload;
+	
+	unsigned int speedUpload;
 }
 @property (readwrite, retain) NSString* name;
 @property (readwrite, retain) NSString* thash;
-@property int downloaded;
-@property int uploaded;
+
+@property unsigned long int downloaded;
+
+@property unsigned long int uploaded;
+
 @property unsigned long int size;
+
 @property enum TorrentState state;
+
+@property unsigned int speedDownload;
+
+@property unsigned int speedUpload;
 
 - (void) update: (Torrent *) anotherItem;
 - (double) progress;

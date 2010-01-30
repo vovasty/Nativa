@@ -52,6 +52,10 @@
 			NSNumber* state = [row  objectAtIndex:5];
 			NSNumber* opened = [row  objectAtIndex:6];
 			r.state = [self defineTorrentState:state opened:opened done:[r progress]];
+			NSNumber*  speedUpload = [row  objectAtIndex:7];
+			r.speedUpload = [speedUpload longValue];
+			NSNumber*  speedDownload = [row  objectAtIndex:8];
+			r.speedDownload = [speedDownload longValue];
 			[result addObject:r];
 		}
 		[result autorelease];

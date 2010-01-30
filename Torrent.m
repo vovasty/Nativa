@@ -11,7 +11,7 @@
 
 @implementation Torrent
 
-@synthesize name, size, thash, downloaded, uploaded, state;
+@synthesize name, size, thash, downloaded, uploaded, state, speedDownload, speedUpload;
 
 - (void)dealloc
 {
