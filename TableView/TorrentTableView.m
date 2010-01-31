@@ -1,187 +1,695 @@
-/*
-     File: TorrentTableView.m
- Abstract: An NSTableView subclass that adds delegate extensions for lazily batch loading cell contents, sub-view support, and multi-valued properties.
- 
-  Version: 1.0
- 
- Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
- Inc. ("Apple") in consideration of your agreement to the following
- terms, and your use, installation, modification or redistribution of
- this Apple software constitutes acceptance of these terms.  If you do
- not agree with these terms, please do not use, install, modify or
- redistribute this Apple software.
- 
- In consideration of your agreement to abide by the following terms, and
- subject to these terms, Apple grants you a personal, non-exclusive
- license, under Apple's copyrights in this original Apple software (the
- "Apple Software"), to use, reproduce, modify and redistribute the Apple
- Software, with or without modifications, in source and/or binary forms;
- provided that if you redistribute the Apple Software in its entirety and
- without modifications, you must retain this notice and the following
- text and disclaimers in all such redistributions of the Apple Software.
- Neither the name, trademarks, service marks or logos of Apple Inc. may
- be used to endorse or promote products derived from the Apple Software
- without specific prior written permission from Apple.  Except as
- expressly stated in this notice, no other rights or licenses, express or
- implied, are granted by Apple herein, including but not limited to any
- patent rights that may be infringed by your derivative works or by other
- works in which the Apple Software may be incorporated.
- 
- The Apple Software is provided by Apple on an "AS IS" basis.  APPLE
- MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION
- THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS
- FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND
- OPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
- 
- IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL
- OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION,
- MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED
- AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
- STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
- POSSIBILITY OF SUCH DAMAGE.
- 
- Copyright (C) 2009 Apple Inc. All Rights Reserved.
- 
-*/
+/******************************************************************************
+ * $Id: TorrentTableView.m 9844 2010-01-01 21:12:04Z livings124 $
+ *
+ * Copyright (c) 2005-2010 Transmission authors and contributors
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ *****************************************************************************/
 
 #import "TorrentTableView.h"
+#import "Controller.h"
+#import "Torrent.h"
+#import "TorrentCell.h"
+#import "TorrentGroup.h"
+#import "DownloadsController.h"
 
-@interface TorrentTableView(Private)
+#define MAX_GROUP 999999
 
-- (void)_removeCachedViewForRow:(NSInteger)row;
-- (void)_removeCachedViewsInIndexSet:(NSIndexSet *)rowIndexes;
+#define ACTION_MENU_GLOBAL_TAG 101
+#define ACTION_MENU_UNLIMITED_TAG 102
+#define ACTION_MENU_LIMIT_TAG 103
+
+#define ACTION_MENU_PRIORITY_HIGH_TAG 101
+#define ACTION_MENU_PRIORITY_NORMAL_TAG 102
+#define ACTION_MENU_PRIORITY_LOW_TAG 103
+
+#define TOGGLE_PROGRESS_SECONDS 0.175
+
+@interface TorrentTableView (Private)
+
+- (BOOL) pointInGroupStatusRect: (NSPoint) point;
+
+- (void) setGroupStatusColumns;
 
 @end
 
 @implementation TorrentTableView
 
-@dynamic delegate;
+- (id) initWithCoder: (NSCoder *) decoder
+{
+    if ((self = [super initWithCoder: decoder]))
+    {
+        fDefaults = [NSUserDefaults standardUserDefaults];
+        
+        fTorrentCell = [[TorrentCell alloc] init];
+        
+        NSData * groupData = [fDefaults dataForKey: @"CollapsedGroups"];
+        if (groupData)
+            fCollapsedGroups = [[NSUnarchiver unarchiveObjectWithData: groupData] mutableCopy];
+        else
+            fCollapsedGroups = [[NSMutableIndexSet alloc] init];
+        
+        fMouseControlRow = -1;
+        fMouseRevealRow = -1;
+        fMouseActionRow = -1;
+        fActionPushedRow = -1;
+        
+        [self setDelegate: self];
+        
+        fPiecesBarPercent = [fDefaults boolForKey: @"PiecesBar"] ? 1.0f : 0.0f;
+    }
+    
+    return self;
+}
 
-- (void)dealloc {
-    [_viewsInVisibleRows release];
-    _viewsInVisibleRows = nil;
+- (void) dealloc
+{
+    [fCollapsedGroups release];
+    
+    [fPiecesBarAnimation release];
+    [fMenuTorrent release];
+    
+    [fSelectedValues release];
+    
+    [fTorrentCell release];
+    
     [super dealloc];
 }
 
-- (void)_ensureVisibleRowsIsCreated {
-    if (_viewsInVisibleRows == nil) {
-        _viewsInVisibleRows = [NSMutableDictionary new];
+- (void) awakeFromNib
+{
+    //set group columns to show ratio, needs to be in awakeFromNib to size columns correctly
+    [self setGroupStatusColumns];
+}
+
+- (BOOL) isGroupCollapsed: (NSInteger) value
+{
+    if (value == -1)
+        value = MAX_GROUP;
+    
+    return [fCollapsedGroups containsIndex: value];
+}
+
+- (void) removeCollapsedGroup: (NSInteger) value
+{
+    if (value == -1)
+        value = MAX_GROUP;
+    
+    [fCollapsedGroups removeIndex: value];
+}
+
+- (void) removeAllCollapsedGroups
+{
+    [fCollapsedGroups removeAllIndexes];
+}
+
+- (void) saveCollapsedGroups
+{
+    [fDefaults setObject: [NSArchiver archivedDataWithRootObject: fCollapsedGroups] forKey: @"CollapsedGroups"];
+}
+
+- (BOOL) outlineView: (NSOutlineView *) outlineView isGroupItem: (id) item
+{
+    return ![item isKindOfClass: [Torrent class]];
+}
+
+- (CGFloat) outlineView: (NSOutlineView *) outlineView heightOfRowByItem: (id) item
+{
+    return [item isKindOfClass: [Torrent class]] ? [self rowHeight] : GROUP_SEPARATOR_HEIGHT;
+}
+
+- (NSCell *) outlineView: (NSOutlineView *) outlineView dataCellForTableColumn: (NSTableColumn *) tableColumn item: (id) item
+{
+    const BOOL group = ![item isKindOfClass: [Torrent class]];
+    if (!tableColumn)
+        return !group ? fTorrentCell : nil;
+    else
+        return group ? [tableColumn dataCellForRow: [self rowForItem: item]] : nil;
+}
+
+- (void) outlineView: (NSOutlineView *) outlineView willDisplayCell: (id) cell forTableColumn: (NSTableColumn *) tableColumn
+    item: (id) item
+{
+    if ([item isKindOfClass: [Torrent class]])
+    {
+        [cell setRepresentedObject: item];
+        
+        const NSInteger row = [self rowForItem: item];
+        [cell setControlHover: row == fMouseControlRow];
+        [cell setRevealHover: row == fMouseRevealRow];
+        [cell setActionHover: row == fMouseActionRow];
+        [cell setActionPushed: row == fActionPushedRow];
+    }
+    else
+    {
+        NSString * ident = [tableColumn identifier];
+        if ([ident isEqualToString: @"UL Image"] || [ident isEqualToString: @"DL Image"])
+        {
+            //ensure arrows are white only when selected
+            [[cell image] setTemplate: [cell backgroundStyle] == NSBackgroundStyleLowered];
+        }
     }
 }
 
-- (void)viewWillDraw {
-    // We have to call super first in case the NSTableView does some layout in -viewWillDraw
-    [super viewWillDraw];
+- (NSRect) frameOfCellAtColumn: (NSInteger) column row: (NSInteger) row
+{
+    if (column == -1)
+        return [self rectOfRow: row];
+    else
+    {
+        NSRect rect = [super frameOfCellAtColumn: column row: row];
+        
+        //adjust placement for proper vertical alignment
+        if (column == [self columnWithIdentifier: @"Group"])
+            rect.size.height -= 1.0f;
+        
+        return rect;
+    }
+}
+
+- (NSString *) outlineView: (NSOutlineView *) outlineView typeSelectStringForTableColumn: (NSTableColumn *) tableColumn item: (id) item
+{
+    return [item isKindOfClass: [Torrent class]] ? [item name]
+            : [[self preparedCellAtColumn: [self columnWithIdentifier: @"Group"] row: [self rowForItem: item]] stringValue];
+}
+
+- (NSString *) outlineView: (NSOutlineView *) outlineView toolTipForCell: (NSCell *) cell rect: (NSRectPointer) rect
+                tableColumn: (NSTableColumn *) column item: (id) item mouseLocation: (NSPoint) mouseLocation
+{
+    NSString * ident = [column identifier];
+    if ([ident isEqualToString: @"DL"] || [ident isEqualToString: @"DL Image"])
+        return NSLocalizedString(@"Download speed", "Torrent table -> group row -> tooltip");
+    else if ([ident isEqualToString: @"UL"] || [ident isEqualToString: @"UL Image"])
+        return [fDefaults boolForKey: @"DisplayGroupRowRatio"] ? NSLocalizedString(@"Ratio", "Torrent table -> group row -> tooltip")
+                : NSLocalizedString(@"Upload speed", "Torrent table -> group row -> tooltip");
+    else if (ident)
+    {
+        NSInteger count = [[item torrents] count];
+        if (count == 1)
+            return NSLocalizedString(@"1 transfer", "Torrent table -> group row -> tooltip");
+        else
+            return [NSString stringWithFormat: NSLocalizedString(@"%d transfers", "Torrent table -> group row -> tooltip"), count];
+    }
+    else
+        return nil;
+}
+
+- (void) updateTrackingAreas
+{
+    [super updateTrackingAreas];
+    [self removeButtonTrackingAreas];
     
-    // Calculate the new visible rows and let the delegate do any extra work it wants to
-    NSRange newVisibleRows = [self rowsInRect:self.visibleRect];
-    BOOL visibleRowsNeedsUpdate = !NSEqualRanges(newVisibleRows, _visibleRows);
-    NSRange oldVisibleRows = _visibleRows;
-    if (visibleRowsNeedsUpdate) {
-        _visibleRows = newVisibleRows;
-        // Give the delegate a chance to do any pre-loading or special work that it wants to do
-        if ([[self delegate] respondsToSelector:@selector(dynamicTableView:changedVisibleRowsFromRange:toRange:)]) {
-            [[self delegate] dynamicTableView:self changedVisibleRowsFromRange:oldVisibleRows toRange:newVisibleRows];
-        }
-        // We always have to update our views if the visible area changed
-        _viewsNeedUpdate = YES;
+    NSRange rows = [self rowsInRect: [self visibleRect]];
+    if (rows.length == 0)
+        return;
+    
+    NSPoint mouseLocation = [self convertPoint: [[self window] convertScreenToBase: [NSEvent mouseLocation]] fromView: nil];
+    for (NSUInteger row = rows.location; row < NSMaxRange(rows); row++)
+    {
+        if (![[self itemAtRow: row] isKindOfClass: [Torrent class]])
+            continue;
+        
+        NSDictionary * userInfo = [NSDictionary dictionaryWithObject: [NSNumber numberWithInteger: row] forKey: @"Row"];
+        TorrentCell * cell = (TorrentCell *)[self preparedCellAtColumn: -1 row: row];
+        [cell addTrackingAreasForView: self inRect: [self rectOfRow: row] withUserInfo: userInfo mouseLocation: mouseLocation];
+    }
+}
+
+- (void) removeButtonTrackingAreas
+{
+    fMouseControlRow = -1;
+    fMouseRevealRow = -1;
+    fMouseActionRow = -1;
+    
+    for (NSTrackingArea * area in [self trackingAreas])
+    {
+        if ([area owner] == self && [[area userInfo] objectForKey: @"Row"])
+            [self removeTrackingArea: area];
+    }
+}
+
+- (void) setControlButtonHover: (NSInteger) row
+{
+    fMouseControlRow = row;
+    if (row >= 0)
+        [self setNeedsDisplayInRect: [self rectOfRow: row]];
+}
+
+- (void) setRevealButtonHover: (NSInteger) row
+{
+    fMouseRevealRow = row;
+    if (row >= 0)
+        [self setNeedsDisplayInRect: [self rectOfRow: row]];
+}
+
+- (void) setActionButtonHover: (NSInteger) row
+{
+    fMouseActionRow = row;
+    if (row >= 0)
+        [self setNeedsDisplayInRect: [self rectOfRow: row]];
+}
+
+- (void) mouseEntered: (NSEvent *) event
+{
+    NSDictionary * dict = (NSDictionary *)[event userData];
+    
+    NSNumber * row;
+    if ((row = [dict objectForKey: @"Row"]))
+    {
+        NSInteger rowVal = [row integerValue];
+        NSString * type = [dict objectForKey: @"Type"];
+        if ([type isEqualToString: @"Action"])
+            fMouseActionRow = rowVal;
+        else if ([type isEqualToString: @"Control"])
+            fMouseControlRow = rowVal;
+        else
+            fMouseRevealRow = rowVal;
+        
+        [self setNeedsDisplayInRect: [self rectOfRow: rowVal]];
+    }
+}
+
+- (void) mouseExited: (NSEvent *) event
+{
+    NSDictionary * dict = (NSDictionary *)[event userData];
+    
+    NSNumber * row;
+    if ((row = [dict objectForKey: @"Row"]))
+    {
+        NSString * type = [dict objectForKey: @"Type"];
+        if ([type isEqualToString: @"Action"])
+            fMouseActionRow = -1;
+        else if ([type isEqualToString: @"Control"])
+            fMouseControlRow = -1;
+        else
+            fMouseRevealRow = -1;
+        
+        [self setNeedsDisplayInRect: [self rectOfRow: [row integerValue]]];
+    }
+}
+
+- (void) outlineViewSelectionIsChanging: (NSNotification *) notification
+{
+    if (fSelectedValues)
+        [self selectValues: fSelectedValues];
+}
+
+- (void) outlineViewItemDidExpand: (NSNotification *) notification
+{
+    NSInteger value = [[[notification userInfo] objectForKey: @"NSObject"] groupIndex];
+    if (value < 0)
+        value = MAX_GROUP;
+    
+    if ([fCollapsedGroups containsIndex: value])
+    {
+        [fCollapsedGroups removeIndex: value];
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"OutlineExpandCollapse" object: self];
+    }
+}
+
+- (void) outlineViewItemDidCollapse: (NSNotification *) notification
+{
+    NSInteger value = [[[notification userInfo] objectForKey: @"NSObject"] groupIndex];
+    if (value < 0)
+        value = MAX_GROUP;
+    
+    [fCollapsedGroups addIndex: value];
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"OutlineExpandCollapse" object: self];
+}
+
+- (void) mouseDown: (NSEvent *) event
+{
+    NSPoint point = [self convertPoint: [event locationInWindow] fromView: nil];
+    const NSInteger row = [self rowAtPoint: point];
+    
+    //check to toggle group status before anything else
+    if ([self pointInGroupStatusRect: point])
+    {
+        [fDefaults setBool: ![fDefaults boolForKey: @"DisplayGroupRowRatio"] forKey: @"DisplayGroupRowRatio"];
+        [self setGroupStatusColumns];
+        
+        return;
     }
     
-    if (_viewsNeedUpdate) {
-        _viewsNeedUpdate = NO;
-        // Update any views that the delegate wants to give us
-        if ([[self delegate] respondsToSelector:@selector(dynamicTableView:viewForRow:)]) {
+    const BOOL pushed = row != -1 && (fMouseActionRow == row || fMouseRevealRow == row || fMouseControlRow == row);
+    
+    //if pushing a button, don't change the selected rows
+    if (pushed)
+        fSelectedValues = [[self selectedValues] retain];
+    
+    [super mouseDown: event];
+    
+    [fSelectedValues release];
+    fSelectedValues = nil;
+    
+    //avoid weird behavior when showing menu by doing this after mouse down
+    if (row != -1 && fMouseActionRow == row)
+    {
+        fActionPushedRow = row;
+        [self setNeedsDisplayInRect: [self rectOfRow: row]]; //ensure button is pushed down
+        
+        [self displayTorrentMenuForEvent: event];
+        
+        fActionPushedRow = -1;
+        [self setNeedsDisplayInRect: [self rectOfRow: row]];
+    }
+    else if (!pushed && [event clickCount] == 2) //double click
+    {
+        id item = nil;
+        if (row != -1)
+            item = [self itemAtRow: row];
+        
+        if (!item || [item isKindOfClass: [Torrent class]])
+            [fController showInfo: nil];
+        else
+        {
+            if ([self isItemExpanded: item])
+                [self collapseItem: item];
+            else
+                [self expandItem: item];
+        }
+    }
+    else;
+}
 
-            if (visibleRowsNeedsUpdate) {
-                // First, remove any views that are no longer before our new visible rows
-                NSMutableIndexSet *rowIndexesToRemove = [NSMutableIndexSet indexSetWithIndexesInRange:oldVisibleRows];
-                // Remove any rows from the set that are STILL visible; we want a resulting index set that has the views which are no longer on screen.
-                [rowIndexesToRemove removeIndexesInRange:newVisibleRows];
-                // Remove those views which are no longer visible
-                [self _removeCachedViewsInIndexSet:rowIndexesToRemove];
-            }
-            
-            [self _ensureVisibleRowsIsCreated];
-            
-            // Finally, update and add in any new views given to us by the delegate. Use [NSNull null] for things that don't have a view at a particular row
-            for (NSInteger row = _visibleRows.location; row < NSMaxRange(_visibleRows); row++) {
-                NSNumber *key = [NSNumber numberWithInteger:row];
-                id view = [_viewsInVisibleRows objectForKey:key];
-                if (view == nil) {
-                    // We don't already have a view at that row
-                    view = [[self delegate] dynamicTableView:self viewForRow:row];
-                    if (view != nil) {
-                        [self addSubview:view];
-                    } else {
-                        // Use null as a place holder so we don't call the delegate again until the row is relaoded
-                        view = [NSNull null]; 
-                    }
-                    [_viewsInVisibleRows setObject:view forKey:key];
+- (void) selectValues: (NSArray *) values
+{
+    NSMutableIndexSet * indexSet = [NSMutableIndexSet indexSet];
+    
+    for (id item in values)
+    {
+        if ([item isKindOfClass: [Torrent class]])
+        {
+            const NSInteger index = [self rowForItem: item];
+            if (index != -1)
+                [indexSet addIndex: index];
+        }
+        else
+        {
+            const NSInteger group = [item groupIndex];
+            for (NSInteger i = 0; i < [self numberOfRows]; i++)
+            {
+                id tableItem = [self itemAtRow: i];
+                if ([tableItem isKindOfClass: [TorrentGroup class]] && group == [tableItem groupIndex])
+                {
+                    [indexSet addIndex: i];
+                    break;
                 }
             }
         }
     }
+    
+    [self selectRowIndexes: indexSet byExtendingSelection: NO];
 }
 
-- (void)_removeCachedViewForRow:(NSInteger)row {
-    _viewsNeedUpdate = YES;
-    if (_viewsInVisibleRows != nil) {
-        NSNumber *key = [NSNumber numberWithInteger:row];
-        id view = [_viewsInVisibleRows objectForKey:key];
-        if (view != nil) {
-            if (view != [NSNull null]) {
-                [view removeFromSuperview];
+- (NSArray *) selectedValues
+{
+    NSIndexSet * selectedIndexes = [self selectedRowIndexes];
+    NSMutableArray * values = [NSMutableArray arrayWithCapacity: [selectedIndexes count]];
+    
+    for (NSUInteger i = [selectedIndexes firstIndex]; i != NSNotFound; i = [selectedIndexes indexGreaterThanIndex: i])
+        [values addObject: [self itemAtRow: i]];
+    
+    return values;
+}
+
+- (NSArray *) selectedTorrents
+{
+    NSIndexSet * selectedIndexes = [self selectedRowIndexes];
+    NSMutableArray * torrents = [NSMutableArray arrayWithCapacity: [selectedIndexes count]]; //take a shot at guessing capacity
+    
+    for (NSUInteger i = [selectedIndexes firstIndex]; i != NSNotFound; i = [selectedIndexes indexGreaterThanIndex: i])
+    {
+        id item = [self itemAtRow: i];
+        if ([item isKindOfClass: [Torrent class]])
+            [torrents addObject: item];
+        else
+        {
+            NSArray * groupTorrents = [item torrents];
+            [torrents addObjectsFromArray: groupTorrents];
+            if ([self isItemExpanded: item])
+                i +=[groupTorrents count];
+        }
+    }
+    
+    return torrents;
+}
+
+- (NSMenu *) menuForEvent: (NSEvent *) event
+{
+    NSInteger row = [self rowAtPoint: [self convertPoint: [event locationInWindow] fromView: nil]];
+    if (row >= 0)
+    {
+        if (![self isRowSelected: row])
+            [self selectRowIndexes: [NSIndexSet indexSetWithIndex: row] byExtendingSelection: NO];
+        return fContextRow;
+    }
+    else
+    {
+        [self deselectAll: self];
+        return fContextNoRow;
+    }
+}
+
+//make sure that the pause buttons become orange when holding down the option key
+- (void) flagsChanged: (NSEvent *) event
+{
+    [self display];
+    [super flagsChanged: event];
+}
+
+//option-command-f will focus the filter bar's search field
+- (void) keyDown: (NSEvent *) event
+{
+    const unichar firstChar = [[event charactersIgnoringModifiers] characterAtIndex: 0];
+    
+    if (firstChar == 'f' && [event modifierFlags] & NSAlternateKeyMask && [event modifierFlags] & NSCommandKeyMask)
+        [fController focusFilterField];
+    else if (firstChar == ' ')
+        [fController toggleQuickLook: nil];
+    else
+        [super keyDown: event];
+}
+
+- (NSRect) iconRectForRow: (NSInteger) row
+{
+    return [fTorrentCell iconRectForBounds: [self rectOfRow: row]];
+}
+
+#warning catch string urls?
+- (void) paste: (id) sender
+{
+    NSURL * url;
+    if ((url = [NSURL URLFromPasteboard: [NSPasteboard generalPasteboard]]))
+        [fController openURL: [url absoluteString]];
+}
+
+- (BOOL) validateMenuItem: (NSMenuItem *) menuItem
+{
+    SEL action = [menuItem action];
+    
+    if (action == @selector(paste:))
+        return [[[NSPasteboard generalPasteboard] types] containsObject: NSURLPboardType];
+    
+    return YES;
+}
+
+- (void) toggleControlForTorrent: (Torrent *) torrent
+{
+    if ( torrent.state != stopped )
+        [[DownloadsController sharedDownloadsController] stop:torrent.thash response:nil];
+    else
+        [[DownloadsController sharedDownloadsController] start:torrent.thash response:nil];
+}
+
+- (void) displayTorrentMenuForEvent: (NSEvent *) event
+{
+    const NSInteger row = [self rowAtPoint: [self convertPoint: [event locationInWindow] fromView: nil]];
+    if (row < 0)
+        return;
+    
+    const NSInteger numberOfNonFileItems = [fActionMenu numberOfItems];
+    
+    //update file action menu
+    fMenuTorrent = [[self itemAtRow: row] retain];
+    
+    //update global limit check
+    [fGlobalLimitItem setState: [fMenuTorrent usesGlobalSpeedLimit] ? NSOnState : NSOffState];
+    
+    //place menu below button
+    NSRect rect = [fTorrentCell iconRectForBounds: [self rectOfRow: row]];
+    NSPoint location = rect.origin;
+    location.y += rect.size.height + 5.0;
+    
+	location = [self convertPoint: location toView: self];
+    [fActionMenu popUpMenuPositioningItem: nil atLocation: location inView: self];
+    
+    for (NSInteger i = [fActionMenu numberOfItems]-1; i >= numberOfNonFileItems; i--)
+        [fActionMenu removeItemAtIndex: i];
+    
+    [fMenuTorrent release];
+    fMenuTorrent = nil;
+}
+
+//alternating rows - first row after group row is white
+- (void) highlightSelectionInClipRect: (NSRect) clipRect
+{
+    NSRect visibleRect = clipRect;
+    NSRange rows = [self rowsInRect: visibleRect];
+    BOOL start = YES;
+    
+    const CGFloat totalRowHeight = [self rowHeight] + [self intercellSpacing].height;
+    
+    NSRect gridRects[(NSInteger)(ceil(visibleRect.size.height / totalRowHeight / 2.0)) + 1]; //add one if partial rows at top and bottom
+    NSInteger rectNum = 0;
+    
+    if (rows.length > 0)
+    {
+        //determine what the first row color should be
+        if ([[self itemAtRow: rows.location] isKindOfClass: [Torrent class]])
+        {
+            for (NSInteger i = rows.location-1; i>=0; i--)
+            {
+                if (![[self itemAtRow: i] isKindOfClass: [Torrent class]])
+                    break;
+                start = !start;
             }
-            [_viewsInVisibleRows removeObjectForKey:key];
         }
-    }
-}
+        else
+        {
+            rows.location++;
+            rows.length--;
+        }
+        
+        NSInteger i;
+        for (i = rows.location; i < NSMaxRange(rows); i++)
+        {
+            if (![[self itemAtRow: i] isKindOfClass: [Torrent class]])
+            {
+                start = YES;
+                continue;
+            }
             
-- (void)_removeCachedViewsInIndexSet:(NSIndexSet *)rowIndexes {
-    if (rowIndexes != nil) {
-        for (NSInteger row = [rowIndexes firstIndex]; row != NSNotFound; row = [rowIndexes indexGreaterThanIndex:row]) {
-            [self _removeCachedViewForRow:row];
+            if (!start && ![self isRowSelected: i])
+                gridRects[rectNum++] = [self rectOfRow: i];
+            
+            start = !start;
         }
-    }                 
-}
-
-- (void)_removeAllCachedViews {
-    if (_viewsInVisibleRows != nil) {
-        for (id view in [_viewsInVisibleRows allValues]) {
-            [view removeFromSuperview];
-        }
-        [_viewsInVisibleRows release];
-        _viewsInVisibleRows = nil;
+        
+        const CGFloat newY = NSMaxY([self rectOfRow: i-1]);
+        visibleRect.size.height -= newY - visibleRect.origin.y;
+        visibleRect.origin.y = newY;
     }
-}             
-
-// Reset our visible row cache when we reload things
-- (void)reloadData {
-    [self _removeAllCachedViews];
-    _visibleRows = NSMakeRange(NSNotFound, 0);
-    [super reloadData];
+    
+    const NSInteger numberBlankRows = ceil(visibleRect.size.height / totalRowHeight);
+    
+    //remaining visible rows continue alternating
+    visibleRect.size.height = totalRowHeight;
+    if (start)
+        visibleRect.origin.y += totalRowHeight;
+    
+    for (NSInteger i = start ? 1 : 0; i < numberBlankRows; i += 2)
+    {
+        gridRects[rectNum++] = visibleRect;
+        visibleRect.origin.y += 2.0 * totalRowHeight;
+    }
+    
+    NSAssert([[NSColor controlAlternatingRowBackgroundColors] count] >= 2, @"There should be 2 alternating row colors");
+    
+    [[[NSColor controlAlternatingRowBackgroundColors] objectAtIndex: 1] set];
+    NSRectFillList(gridRects, rectNum);
+    
+    [super highlightSelectionInClipRect: clipRect];
 }
 
-- (void)noteHeightOfRowsWithIndexesChanged:(NSIndexSet *)indexSet {
-    // We replace all cached views, as their offsets may change
-    [self _removeAllCachedViews];
-    _visibleRows = NSMakeRange(NSNotFound, 0);
-    [super noteHeightOfRowsWithIndexesChanged:indexSet];
+- (void) setQuickLimitMode: (id) sender
+{
+    const BOOL limit = [sender tag] == ACTION_MENU_LIMIT_TAG;
+    [fMenuTorrent setUseSpeedLimit: limit upload: [sender menu] == fUploadMenu];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"UpdateOptions" object: nil];
 }
 
-- (void)reloadDataForRowIndexes:(NSIndexSet *)rowIndexes columnIndexes:(NSIndexSet *)columnIndexes {
-    [self _removeCachedViewsInIndexSet:rowIndexes];
-    [super reloadDataForRowIndexes:rowIndexes columnIndexes:columnIndexes];
+- (void) setQuickLimit: (id) sender
+{
+    const BOOL upload = [sender menu] == fUploadMenu;
+    [fMenuTorrent setUseSpeedLimit: YES upload: upload];
+    [fMenuTorrent setSpeedLimit: [[sender representedObject] intValue] upload: upload];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"UpdateOptions" object: nil];
 }
 
-- (void)setDelegate:(id <TorrentTableViewDelegate>)delegate {
-    [super setDelegate:delegate];
+- (void) setGlobalLimit: (id) sender
+{
+    [fMenuTorrent setUseGlobalSpeedLimit: [sender state] != NSOnState];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"UpdateOptions" object: nil];
 }
 
-- (id <TorrentTableViewDelegate>)delegate {
-    return (id <TorrentTableViewDelegate>)[super delegate];
+- (void) animationDidEnd: (NSAnimation *) animation
+{
+    if (animation == fPiecesBarAnimation)
+    {
+        [fPiecesBarAnimation release];
+        fPiecesBarAnimation = nil;
+    }
+}
+
+- (void) animation: (NSAnimation *) animation didReachProgressMark: (NSAnimationProgress) progress
+{
+    if (animation == fPiecesBarAnimation)
+    {
+        if ([fDefaults boolForKey: @"PiecesBar"])
+            fPiecesBarPercent = progress;
+        else
+            fPiecesBarPercent = 1.0f - progress;
+        
+        [self reloadData];
+    }
+}
+
+- (CGFloat) piecesBarPercent
+{
+    return fPiecesBarPercent;
+}
+
+@end
+
+@implementation TorrentTableView (Private)
+
+- (BOOL) pointInGroupStatusRect: (NSPoint) point
+{
+    NSInteger row = [self rowAtPoint: point];
+    if (row < 0 || [[self itemAtRow: row] isKindOfClass: [Torrent class]])
+        return NO;
+    
+    NSString * ident = [[[self tableColumns] objectAtIndex: [self columnAtPoint: point]] identifier];
+    return [ident isEqualToString: @"UL"] || [ident isEqualToString: @"UL Image"]
+            || [ident isEqualToString: @"DL"] || [ident isEqualToString: @"DL Image"];
+}
+
+- (void) setGroupStatusColumns
+{
+    const BOOL ratio = [fDefaults boolForKey: @"DisplayGroupRowRatio"];
+    
+    [[self tableColumnWithIdentifier: @"DL"] setHidden: ratio];
+    [[self tableColumnWithIdentifier: @"DL Image"] setHidden: ratio];
 }
 
 @end

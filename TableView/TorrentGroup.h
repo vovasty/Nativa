@@ -1,7 +1,7 @@
 /******************************************************************************
- * $Id: TorrentCell.h 9844 2010-01-01 21:12:04Z livings124 $
- *
- * Copyright (c) 2006-2010 Transmission authors and contributors
+ * $Id: TorrentGroup.h 9844 2010-01-01 21:12:04Z livings124 $
+ * 
+ * Copyright (c) 2008-2010 Transmission authors and contributors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -22,25 +22,21 @@
  * DEALINGS IN THE SOFTWARE.
  *****************************************************************************/
 
-@interface TorrentCell : NSActionCell
+#import <Cocoa/Cocoa.h>
+
+@interface TorrentGroup : NSObject
 {
-    NSUserDefaults * fDefaults;
-    
-    NSMutableDictionary * fTitleAttributes, * fStatusAttributes;
-    
-    BOOL fTracking, fMouseDownControlButton, fMouseDownRevealButton, fMouseDownActionButton,
-            fHoverControl, fHoverReveal, fHoverAction;
-    
-    NSColor * fBarBorderColor, * fBluePieceColor;
+    NSInteger fGroup;
+    NSMutableArray * fTorrents;
 }
 
-- (NSRect) iconRectForBounds: (NSRect) bounds;
+- (id) initWithGroup: (NSInteger) group;
 
-- (void) addTrackingAreasForView: (NSView *) controlView inRect: (NSRect) cellFrame withUserInfo: (NSDictionary *) userInfo
-            mouseLocation: (NSPoint) mouseLocation;
-- (void) setControlHover: (BOOL) hover;
-- (void) setRevealHover: (BOOL) hover;
-- (void) setActionHover: (BOOL) hover;
-- (void) setActionPushed: (BOOL) pushed;
+- (NSInteger) groupIndex;
+- (NSMutableArray *) torrents;
+
+- (CGFloat) ratio;
+- (CGFloat) uploadRate;
+- (CGFloat) downloadRate;
 
 @end

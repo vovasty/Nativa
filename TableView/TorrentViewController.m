@@ -109,71 +109,61 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 	_tableContents = filter == nil?arr:[[arr filteredArrayUsingPredicate:filter] retain];
 
-	[_tableViewMain reloadData];
+	[_outlineView reloadData];
 }
 
-- (Torrent *)itemAtRow:(NSInteger)row {
-    return (Torrent *)[_tableContents objectAtIndex:row];
+
+- (NSInteger) outlineView: (NSOutlineView *) outlineView numberOfChildrenOfItem: (id) item
+{
+	return [_tableContents count];
 }
 
-- (Torrent *)_imageEntityForRow:(NSInteger)row {
-    id result = row != -1 ? [_tableContents objectAtIndex:row] : nil;
-    if ([result isKindOfClass:[Torrent class]]) {
-        return result;
-    }
-    return nil;
+- (id) outlineView: (NSOutlineView *) outlineView child: (NSInteger) index ofItem: (id) item
+{
+	return [_tableContents objectAtIndex: index];
 }
 
-// NSTableView delegate and datasource methods
-
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return _tableContents.count;
+- (BOOL) outlineView: (NSOutlineView *) outlineView isItemExpandable: (id) item
+{
+    return ![item isKindOfClass: [Torrent class]];
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    return [self itemAtRow:row].name;
-}
-
-- (void)tableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    Torrent *entity = [self _imageEntityForRow:row];
-    if (entity != nil && [cell isKindOfClass:[TorrentCell class]]) {
-        [cell setRepresentedObject:entity];
-    }
-}
-
-// We want to make "group rows" for the folders
-- (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row {
-//    if ([[self itemAtRow:row] isKindOfClass:[ATDesktopFolderEntity class]]) {
-//        return YES;
-//    } else {
-//        return NO;
-//    }
-	return NO;
-}
-
-// We want a regular text field cell that we setup in the nib for the group rows, and the default one setup for the tablecolumn for all others
-- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    if (tableColumn != nil) {
-//        if ([[self itemAtRow:row] isKindOfClass:[ATDesktopFolderEntity class]]) {
-//            // Use a shared cell setup in IB via an IBOutlet
-//            return _sharedGroupTitleCell;
-//        } else {
-//            return [tableColumn dataCell];
+- (id) outlineView: (NSOutlineView *) outlineView objectValueForTableColumn: (NSTableColumn *) tableColumn byItem: (id) item
+{
+    if ([item isKindOfClass: [Torrent class]])
+        return ((Torrent*)item).thash;
+//    else
+//    {
+//        NSString * ident = [tableColumn identifier];
+//        if ([ident isEqualToString: @"Group"])
+//        {
+//            NSInteger group = [item groupIndex];
+//            return group != -1 ? [[GroupsController groups] nameForIndex: group]
+//			: NSLocalizedString(@"No Group", "Group table row");
 //        }
-		return [tableColumn dataCell];
-    } else {
-        // A nil table column is for a "full width" table column which we don't need (since we only ever have one column)
-        return nil; 
-    }
-}
-
-// We make the "group rows" have the standard height, while all other image rows have a larger height
-- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-    if ([[self itemAtRow:row] isKindOfClass:[Torrent class]]) {
-        return [tableView rowHeight];
-    } else {
-        return 17.0;
-    }
+//        else if ([ident isEqualToString: @"Color"])
+//        {
+//            NSInteger group = [item groupIndex];
+//            return [[GroupsController groups] imageForIndex: group];
+//        }
+//        else if ([ident isEqualToString: @"DL Image"])
+//            return [NSImage imageNamed: @"DownArrowGroupTemplate.png"];
+//        else if ([ident isEqualToString: @"UL Image"])
+//            return [NSImage imageNamed: [fDefaults boolForKey: @"DisplayGroupRowRatio"]
+//					? @"YingYangGroupTemplate.png" : @"UpArrowGroupTemplate.png"];
+//        else
+//        {
+//            TorrentGroup * group = (TorrentGroup *)item;
+//            
+//            if ([fDefaults boolForKey: @"DisplayGroupRowRatio"])
+//                return [NSString stringForRatio: [group ratio]];
+//            else
+//            {
+//                CGFloat rate = [ident isEqualToString: @"UL"] ? [group uploadRate] : [group downloadRate];
+//                return [NSString stringForSpeed: rate];
+//            }
+//        }
+//    }
 }
 
 @end

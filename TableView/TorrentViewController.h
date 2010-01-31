@@ -52,12 +52,9 @@
 
 @class Torrent;
 
-@interface TorrentViewController : NSObject <NSTableViewDelegate, NSTableViewDataSource, TorrentTableViewDelegate> {
+@interface TorrentViewController : NSObject <NSTableViewDelegate, NSTableViewDataSource> {
 @private
     NSArray *_tableContents;
-
-    IBOutlet NSTableView *_tableViewMain;
-    IBOutlet NSTextFieldCell *_sharedGroupTitleCell;
+    IBOutlet NSOutlineView *_outlineView;
 }
--(Torrent *)itemAtRow:(NSInteger) index;
 @end

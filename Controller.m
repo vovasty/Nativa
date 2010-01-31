@@ -63,14 +63,14 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 
 - (void)awakeFromNib
 {
-	[self setupToolbar];
-
-	[self checkSpeedLimit];
-	
-	[_dropView addObserver:self
-			   forKeyPath:@"fileNames"
-				  options:0
-				  context:&FilesDroppedContext];
+//	[self setupToolbar];
+//
+//	[self checkSpeedLimit];
+//	
+//	[_dropView addObserver:self
+//			   forKeyPath:@"fileNames"
+//				  options:0
+//				  context:&FilesDroppedContext];
 }
 
 
