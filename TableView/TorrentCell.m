@@ -808,9 +808,28 @@
 {
     Torrent *torrent = [self representedObject];
     
-    NSString * string = @"progress string";
+    NSString * string;
     
-
+    if (torrent.size != torrent.downloaded)
+    {
+        CGFloat progress;
+		string = [NSString stringWithFormat: NSLocalizedString(@"%@ of %@", "Torrent -> progress string"),
+					  [NSString stringForFileSize: torrent.downloaded], [NSString stringForFileSize: torrent.size]];
+		progress = 100.0 * [torrent progress];
+        
+        string = [NSString localizedStringWithFormat: @"%@ (%.2f%%)", string, progress];
+    }
+    else
+    {
+        NSString * downloadString;
+		downloadString = [NSString stringForFileSize: [torrent size]];
+        
+        NSString * uploadString = [NSString stringWithFormat: NSLocalizedString(@"uploaded %@ (Ratio: %@)",
+																				"Torrent -> progress string"), [NSString stringForFileSize: [torrent uploaded]],
+								   [NSString stringForRatio:[torrent ratio]]];
+        
+        string = [downloadString stringByAppendingFormat: @", %@", uploadString];
+    }
     
     return string;
 }

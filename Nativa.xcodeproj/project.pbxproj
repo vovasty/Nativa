@@ -142,6 +142,7 @@
 		8162160E11152ED30095862B /* TorrentGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentGroup.m; sourceTree = "<group>"; };
 		8162175711153FBE0095862B /* ActionHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ActionHover.png; sourceTree = "<group>"; };
 		8162175811153FBE0095862B /* ActionOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ActionOn.png; sourceTree = "<group>"; };
+		81720931111666BD0018555A /* NativaConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativaConstants.h; sourceTree = "<group>"; };
 		819D3BE81110CD5200F7007C /* DownloadsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadsController.h; sourceTree = "<group>"; };
 		819D3BE91110CD5200F7007C /* DownloadsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsController.m; sourceTree = "<group>"; };
 		819D3E0A1110EE6E00F7007C /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
@@ -202,6 +203,7 @@
 				819D3BE91110CD5200F7007C /* DownloadsController.m */,
 				819D3E0A1110EE6E00F7007C /* Controller.h */,
 				819D3E0B1110EE6E00F7007C /* Controller.m */,
+				81720931111666BD0018555A /* NativaConstants.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";

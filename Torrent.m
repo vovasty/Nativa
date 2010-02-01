@@ -7,7 +7,7 @@
 //
 
 #import "Torrent.h"
-
+#import "NativaConstants.h"
 
 @implementation Torrent
 
@@ -49,5 +49,13 @@
 		_icon = [[[NSWorkspace sharedWorkspace] iconForFileType: [[self name] pathExtension]] retain];
 
 	return _icon;
+}
+
+- (CGFloat) ratio
+{
+	if (downloadRate == 0)
+		return NI_RATIO_NA;
+	else
+		return (CGFloat)uploadRate/(CGFloat)downloadRate;
 }
 @end

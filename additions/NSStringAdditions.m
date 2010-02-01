@@ -26,6 +26,17 @@
 //#import "NSApplicationAdditions.h"
 //#import "utils.h"
 //#import <transmission.h>
+#import "NativaConstants.h"
+
+double
+tr_truncd( double x, int decimal_places )
+{
+    static const int multiplier[] = { 1, 10, 100, 1000, 10000, 100000, 1000000, 10000000 };
+    const int64_t i = multiplier[decimal_places];
+    double x2 = (int64_t)(x*i);
+    return x2 / i;
+}
+
 
 @implementation NSString (NSStringAdditions)
 
@@ -97,23 +108,23 @@
         return [NSString localizedStringWithFormat: @"%.2f G", (speed / 1024.0)];
 }
 
-//+ (NSString *) stringForRatio: (CGFloat) ratio
-//{
-//    //N/A is different than libtransmission's
-//    if ((int)ratio == TR_RATIO_NA)
-//        return NSLocalizedString(@"N/A", "No Ratio");
-//    else if ((int)ratio == TR_RATIO_INF)
-//        return [NSString stringWithUTF8String: "\xE2\x88\x9E"];
-//    else
-//    {
-//        if (ratio < 10.0)
-//            return [NSString localizedStringWithFormat: @"%.2f", tr_truncd(ratio, 2)];
-//        else if (ratio < 100.0)
-//            return [NSString localizedStringWithFormat: @"%.1f", tr_truncd(ratio, 1)];
-//        else
-//            return [NSString localizedStringWithFormat: @"%.0f", tr_truncd(ratio, 0)];
-//    }
-//}
++ (NSString *) stringForRatio: (CGFloat) ratio
+{
+    //N/A is different than libtransmission's
+    if ((int)ratio == NI_RATIO_NA)
+        return NSLocalizedString(@"N/A", "No Ratio");
+    else if ((int)ratio == NI_RATIO_INF)
+        return [NSString stringWithUTF8String: "\xE2\x88\x9E"];
+    else
+    {
+        if (ratio < 10.0)
+            return [NSString localizedStringWithFormat: @"%.2f", tr_truncd(ratio, 2)];
+        else if (ratio < 100.0)
+            return [NSString localizedStringWithFormat: @"%.1f", tr_truncd(ratio, 1)];
+        else
+            return [NSString localizedStringWithFormat: @"%.0f", tr_truncd(ratio, 0)];
+    }
+}
 
 + (NSString *) timeString: (uint64_t) seconds showSeconds: (BOOL) showSeconds
 {
@@ -154,24 +165,4 @@
     
     return [timeArray componentsJoinedByString: @" "];
 }
-
-//also used in InfoWindow.xib and MessageWindow.xib
-- (NSComparisonResult) compareFinder: (NSString *) string
-{
-    if ([NSApp isOnSnowLeopardOrBetter])
-        return [self localizedStandardCompare: string];
-    else
-    {
-        const NSStringCompareOptions comparisonOptions = NSCaseInsensitiveSearch | NSNumericSearch | NSWidthInsensitiveSearch
-                                                            | NSForcedOrderingSearch;
-        return [self compare: string options: comparisonOptions range: NSMakeRange(0, [self length]) locale: [NSLocale currentLocale]];
-    }
-}
-
-- (NSComparisonResult) compareNumeric: (NSString *) string
-{
-    const NSStringCompareOptions comparisonOptions = NSNumericSearch | NSForcedOrderingSearch;
-    return [self compare: string options: comparisonOptions range: NSMakeRange(0, [self length]) locale: [NSLocale currentLocale]];
-}
-
 @end

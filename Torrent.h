@@ -10,6 +10,7 @@
 
 enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknown = 4 };
 
+
 @interface Torrent : NSObject 
 {
 	NSString* name;
@@ -61,4 +62,5 @@ enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknow
 - (void) update: (Torrent *) anotherItem;
 - (double) progress;
 - (NSImage*) icon;
+- (CGFloat) ratio;
 @end
