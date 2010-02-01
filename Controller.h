@@ -12,7 +12,6 @@
 
 @interface Controller : NSObject {
 	IBOutlet TorrentDropView* _dropView;
-	IBOutlet NSTextField* _message;
 	IBOutlet NSWindow* _window;
 	IBOutlet NSTableView* _downloadsView;
 	IBOutlet NSButton* _turtleButton;
@@ -25,7 +24,4 @@
 -(IBAction)removeNoDeleteSelectedTorrents:(id)sender;
 -(IBAction)stopSelectedTorrents:(id)sender;
 -(IBAction)resumeSelectedTorrents:(id)sender;
-
--(IBAction)doItBaby:(id)sender;
--(IBAction)doItBaby1:(id)sender;
 @end

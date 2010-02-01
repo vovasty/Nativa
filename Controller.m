@@ -103,7 +103,6 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 {
 	__block Controller *blockSelf = self;
 	VoidResponseBlock response = [^(NSString* error){
-		[blockSelf->_message setStringValue:error==nil?@"":error];
 		[blockSelf checkSpeedLimit];
 	}copy];
 	int speed = [_turtleButton state] == NSOnState?[_defaults integerForKey:NITurtleSpeedKey]:0;
@@ -129,15 +128,6 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
     return torrents;
 }
 
-
--(IBAction)doItBaby:(id)sender
-{
-	[_downloadsView updateTrackingAreas];
-}
--(IBAction)doItBaby1:(id)sender
-{
-	[_downloadsView updateTrackingAreas1];
-}
 
 -(IBAction)removeNoDeleteSelectedTorrents:(id)sender
 {
