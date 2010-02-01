@@ -64,9 +64,9 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 - (void)awakeFromNib
 {
 //	[self setupToolbar];
-//
-//	[self checkSpeedLimit];
-//	
+
+	[self checkSpeedLimit];
+	
 //	[_dropView addObserver:self
 //			   forKeyPath:@"fileNames"
 //				  options:0
@@ -130,6 +130,15 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 }
 
 
+-(IBAction)doItBaby:(id)sender
+{
+	[_downloadsView updateTrackingAreas];
+}
+-(IBAction)doItBaby1:(id)sender
+{
+	[_downloadsView updateTrackingAreas1];
+}
+
 -(IBAction)removeNoDeleteSelectedTorrents:(id)sender
 {
 	NSArray * torrents = [self selectedTorrents];
@@ -148,5 +157,4 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 	for (Torrent *t in torrents)
 		[[DownloadsController sharedDownloadsController] start:t.thash response:nil];
 }
-
 @end

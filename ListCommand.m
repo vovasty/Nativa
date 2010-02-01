@@ -52,10 +52,14 @@
 			NSNumber* state = [row  objectAtIndex:5];
 			NSNumber* opened = [row  objectAtIndex:6];
 			r.state = [self defineTorrentState:state opened:opened done:[r progress]];
-			NSNumber*  speedUpload = [row  objectAtIndex:7];
-			r.speedUpload = [speedUpload longValue];
-			NSNumber*  speedDownload = [row  objectAtIndex:8];
-			r.speedDownload = [speedDownload longValue];
+			NSNumber*  speedDownload = [row  objectAtIndex:7];
+			r.speedDownload = [speedDownload floatValue]/1024;
+			NSNumber*  speedUpload = [row  objectAtIndex:8];
+			r.speedUpload = [speedUpload floatValue]/1024;
+			NSNumber*  downloadRate = [row  objectAtIndex:9];
+			r.downloadRate = [downloadRate longValue];
+			NSNumber*  uploadRate = [row  objectAtIndex:10];
+			r.uploadRate = [uploadRate longValue];
 			[result addObject:r];
 		}
 		[result autorelease];
@@ -81,6 +85,8 @@
 			@"d.is_open=",
 			@"d.get_down_rate=",
 			@"d.get_up_rate=",
+			@"d.get_down_total=",
+			@"d.get_up_total=",
 			nil];
 }
 

@@ -25,4 +25,7 @@
 -(IBAction)removeNoDeleteSelectedTorrents:(id)sender;
 -(IBAction)stopSelectedTorrents:(id)sender;
 -(IBAction)resumeSelectedTorrents:(id)sender;
+
+-(IBAction)doItBaby:(id)sender;
+-(IBAction)doItBaby1:(id)sender;
 @end

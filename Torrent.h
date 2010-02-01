@@ -26,9 +26,9 @@ enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknow
 	
 	NSImage* _icon;
 	
-	NSInteger speedDownload;
+	CGFloat speedDownload;
 	
-	NSInteger speedUpload;
+	CGFloat speedUpload;
 	
 	CGFloat downloadRate;
 	
@@ -47,9 +47,9 @@ enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknow
 
 @property enum TorrentState state;
 
-@property NSInteger speedDownload;
+@property CGFloat speedDownload;
 
-@property NSInteger speedUpload;
+@property CGFloat speedUpload;
 
 @property (retain) NSString* dataLocation;
 

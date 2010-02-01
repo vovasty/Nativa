@@ -24,7 +24,7 @@
 
 #import "TorrentCell.h"
 //#import "GroupsController.h"
-//#import "NSStringAdditions.h"
+#import "NSStringAdditions.h"
 #import "ProgressGradients.h"
 #import "Torrent.h"
 #import "TorrentTableView.h"
@@ -83,6 +83,7 @@
 - (NSString *) buttonString;
 - (NSString *) statusString;
 - (NSString *) minimalStatusString;
+- (NSString *) torrentStatusString;
 
 - (void) drawImage: (NSImage *) image inRect: (NSRect) rect; //use until 10.5 dropped
 
@@ -154,7 +155,7 @@
     const NSRect revealRect = [self revealButtonRectForBounds: cellFrame];
     const BOOL checkReveal = NSMouseInRect(point, revealRect, [controlView isFlipped]);
     
-    [(TorrentTableView *)controlView removeButtonTrackingAreas];
+//    [(TorrentTableView *)controlView removeButtonTrackingAreas];
 
     while ([event type] != NSLeftMouseUp)
     {
@@ -197,8 +198,8 @@
     }
     else if (fMouseDownRevealButton)
     {
-//        fMouseDownRevealButton = NO;
-//        [controlView setNeedsDisplayInRect: cellFrame];
+        fMouseDownRevealButton = NO;
+        [controlView setNeedsDisplayInRect: cellFrame];
 //        
 //            NSString * location = [[self representedObject] dataLocation];
 //            if (location)
@@ -209,7 +210,7 @@
     }
     else;
 
-    [controlView updateTrackingAreas];
+//    [controlView updateTrackingAreas];
     
     return YES;
 }
@@ -267,6 +268,7 @@
     [controlView addTrackingArea: area];
     [actionInfo release];
     [area release];
+
 }
 
 - (void) setControlHover: (BOOL) hover
@@ -391,7 +393,7 @@
     if (!minimal)
     {
         //NSAttributedString * progressString = [self attributedStatusString: [torrent progressString]];
-		NSAttributedString * progressString = [self attributedStatusString: @"whoabooble"];
+		NSAttributedString * progressString = [self attributedStatusString: [self torrentProgressString]];
         NSRect progressRect = [self rectForProgressWithStringInBounds: cellFrame];
         
         [progressString drawInRect: progressRect];
@@ -744,7 +746,7 @@
     if ((buttonString = [self buttonString]))
         return buttonString;
     else
-		return @"torrent status string";
+		return [self torrentStatusString];
         //return [[self representedObject] statusString];
 }
 
@@ -765,4 +767,51 @@
 	[image drawInRect: rect fromRect: NSZeroRect operation: NSCompositeSourceOver fraction: 1.0 respectFlipped: YES hints: nil];
 }
 
+- (NSString *) torrentStatusString
+{
+    Torrent *torrent = [self representedObject];
+	NSString * string;
+    
+	switch (torrent.state)
+    {
+	case stopped:
+		string = NSLocalizedString(@"Paused", "Torrent -> status string");
+		break;
+				
+	case leeching:
+		string = [NSString stringWithFormat: NSLocalizedString(@"Downloading", "Torrent -> status string")];
+		break;
+				
+	case seeding:
+		string = [NSString stringWithFormat: NSLocalizedString(@"Seeding", "Torrent -> status string")];
+		break;
+	}
+        
+    //append even if error
+	switch (torrent.state) 
+	{
+	case leeching:
+            string = [string stringByAppendingFormat: @" - %@: %@, %@: %@",
+					  NSLocalizedString(@"DL", "Torrent -> status string"), [NSString stringForSpeed: torrent.speedDownload],
+					  NSLocalizedString(@"UL", "Torrent -> status string"), [NSString stringForSpeed: torrent.speedUpload]];
+			break;
+	case seeding:
+            string = [string stringByAppendingFormat: @" - %@: %@",
+					  NSLocalizedString(@"UL", "Torrent -> status string"), [NSString stringForSpeed: torrent.speedUpload]];
+			break;
+	}
+    return string;
+}
+
+
+- (NSString *) torrentProgressString
+{
+    Torrent *torrent = [self representedObject];
+    
+    NSString * string = @"progress string";
+    
+
+    
+    return string;
+}
 @end

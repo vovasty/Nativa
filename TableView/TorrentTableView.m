@@ -210,11 +210,13 @@
         return nil;
 }
 
+
 - (void) updateTrackingAreas
 {
-    [super updateTrackingAreas];
+	[super updateTrackingAreas];
+	
     [self removeButtonTrackingAreas];
-    
+
     NSRange rows = [self rowsInRect: [self visibleRect]];
     if (rows.length == 0)
         return;
@@ -335,7 +337,7 @@
 
 - (void) mouseDown: (NSEvent *) event
 {
-    NSPoint point = [self convertPoint: [event locationInWindow] fromView: nil];
+	NSPoint point = [self convertPoint: [event locationInWindow] fromView: nil];
     const NSInteger row = [self rowAtPoint: point];
     
     //check to toggle group status before anything else
@@ -371,19 +373,19 @@
     }
     else if (!pushed && [event clickCount] == 2) //double click
     {
-        id item = nil;
-        if (row != -1)
-            item = [self itemAtRow: row];
-        
-        if (!item || [item isKindOfClass: [Torrent class]])
-            [fController showInfo: nil];
-        else
-        {
-            if ([self isItemExpanded: item])
-                [self collapseItem: item];
-            else
-                [self expandItem: item];
-        }
+//        id item = nil;
+//        if (row != -1)
+//            item = [self itemAtRow: row];
+//        
+//        if (!item || [item isKindOfClass: [Torrent class]])
+//            [fController showInfo: nil];
+//        else
+//        {
+//            if ([self isItemExpanded: item])
+//                [self collapseItem: item];
+//            else
+//                [self expandItem: item];
+//        }
     }
     else;
 }
