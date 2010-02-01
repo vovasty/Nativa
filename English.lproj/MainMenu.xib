@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="576"/>
+			<integer value="769"/>
 			<integer value="29"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -2909,14 +2909,6 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 					<int key="connectionID">638</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_dropView</string>
-						<reference key="source" ref="753007583"/>
-						<reference key="destination" ref="564668520"/>
-					</object>
-					<int key="connectionID">687</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">showPreferencePanel:</string>
 						<reference key="source" ref="753007583"/>
@@ -5004,14 +4996,12 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>_downloadsView</string>
-							<string>_dropView</string>
 							<string>_turtleButton</string>
 							<string>_window</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSTableView</string>
-							<string>TorrentDropView</string>
 							<string>NSButton</string>
 							<string>NSWindow</string>
 						</object>

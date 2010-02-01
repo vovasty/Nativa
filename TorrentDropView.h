@@ -9,9 +9,5 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface TorrentDropView : NSView {
-	NSArray* fileNames;
-}
-@property (readonly, retain) NSArray* fileNames;
--(void) setFileNames:(NSArray*) fn;
+@interface TorrentDropView : NSView
 @end

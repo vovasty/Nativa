@@ -7,10 +7,9 @@
 //
 
 #import "TorrentDropView.h"
+#import "DownloadsController.h"
 
 @implementation TorrentDropView
-
-@synthesize fileNames = _fileNames;
 
 - (id)initWithFrame:(NSRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -47,12 +46,8 @@
  
 	if ([[pboard types] containsObject:NSFilenamesPboardType]) {
         NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
-		[self setFileNames:files];
+		[[DownloadsController sharedDownloadsController] add:files];
     }
     return YES;
-}
--(void) setFileNames:(NSArray*) fn;
-{
-	_fileNames = fn;
 }
 @end

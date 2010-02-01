@@ -7,7 +7,6 @@
 //
 
 #import "Controller.h"
-#import "TorrentDropView.h"
 #import "DownloadsController.h"
 #import "PreferenceController.h"
 #include "TorrentViewController.h"
@@ -63,33 +62,10 @@ static NSString* FilesDroppedContext = @"FilesDroppedContext";
 
 - (void)awakeFromNib
 {
-//	[self setupToolbar];
+	[self setupToolbar];
 
 	[self checkSpeedLimit];
 	
-//	[_dropView addObserver:self
-//			   forKeyPath:@"fileNames"
-//				  options:0
-//				  context:&FilesDroppedContext];
-}
-
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    if (context == &FilesDroppedContext)
-    {
-		[[DownloadsController sharedDownloadsController] add:[_dropView fileNames]];
-    }
-    else
-    {
-        [super observeValueForKeyPath:keyPath
-                             ofObject:object
-                               change:change
-                              context:context];
-    }
 }
 
 -(IBAction)showPreferencePanel:(id)sender;

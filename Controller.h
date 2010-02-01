@@ -11,7 +11,6 @@
 @class TorrentDropView, PreferenceController, StatusBarView;
 
 @interface Controller : NSObject {
-	IBOutlet TorrentDropView* _dropView;
 	IBOutlet NSWindow* _window;
 	IBOutlet NSTableView* _downloadsView;
 	IBOutlet NSButton* _turtleButton;
