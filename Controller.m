@@ -13,8 +13,6 @@
 #include "Torrent.h"
 #include "TorrentDelegate.h"
 
-static NSString* FilesDroppedContext = @"FilesDroppedContext";
-
 @implementation Controller
 +(void) initialize
 {

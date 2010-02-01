@@ -162,7 +162,7 @@ typedef enum
     //enable pause item
     if ([ident isEqualToString: TOOLBAR_PAUSE_SELECTED])
     {
-        for (Torrent * torrent in [self selectedTorrents])
+        for (Torrent * torrent in [_downloadsView selectedTorrents])
             if (torrent.state == seeding || torrent.state == leeching)
                 return YES;
         return NO;
@@ -171,7 +171,7 @@ typedef enum
     //enable resume item
     if ([ident isEqualToString: TOOLBAR_RESUME_SELECTED])
     {
-        for (Torrent * torrent in [self selectedTorrents])
+        for (Torrent * torrent in [_downloadsView selectedTorrents])
             if (torrent.state == stopped)
                 return YES;
         return NO;
