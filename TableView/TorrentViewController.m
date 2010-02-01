@@ -103,11 +103,17 @@ static NSString* FilterTorrents = @"FilterTorrents";
 - (void)updateList:(NSNotification*) notification;
 {
 	NSPredicate* filter = [FilterbarController sharedFilterbarController].filter;
-	NSArray* arr = [[DownloadsController sharedDownloadsController] downloads];
-	if (_tableContents != arr)
-		[_tableContents release];
+	NSMutableArray* arr = [NSMutableArray arrayWithArray:[[DownloadsController sharedDownloadsController] downloads]];
+	[_tableContents release];
 
-	_tableContents = filter == nil?arr:[[arr filteredArrayUsingPredicate:filter] retain];
+	if (filter != nil)
+		[arr filterUsingPredicate:filter];
+
+	NSSortDescriptor *nameSorter = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+	[arr sortUsingDescriptors:[NSArray arrayWithObject:nameSorter]];
+	[nameSorter release];
+
+	_tableContents = [arr retain];
 
 	[_outlineView reloadData];
 }
