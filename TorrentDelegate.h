@@ -31,10 +31,6 @@
 
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response;
 
-- (void) getGlobalDownloadSpeed:(NumberResponseBlock) response;
-
-- (void) getGlobalUploadSpeed:(NumberResponseBlock) response;
-
 - (id<RTorrentCommand>) errorCommand;
 @end
 

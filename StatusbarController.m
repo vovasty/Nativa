@@ -8,6 +8,7 @@
 
 #import "StatusbarController.h"
 #import "DownloadsController.h"
+#import "NSDataAdditions.h"
 
 static NSString* GlobalUploadContext = @"GlobalUploadContext";
 
@@ -34,8 +35,8 @@ static NSString* GlobalDownloadContext = @"GlobalDownloadContext";
 {
     if (context == &GlobalDownloadContext || context == &GlobalUploadContext)
     {
-		CGFloat up = [[DownloadsController sharedDownloadsController].globalUploadSpeed floatValue];
-		CGFloat down = [[DownloadsController sharedDownloadsController].globalDownloadSpeed floatValue];
+		CGFloat up = [DownloadsController sharedDownloadsController].globalUploadSpeed;
+		CGFloat down = [DownloadsController sharedDownloadsController].globalDownloadSpeed;
 		[_globalSpeedUp setStringValue:[NSString stringForSpeed:up]];
 		[_globalSpeedDown setStringValue:[NSString stringForSpeed:down]];
     }

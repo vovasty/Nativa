@@ -57,10 +57,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	[_updateListTimer retain];
 	[[NSRunLoop currentRunLoop] addTimer:_updateListTimer forMode:NSDefaultRunLoopMode];	
 	
-	[_updateGlobalsTimer invalidate];
-	_updateGlobalsTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(_updateGlobals) userInfo:nil repeats:YES];
-	[_updateGlobalsTimer retain];
-	[[NSRunLoop currentRunLoop] addTimer:_updateGlobalsTimer forMode:NSDefaultRunLoopMode];
+//	[_updateGlobalsTimer invalidate];
+//	_updateGlobalsTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(_updateGlobals) userInfo:nil repeats:YES];
+//	[_updateGlobalsTimer retain];
+//	[[NSRunLoop currentRunLoop] addTimer:_updateGlobalsTimer forMode:NSDefaultRunLoopMode];
 }
 -(void) stopUpdates;
 {
@@ -130,6 +130,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		NSUInteger idx;
 #warning multiple objects?
 		Torrent* stored_obj;
+		CGFloat globalUploadRate = 0.0;
+		CGFloat globalDownloadRate = 0.0;
 		for (Torrent *obj in array)
 		{
 			idx = [blockSelf->_downloads indexOfObject:obj];
@@ -141,35 +143,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 				[stored_obj update:obj];
 				[obj release];
 			}
+			globalUploadRate += [obj speedUpload];
+			globalDownloadRate += [obj speedDownload];
 		}
 		[[NSNotificationCenter defaultCenter] postNotificationName: NINotifyUpdateDownloads object: blockSelf];
-		
+		blockSelf.globalDownloadSpeed = globalDownloadRate;
+		blockSelf.globalUploadSpeed = globalUploadRate;
 	} copy];
 	[_rtorrent list:response];
 	[response release];
 }
 
-- (void)_updateGlobals
-{
-	__block DownloadsController *blockSelf = self;
-#warning multicall?
-	NumberResponseBlock responseUpload = [^(NSNumber *speed, NSString* error) {
-		if (error != nil)
-			return;
-		blockSelf.globalUploadSpeed = speed;
-	} copy];
-	
-	[_rtorrent getGlobalUploadSpeed:responseUpload];
-	
-	[responseUpload release];
-	
-	NumberResponseBlock responseDownload = [^(NSNumber *speed, NSString* error) {
-		if (error != nil)
-			return;
-		blockSelf.globalDownloadSpeed = speed;
-	} copy];
-	[_rtorrent getGlobalDownloadSpeed:responseDownload];
-	
-	[responseDownload release];
-}
 @end

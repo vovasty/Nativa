@@ -18,8 +18,6 @@
 #import "TorrentDelegate.h"
 #import "SetGlobalDownloadSpeedLimit.h"
 #import "GetGlobalDownloadSpeedLimit.h"
-#import "GetGlobalDownloadSpeed.h"
-#import "GetGlobalUploadSpeed.h"
 
 static NSString * OperationsChangedContext = @"OperationsChangedContext";
 
@@ -138,17 +136,6 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	[_queue addOperation:operation];
 	[command release];
 	[operation release];
-}
-
-
-- (void) getGlobalDownloadSpeed:(NumberResponseBlock) response
-{
-	[self _runCommand:[[GetGlobalDownloadSpeed alloc] initWithResponse:response]];
-}
-
-- (void) getGlobalUploadSpeed:(NumberResponseBlock) response
-{
-	[self _runCommand:[[GetGlobalUploadSpeed alloc] initWithResponse:response]];
 }
 
 -(void)_runCommand:(id<RTorrentCommand>) command

@@ -19,11 +19,11 @@ extern NSString* const NINotifyUpdateDownloads;
 	NSTimer* _updateListTimer;
 	NSTimer* _updateGlobalsTimer;
 	RTorrentController* _rtorrent;
-	NSNumber* _globalUploadSpeed;
-	NSNumber* _globalDownloadSpeed;
+	CGFloat _globalUploadSpeed;
+	CGFloat _globalDownloadSpeed;
 }
-@property (retain)	NSNumber* globalUploadSpeed;
-@property (retain)	NSNumber* globalDownloadSpeed;
+@property (assign)	CGFloat globalUploadSpeed;
+@property (assign)	CGFloat globalDownloadSpeed;
 
 
 + (DownloadsController *)sharedDownloadsController;
