@@ -450,6 +450,7 @@
 				8D1107290486CEB800E47090 /* Resources */,
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
+				81720B2E111797600018555A /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -510,6 +511,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		81720B2E111797600018555A /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/usr/bin/env python";
+			shellScript = "#!/usr/bin/env python\n\nimport os\nfrom Foundation import NSMutableDictionary\n\nimport re\n\nversion = os.popen4('/opt/local/bin/hg log -l1|grep changeset|grep -o  \"\\([0-9]\\+\\):\"|grep -o \"\\([0-9]\\+\\)\"')[1].read()\np = re.compile('[\\n\\r]+')\nversion = p.sub('',version)\nprint version\n\ninfo = os.environ['BUILT_PRODUCTS_DIR']+\"/\"+os.environ['WRAPPER_NAME']+\"/Contents/Info.plist\"\n\nplist = NSMutableDictionary.dictionaryWithContentsOfFile_(info)\n\nplist['CFBundleVersion'] = version\nplist.writeToFile_atomically_(info, 1)\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D11072C0486CEB800E47090 /* Sources */ = {
