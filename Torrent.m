@@ -36,6 +36,10 @@
 	self.downloaded = anotherItem.downloaded;
 	self.uploaded = anotherItem.uploaded;
 	self.state = anotherItem.state;
+	self.speedUpload = anotherItem.speedUpload;
+	self.speedDownload = anotherItem.speedDownload;
+	self.uploadRate = anotherItem.uploadRate;
+	self.downloadRate = anotherItem.downloadRate;
 }
 
 - (double) progress
