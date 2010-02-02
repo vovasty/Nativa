@@ -29,7 +29,6 @@
 		811EA5601111F5A6001D16D0 /* RTorrentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA55F1111F5A6001D16D0 /* RTorrentController.m */; };
 		811EA5D31111FAD1001D16D0 /* TurtleTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */; };
 		811EA7EE11122806001D16D0 /* PreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA7ED11122806001D16D0 /* PreferenceController.m */; };
-		811EA7F0111229AB001D16D0 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 811EA7EF111229AB001D16D0 /* Preferences.xib */; };
 		811EA98E11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m */; };
 		812A725010FD0A0300795D8B /* RTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A724F10FD0A0300795D8B /* RTConnection.m */; };
 		812A726D10FD0D3D00795D8B /* SCGIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A726C10FD0D3D00795D8B /* SCGIOperation.m */; };
@@ -47,6 +46,9 @@
 		8162160F11152ED30095862B /* TorrentGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 8162160E11152ED30095862B /* TorrentGroup.m */; };
 		8162175911153FBE0095862B /* ActionHover.png in Resources */ = {isa = PBXBuildFile; fileRef = 8162175711153FBE0095862B /* ActionHover.png */; };
 		8162175A11153FBE0095862B /* ActionOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 8162175811153FBE0095862B /* ActionOn.png */; };
+		81720B4E1117BA930018555A /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81720B4D1117BA930018555A /* Preferences.xib */; };
+		81720B941117C0020018555A /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81720B931117C0020018555A /* BWToolkitFramework.framework */; };
+		81720BA61117C20C0018555A /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 81720B931117C0020018555A /* BWToolkitFramework.framework */; };
 		819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3BE91110CD5200F7007C /* DownloadsController.m */; };
 		819D3E0C1110EE6E00F7007C /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3E0B1110EE6E00F7007C /* Controller.m */; };
 		81B737E411136F6900A11521 /* GetGlobalDownloadSpeedLimit.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B737E311136F6900A11521 /* GetGlobalDownloadSpeedLimit.m */; };
@@ -67,6 +69,19 @@
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		81720B9D1117C03B0018555A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				81720BA61117C20C0018555A /* BWToolkitFramework.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -113,7 +128,6 @@
 		811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TurtleTemplate.png; sourceTree = "<group>"; };
 		811EA7EC11122806001D16D0 /* PreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferenceController.h; sourceTree = "<group>"; };
 		811EA7ED11122806001D16D0 /* PreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferenceController.m; sourceTree = "<group>"; };
-		811EA7EF111229AB001D16D0 /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		811EA98C11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetGlobalDownloadSpeedLimit.h; sourceTree = "<group>"; };
 		811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetGlobalDownloadSpeedLimit.m; sourceTree = "<group>"; };
 		812A710710FCFB1600795D8B /* TorrentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentDelegate.h; sourceTree = "<group>"; };
@@ -143,6 +157,8 @@
 		8162175711153FBE0095862B /* ActionHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ActionHover.png; sourceTree = "<group>"; };
 		8162175811153FBE0095862B /* ActionOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ActionOn.png; sourceTree = "<group>"; };
 		81720931111666BD0018555A /* NativaConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativaConstants.h; sourceTree = "<group>"; };
+		81720B4D1117BA930018555A /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
+		81720B931117C0020018555A /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = /Users/vovasty/Documents/frameworks/BWToolkit/BWToolkitFramework.framework; sourceTree = "<absolute>"; };
 		819D3BE81110CD5200F7007C /* DownloadsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadsController.h; sourceTree = "<group>"; };
 		819D3BE91110CD5200F7007C /* DownloadsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsController.m; sourceTree = "<group>"; };
 		819D3E0A1110EE6E00F7007C /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
@@ -184,6 +200,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				81720B941117C0020018555A /* BWToolkitFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+				81720B931117C0020018555A /* BWToolkitFramework.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -262,7 +280,7 @@
 				8D1107310486CEB800E47090 /* Nativa-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
-				811EA7EF111229AB001D16D0 /* Preferences.xib */,
+				81720B4D1117BA930018555A /* Preferences.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -451,6 +469,7 @@
 				8D11072C0486CEB800E47090 /* Sources */,
 				8D11072E0486CEB800E47090 /* Frameworks */,
 				81720B2E111797600018555A /* ShellScript */,
+				81720B9D1117C03B0018555A /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -490,7 +509,6 @@
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 				811EA5D31111FAD1001D16D0 /* TurtleTemplate.png in Resources */,
-				811EA7F0111229AB001D16D0 /* Preferences.xib in Resources */,
 				810AEEFD11132FE400933772 /* ToolbarRemoveTemplate.png in Resources */,
 				810AEF37111335B000933772 /* ToolbarPauseSelectedTemplate.png in Resources */,
 				810AEF38111335B000933772 /* ToolbarResumeSelectedTemplate.png in Resources */,
@@ -507,6 +525,7 @@
 				810E7A8F1115F74900FC4640 /* RevealHover.png in Resources */,
 				810E7A901115F74900FC4640 /* RevealOff.png in Resources */,
 				810E7A911115F74900FC4640 /* RevealOn.png in Resources */,
+				81720B4E1117BA930018555A /* Preferences.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,6 +620,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../frameworks/BWToolkit\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -618,6 +641,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../frameworks/BWToolkit\"",
+				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Nativa_Prefix.pch;

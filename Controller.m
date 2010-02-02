@@ -21,8 +21,11 @@
 	
 	//Put defaults into dictionary
 	[defaultValues setObject:[NSNumber numberWithInt:65536]
-					  forKey:NITurtleSpeedKey];
-	
+					  forKey:NISpeedLimitUpload];
+
+	[defaultValues setObject:[NSNumber numberWithInt:65536]
+					  forKey:NISpeedLimitDownload];
+
 	[defaultValues setObject:[NSNumber numberWithBool:YES]
 					  forKey:NITrashDownloadDescriptorsKey];
 
@@ -79,7 +82,8 @@
 	VoidResponseBlock response = [^(NSString* error){
 		[blockSelf checkSpeedLimit];
 	}copy];
-	int speed = [_turtleButton state] == NSOnState?[_defaults integerForKey:NITurtleSpeedKey]:0;
+#warning only download speed sets
+	int speed = [_turtleButton state] == NSOnState?[_defaults integerForKey:NISpeedLimitDownload]*1024:0;
 	[[DownloadsController sharedDownloadsController] setGlobalDownloadSpeedLimit:speed response:response];
 	[response release];
 }

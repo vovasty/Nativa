@@ -8,7 +8,8 @@
 
 #import "PreferenceController.h"
 
-NSString* const NITurtleSpeedKey = @"TurtleSpeed";
+NSString* const NISpeedLimitDownload = @"SpeedLimitDownload";
+NSString* const NISpeedLimitUpload = @"SpeedLimitUpload";
 
 NSString* const NITrashDownloadDescriptorsKey = @"TrashDownloadDescriptorsKey";
 
@@ -22,18 +23,6 @@ NSString* const NITrashDownloadDescriptorsKey = @"TrashDownloadDescriptorsKey";
 
 -(void)windowDidLoad
 {
-	[_turtleSpeed setIntValue:[self turtleSpeed]];
 }
 
-- (IBAction)changeTurtleSpeed:(id)sender
-{
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setInteger:[_turtleSpeed intValue] forKey:NITurtleSpeedKey];
-}
-
-- (int) turtleSpeed
-{
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	return [defaults integerForKey:NITurtleSpeedKey];
-}
 @end
