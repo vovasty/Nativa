@@ -17,6 +17,10 @@
 @implementation ProcessPreferencesController
 
 
+- (void) awakeFromNib
+{
+	[self updateSelectedProcess];
+}
 
 //NSTableViewDataSource stuff
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
@@ -52,6 +56,16 @@
 	[[ProcessesController sharedProcessesController] saveProcesses];
 }
 
+
+-(IBAction) toggleManualConfig:(id) sender
+{
+	BOOL s = [_manualConfig state];
+	[_host setEnabled:s];
+	[_port setEnabled:s];
+	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:[_tableView selectedRow]];
+	[pd setManualConfig:s];
+	[[ProcessesController sharedProcessesController] saveProcesses];
+}
 @end
 
 @implementation ProcessPreferencesController(Private)
@@ -62,7 +76,7 @@
     {
         ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex: [_tableView selectedRow]];
 		
-		[_processType setStringValue:[pd name]];
+		[_processType setStringValue:[pd processType]];
 		[_processType setEnabled:YES];
 		
 		[_manualConfig setState: [pd manualConfig]];

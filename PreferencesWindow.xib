@@ -21,7 +21,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="259"/>
+			<integer value="257"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -617,7 +617,7 @@
 							<object class="NSTabViewItem" id="793657333">
 								<string key="NSIdentifier">1</string>
 								<object class="NSView" key="NSView" id="87853108">
-									<nil key="NSNextResponder"/>
+									<reference key="NSNextResponder" ref="890733432"/>
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
@@ -655,6 +655,7 @@
 										</object>
 									</object>
 									<string key="NSFrame">{{10, 33}, {376, 235}}</string>
+									<reference key="NSSuperview" ref="890733432"/>
 								</object>
 								<string key="NSLabel">General</string>
 								<reference key="NSColor" ref="311040948"/>
@@ -663,7 +664,7 @@
 							<object class="NSTabViewItem" id="675705853">
 								<string key="NSIdentifier">2</string>
 								<object class="NSView" key="NSView" id="466717034">
-									<reference key="NSNextResponder" ref="890733432"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
@@ -804,21 +805,20 @@
 										</object>
 									</object>
 									<string key="NSFrame">{{10, 33}, {376, 235}}</string>
-									<reference key="NSSuperview" ref="890733432"/>
 								</object>
 								<string key="NSLabel">Advanced</string>
 								<reference key="NSColor" ref="311040948"/>
 								<reference key="NSTabView" ref="890733432"/>
 							</object>
 						</object>
-						<reference key="NSSelectedTabViewItem" ref="675705853"/>
+						<reference key="NSSelectedTabViewItem" ref="793657333"/>
 						<reference key="NSFont" ref="884388995"/>
 						<int key="NSTvFlags">0</int>
 						<bool key="NSAllowTruncatedLabels">YES</bool>
 						<bool key="NSDrawsBackground">YES</bool>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="466717034"/>
+							<reference ref="87853108"/>
 						</object>
 					</object>
 				</object>
@@ -996,6 +996,22 @@
 						<reference key="destination" ref="855986979"/>
 					</object>
 					<int key="connectionID">323</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="345739483"/>
+						<reference key="destination" ref="855986979"/>
+					</object>
+					<int key="connectionID">324</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">toggleManualConfig:</string>
+						<reference key="source" ref="855986979"/>
+						<reference key="destination" ref="886552886"/>
+					</object>
+					<int key="connectionID">325</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1571,7 +1587,6 @@
 					<string>286.IBPluginDependency</string>
 					<string>287.IBPluginDependency</string>
 					<string>288.IBPluginDependency</string>
-					<string>299.IBPluginDependency</string>
 					<string>303.IBPluginDependency</string>
 					<string>304.IBPluginDependency</string>
 					<string>305.IBPluginDependency</string>
@@ -1677,7 +1692,6 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<real value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
@@ -1709,7 +1723,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">323</int>
+			<int key="maxID">325</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1746,6 +1760,10 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">ProcessPreferencesController</string>
 					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">toggleManualConfig:</string>
+						<string key="NS.object.0">id</string>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">

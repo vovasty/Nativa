@@ -22,4 +22,6 @@
 	
 	IBOutlet NSTextField *_port;
 }
+
+-(IBAction) toggleManualConfig:(id) sender;
 @end
