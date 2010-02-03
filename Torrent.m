@@ -26,9 +26,12 @@
 	return [thash hash];
 }
 
-- (BOOL)isEqual:(id)anObject;
+- (BOOL)isEqual:(id)anObject
 {
-	return [thash hash] == [anObject hash];
+	if ([anObject isKindOfClass: [Torrent class]])
+		return [[anObject thash] isEqualToString: thash];
+	else
+		return NO;
 }
 
 - (void) update: (Torrent *) anotherItem;

@@ -15,7 +15,7 @@
 
 @end
 
-@protocol TorrentController
+@protocol TorrentController<NSObject>
 
 - (void) list:(ArrayResponseBlock) response;
 

@@ -8,7 +8,8 @@
 
 #import "Controller.h"
 #import "DownloadsController.h"
-#import "PreferenceController.h"
+#import "PreferencesController.h"
+#import "PreferencesController.h"
 #include "TorrentViewController.h"
 #include "Torrent.h"
 #include "TorrentDelegate.h"
@@ -20,10 +21,10 @@
 	NSMutableDictionary* defaultValues = [NSMutableDictionary dictionary];
 	
 	//Put defaults into dictionary
-	[defaultValues setObject:[NSNumber numberWithInt:65536]
+	[defaultValues setObject:[NSNumber numberWithInt:10]
 					  forKey:NISpeedLimitUpload];
 
-	[defaultValues setObject:[NSNumber numberWithInt:65536]
+	[defaultValues setObject:[NSNumber numberWithInt:10]
 					  forKey:NISpeedLimitDownload];
 
 	[defaultValues setObject:[NSNumber numberWithBool:YES]
@@ -39,6 +40,7 @@
     if (self = [super init]) 
 	{
 		_defaults = [NSUserDefaults standardUserDefaults];
+		_preferencesController = [[PreferencesController alloc] init];
     }
     return self;
 }
@@ -71,9 +73,11 @@
 
 -(IBAction)showPreferencePanel:(id)sender;
 {
-	if(_preferenceController == nil)
-		_preferenceController = [[PreferenceController alloc] init];
-	[_preferenceController showWindow:self];
+    NSWindow * window = [_preferencesController window];
+    if (![window isVisible])
+        [window center];
+	
+    [window makeKeyAndOrderFront: nil];
 }
 
 -(IBAction)toggleTurtleSpeed:(id)sender

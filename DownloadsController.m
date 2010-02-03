@@ -10,14 +10,17 @@
 #import "SynthesizeSingleton.h"
 #import "Torrent.h"
 #import "TorrentDelegate.h"
-#import "RTConnection.h"
-#import "RTorrentController.h"
+#import "ProcessesController.h"
+#import "ProcessDescriptor.h"
 
 NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
 @interface DownloadsController(Private)
 
-- (void)_update;
+- (void)_updateList;
+
+- (id<TorrentController>) _controller;
+
 @end
 
 @implementation DownloadsController
@@ -30,20 +33,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 -(id)init;
 {
-    self = [super init];
-    if (self == nil)
-        return nil;
+	self = [super init];
+	if (self == nil)
+		return nil;
 	_downloads = [[[NSMutableArray alloc] init] retain];
-	RTConnection *connection = [[[RTConnection alloc] initWithHostPort:@"192.168.1.206" port:5000] autorelease];
-	_rtorrent = [[RTorrentController alloc] initWithConnection:connection];
-	[_rtorrent retain];
 	return self;
 }
+
 
 -(void)dealloc
 {
 	[_downloads release];
-	[_rtorrent release];
 	[super dealloc];
 }
 
@@ -56,11 +56,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	_updateListTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(_updateList) userInfo:nil repeats:YES];
 	[_updateListTimer retain];
 	[[NSRunLoop currentRunLoop] addTimer:_updateListTimer forMode:NSDefaultRunLoopMode];	
-	
-//	[_updateGlobalsTimer invalidate];
-//	_updateGlobalsTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(_updateGlobals) userInfo:nil repeats:YES];
-//	[_updateGlobalsTimer retain];
-//	[[NSRunLoop currentRunLoop] addTimer:_updateGlobalsTimer forMode:NSDefaultRunLoopMode];
 }
 -(void) stopUpdates;
 {
@@ -77,12 +72,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void) start:(NSString *) hash response:(VoidResponseBlock) response
 {
-	[_rtorrent start:hash response:response];
+	[[self _controller] start:hash response:response];
 }
 
 - (void) stop:(NSString *) hash response:(VoidResponseBlock) response
 {
-	[_rtorrent stop:hash response:response];
+	[[self _controller] stop:hash response:response];
 }
 
 - (void) add:(NSArray *) filesNames
@@ -97,14 +92,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 				[[NSWorkspace sharedWorkspace] recycleURLs: urls
 							completionHandler:nil];
 		} copy];
-		[_rtorrent add:url response:response];
+		[[self _controller] add:url response:response];
 		[response release];
 	}
 }
 
 - (void) erase:(NSString *) hash response:(VoidResponseBlock) response
 {
-	[_rtorrent erase:hash response:response];
+	[[self _controller] erase:hash response:response];
 }
 
 #pragma mark -
@@ -112,14 +107,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response
 {
-	[_rtorrent setGlobalDownloadSpeedLimit:speed response:response];
+	[[self _controller] setGlobalDownloadSpeedLimit:speed response:response];
 }
 
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response
 {
-	[_rtorrent getGlobalDownloadSpeedLimit:response];
+	[[self _controller] getGlobalDownloadSpeedLimit:response];
 }
+@end
 
+@implementation DownloadsController(Private)
+- (id<TorrentController>) _controller
+{
+	ProcessDescriptor *p=[[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
+	return [p process];
+}
 
 - (void)_updateList
 {
@@ -150,8 +152,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		blockSelf.globalDownloadSpeed = globalDownloadRate;
 		blockSelf.globalUploadSpeed = globalUploadRate;
 	} copy];
-	[_rtorrent list:response];
+	[[self _controller] list:response];
 	[response release];
 }
-
 @end

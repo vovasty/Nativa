@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* NativaAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* NativaAppDelegate.m */; };
+		8100449C1119F17900EFBF71 /* ProcessDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8100449B1119F17900EFBF71 /* ProcessDescriptor.m */; };
+		810658F91118D5EF00674B45 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 810658F81118D5EF00674B45 /* PreferencesWindow.xib */; };
+		8106590C1118DA4700674B45 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 810659091118DA4700674B45 /* PreferencesController.m */; };
+		8106590D1118DA4700674B45 /* PreferencesWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8106590B1118DA4700674B45 /* PreferencesWindow.m */; };
 		8107590410FFDF30003FF9A6 /* Filterbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 810758FE10FFDF30003FF9A6 /* Filterbar.m */; };
 		8107590510FFDF30003FF9A6 /* FilterbarGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590110FFDF30003FF9A6 /* FilterbarGroup.m */; };
 		8107590610FFDF30003FF9A6 /* FilterbarGroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590310FFDF30003FF9A6 /* FilterbarGroupItem.m */; };
@@ -28,7 +32,6 @@
 		811B05A210F6A1C7000D1DDC /* Torrent.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B05A110F6A1C7000D1DDC /* Torrent.m */; };
 		811EA5601111F5A6001D16D0 /* RTorrentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA55F1111F5A6001D16D0 /* RTorrentController.m */; };
 		811EA5D31111FAD1001D16D0 /* TurtleTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */; };
-		811EA7EE11122806001D16D0 /* PreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA7ED11122806001D16D0 /* PreferenceController.m */; };
 		811EA98E11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m */; };
 		812A725010FD0A0300795D8B /* RTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A724F10FD0A0300795D8B /* RTConnection.m */; };
 		812A726D10FD0D3D00795D8B /* SCGIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A726C10FD0D3D00795D8B /* SCGIOperation.m */; };
@@ -46,7 +49,8 @@
 		8162160F11152ED30095862B /* TorrentGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 8162160E11152ED30095862B /* TorrentGroup.m */; };
 		8162175911153FBE0095862B /* ActionHover.png in Resources */ = {isa = PBXBuildFile; fileRef = 8162175711153FBE0095862B /* ActionHover.png */; };
 		8162175A11153FBE0095862B /* ActionOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 8162175811153FBE0095862B /* ActionOn.png */; };
-		81720B4E1117BA930018555A /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81720B4D1117BA930018555A /* Preferences.xib */; };
+		8169644C1119F81400246098 /* ProcessPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8169644B1119F81400246098 /* ProcessPreferencesController.m */; };
+		816964541119F94800246098 /* ProcessesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816964531119F94800246098 /* ProcessesController.m */; };
 		81720B941117C0020018555A /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81720B931117C0020018555A /* BWToolkitFramework.framework */; };
 		81720BA61117C20C0018555A /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 81720B931117C0020018555A /* BWToolkitFramework.framework */; };
 		819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3BE91110CD5200F7007C /* DownloadsController.m */; };
@@ -94,6 +98,13 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		8100449A1119F17900EFBF71 /* ProcessDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessDescriptor.h; sourceTree = "<group>"; };
+		8100449B1119F17900EFBF71 /* ProcessDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessDescriptor.m; sourceTree = "<group>"; };
+		810658F81118D5EF00674B45 /* PreferencesWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
+		810659081118DA4700674B45 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
+		810659091118DA4700674B45 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
+		8106590A1118DA4700674B45 /* PreferencesWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesWindow.h; sourceTree = "<group>"; };
+		8106590B1118DA4700674B45 /* PreferencesWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindow.m; sourceTree = "<group>"; };
 		810758FD10FFDF30003FF9A6 /* Filterbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filterbar.h; sourceTree = "<group>"; };
 		810758FE10FFDF30003FF9A6 /* Filterbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Filterbar.m; sourceTree = "<group>"; };
 		810758FF10FFDF30003FF9A6 /* FilterbarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterbarDelegate.h; sourceTree = "<group>"; };
@@ -126,8 +137,6 @@
 		811EA55E1111F5A6001D16D0 /* RTorrentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTorrentController.h; sourceTree = "<group>"; };
 		811EA55F1111F5A6001D16D0 /* RTorrentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTorrentController.m; sourceTree = "<group>"; };
 		811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TurtleTemplate.png; sourceTree = "<group>"; };
-		811EA7EC11122806001D16D0 /* PreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferenceController.h; sourceTree = "<group>"; };
-		811EA7ED11122806001D16D0 /* PreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferenceController.m; sourceTree = "<group>"; };
 		811EA98C11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetGlobalDownloadSpeedLimit.h; sourceTree = "<group>"; };
 		811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetGlobalDownloadSpeedLimit.m; sourceTree = "<group>"; };
 		812A710710FCFB1600795D8B /* TorrentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentDelegate.h; sourceTree = "<group>"; };
@@ -156,8 +165,11 @@
 		8162160E11152ED30095862B /* TorrentGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentGroup.m; sourceTree = "<group>"; };
 		8162175711153FBE0095862B /* ActionHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ActionHover.png; sourceTree = "<group>"; };
 		8162175811153FBE0095862B /* ActionOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ActionOn.png; sourceTree = "<group>"; };
+		8169644A1119F81400246098 /* ProcessPreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessPreferencesController.h; sourceTree = "<group>"; };
+		8169644B1119F81400246098 /* ProcessPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessPreferencesController.m; sourceTree = "<group>"; };
+		816964521119F94800246098 /* ProcessesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessesController.h; sourceTree = "<group>"; };
+		816964531119F94800246098 /* ProcessesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessesController.m; sourceTree = "<group>"; };
 		81720931111666BD0018555A /* NativaConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativaConstants.h; sourceTree = "<group>"; };
-		81720B4D1117BA930018555A /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		81720B931117C0020018555A /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = /Users/vovasty/Documents/frameworks/BWToolkit/BWToolkitFramework.framework; sourceTree = "<absolute>"; };
 		819D3BE81110CD5200F7007C /* DownloadsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadsController.h; sourceTree = "<group>"; };
 		819D3BE91110CD5200F7007C /* DownloadsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsController.m; sourceTree = "<group>"; };
@@ -221,6 +233,8 @@
 				819D3E0A1110EE6E00F7007C /* Controller.h */,
 				819D3E0B1110EE6E00F7007C /* Controller.m */,
 				81720931111666BD0018555A /* NativaConstants.h */,
+				816964521119F94800246098 /* ProcessesController.h */,
+				816964531119F94800246098 /* ProcessesController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -280,7 +294,7 @@
 				8D1107310486CEB800E47090 /* Nativa-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
-				81720B4D1117BA930018555A /* Preferences.xib */,
+				810658F81118D5EF00674B45 /* PreferencesWindow.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -292,6 +306,21 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		810659071118DA4700674B45 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				810659081118DA4700674B45 /* PreferencesController.h */,
+				810659091118DA4700674B45 /* PreferencesController.m */,
+				8106590A1118DA4700674B45 /* PreferencesWindow.h */,
+				8106590B1118DA4700674B45 /* PreferencesWindow.m */,
+				8100449A1119F17900EFBF71 /* ProcessDescriptor.h */,
+				8100449B1119F17900EFBF71 /* ProcessDescriptor.m */,
+				8169644A1119F81400246098 /* ProcessPreferencesController.h */,
+				8169644B1119F81400246098 /* ProcessPreferencesController.m */,
+			);
+			path = Preferences;
 			sourceTree = "<group>";
 		};
 		810758FC10FFDF30003FF9A6 /* Filterbar */ = {
@@ -336,6 +365,7 @@
 		811B056910F6A055000D1DDC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				810659071118DA4700674B45 /* Preferences */,
 				81B73ABD111399DC00A11521 /* StatusBarView.h */,
 				81B73ABE111399DC00A11521 /* StatusBarView.m */,
 				810AEF2E1113353200933772 /* Toolbar */,
@@ -345,8 +375,6 @@
 				810758FC10FFDF30003FF9A6 /* Filterbar */,
 				810CD80C10FBCF0600963D10 /* TorrentDropView.m */,
 				810CD80B10FBCF0600963D10 /* TorrentDropView.h */,
-				811EA7EC11122806001D16D0 /* PreferenceController.h */,
-				811EA7ED11122806001D16D0 /* PreferenceController.m */,
 				81B73AFA1113B34000A11521 /* StatusbarController.h */,
 				81B73AFB1113B34000A11521 /* StatusbarController.m */,
 			);
@@ -525,7 +553,7 @@
 				810E7A8F1115F74900FC4640 /* RevealHover.png in Resources */,
 				810E7A901115F74900FC4640 /* RevealOff.png in Resources */,
 				810E7A911115F74900FC4640 /* RevealOn.png in Resources */,
-				81720B4E1117BA930018555A /* Preferences.xib in Resources */,
+				810658F91118D5EF00674B45 /* PreferencesWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -579,7 +607,6 @@
 				819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */,
 				819D3E0C1110EE6E00F7007C /* Controller.m in Sources */,
 				811EA5601111F5A6001D16D0 /* RTorrentController.m in Sources */,
-				811EA7EE11122806001D16D0 /* PreferenceController.m in Sources */,
 				811EA98E11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m in Sources */,
 				810AEF331113353200933772 /* ButtonToolbarItem.m in Sources */,
 				810AEF341113353200933772 /* ToolbarControllerAdditions.m in Sources */,
@@ -590,6 +617,11 @@
 				81B73AFC1113B34000A11521 /* StatusbarController.m in Sources */,
 				81B73C061113C50200A11521 /* NSStringAdditions.m in Sources */,
 				8162160F11152ED30095862B /* TorrentGroup.m in Sources */,
+				8106590C1118DA4700674B45 /* PreferencesController.m in Sources */,
+				8106590D1118DA4700674B45 /* PreferencesWindow.m in Sources */,
+				8100449C1119F17900EFBF71 /* ProcessDescriptor.m in Sources */,
+				8169644C1119F81400246098 /* ProcessPreferencesController.m in Sources */,
+				816964541119F94800246098 /* ProcessesController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

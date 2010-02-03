@@ -63,4 +63,6 @@ enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknow
 - (double) progress;
 - (NSImage*) icon;
 - (CGFloat) ratio;
+- (NSUInteger)hash;
+- (BOOL)isEqual:(id)anObject;
 @end

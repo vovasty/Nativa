@@ -17,8 +17,6 @@ extern NSString* const NINotifyUpdateDownloads;
 @private
 	NSMutableArray* _downloads;
 	NSTimer* _updateListTimer;
-	NSTimer* _updateGlobalsTimer;
-	RTorrentController* _rtorrent;
 	CGFloat _globalUploadSpeed;
 	CGFloat _globalDownloadSpeed;
 }
