@@ -148,6 +148,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 			globalUploadRate += [obj speedUpload];
 			globalDownloadRate += [obj speedDownload];
 		}
+		
+		//find removed torrents
+		NSMutableArray *toRemove = [NSMutableArray arrayWithCapacity: [blockSelf->_downloads count]];
+		for (Torrent *obj in blockSelf->_downloads)
+		{
+			idx = [array indexOfObject:obj];
+			if (idx ==  NSNotFound)
+				[toRemove addObject:obj];
+		}
+		
+		for (Torrent *obj in toRemove)
+		{
+			[blockSelf->_downloads removeObject:obj];
+		}
+		
 		[[NSNotificationCenter defaultCenter] postNotificationName: NINotifyUpdateDownloads object: blockSelf];
 		blockSelf.globalDownloadSpeed = globalDownloadRate;
 		blockSelf.globalUploadSpeed = globalUploadRate;
