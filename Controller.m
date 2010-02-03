@@ -13,6 +13,7 @@
 #include "TorrentViewController.h"
 #include "Torrent.h"
 #include "TorrentDelegate.h"
+#include "TorrentTableView.h"
 
 @implementation Controller
 +(void) initialize
@@ -93,39 +94,21 @@
 }
 
 
-- (NSArray *) selectedTorrents
-{
-	NSIndexSet * selectedIndexes = [_downloadsView selectedRowIndexes];
-    NSMutableArray * torrents = [NSMutableArray arrayWithCapacity: [selectedIndexes count]]; //take a shot at guessing capacity
-    
-	TorrentViewController* dataSource = [_downloadsView dataSource];
-	
-    for (NSUInteger i = [selectedIndexes firstIndex]; i != NSNotFound; i = [selectedIndexes indexGreaterThanIndex: i])
-    {
-        id item = [dataSource itemAtRow: i];
-        if ([item isKindOfClass: [Torrent class]])
-            [torrents addObject: item];
-    }
-    
-    return torrents;
-}
-
-
 -(IBAction)removeNoDeleteSelectedTorrents:(id)sender
 {
-	NSArray * torrents = [self selectedTorrents];
+	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
 	for (Torrent *t in torrents)
 		[[DownloadsController sharedDownloadsController] erase:t.thash response:nil];
 }
 -(IBAction)stopSelectedTorrents:(id)sender
 {
-	NSArray * torrents = [self selectedTorrents];
+	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
 	for (Torrent *t in torrents)
 		[[DownloadsController sharedDownloadsController] stop:t.thash response:nil];
 }
 -(IBAction)resumeSelectedTorrents:(id)sender
 {
-	NSArray * torrents = [self selectedTorrents];
+	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
 	for (Torrent *t in torrents)
 		[[DownloadsController sharedDownloadsController] start:t.thash response:nil];
 }
