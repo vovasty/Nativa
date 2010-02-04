@@ -93,9 +93,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FilterbarController);
     if ([currentFilterName isEqualToString: FILTER_STOP])
         filter = [NSString stringWithFormat: @"SELF.state == %d",stopped];
     else if ([currentFilterName isEqualToString: FILTER_UPLOAD])
-        filter = [NSString stringWithFormat: @"SELF.state == %d",leeching];
-    else if ([currentFilterName isEqualToString: FILTER_DOWNLOAD])
         filter = [NSString stringWithFormat: @"SELF.state == %d",seeding];
+    else if ([currentFilterName isEqualToString: FILTER_DOWNLOAD])
+        filter = [NSString stringWithFormat: @"SELF.state == %d",leeching];
     else
         filter = nil;
 	
