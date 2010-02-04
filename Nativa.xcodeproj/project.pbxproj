@@ -51,6 +51,9 @@
 		8162175A11153FBE0095862B /* ActionOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 8162175811153FBE0095862B /* ActionOn.png */; };
 		8169644C1119F81400246098 /* ProcessPreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8169644B1119F81400246098 /* ProcessPreferencesController.m */; };
 		816964541119F94800246098 /* ProcessesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816964531119F94800246098 /* ProcessesController.m */; };
+		816967EB111A3EBF00246098 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816967EA111A3EBF00246098 /* Sparkle.framework */; };
+		816967EE111A3EC200246098 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 816967EA111A3EBF00246098 /* Sparkle.framework */; };
+		816967F9111A3F4900246098 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 816967F8111A3F4900246098 /* dsa_pub.pem */; };
 		81720B941117C0020018555A /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81720B931117C0020018555A /* BWToolkitFramework.framework */; };
 		81720BA61117C20C0018555A /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 81720B931117C0020018555A /* BWToolkitFramework.framework */; };
 		819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3BE91110CD5200F7007C /* DownloadsController.m */; };
@@ -81,6 +84,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				816967EE111A3EC200246098 /* Sparkle.framework in CopyFiles */,
 				81720BA61117C20C0018555A /* BWToolkitFramework.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -169,6 +173,8 @@
 		8169644B1119F81400246098 /* ProcessPreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessPreferencesController.m; sourceTree = "<group>"; };
 		816964521119F94800246098 /* ProcessesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessesController.h; sourceTree = "<group>"; };
 		816964531119F94800246098 /* ProcessesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessesController.m; sourceTree = "<group>"; };
+		816967EA111A3EBF00246098 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = /Users/vovasty/Documents/frameworks/Sparkle/Sparkle.framework; sourceTree = "<absolute>"; };
+		816967F8111A3F4900246098 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		81720931111666BD0018555A /* NativaConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativaConstants.h; sourceTree = "<group>"; };
 		81720B931117C0020018555A /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = /Users/vovasty/Documents/frameworks/BWToolkit/BWToolkitFramework.framework; sourceTree = "<absolute>"; };
 		819D3BE81110CD5200F7007C /* DownloadsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadsController.h; sourceTree = "<group>"; };
@@ -213,6 +219,7 @@
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				81720B941117C0020018555A /* BWToolkitFramework.framework in Frameworks */,
+				816967EB111A3EBF00246098 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +251,7 @@
 			children = (
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				81720B931117C0020018555A /* BWToolkitFramework.framework */,
+				816967EA111A3EBF00246098 /* Sparkle.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -295,6 +303,7 @@
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 				810658F81118D5EF00674B45 /* PreferencesWindow.xib */,
+				816967F8111A3F4900246098 /* dsa_pub.pem */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -554,6 +563,7 @@
 				810E7A901115F74900FC4640 /* RevealOff.png in Resources */,
 				810E7A911115F74900FC4640 /* RevealOn.png in Resources */,
 				810658F91118D5EF00674B45 /* PreferencesWindow.xib in Resources */,
+				816967F9111A3F4900246098 /* dsa_pub.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -655,6 +665,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../frameworks/BWToolkit\"",
+					"\"$(SRCROOT)/../frameworks/Sparkle 1.5b6\"",
+					"\"$(SRCROOT)/../frameworks/Sparkle\"",
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -676,6 +688,8 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../frameworks/BWToolkit\"",
+					"\"$(SRCROOT)/../frameworks/Sparkle 1.5b6\"",
+					"\"$(SRCROOT)/../frameworks/Sparkle\"",
 				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
