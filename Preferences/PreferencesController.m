@@ -37,6 +37,7 @@ NSString* const NIStartTransferWhenAddedKey = @"StartTransferWhenAdded";
 
 NSString* const NIProcessListKey = @"ProcessList";
 
+NSString* const NIFilterKey = @"Filter";
 
 @interface PreferencesController (Private)
 

@@ -74,7 +74,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 	_tableContents = [[[NSArray alloc] init] retain]; 
 	[[DownloadsController sharedDownloadsController] startUpdates];
 	[[FilterbarController sharedFilterbarController] addObserver:self
-													 forKeyPath:@"filter"
+													 forKeyPath:@"stateFilter"
 													  options:0
 													  context:&FilterTorrents];
 	
@@ -102,7 +102,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 - (void)updateList:(NSNotification*) notification;
 {
-	NSPredicate* filter = [FilterbarController sharedFilterbarController].filter;
+	NSPredicate* filter = [FilterbarController sharedFilterbarController].stateFilter;
 	NSMutableArray* arr = [NSMutableArray arrayWithArray:[[DownloadsController sharedDownloadsController] downloads]];
 	[_tableContents release];
 

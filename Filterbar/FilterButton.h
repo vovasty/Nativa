@@ -1,7 +1,7 @@
 /******************************************************************************
- * $Id: PrefsController.h 9844 2010-01-01 21:12:04Z livings124 $
- *
- * Copyright (c) 2005-2010 Transmission authors and contributors
+ * $Id: FilterButton.h 9844 2010-01-01 21:12:04Z livings124 $
+ * 
+ * Copyright (c) 2007-2010 Transmission authors and contributors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -24,18 +24,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString* const NISpeedLimitDownload;
-extern NSString* const NISpeedLimitUpload;
-extern NSString* const NITrashDownloadDescriptorsKey;
-extern NSString* const NIStartTransferWhenAddedKey;
-extern NSString* const NIProcessListKey;
-extern NSString* const NIFilterKey;
-
-
-@interface PreferencesController : NSWindowController<NSToolbarDelegate>
+@interface FilterButton : NSButton
 {
-	IBOutlet NSView * _generalView, * _processesView;
-	
-	NSUserDefaults* _defaults;
+    NSUInteger fCount;
 }
+
+- (void) setCount: (NSUInteger) count;
+
 @end

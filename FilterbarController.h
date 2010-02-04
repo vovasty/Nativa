@@ -7,14 +7,23 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Filterbar.h"
 
-@interface FilterbarController : NSObject {
-@private
-	IBOutlet NSTextField *bodyText;
-	IBOutlet Filterbar *filterBar;
-	NSPredicate *_filter;
+@class FilterButton;
+
+@interface FilterbarController : NSObject 
+{
+	NSPredicate *_stateFilter;
+    
+	IBOutlet FilterButton * _allFilterButton, *_downloadFilterButton,
+	*_seedFilterButton, *_stopFilterButton;
+
+	IBOutlet NSSearchField *_searchFilterField;
+
 }
 + (FilterbarController *)sharedFilterbarController;
-@property (retain) NSPredicate* filter;
+
+@property (retain) NSPredicate* stateFilter;
+
+- (void) setFilter: (id) sender;
+- (void) setSearch: (id) sender;
 @end

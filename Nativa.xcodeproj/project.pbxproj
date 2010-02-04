@@ -10,12 +10,8 @@
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* NativaAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* NativaAppDelegate.m */; };
 		8100449C1119F17900EFBF71 /* ProcessDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8100449B1119F17900EFBF71 /* ProcessDescriptor.m */; };
-		810658F91118D5EF00674B45 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 810658F81118D5EF00674B45 /* PreferencesWindow.xib */; };
 		8106590C1118DA4700674B45 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 810659091118DA4700674B45 /* PreferencesController.m */; };
 		8106590D1118DA4700674B45 /* PreferencesWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8106590B1118DA4700674B45 /* PreferencesWindow.m */; };
-		8107590410FFDF30003FF9A6 /* Filterbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 810758FE10FFDF30003FF9A6 /* Filterbar.m */; };
-		8107590510FFDF30003FF9A6 /* FilterbarGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590110FFDF30003FF9A6 /* FilterbarGroup.m */; };
-		8107590610FFDF30003FF9A6 /* FilterbarGroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590310FFDF30003FF9A6 /* FilterbarGroupItem.m */; };
 		8107590B10FFDF4F003FF9A6 /* FilterbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590A10FFDF4F003FF9A6 /* FilterbarController.m */; };
 		810AEEFD11132FE400933772 /* ToolbarRemoveTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */; };
 		810AEF331113353200933772 /* ButtonToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 810AEF301113353200933772 /* ButtonToolbarItem.m */; };
@@ -54,6 +50,8 @@
 		816967EB111A3EBF00246098 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816967EA111A3EBF00246098 /* Sparkle.framework */; };
 		816967EE111A3EC200246098 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 816967EA111A3EBF00246098 /* Sparkle.framework */; };
 		816967F9111A3F4900246098 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 816967F8111A3F4900246098 /* dsa_pub.pem */; };
+		81696850111B0CFC00246098 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8169684F111B0CFC00246098 /* PreferencesWindow.xib */; };
+		8169685C111B0DF800246098 /* FilterButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8169685B111B0DF800246098 /* FilterButton.m */; };
 		81720B941117C0020018555A /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81720B931117C0020018555A /* BWToolkitFramework.framework */; };
 		81720BA61117C20C0018555A /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 81720B931117C0020018555A /* BWToolkitFramework.framework */; };
 		819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3BE91110CD5200F7007C /* DownloadsController.m */; };
@@ -104,18 +102,11 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		8100449A1119F17900EFBF71 /* ProcessDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessDescriptor.h; sourceTree = "<group>"; };
 		8100449B1119F17900EFBF71 /* ProcessDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessDescriptor.m; sourceTree = "<group>"; };
-		810658F81118D5EF00674B45 /* PreferencesWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreferencesWindow.xib; sourceTree = "<group>"; };
+		810658F81118D5EF00674B45 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PreferencesWindow.xib; sourceTree = "<group>"; };
 		810659081118DA4700674B45 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
 		810659091118DA4700674B45 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
 		8106590A1118DA4700674B45 /* PreferencesWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesWindow.h; sourceTree = "<group>"; };
 		8106590B1118DA4700674B45 /* PreferencesWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindow.m; sourceTree = "<group>"; };
-		810758FD10FFDF30003FF9A6 /* Filterbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filterbar.h; sourceTree = "<group>"; };
-		810758FE10FFDF30003FF9A6 /* Filterbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Filterbar.m; sourceTree = "<group>"; };
-		810758FF10FFDF30003FF9A6 /* FilterbarDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterbarDelegate.h; sourceTree = "<group>"; };
-		8107590010FFDF30003FF9A6 /* FilterbarGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterbarGroup.h; sourceTree = "<group>"; };
-		8107590110FFDF30003FF9A6 /* FilterbarGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterbarGroup.m; sourceTree = "<group>"; };
-		8107590210FFDF30003FF9A6 /* FilterbarGroupItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterbarGroupItem.h; sourceTree = "<group>"; };
-		8107590310FFDF30003FF9A6 /* FilterbarGroupItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterbarGroupItem.m; sourceTree = "<group>"; };
 		8107590910FFDF4F003FF9A6 /* FilterbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterbarController.h; sourceTree = "<group>"; };
 		8107590A10FFDF4F003FF9A6 /* FilterbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterbarController.m; sourceTree = "<group>"; };
 		810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarRemoveTemplate.png; sourceTree = "<group>"; };
@@ -175,6 +166,8 @@
 		816964531119F94800246098 /* ProcessesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessesController.m; sourceTree = "<group>"; };
 		816967EA111A3EBF00246098 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = /Users/vovasty/Documents/frameworks/Sparkle/Sparkle.framework; sourceTree = "<absolute>"; };
 		816967F8111A3F4900246098 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		8169685A111B0DF800246098 /* FilterButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterButton.h; sourceTree = "<group>"; };
+		8169685B111B0DF800246098 /* FilterButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterButton.m; sourceTree = "<group>"; };
 		81720931111666BD0018555A /* NativaConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativaConstants.h; sourceTree = "<group>"; };
 		81720B931117C0020018555A /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = /Users/vovasty/Documents/frameworks/BWToolkit/BWToolkitFramework.framework; sourceTree = "<absolute>"; };
 		819D3BE81110CD5200F7007C /* DownloadsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadsController.h; sourceTree = "<group>"; };
@@ -302,7 +295,7 @@
 				8D1107310486CEB800E47090 /* Nativa-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
-				810658F81118D5EF00674B45 /* PreferencesWindow.xib */,
+				8169684F111B0CFC00246098 /* PreferencesWindow.xib */,
 				816967F8111A3F4900246098 /* dsa_pub.pem */,
 			);
 			name = Resources;
@@ -335,13 +328,8 @@
 		810758FC10FFDF30003FF9A6 /* Filterbar */ = {
 			isa = PBXGroup;
 			children = (
-				810758FD10FFDF30003FF9A6 /* Filterbar.h */,
-				810758FE10FFDF30003FF9A6 /* Filterbar.m */,
-				810758FF10FFDF30003FF9A6 /* FilterbarDelegate.h */,
-				8107590010FFDF30003FF9A6 /* FilterbarGroup.h */,
-				8107590110FFDF30003FF9A6 /* FilterbarGroup.m */,
-				8107590210FFDF30003FF9A6 /* FilterbarGroupItem.h */,
-				8107590310FFDF30003FF9A6 /* FilterbarGroupItem.m */,
+				8169685A111B0DF800246098 /* FilterButton.h */,
+				8169685B111B0DF800246098 /* FilterButton.m */,
 			);
 			path = Filterbar;
 			sourceTree = "<group>";
@@ -562,7 +550,7 @@
 				810E7A8F1115F74900FC4640 /* RevealHover.png in Resources */,
 				810E7A901115F74900FC4640 /* RevealOff.png in Resources */,
 				810E7A911115F74900FC4640 /* RevealOn.png in Resources */,
-				810658F91118D5EF00674B45 /* PreferencesWindow.xib in Resources */,
+				81696850111B0CFC00246098 /* PreferencesWindow.xib in Resources */,
 				816967F9111A3F4900246098 /* dsa_pub.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -602,9 +590,6 @@
 				81E6BCED10FE84C90083856D /* StopCommand.m in Sources */,
 				81E6BD3D10FE87FB0083856D /* AddCommand.m in Sources */,
 				81E6BED410FF66730083856D /* EraseCommand.m in Sources */,
-				8107590410FFDF30003FF9A6 /* Filterbar.m in Sources */,
-				8107590510FFDF30003FF9A6 /* FilterbarGroup.m in Sources */,
-				8107590610FFDF30003FF9A6 /* FilterbarGroupItem.m in Sources */,
 				8107590B10FFDF4F003FF9A6 /* FilterbarController.m in Sources */,
 				814FF9761100AB7100335707 /* NSDataAdditions.m in Sources */,
 				814FF9771100AB7100335707 /* NSStringAdditions.m in Sources */,
@@ -632,6 +617,7 @@
 				8100449C1119F17900EFBF71 /* ProcessDescriptor.m in Sources */,
 				8169644C1119F81400246098 /* ProcessPreferencesController.m in Sources */,
 				816964541119F94800246098 /* ProcessesController.m in Sources */,
+				8169685C111B0DF800246098 /* FilterButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,6 +638,14 @@
 				1DDD58150DA1D0A300B32029 /* English */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		8169684F111B0CFC00246098 /* PreferencesWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				810658F81118D5EF00674B45 /* English */,
+			);
+			name = PreferencesWindow.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

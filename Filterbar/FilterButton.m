@@ -1,7 +1,7 @@
 /******************************************************************************
- * $Id: PrefsController.h 9844 2010-01-01 21:12:04Z livings124 $
- *
- * Copyright (c) 2005-2010 Transmission authors and contributors
+ * $Id: FilterButton.m 9844 2010-01-01 21:12:04Z livings124 $
+ * 
+ * Copyright (c) 2007-2010 Transmission authors and contributors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -22,20 +22,27 @@
  * DEALINGS IN THE SOFTWARE.
  *****************************************************************************/
 
-#import <Cocoa/Cocoa.h>
+#import "FilterButton.h"
 
-extern NSString* const NISpeedLimitDownload;
-extern NSString* const NISpeedLimitUpload;
-extern NSString* const NITrashDownloadDescriptorsKey;
-extern NSString* const NIStartTransferWhenAddedKey;
-extern NSString* const NIProcessListKey;
-extern NSString* const NIFilterKey;
+@implementation FilterButton
 
-
-@interface PreferencesController : NSWindowController<NSToolbarDelegate>
+- (id) initWithCoder: (NSCoder *) coder
 {
-	IBOutlet NSView * _generalView, * _processesView;
-	
-	NSUserDefaults* _defaults;
+    if ((self = [super initWithCoder: coder]))
+    {
+        fCount = NSNotFound;
+    }
+    return self;
 }
+
+- (void) setCount: (NSUInteger) count
+{
+    if (count == fCount)
+        return;
+    
+    fCount = count;
+    [self setToolTip: fCount == 1 ? NSLocalizedString(@"1 transfer", "Filter Button -> tool tip")
+        : [NSString stringWithFormat: NSLocalizedString(@"%d transfers", "Filter Bar Button -> tool tip"), fCount]];
+}
+
 @end
