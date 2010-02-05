@@ -795,6 +795,7 @@
 					  NSLocalizedString(@"UL", "Torrent -> status string"), [NSString stringForSpeed: torrent.speedUpload]];
 			break;
 	}
+	
     return string;
 }
 
@@ -826,6 +827,17 @@
         string = [downloadString stringByAppendingFormat: @", %@", uploadString];
     }
     
+	//eta portion
+	if (torrent.state == leeching)
+	{
+		if (torrent.speedDownload>0)
+		{
+			uint64_t eta = (torrent.size - torrent.downloadRate)/(torrent.speedDownload*1024);
+			string = [string stringByAppendingFormat: @" - %@", [NSString timeString: eta showSeconds: YES maxFields: 2]];
+		}
+		else
+			string = [string stringByAppendingFormat: @" - %@", NSLocalizedString(@"remaining time unknown", "Torrent -> eta string")];
+	}
     return string;
 }
 @end
