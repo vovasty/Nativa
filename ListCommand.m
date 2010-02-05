@@ -57,6 +57,7 @@
 			r.speedUpload = [speedUpload floatValue]/1024;
 			NSNumber*  uploadRate = [row  objectAtIndex:8];
 			r.uploadRate = [uploadRate floatValue];
+			r.dataLocation = [row objectAtIndex:9];
 			[result addObject:r];
 		}
 		[result autorelease];
@@ -82,6 +83,7 @@
 			@"d.get_down_rate=",
 			@"d.get_up_rate=",
 			@"d.get_up_total=",
+			@"d.get_base_path=",
 			nil];
 }
 

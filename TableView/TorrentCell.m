@@ -28,6 +28,7 @@
 #import "ProgressGradients.h"
 #import "Torrent.h"
 #import "TorrentTableView.h"
+#import "DownloadsController.h"
 
 #define BAR_HEIGHT 12.0
 
@@ -200,13 +201,7 @@
     {
         fMouseDownRevealButton = NO;
         [controlView setNeedsDisplayInRect: cellFrame];
-//        
-//            NSString * location = [[self representedObject] dataLocation];
-//            if (location)
-//            {
-//                NSURL * file = [NSURL fileURLWithPath: location];
-//                [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs: [NSArray arrayWithObject: file]];
-//            }
+		[[DownloadsController sharedDownloadsController] reveal:[self representedObject]];
     }
     else;
 

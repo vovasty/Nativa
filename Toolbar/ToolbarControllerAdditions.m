@@ -153,7 +153,7 @@ typedef enum
 
 - (BOOL) validateToolbarItem: (NSToolbarItem *) toolbarItem
 {
-    NSString * ident = [toolbarItem itemIdentifier];
+	NSString * ident = [toolbarItem itemIdentifier];
     
     //enable remove item
     if ([ident isEqualToString: TOOLBAR_REMOVE])

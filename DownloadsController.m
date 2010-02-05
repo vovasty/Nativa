@@ -89,6 +89,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		__block DownloadsController *blockSelf = self;
 		VoidResponseBlock response = [^{ 
 #warning memory leak here (recycleURLs)
+#warning always trashed, regardless to settings
 				[[NSWorkspace sharedWorkspace] recycleURLs: urls
 							completionHandler:nil];
 		} copy];
@@ -113,6 +114,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response
 {
 	[[self _controller] getGlobalDownloadSpeedLimit:response];
+}
+
+#warning only for single process
+- (void) reveal:(Torrent*) torrent
+{
+	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
+	NSString * location = pd.downloadsFolder;
+	if (location)
+	{
+		NSString* exactLocation = [NSString stringWithFormat:@"%@/%@", location, [torrent.dataLocation lastPathComponent]];
+		NSURL * file = [NSURL fileURLWithPath: exactLocation];
+		[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs: [NSArray arrayWithObject: file]];
+	}
+	
 }
 @end
 

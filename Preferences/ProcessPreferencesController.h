@@ -21,7 +21,15 @@
 	IBOutlet NSTextField *_host;
 	
 	IBOutlet NSTextField *_port;
+	
+	IBOutlet NSPopUpButton * _downloadsPathPopUp;
+	
+	IBOutlet NSWindow *_window;
+
 }
 
 -(IBAction) toggleManualConfig:(id) sender;
+
+- (void) downloadsPathShow: (id) sender;
+
 @end

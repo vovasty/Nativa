@@ -11,7 +11,11 @@
 #import "ProcessDescriptor.h"
 
 @interface ProcessPreferencesController(Private)
+
 -(void)updateSelectedProcess;
+
+- (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info;
+
 @end
 
 @implementation ProcessPreferencesController
@@ -66,6 +70,23 @@
 	[pd setManualConfig:s];
 	[[ProcessesController sharedProcessesController] saveProcesses];
 }
+
+//show folder doalog for downloads path
+- (void) downloadsPathShow: (id) sender
+{
+    NSOpenPanel * panel = [NSOpenPanel openPanel];
+	
+    [panel setPrompt: NSLocalizedString(@"Select", "Preferences -> Open panel prompt")];
+    [panel setAllowsMultipleSelection: NO];
+    [panel setCanChooseFiles: NO];
+    [panel setCanChooseDirectories: YES];
+    [panel setCanCreateDirectories: YES];
+	
+    [panel beginSheetForDirectory: nil file: nil types: nil
+				   modalForWindow: _window modalDelegate: self didEndSelector:
+	 @selector(downloadsPathClosed:returnCode:contextInfo:) contextInfo: nil];
+	
+}
 @end
 
 @implementation ProcessPreferencesController(Private)
@@ -87,6 +108,12 @@
 
 		[_port setIntValue:[pd port]];
 		[_port setEnabled:YES];
+		
+		[_downloadsPathPopUp removeItemAtIndex:0];
+		[_downloadsPathPopUp insertItemWithTitle:pd.downloadsFolder==nil?@"":pd.downloadsFolder atIndex:0];
+		[_downloadsPathPopUp selectItemAtIndex: 0];
+		[_downloadsPathPopUp setEnabled:YES];
+		
     }
     else
     {
@@ -100,6 +127,33 @@
 		
 		[_port setIntValue:0];
 		[_port setEnabled:NO];
+		
+		[_downloadsPathPopUp removeItemAtIndex:0];
+		[_downloadsPathPopUp insertItemWithTitle:@" " atIndex:0];
+		[_downloadsPathPopUp selectItemAtIndex: 0];
+		[_downloadsPathPopUp setEnabled:NO];
+		
+		
     }
+}
+
+- (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info
+{
+    if (code == NSOKButton)
+    {
+        ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex: [_tableView selectedRow]];
+		
+		NSString * folder = [[openPanel filenames] objectAtIndex: 0];
+
+		[_downloadsPathPopUp removeItemAtIndex:0];
+
+		[_downloadsPathPopUp insertItemWithTitle:folder atIndex:0];
+		
+		[pd setDownloadsFolder:folder];
+		
+		[[ProcessesController sharedProcessesController] saveProcesses];
+
+    }
+    [_downloadsPathPopUp selectItemAtIndex: 0];
 }
 @end

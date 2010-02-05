@@ -11,7 +11,7 @@
 
 extern NSString* const NINotifyUpdateDownloads;
 
-@class RTorrentController;
+@class RTorrentController, Torrent;
 
 @interface DownloadsController : NSObject {
 @private
@@ -44,5 +44,6 @@ extern NSString* const NINotifyUpdateDownloads;
 
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response;
 
+- (void) reveal:(Torrent*) torrent;
 @end
 

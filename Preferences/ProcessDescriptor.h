@@ -17,12 +17,14 @@
 	NSString* _host;
 	int _port;
 	id<TorrentController> _process;
+	NSString* _downloadsFolder;
 	
 }
 @property (retain) NSString* name;
 @property (retain) NSString* processType;
 @property (assign) BOOL manualConfig;
 @property (retain) NSString* host;
+@property (retain) NSString* downloadsFolder;
 @property (assign) int port;
 
 -(id<TorrentController>) process;

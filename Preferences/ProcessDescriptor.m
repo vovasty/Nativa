@@ -17,6 +17,7 @@
 @synthesize manualConfig = _manualConfig;
 @synthesize host = _host;
 @synthesize port = _port;
+@synthesize downloadsFolder = _downloadsFolder;
 
 //NSCoding stuff
 - (id)initWithCoder:(NSCoder*)coder
@@ -28,6 +29,7 @@
         self.manualConfig = [coder decodeBoolForKey:@"manualConfig"];
         self.host = [coder decodeObjectForKey:@"host"];
         self.port = [coder decodeIntForKey:@"port"];
+		self.downloadsFolder = [coder decodeObjectForKey:@"downloadsFolder"];
     }
 	
     return self;
@@ -41,6 +43,7 @@
     [coder encodeBool:_manualConfig forKey:@"manualConfig"];
 	[coder encodeObject:_host forKey:@"host"];
 	[coder encodeInt:_port forKey:@"port"];
+	[coder encodeObject:_downloadsFolder forKey:@"downloadsFolder"];
 }
 
 -(void) dealloc
@@ -49,6 +52,7 @@
 	[_name release];
 	[_processType release];
 	[_host release];
+	[_downloadsFolder release];
 	[super dealloc];
 }
 
