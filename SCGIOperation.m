@@ -176,6 +176,7 @@
         {
 			[self responseDidReceived];
 			XMLRPCTreeBasedParser* xmlrpcResponse = [[XMLRPCTreeBasedParser alloc] initWithData: responseData];
+//			NSLog(@"%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
 			id result = [xmlrpcResponse parse];
 			if ([xmlrpcResponse isFault])
 				[self setError:result];
@@ -196,6 +197,7 @@
 
 - (void) setError:(NSString*) error;
 {
+	NSLog(@"error: %@", error);
 	[self requestDidSent];
 	[self responseDidReceived];
 	[_command processResponse:nil error:error];
