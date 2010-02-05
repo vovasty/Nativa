@@ -19,10 +19,6 @@ enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknow
 	
 	uint64_t size;
 
-	uint64_t downloaded;
-	
-	uint64_t uploaded;
-	
 	enum TorrentState state;
 	
 	NSImage* _icon;
@@ -39,10 +35,6 @@ enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknow
 }
 @property (readwrite, retain) NSString* name;
 @property (readwrite, retain) NSString* thash;
-
-@property uint64_t downloaded;
-
-@property uint64_t uploaded;
 
 @property uint64_t size;
 

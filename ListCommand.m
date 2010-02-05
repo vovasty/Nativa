@@ -44,22 +44,19 @@
 			Torrent* r = [[Torrent alloc] init];
 			r.thash = [row objectAtIndex:0];
 			r.name = [row objectAtIndex:1];
-			NSNumber*  chunk_size = [row  objectAtIndex:2];
-			NSNumber*  size_chunks = [row  objectAtIndex:3];
-			NSNumber*  completed_chunks = [row  objectAtIndex:4];
-			r.size = [size_chunks longValue] * [chunk_size longValue];
-			r.downloaded = [completed_chunks longValue] * [chunk_size longValue];
-			NSNumber* state = [row  objectAtIndex:5];
-			NSNumber* opened = [row  objectAtIndex:6];
+			NSNumber*  size = [row  objectAtIndex:2];
+			NSNumber*  completed = [row  objectAtIndex:3];
+			r.size = [size integerValue];
+			r.downloadRate = [completed integerValue];
+			NSNumber* state = [row  objectAtIndex:4];
+			NSNumber* opened = [row  objectAtIndex:5];
 			r.state = [self defineTorrentState:state opened:opened done:[r progress]];
-			NSNumber*  speedDownload = [row  objectAtIndex:7];
+			NSNumber*  speedDownload = [row  objectAtIndex:6];
 			r.speedDownload = [speedDownload floatValue]/1024;
-			NSNumber*  speedUpload = [row  objectAtIndex:8];
+			NSNumber*  speedUpload = [row  objectAtIndex:7];
 			r.speedUpload = [speedUpload floatValue]/1024;
-			NSNumber*  downloadRate = [row  objectAtIndex:9];
-			r.downloadRate = [downloadRate longValue];
-			NSNumber*  uploadRate = [row  objectAtIndex:10];
-			r.uploadRate = [uploadRate longValue];
+			NSNumber*  uploadRate = [row  objectAtIndex:8];
+			r.uploadRate = [uploadRate floatValue];
 			[result addObject:r];
 		}
 		[result autorelease];
@@ -78,14 +75,12 @@
 			@"main", 
 			@"d.get_hash=", 
 			@"d.get_name=", 
-			@"d.get_chunk_size=",
-			@"d.get_size_chunks=",
-			@"d.get_completed_chunks=",
+			@"d.get_size_bytes=",
+			@"d.get_completed_bytes=",
 			@"d.get_state=",
 			@"d.is_open=",
 			@"d.get_down_rate=",
 			@"d.get_up_rate=",
-			@"d.get_down_total=",
 			@"d.get_up_total=",
 			nil];
 }

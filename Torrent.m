@@ -11,7 +11,7 @@
 
 @implementation Torrent
 
-@synthesize name, size, thash, downloaded, uploaded, state, speedDownload, speedUpload, dataLocation, uploadRate, downloadRate;
+@synthesize name, size, thash, state, speedDownload, speedUpload, dataLocation, uploadRate, downloadRate;
 
 - (void)dealloc
 {
@@ -36,8 +36,6 @@
 
 - (void) update: (Torrent *) anotherItem;
 {
-	self.downloaded = anotherItem.downloaded;
-	self.uploaded = anotherItem.uploaded;
 	self.state = anotherItem.state;
 	self.speedUpload = anotherItem.speedUpload;
 	self.speedDownload = anotherItem.speedDownload;
@@ -47,7 +45,7 @@
 
 - (double) progress
 {
-	return ((float)downloaded/(float)size);
+	return ((float)downloadRate/(float)size);
 }
 
 - (NSImage*) icon
