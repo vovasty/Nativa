@@ -70,6 +70,10 @@
 
 	[self checkSpeedLimit];
 	
+	//bottom bar for window
+	//http://iloveco.de/bottom-bars-in-cocoa/
+	[_window setContentBorderThickness:24.0 forEdge:NSMinYEdge];
+	
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
