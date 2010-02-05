@@ -28,6 +28,8 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
+	<string>Nativa</string>
+	<key>CFBundleDisplayName</key>
 	<string></string>
 	<key>CFBundleIdentifier</key>
 	<string>net.aramzamzam.${PRODUCT_NAME:rfc1034identifier}</string>

@@ -29,6 +29,7 @@
 		811EA5601111F5A6001D16D0 /* RTorrentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA55F1111F5A6001D16D0 /* RTorrentController.m */; };
 		811EA5D31111FAD1001D16D0 /* TurtleTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */; };
 		811EA98E11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m */; };
+		8127692A111BEAC100D8749B /* Nativa.icns in Resources */ = {isa = PBXBuildFile; fileRef = 81276929111BEAC100D8749B /* Nativa.icns */; };
 		812A725010FD0A0300795D8B /* RTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A724F10FD0A0300795D8B /* RTConnection.m */; };
 		812A726D10FD0D3D00795D8B /* SCGIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A726C10FD0D3D00795D8B /* SCGIOperation.m */; };
 		812A731010FD1C0A00795D8B /* ListCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A730F10FD1C0A00795D8B /* ListCommand.m */; };
@@ -134,6 +135,7 @@
 		811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TurtleTemplate.png; sourceTree = "<group>"; };
 		811EA98C11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetGlobalDownloadSpeedLimit.h; sourceTree = "<group>"; };
 		811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetGlobalDownloadSpeedLimit.m; sourceTree = "<group>"; };
+		81276929111BEAC100D8749B /* Nativa.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Nativa.icns; sourceTree = "<group>"; };
 		812A710710FCFB1600795D8B /* TorrentDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentDelegate.h; sourceTree = "<group>"; };
 		812A724E10FD0A0300795D8B /* RTConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTConnection.h; sourceTree = "<group>"; };
 		812A724F10FD0A0300795D8B /* RTConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTConnection.m; sourceTree = "<group>"; };
@@ -395,6 +397,7 @@
 		811EA5D11111FAD1001D16D0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81276929111BEAC100D8749B /* Nativa.icns */,
 				810E7A8C1115F74900FC4640 /* RevealHover.png */,
 				810E7A8D1115F74900FC4640 /* RevealOff.png */,
 				810E7A8E1115F74900FC4640 /* RevealOn.png */,
@@ -551,6 +554,7 @@
 				810E7A911115F74900FC4640 /* RevealOn.png in Resources */,
 				81696850111B0CFC00246098 /* PreferencesWindow.xib in Resources */,
 				816967F9111A3F4900246098 /* dsa_pub.pem in Resources */,
+				8127692A111BEAC100D8749B /* Nativa.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
