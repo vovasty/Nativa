@@ -18,6 +18,7 @@
 	[name release];
 	[thash release];
 	[_icon release];
+	[dataLocation release];
 	[super dealloc];
 }
 
