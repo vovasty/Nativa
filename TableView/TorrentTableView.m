@@ -39,8 +39,6 @@
 #define ACTION_MENU_PRIORITY_NORMAL_TAG 102
 #define ACTION_MENU_PRIORITY_LOW_TAG 103
 
-#define TOGGLE_PROGRESS_SECONDS 0.175
-
 @interface TorrentTableView (Private)
 
 - (BOOL) pointInGroupStatusRect: (NSPoint) point;

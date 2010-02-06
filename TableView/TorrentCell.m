@@ -155,7 +155,7 @@
     
     const NSRect revealRect = [self revealButtonRectForBounds: cellFrame];
     const BOOL checkReveal = NSMouseInRect(point, revealRect, [controlView isFlipped]);
-    
+//		for some reason it is not working
 //    [(TorrentTableView *)controlView removeButtonTrackingAreas];
 
     while ([event type] != NSLeftMouseUp)
@@ -204,7 +204,7 @@
 		[[DownloadsController sharedDownloadsController] reveal:[self representedObject]];
     }
     else;
-
+//		for some reason it is not working
 //    [controlView updateTrackingAreas];
     
     return YES;
@@ -411,12 +411,7 @@
     if (torrent.state != stopped)
         controlImage = [NSImage imageNamed: [@"Pause" stringByAppendingString: controlImageSuffix]];
     else
-    {
-        if ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)
-            controlImage = [NSImage imageNamed: [@"ResumeNoWait" stringByAppendingString: controlImageSuffix]];
-        else
-            controlImage = [NSImage imageNamed: [@"Resume" stringByAppendingString: controlImageSuffix]];
-    }
+		controlImage = [NSImage imageNamed: [@"Resume" stringByAppendingString: controlImageSuffix]];
     
     [self drawImage: controlImage inRect: [self controlButtonRectForBounds: cellFrame]];
     
@@ -742,7 +737,6 @@
         return buttonString;
     else
 		return [self torrentStatusString];
-        //return [[self representedObject] statusString];
 }
 
 - (NSString *) minimalStatusString
