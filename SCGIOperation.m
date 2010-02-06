@@ -163,11 +163,14 @@
 							_carriageReturn = FALSE;
 					}
 				}
-				if (!_headers_not_found) // if headers are found, keep body only, otherwise skip it all
-				{	
-					uint8_t* buf2 = &buf[start];
-					[responseData appendBytes:buf2 length:(len - start)];
+				if (_headers_not_found || len <= start)
+				{
+					[self setError:NSLocalizedString(@"Invalid response", "Network -> error")];
+					break;
 				}
+				 //headers are found, keep body only, otherwise skip it all
+				uint8_t* buf2 = &buf[start];
+				[responseData appendBytes:buf2 length:(len - start)];
 			}
 			break;
 		}
