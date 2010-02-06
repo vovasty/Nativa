@@ -57,7 +57,8 @@
 			r.speedUpload = [speedUpload floatValue]/1024;
 			NSNumber*  uploadRate = [row  objectAtIndex:8];
 			r.uploadRate = [uploadRate floatValue];
-			r.dataLocation = [row objectAtIndex:9];
+#warning an odd memory leak here without autorelease
+			r.dataLocation = [[row objectAtIndex:9] autorelease];
 			NSNumber *conn = [row  objectAtIndex:10];
 			NSNumber *notConn = [row  objectAtIndex:11];;
 			NSNumber *compl = [row  objectAtIndex:12];;

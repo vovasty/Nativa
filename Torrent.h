@@ -40,6 +40,7 @@ enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknow
 	NSString* dataLocation;
 }
 @property (readwrite, retain) NSString* name;
+
 @property (readwrite, retain) NSString* thash;
 
 @property uint64_t size;
