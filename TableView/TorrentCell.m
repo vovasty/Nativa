@@ -88,6 +88,8 @@
 
 - (void) drawImage: (NSImage *) image inRect: (NSRect) rect; //use until 10.5 dropped
 
+- (NSString *) torrentProgressString;
+
 @end
 
 @implementation TorrentCell
