@@ -766,7 +766,7 @@
 {
     Torrent *torrent = [self representedObject];
 	NSString * string;
-    
+
 	switch (torrent.state)
     {
 	case stopped:
@@ -774,11 +774,20 @@
 		break;
 				
 	case leeching:
-		string = [NSString stringWithFormat: NSLocalizedString(@"Downloading", "Torrent -> status string")];
+			if ((torrent.totalPeersSeed + torrent.totalPeersLeech + torrent.totalPeersDisconnected) != 1)
+				string = [NSString stringWithFormat: NSLocalizedString(@"Downloading from %d of %d peers",
+																	   "Torrent -> status string"), torrent.totalPeersSeed, torrent.totalPeersSeed + torrent.totalPeersLeech + torrent.totalPeersDisconnected];
+			else
+				string = [NSString stringWithFormat: NSLocalizedString(@"Downloading from %d of 1 peer",
+																	   "Torrent -> status string"), torrent.totalPeersSeed];
 		break;
-				
 	case seeding:
-		string = [NSString stringWithFormat: NSLocalizedString(@"Seeding", "Torrent -> status string")];
+			if ((torrent.totalPeersLeech+torrent.totalPeersDisconnected) != 1)
+				string = [NSString stringWithFormat: NSLocalizedString(@"Seeding to %d of %d peers", "Torrent -> status string"),
+						  torrent.totalPeersLeech, torrent.totalPeersLeech+torrent.totalPeersDisconnected];
+			else
+				string = [NSString stringWithFormat: NSLocalizedString(@"Seeding to %d of 1 peer", "Torrent -> status string"),
+						  torrent.totalPeersLeech];
 		break;
 	}
         

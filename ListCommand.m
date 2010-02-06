@@ -58,6 +58,12 @@
 			NSNumber*  uploadRate = [row  objectAtIndex:8];
 			r.uploadRate = [uploadRate floatValue];
 			r.dataLocation = [row objectAtIndex:9];
+			NSNumber *conn = [row  objectAtIndex:10];
+			NSNumber *notConn = [row  objectAtIndex:11];;
+			NSNumber *compl = [row  objectAtIndex:12];;
+			r.totalPeersLeech = [conn integerValue] - [compl integerValue];
+			r.totalPeersSeed = [compl integerValue];
+			r.totalPeersDisconnected = [notConn integerValue];
 			[result addObject:r];
 		}
 		[result autorelease];
@@ -84,6 +90,9 @@
 			@"d.get_up_rate=",
 			@"d.get_up_total=",
 			@"d.get_base_path=",
+			@"d.get_peers_connected=",
+			@"d.get_peers_not_connected=",
+			@"d.get_peers_complete=",
 			nil];
 }
 

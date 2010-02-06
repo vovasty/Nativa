@@ -31,6 +31,12 @@ enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknow
 	
 	CGFloat uploadRate;
 	
+	NSInteger totalPeersSeed;
+	
+	NSInteger totalPeersLeech;
+	
+	NSInteger totalPeersDisconnected;
+	
 	NSString* dataLocation;
 }
 @property (readwrite, retain) NSString* name;
@@ -50,6 +56,11 @@ enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknow
 
 @property CGFloat uploadRate;
 
+@property NSInteger totalPeersSeed;
+
+@property NSInteger totalPeersLeech;
+
+@property NSInteger totalPeersDisconnected;
 
 - (void) update: (Torrent *) anotherItem;
 - (double) progress;
