@@ -520,31 +520,31 @@
 
 - (void) displayTorrentMenuForEvent: (NSEvent *) event
 {
-    const NSInteger row = [self rowAtPoint: [self convertPoint: [event locationInWindow] fromView: nil]];
-    if (row < 0)
-        return;
-    
-    const NSInteger numberOfNonFileItems = [fActionMenu numberOfItems];
-    
-    //update file action menu
-    fMenuTorrent = [[self itemAtRow: row] retain];
-    
-    //update global limit check
-    [fGlobalLimitItem setState: [fMenuTorrent usesGlobalSpeedLimit] ? NSOnState : NSOffState];
-    
-    //place menu below button
-    NSRect rect = [fTorrentCell iconRectForBounds: [self rectOfRow: row]];
-    NSPoint location = rect.origin;
-    location.y += rect.size.height + 5.0;
-    
-	location = [self convertPoint: location toView: self];
-    [fActionMenu popUpMenuPositioningItem: nil atLocation: location inView: self];
-    
-    for (NSInteger i = [fActionMenu numberOfItems]-1; i >= numberOfNonFileItems; i--)
-        [fActionMenu removeItemAtIndex: i];
-    
-    [fMenuTorrent release];
-    fMenuTorrent = nil;
+//	const NSInteger row = [self rowAtPoint: [self convertPoint: [event locationInWindow] fromView: nil]];
+//    if (row < 0)
+//        return;
+//    
+//    const NSInteger numberOfNonFileItems = [fActionMenu numberOfItems];
+//    
+//    //update file action menu
+//    fMenuTorrent = [[self itemAtRow: row] retain];
+//    
+//    //update global limit check
+//    [fGlobalLimitItem setState: [fMenuTorrent usesGlobalSpeedLimit] ? NSOnState : NSOffState];
+//    
+//    //place menu below button
+//    NSRect rect = [fTorrentCell iconRectForBounds: [self rectOfRow: row]];
+//    NSPoint location = rect.origin;
+//    location.y += rect.size.height + 5.0;
+//    
+//	location = [self convertPoint: location toView: self];
+//    [fActionMenu popUpMenuPositioningItem: nil atLocation: location inView: self];
+//    
+//    for (NSInteger i = [fActionMenu numberOfItems]-1; i >= numberOfNonFileItems; i--)
+//        [fActionMenu removeItemAtIndex: i];
+//    
+//    [fMenuTorrent release];
+//    fMenuTorrent = nil;
 }
 
 //alternating rows - first row after group row is white
