@@ -13,23 +13,23 @@
 
 @synthesize response = _response;
 
-- (enum TorrentState) defineTorrentState:(NSNumber*) state opened:(NSNumber*) opened done:(float) done
+- (TorrentState) defineTorrentState:(NSNumber*) state opened:(NSNumber*) opened done:(float) done
 {
 	switch ([state intValue]) {
 		case 1: //started
 			if (opened==0)
-				return stopped;
+				return NITorrentStateStopped;
 			else
 			{
 				if (done>=1)
-					return seeding;
+					return NITorrentStateSeeding;
 				else
-					return leeching;
+					return NITorrentStateLeeching;
 			}
 		case 0: //stopped
-			return stopped;
+			return NITorrentStateStopped;
 	}
-	return unknown;
+	return NITorrentStateUnknown;
 }
 
 

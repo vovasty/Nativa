@@ -512,7 +512,7 @@
 
 - (void) toggleControlForTorrent: (Torrent *) torrent
 {
-    if ( torrent.state != stopped )
+    if ( torrent.state != NITorrentStateStopped )
         [[DownloadsController sharedDownloadsController] stop:torrent.thash response:nil];
     else
         [[DownloadsController sharedDownloadsController] start:torrent.thash response:nil];

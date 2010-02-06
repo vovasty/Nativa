@@ -410,7 +410,7 @@
 
 	
     NSImage * controlImage;
-    if (torrent.state != stopped)
+    if (torrent.state != NITorrentStateStopped)
         controlImage = [NSImage imageNamed: [@"Pause" stringByAppendingString: controlImageSuffix]];
     else
 		controlImage = [NSImage imageNamed: [@"Resume" stringByAppendingString: controlImageSuffix]];
@@ -488,12 +488,12 @@
     
     if (!NSIsEmptyRect(haveRect))
     {
-        if (torrent.state != stopped)
+        if (torrent.state != NITorrentStateStopped)
         {
 //            if ([torrent isChecking])
 //                [[ProgressGradients progressYellowGradient] drawInRect: haveRect angle: 90];
 //            else if ([torrent isSeeding])
-			if (torrent.state == seeding)
+			if (torrent.state == NITorrentStateSeeding)
             {
                 [[ProgressGradients progressGreenGradient] drawInRect: haveRect angle: 90];
             }
@@ -716,7 +716,7 @@
     else if (fMouseDownControlButton || (!fTracking && fHoverControl))
     {
         Torrent * torrent = [self representedObject];
-        if (torrent.state != stopped)
+        if (torrent.state != NITorrentStateStopped)
             return NSLocalizedString(@"Pause the transfer", "Torrent Table -> tooltip");
         else
         {
@@ -765,11 +765,11 @@
 
 	switch (torrent.state)
     {
-	case stopped:
+	case NITorrentStateStopped:
 		string = NSLocalizedString(@"Paused", "Torrent -> status string");
 		break;
 				
-	case leeching:
+	case NITorrentStateLeeching:
 			if ((torrent.totalPeersSeed + torrent.totalPeersLeech + torrent.totalPeersDisconnected) != 1)
 				string = [NSString stringWithFormat: NSLocalizedString(@"Downloading from %d of %d peers",
 																	   "Torrent -> status string"), torrent.totalPeersSeed, torrent.totalPeersSeed + torrent.totalPeersLeech + torrent.totalPeersDisconnected];
@@ -777,7 +777,7 @@
 				string = [NSString stringWithFormat: NSLocalizedString(@"Downloading from %d of 1 peer",
 																	   "Torrent -> status string"), torrent.totalPeersSeed];
 		break;
-	case seeding:
+	case NITorrentStateSeeding:
 			if ((torrent.totalPeersLeech+torrent.totalPeersDisconnected) != 1)
 				string = [NSString stringWithFormat: NSLocalizedString(@"Seeding to %d of %d peers", "Torrent -> status string"),
 						  torrent.totalPeersLeech, torrent.totalPeersLeech+torrent.totalPeersDisconnected];
@@ -790,12 +790,12 @@
     //append even if error
 	switch (torrent.state) 
 	{
-	case leeching:
+	case NITorrentStateLeeching:
             string = [string stringByAppendingFormat: @" - %@: %@, %@: %@",
 					  NSLocalizedString(@"DL", "Torrent -> status string"), [NSString stringForSpeed: torrent.speedDownload],
 					  NSLocalizedString(@"UL", "Torrent -> status string"), [NSString stringForSpeed: torrent.speedUpload]];
 			break;
-	case seeding:
+	case NITorrentStateSeeding:
             string = [string stringByAppendingFormat: @" - %@: %@",
 					  NSLocalizedString(@"UL", "Torrent -> status string"), [NSString stringForSpeed: torrent.speedUpload]];
 			break;
@@ -833,7 +833,7 @@
     }
     
 	//eta portion
-	if (torrent.state == leeching)
+	if (torrent.state == NITorrentStateLeeching)
 	{
 		if (torrent.speedDownload>0)
 		{

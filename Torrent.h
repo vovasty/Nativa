@@ -8,7 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknown = 4 };
+#ifndef TORRENT_H
+#define TORRENT_H
+
+typedef enum 
+{ 
+	NITorrentStateStopped = 0,
+	NITorrentStateSeeding = 1,
+	NITorrentStateLeeching = 2,
+	NITorrentStateChecking = 3,
+	NITorrentStateUnknown = 4
+} TorrentState;
+
+#endif /* TORRENT_H */
 
 
 @interface Torrent : NSObject 
@@ -19,7 +31,7 @@ enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknow
 	
 	uint64_t size;
 
-	enum TorrentState state;
+	TorrentState state;
 	
 	NSImage* _icon;
 	
@@ -45,7 +57,7 @@ enum TorrentState { stopped = 0, seeding = 1, leeching = 2, checking = 3, unknow
 
 @property uint64_t size;
 
-@property enum TorrentState state;
+@property TorrentState state;
 
 @property CGFloat speedDownload;
 

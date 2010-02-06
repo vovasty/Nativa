@@ -163,7 +163,7 @@ typedef enum
     if ([ident isEqualToString: TOOLBAR_PAUSE_SELECTED])
     {
         for (Torrent * torrent in [_downloadsView selectedTorrents])
-            if (torrent.state == seeding || torrent.state == leeching)
+            if (torrent.state == NITorrentStateSeeding || torrent.state == NITorrentStateLeeching)
                 return YES;
         return NO;
     }
@@ -172,7 +172,7 @@ typedef enum
     if ([ident isEqualToString: TOOLBAR_RESUME_SELECTED])
     {
         for (Torrent * torrent in [_downloadsView selectedTorrents])
-            if (torrent.state == stopped)
+            if (torrent.state == NITorrentStateStopped)
                 return YES;
         return NO;
     }
