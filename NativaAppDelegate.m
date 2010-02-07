@@ -22,4 +22,15 @@
 {
     [[DownloadsController sharedDownloadsController] add:fileNames];
 }
+
+- (BOOL) applicationShouldHandleReopen: (NSApplication *) app hasVisibleWindows: (BOOL) visibleWindows
+{
+	//hide window instead of close
+    NSWindow * mainWindow = [NSApp mainWindow];
+    if (!mainWindow || ![mainWindow isVisible])
+        [window makeKeyAndOrderFront: nil];
+    
+    return NO;
+}
+
 @end
