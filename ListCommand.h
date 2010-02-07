@@ -13,5 +13,6 @@
 {
 	ArrayResponseBlock _response;
 }
+- (id)initWithArrayResponse:(ArrayResponseBlock) resp;
 @property (retain) ArrayResponseBlock response;
 @end

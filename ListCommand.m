@@ -9,29 +9,25 @@
 #import "ListCommand.h"
 #import "Torrent.h"
 
+@interface ListCommand(Private)
+
+- (TorrentState) defineTorrentState:(NSNumber*) state opened:(NSNumber*) opened done:(float) done;
+
+@end
+
 @implementation ListCommand
 
 @synthesize response = _response;
 
-- (TorrentState) defineTorrentState:(NSNumber*) state opened:(NSNumber*) opened done:(float) done
+- (id)initWithArrayResponse:(ArrayResponseBlock) resp;
 {
-	switch ([state intValue]) {
-		case 1: //started
-			if (opened==0)
-				return NITorrentStateStopped;
-			else
-			{
-				if (done>=1)
-					return NITorrentStateSeeding;
-				else
-					return NITorrentStateLeeching;
-			}
-		case 0: //stopped
-			return NITorrentStateStopped;
-	}
-	return NITorrentStateUnknown;
+    self = [super init];
+    if (self == nil)
+        return nil;
+    
+    _response = [resp retain];
+    return self;
 }
-
 
 - (void) processResponse:(id) data error:(NSString *) error;
 {
@@ -100,5 +96,27 @@
 {
 	[_response release];
 	[super dealloc];
+}
+@end
+
+@implementation ListCommand(Private)
+
+- (TorrentState) defineTorrentState:(NSNumber*) state opened:(NSNumber*) opened done:(float) done
+{
+	switch ([state intValue]) {
+		case 1: //started
+			if (opened==0)
+				return NITorrentStateStopped;
+			else
+			{
+				if (done>=1)
+					return NITorrentStateSeeding;
+				else
+					return NITorrentStateLeeching;
+			}
+		case 0: //stopped
+			return NITorrentStateStopped;
+	}
+	return NITorrentStateUnknown;
 }
 @end
