@@ -12,6 +12,7 @@
 #import "TorrentDelegate.h"
 #import "ProcessesController.h"
 #import "ProcessDescriptor.h"
+#import "PreferencesController.h"
 
 NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
@@ -37,6 +38,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	if (self == nil)
 		return nil;
 	_downloads = [[[NSMutableArray alloc] init] retain];
+	_defaults = [NSUserDefaults standardUserDefaults];
 	return self;
 }
 
@@ -89,9 +91,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		__block DownloadsController *blockSelf = self;
 		VoidResponseBlock response = [^{ 
 #warning memory leak here (recycleURLs)
-#warning always trashed, regardless to settings
+			if ([_defaults boolForKey:NITrashDownloadDescriptorsKey])
+			{
 				[[NSWorkspace sharedWorkspace] recycleURLs: urls
-							completionHandler:nil];
+										  completionHandler:nil];
+			}
+
 		} copy];
 		[[self _controller] add:url response:response];
 		[response release];

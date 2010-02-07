@@ -19,6 +19,7 @@ extern NSString* const NINotifyUpdateDownloads;
 	NSTimer* _updateListTimer;
 	CGFloat _globalUploadSpeed;
 	CGFloat _globalDownloadSpeed;
+	NSUserDefaults* _defaults;
 }
 @property (assign)	CGFloat globalUploadSpeed;
 @property (assign)	CGFloat globalDownloadSpeed;
