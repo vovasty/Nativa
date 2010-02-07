@@ -61,81 +61,50 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 
 - (void) list:(ArrayResponseBlock) response;
 {
-	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
-	ListCommand* command = [[ListCommand alloc] init];
-	operation.command = command;
-	operation.delegate = self;
-	command.response = response;
-	[_queue addOperation:operation];
+	ListCommand* command = [[ListCommand alloc] initWithArrayResponse:response];
+	[self _runCommand: command];
 	[command release];
-	[operation release];
 }
 
 - (void) start:(NSString *)hash response:(VoidResponseBlock) response;
 {
-	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
 	StartCommand* command = [[StartCommand alloc] initWithHashAndResponse:hash response:response];
-	operation.command = command;
-	operation.delegate = self;
-	[_queue addOperation:operation];
+	[self _runCommand: command];
 	[command release];
-	[operation release];
 }
 
 - (void) stop:(NSString *)hash response:(VoidResponseBlock) response;
 {
-	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
 	StopCommand* command = [[StopCommand  alloc] initWithHashAndResponse:hash response:response];
-	operation.command = command;
-	operation.delegate = self;
-	[_queue addOperation:operation];
+	[self _runCommand: command];
 	[command release];
-	[operation release];
 }
 
 - (void) add:(NSURL *) torrentUrl response:(VoidResponseBlock) response;
 {
-	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
 	AddCommand* command = [[AddCommand  alloc] initWithUrlAndResponse:torrentUrl response:response];
-	[command retain];
-	operation.command = command;
-	operation.delegate = self;
-	[_queue addOperation:operation];
+	[self _runCommand: command];
 	[command release];
-	[operation release];
 }
 
 - (void) erase:(NSString *)hash response:(VoidResponseBlock) response;
 {
-	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
 	EraseCommand* command = [[EraseCommand  alloc] initWithHashAndResponse:hash response:response];
-	operation.command = command;
-	operation.delegate = self;
-	[_queue addOperation:operation];
+	[self _runCommand: command];
 	[command release];
-	[operation release];
 }
 - (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 {
-	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
 	SetGlobalDownloadSpeedLimit* command = [[SetGlobalDownloadSpeedLimit alloc] initWithSpeedAndResponse:speed response:response];
-	operation.command = command;
-	operation.delegate = self;
-	[_queue addOperation:operation];
+	[self _runCommand: command];
 	[command release];
-	[operation release];
-	
 }
 
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response
 {
-	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
 	GetGlobalDownloadSpeedLimit* command = [[GetGlobalDownloadSpeedLimit alloc] initWithResponse:response];
-	operation.command = command;
-	operation.delegate = self;
-	[_queue addOperation:operation];
+	[self _runCommand: command];
 	[command release];
-	[operation release];
 }
 
 -(void)_runCommand:(id<RTorrentCommand>) command
@@ -144,7 +113,6 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	operation.command = command;
 	operation.delegate = self;
 	[_queue addOperation:operation];
-	[command release];
 	[operation release];
 }
 
