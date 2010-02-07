@@ -20,8 +20,8 @@
     if (self == nil)
         return nil;
     
-    _url = [url copy];
-    _response = [resp copy];
+    _url = [url retain];
+    _response = [resp retain];
     return self;
 }
 
@@ -45,7 +45,7 @@
 		NSURLResponse *returningResponse = nil;
 		NSError* connError = nil;
 		NSData *content = [NSURLConnection sendSynchronousRequest:request returningResponse:&returningResponse error:&connError];
-		NSLog(@"oops! %@", connError);
+#warning incorrect error handling
 		//	NSLog(@"%Q", returningResponse);
 		_arguments = [NSArray arrayWithObjects:content, nil];
 		[_arguments retain];
