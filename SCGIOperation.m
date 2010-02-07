@@ -135,8 +135,8 @@
                 responseData = [[NSMutableData data] retain];
             
             uint8_t buf[1024];
-            unsigned int len = 0;
-			unsigned int start = 0;
+            NSInteger len = 0;
+			NSInteger start = 0;
             len = [(NSInputStream *)stream read:buf maxLength:1024];
 			if (len)
 			{
