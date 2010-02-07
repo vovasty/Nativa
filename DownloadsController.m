@@ -96,7 +96,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 				[[NSWorkspace sharedWorkspace] recycleURLs: urls
 										  completionHandler:nil];
 			}
-
+			
+			[blockSelf _updateList];
 		} copy];
 		[[self _controller] add:url response:response];
 		[response release];
@@ -105,7 +106,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void) erase:(NSString *) hash response:(VoidResponseBlock) response
 {
-	[[self _controller] erase:hash response:response];
+	__block DownloadsController *blockSelf = self;
+	VoidResponseBlock r = [^(NSString* error){
+		if (response)
+			response(error);
+		
+		[blockSelf _updateList];
+	}copy];
+	[[self _controller] erase:hash response:r];
 }
 
 #pragma mark -
