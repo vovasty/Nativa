@@ -103,6 +103,7 @@
 	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
 	for (Torrent *t in torrents)
 		[[DownloadsController sharedDownloadsController] erase:t.thash response:nil];
+	[_downloadsView deselectAll: nil];
 }
 -(IBAction)stopSelectedTorrents:(id)sender
 {
