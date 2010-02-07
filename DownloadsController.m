@@ -181,6 +181,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		for (Torrent *obj in toRemove)
 		{
 			[blockSelf->_downloads removeObject:obj];
+			[obj release];
 		}
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName: NINotifyUpdateDownloads object: blockSelf];
