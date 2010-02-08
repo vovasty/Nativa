@@ -22,6 +22,7 @@ NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
 - (id<TorrentController>) _controller;
 
+- (VoidResponseBlock) _updateListResponse: (VoidResponseBlock) originalResponse;
 @end
 
 @implementation DownloadsController
@@ -142,6 +143,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	}
 	
 }
+
+-(void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response
+{
+	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
+	VoidResponseBlock r = [self _updateListResponse:response];
+	[[pd process] setPriority:torrent priority:priority response:r];
+	[r release];
+}
+
 @end
 
 @implementation DownloadsController(Private)
@@ -198,5 +208,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	} copy];
 	[[self _controller] list:response];
 	[response release];
+}
+
+- (VoidResponseBlock) _updateListResponse: (VoidResponseBlock) originalResponse
+{
+	__block DownloadsController *blockSelf = self;
+	return [^(NSString* error){
+		if (originalResponse)
+			originalResponse(error);
+		NSLog(@"%@", error);
+		[blockSelf _updateList];
+	}copy];
 }
 @end

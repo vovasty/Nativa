@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "RTorrentCommand.h"
+#import "Torrent.h"
 
 @protocol TorrentControllerDelegate
 
@@ -30,6 +31,8 @@
 - (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response;
+
+- (void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response;
 
 - (id<RTorrentCommand>) errorCommand;
 @end

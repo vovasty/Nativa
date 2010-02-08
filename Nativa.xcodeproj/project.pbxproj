@@ -43,6 +43,8 @@
 		814FF97C1100AB7100335707 /* XMLRPCTreeBasedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF9751100AB7100335707 /* XMLRPCTreeBasedParser.m */; };
 		815498FD111FC1A300389035 /* PriorityHigh.png in Resources */ = {isa = PBXBuildFile; fileRef = 815498FB111FC1A300389035 /* PriorityHigh.png */; };
 		815498FE111FC1A300389035 /* PriorityLow.png in Resources */ = {isa = PBXBuildFile; fileRef = 815498FC111FC1A300389035 /* PriorityLow.png */; };
+		815499AC111FCDD800389035 /* PriorityNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 815499AB111FCDD800389035 /* PriorityNormal.png */; };
+		81549AE91120B22500389035 /* SetPriority.m in Sources */ = {isa = PBXBuildFile; fileRef = 81549AE81120B22500389035 /* SetPriority.m */; };
 		816215771114D77E0095862B /* ResumeHover.png in Resources */ = {isa = PBXBuildFile; fileRef = 816215741114D77E0095862B /* ResumeHover.png */; };
 		816215781114D77E0095862B /* ResumeOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 816215751114D77E0095862B /* ResumeOff.png */; };
 		816215791114D77E0095862B /* ResumeOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 816215761114D77E0095862B /* ResumeOn.png */; };
@@ -158,6 +160,9 @@
 		814FF9751100AB7100335707 /* XMLRPCTreeBasedParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLRPCTreeBasedParser.m; sourceTree = "<group>"; };
 		815498FB111FC1A300389035 /* PriorityHigh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PriorityHigh.png; sourceTree = "<group>"; };
 		815498FC111FC1A300389035 /* PriorityLow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PriorityLow.png; sourceTree = "<group>"; };
+		815499AB111FCDD800389035 /* PriorityNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PriorityNormal.png; sourceTree = "<group>"; };
+		81549AE71120B22500389035 /* SetPriority.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetPriority.h; sourceTree = "<group>"; };
+		81549AE81120B22500389035 /* SetPriority.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetPriority.m; sourceTree = "<group>"; };
 		816215741114D77E0095862B /* ResumeHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResumeHover.png; sourceTree = "<group>"; };
 		816215751114D77E0095862B /* ResumeOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResumeOff.png; sourceTree = "<group>"; };
 		816215761114D77E0095862B /* ResumeOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResumeOn.png; sourceTree = "<group>"; };
@@ -401,6 +406,7 @@
 		811EA5D11111FAD1001D16D0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				815499AB111FCDD800389035 /* PriorityNormal.png */,
 				815498FB111FC1A300389035 /* PriorityHigh.png */,
 				815498FC111FC1A300389035 /* PriorityLow.png */,
 				81276929111BEAC100D8749B /* Nativa.icns */,
@@ -447,6 +453,8 @@
 				811EA98D11124D93001D16D0 /* SetGlobalDownloadSpeedLimit.m */,
 				81B737E211136F6900A11521 /* GetGlobalDownloadSpeedLimit.h */,
 				81B737E311136F6900A11521 /* GetGlobalDownloadSpeedLimit.m */,
+				81549AE71120B22500389035 /* SetPriority.h */,
+				81549AE81120B22500389035 /* SetPriority.m */,
 			);
 			name = RTorrent;
 			sourceTree = "<group>";
@@ -563,6 +571,7 @@
 				8127692A111BEAC100D8749B /* Nativa.icns in Resources */,
 				815498FD111FC1A300389035 /* PriorityHigh.png in Resources */,
 				815498FE111FC1A300389035 /* PriorityLow.png in Resources */,
+				815499AC111FCDD800389035 /* PriorityNormal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -613,6 +622,7 @@
 				8169644C1119F81400246098 /* ProcessPreferencesController.m in Sources */,
 				816964541119F94800246098 /* ProcessesController.m in Sources */,
 				8169685C111B0DF800246098 /* FilterButton.m in Sources */,
+				81549AE91120B22500389035 /* SetPriority.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

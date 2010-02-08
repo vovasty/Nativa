@@ -18,6 +18,7 @@
 #import "TorrentDelegate.h"
 #import "SetGlobalDownloadSpeedLimit.h"
 #import "GetGlobalDownloadSpeedLimit.h"
+#import "SetPriority.h"
 
 static NSString * OperationsChangedContext = @"OperationsChangedContext";
 
@@ -103,6 +104,28 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response
 {
 	GetGlobalDownloadSpeedLimit* command = [[GetGlobalDownloadSpeedLimit alloc] initWithResponse:response];
+	[self _runCommand: command];
+	[command release];
+}
+
+- (void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response
+{
+	NSInteger pr;
+	switch (priority) {
+		case NITorrentPriorityLow:
+			pr = 1;
+			break;
+		case NITorrentPriorityNormal:
+			pr = 2;
+			break;
+		case NITorrentPriorityHigh:
+			pr = 3;
+			break;
+		default:
+			NSAssert1(NO, @"Unknown priority: %d", priority);
+	}
+	
+	SetPriority* command = [[SetPriority alloc] initWithHashAnsPriority:torrent.thash priority:pr response:response];
 	[self _runCommand: command];
 	[command release];
 }

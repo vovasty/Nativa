@@ -520,32 +520,69 @@
 
 - (void) displayTorrentMenuForEvent: (NSEvent *) event
 {
-//	const NSInteger row = [self rowAtPoint: [self convertPoint: [event locationInWindow] fromView: nil]];
-//    if (row < 0)
-//        return;
-//    
-//    const NSInteger numberOfNonFileItems = [fActionMenu numberOfItems];
-//    
-//    //update file action menu
-//    fMenuTorrent = [[self itemAtRow: row] retain];
-//    
-//    //update global limit check
-//    [fGlobalLimitItem setState: [fMenuTorrent usesGlobalSpeedLimit] ? NSOnState : NSOffState];
-//    
-//    //place menu below button
-//    NSRect rect = [fTorrentCell iconRectForBounds: [self rectOfRow: row]];
-//    NSPoint location = rect.origin;
-//    location.y += rect.size.height + 5.0;
-//    
-//	location = [self convertPoint: location toView: self];
-//    [fActionMenu popUpMenuPositioningItem: nil atLocation: location inView: self];
-//    
-//    for (NSInteger i = [fActionMenu numberOfItems]-1; i >= numberOfNonFileItems; i--)
-//        [fActionMenu removeItemAtIndex: i];
-//    
-//    [fMenuTorrent release];
-//    fMenuTorrent = nil;
+	const NSInteger row = [self rowAtPoint: [self convertPoint: [event locationInWindow] fromView: nil]];
+    if (row < 0)
+        return;
+    
+    //update file action menu
+    fMenuTorrent = [[self itemAtRow: row] retain];
+    
+    //place menu below button
+    NSRect rect = [fTorrentCell iconRectForBounds: [self rectOfRow: row]];
+    NSPoint location = rect.origin;
+    location.y += rect.size.height + 5.0;
+    
+	location = [self convertPoint: location toView: self];
+    [fActionMenu popUpMenuPositioningItem: nil atLocation: location inView: self];
+    
+    [fMenuTorrent release];
+    fMenuTorrent = nil;
 }
+
+#pragma mark NSMenuDelegate portion
+
+- (void) menuNeedsUpdate: (NSMenu *) menu
+{
+    //this method seems to be called when it shouldn't be
+    if (!fMenuTorrent)
+        return;
+    
+	if (menu == fPriorityMenu)
+    {
+        const TorrentPriority priority = [fMenuTorrent priority];
+        
+        NSMenuItem * item = [menu itemWithTag: ACTION_MENU_PRIORITY_HIGH_TAG];
+        [item setState: priority == NITorrentPriorityHigh ? NSOnState : NSOffState];
+        
+        item = [menu itemWithTag: ACTION_MENU_PRIORITY_NORMAL_TAG];
+        [item setState: priority == NITorrentPriorityNormal ? NSOnState : NSOffState];
+        
+        item = [menu itemWithTag: ACTION_MENU_PRIORITY_LOW_TAG];
+        [item setState: priority == NITorrentPriorityLow ? NSOnState : NSOffState];
+    }
+}
+
+- (void) setPriority: (id) sender
+{
+    TorrentPriority priority;
+    switch ([sender tag])
+    {
+        case ACTION_MENU_PRIORITY_HIGH_TAG:
+            priority = NITorrentPriorityHigh;
+            break;
+        case ACTION_MENU_PRIORITY_NORMAL_TAG:
+            priority = NITorrentPriorityNormal;
+            break;
+        case ACTION_MENU_PRIORITY_LOW_TAG:
+            priority = NITorrentPriorityLow;
+            break;
+        default:
+            NSAssert1(NO, @"Unknown priority: %d", [sender tag]);
+    }
+    
+    [[DownloadsController sharedDownloadsController] setPriority:fMenuTorrent priority:priority response:nil];
+}
+
 
 //alternating rows - first row after group row is white
 - (void) highlightSelectionInClipRect: (NSRect) clipRect

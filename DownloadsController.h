@@ -8,12 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 #import "TorrentDelegate.h"
+#import "Torrent.h"
 
 extern NSString* const NINotifyUpdateDownloads;
 
 @class RTorrentController, Torrent;
 
-@interface DownloadsController : NSObject {
+@interface DownloadsController : NSObject 
+{
 @private
 	NSMutableArray* _downloads;
 	NSTimer* _updateListTimer;
@@ -46,5 +48,7 @@ extern NSString* const NINotifyUpdateDownloads;
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response;
 
 - (void) reveal:(Torrent*) torrent;
+
+-(void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response;
 @end
 
