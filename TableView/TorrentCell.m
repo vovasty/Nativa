@@ -375,13 +375,11 @@
     {
         NSImage * priorityImage = [torrent priority] == NITorrentPriorityHigh ? [NSImage imageNamed: @"PriorityHigh.png"]
                                                                     : [NSImage imageNamed: @"PriorityLow.png"];
-
         NSRect priorityRect = NSMakeRect(NSMaxX(titleRect) + PADDING_BETWEEN_TITLE_AND_PRIORITY,
                                         NSMidY(titleRect) - PRIORITY_ICON_HEIGHT  * 0.5,
                                         PRIORITY_ICON_WIDTH, PRIORITY_ICON_HEIGHT);
         
         [self drawImage: priorityImage inRect: priorityRect];
-        [priorityImage release];
     }
     
     //progress
