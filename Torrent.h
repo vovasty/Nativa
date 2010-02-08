@@ -8,9 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-#ifndef TORRENT_H
-#define TORRENT_H
-
 typedef enum 
 { 
 	NITorrentStateStopped = 0,
@@ -20,7 +17,14 @@ typedef enum
 	NITorrentStateUnknown = 4
 } TorrentState;
 
-#endif /* TORRENT_H */
+typedef enum 
+{ 
+	NITorrentPriorityOff = 0,
+	NITorrentPriorityLow = 1,
+	NITorrentPriorityNormal = 2,
+	NITorrentPriorityHigh = 3,
+} TorrentPriority;
+
 
 
 @interface Torrent : NSObject 
@@ -50,6 +54,8 @@ typedef enum
 	NSInteger totalPeersDisconnected;
 	
 	NSString* dataLocation;
+	
+	TorrentPriority priority;
 }
 @property (readwrite, retain) NSString* name;
 
@@ -74,6 +80,8 @@ typedef enum
 @property NSInteger totalPeersLeech;
 
 @property NSInteger totalPeersDisconnected;
+
+@property TorrentPriority priority;
 
 - (void) update: (Torrent *) anotherItem;
 - (double) progress;

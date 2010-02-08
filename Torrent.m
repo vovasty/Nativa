@@ -11,7 +11,7 @@
 
 @implementation Torrent
 
-@synthesize name, size, thash, state, speedDownload, speedUpload, dataLocation, uploadRate, downloadRate, totalPeersSeed, totalPeersLeech, totalPeersDisconnected;
+@synthesize name, size, thash, state, speedDownload, speedUpload, dataLocation, uploadRate, downloadRate, totalPeersSeed, totalPeersLeech, totalPeersDisconnected, priority;
 
 - (void)dealloc
 {
@@ -45,6 +45,7 @@
 	self.totalPeersSeed=anotherItem.totalPeersSeed;
 	self.totalPeersLeech=anotherItem.totalPeersLeech;
 	self.totalPeersDisconnected=anotherItem.totalPeersDisconnected;
+	self.priority = anotherItem.priority;
 }
 
 - (double) progress

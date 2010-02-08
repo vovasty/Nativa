@@ -13,6 +13,8 @@
 
 - (TorrentState) defineTorrentState:(NSNumber*) state opened:(NSNumber*) opened done:(float) done;
 
+- (TorrentPriority) defineTorrentPriority:(NSNumber*) priority;
+
 @end
 
 @implementation ListCommand
@@ -60,6 +62,7 @@
 			r.totalPeersLeech = [conn integerValue] - [compl integerValue];
 			r.totalPeersSeed = [compl integerValue];
 			r.totalPeersDisconnected = [notConn integerValue];
+			r.priority = [self defineTorrentPriority:[row objectAtIndex:13]];
 			[result addObject:r];
 		}
 		[result autorelease];
@@ -89,6 +92,7 @@
 			@"d.get_peers_connected=",
 			@"d.get_peers_not_connected=",
 			@"d.get_peers_complete=",
+			@"d.get_priority=",
 			nil];
 }
 
@@ -118,5 +122,20 @@
 			return NITorrentStateStopped;
 	}
 	return NITorrentStateUnknown;
+}
+
+- (TorrentPriority) defineTorrentPriority:(NSNumber*) priority
+{
+	switch ([priority integerValue]) {
+		case 0:
+			return NITorrentPriorityOff;
+		case 1:
+			return NITorrentPriorityLow;
+		case 2:
+			return NITorrentPriorityNormal;
+		case 3:
+			return NITorrentPriorityHigh;
+	}
+	return NITorrentPriorityNormal;
 }
 @end
