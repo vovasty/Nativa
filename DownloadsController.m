@@ -75,12 +75,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void) start:(NSString *) hash response:(VoidResponseBlock) response
 {
-	[[self _controller] start:hash response:response];
+	VoidResponseBlock r = [self _updateListResponse:response];
+	[[self _controller] start:hash response:r];
+	[r release];
 }
 
 - (void) stop:(NSString *) hash response:(VoidResponseBlock) response
 {
-	[[self _controller] stop:hash response:response];
+	VoidResponseBlock r = [self _updateListResponse:response];
+	[[self _controller] stop:hash response:r];
+	[r release];
 }
 
 - (void) add:(NSArray *) filesNames
@@ -107,14 +111,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void) erase:(NSString *) hash response:(VoidResponseBlock) response
 {
-	__block DownloadsController *blockSelf = self;
-	VoidResponseBlock r = [^(NSString* error){
-		if (response)
-			response(error);
-		
-		[blockSelf _updateList];
-	}copy];
-	[[self _controller] erase:hash response:r];
+	VoidResponseBlock r = [self _updateListResponse:response];
+	[[self _controller] erase:hash response:[self _updateListResponse:r]];
+	[r release];
 }
 
 #pragma mark -
@@ -146,9 +145,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 -(void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response
 {
-	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
 	VoidResponseBlock r = [self _updateListResponse:response];
-	[[pd process] setPriority:torrent priority:priority response:r];
+	[[self _controller] setPriority:torrent priority:priority response:r];
 	[r release];
 }
 
@@ -216,7 +214,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	return [^(NSString* error){
 		if (originalResponse)
 			originalResponse(error);
-		NSLog(@"%@", error);
+		if (error)
+			NSLog(@"last operation error: %@", error);
 		[blockSelf _updateList];
 	}copy];
 }
