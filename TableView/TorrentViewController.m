@@ -131,45 +131,16 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 - (BOOL) outlineView: (NSOutlineView *) outlineView isItemExpandable: (id) item
 {
-    return ![item isKindOfClass: [Torrent class]];
+    return NO;
 }
 
 - (id) outlineView: (NSOutlineView *) outlineView objectValueForTableColumn: (NSTableColumn *) tableColumn byItem: (id) item
 {
     if ([item isKindOfClass: [Torrent class]])
         return ((Torrent*)item).thash;
-//    else
-//    {
-//        NSString * ident = [tableColumn identifier];
-//        if ([ident isEqualToString: @"Group"])
-//        {
-//            NSInteger group = [item groupIndex];
-//            return group != -1 ? [[GroupsController groups] nameForIndex: group]
-//			: NSLocalizedString(@"No Group", "Group table row");
-//        }
-//        else if ([ident isEqualToString: @"Color"])
-//        {
-//            NSInteger group = [item groupIndex];
-//            return [[GroupsController groups] imageForIndex: group];
-//        }
-//        else if ([ident isEqualToString: @"DL Image"])
-//            return [NSImage imageNamed: @"DownArrowGroupTemplate.png"];
-//        else if ([ident isEqualToString: @"UL Image"])
-//            return [NSImage imageNamed: [fDefaults boolForKey: @"DisplayGroupRowRatio"]
-//					? @"YingYangGroupTemplate.png" : @"UpArrowGroupTemplate.png"];
-//        else
-//        {
-//            TorrentGroup * group = (TorrentGroup *)item;
-//            
-//            if ([fDefaults boolForKey: @"DisplayGroupRowRatio"])
-//                return [NSString stringForRatio: [group ratio]];
-//            else
-//            {
-//                CGFloat rate = [ident isEqualToString: @"UL"] ? [group uploadRate] : [group downloadRate];
-//                return [NSString stringForSpeed: rate];
-//            }
-//        }
-//    }
+	else 
+		return @"";
+
 }
 
 @end
