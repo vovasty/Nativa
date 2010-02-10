@@ -23,4 +23,7 @@
 -(IBAction)removeNoDeleteSelectedTorrents:(id)sender;
 -(IBAction)stopSelectedTorrents:(id)sender;
 -(IBAction)resumeSelectedTorrents:(id)sender;
+
+- (void) openSheetClosed: (NSOpenPanel *) panel returnCode: (NSInteger) code contextInfo: (NSNumber *) useOptions;
+- (void) openShowSheet: (id) sender;
 @end

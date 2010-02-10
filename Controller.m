@@ -117,4 +117,25 @@
 	for (Torrent *t in torrents)
 		[[DownloadsController sharedDownloadsController] start:t.thash response:nil];
 }
+
+//opens window for selecting torrent
+- (void) openShowSheet: (id) sender
+{
+    NSOpenPanel * panel = [NSOpenPanel openPanel];
+	
+    [panel setAllowsMultipleSelection: YES];
+    [panel setCanChooseFiles: YES];
+    [panel setCanChooseDirectories: NO];
+	
+    [panel beginSheetForDirectory: nil file: nil types: [NSArray arrayWithObjects: @"org.bittorrent.torrent", @"torrent", nil]
+				   modalForWindow: _window modalDelegate: self didEndSelector: @selector(openSheetClosed:returnCode:contextInfo:)
+					  contextInfo: nil];
+}
+
+- (void) openSheetClosed: (NSOpenPanel *) panel returnCode: (NSInteger) code contextInfo: (NSNumber *) useOptions
+{
+    if (code == NSOKButton)
+		[[DownloadsController sharedDownloadsController] add:[panel filenames]];
+}
+
 @end
