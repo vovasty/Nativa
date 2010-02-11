@@ -11,6 +11,7 @@
 
 @class Torrent;
 
-@interface Controller(ToolbarControllerAdditions)
--(IBAction)selectedToolbarClicked:(id)sender;
+@interface Controller(ToolbarControllerAdditions)<NSToolbarDelegate>
+- (IBAction) selectedToolbarClicked:(id)sender;
+- (void) setupToolbar;
 @end

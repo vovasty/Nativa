@@ -117,7 +117,6 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 	if ([_window isVisible]) 
 	{
-		NSLog(@"refresh");
 		@synchronized(self)
 		{
 			[_outlineView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];

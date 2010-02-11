@@ -10,6 +10,7 @@
 #import "ButtonToolbarItem.h"
 #import "GroupToolbarItem.h"
 #import "ToolbarSegmentedCell.h"
+#import "TorrentTableView.h"
 #import "Torrent.h"
 
 #define TOOLBAR_REMOVE                  @"Toolbar Remove"

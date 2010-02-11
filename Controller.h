@@ -8,11 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TorrentDropView, PreferencesController, StatusBarView;
+@class TorrentDropView, PreferencesController, StatusBarView, TorrentTableView;
 
 @interface Controller : NSObject {
 	IBOutlet NSWindow* _window;
-	IBOutlet NSTableView* _downloadsView;
+	IBOutlet TorrentTableView* _downloadsView;
 	IBOutlet NSButton* _turtleButton;
 	NSUserDefaults* _defaults;
 	PreferencesController* _preferencesController;
