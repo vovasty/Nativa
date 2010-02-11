@@ -115,9 +115,13 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 	_tableContents = [arr retain];
 
-	@synchronized(self)
+	if ([_window isVisible]) 
 	{
-		[_outlineView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+		NSLog(@"refresh");
+		@synchronized(self)
+		{
+			[_outlineView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+		}
 	}
 }
 

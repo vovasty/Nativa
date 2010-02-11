@@ -56,5 +56,6 @@
 @private
     NSArray *_tableContents;
     IBOutlet NSOutlineView *_outlineView;
+	IBOutlet NSWindow* _window;
 }
 @end
