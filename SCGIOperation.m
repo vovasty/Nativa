@@ -180,7 +180,15 @@
 			[self responseDidReceived];
 			XMLRPCTreeBasedParser* xmlrpcResponse = [[XMLRPCTreeBasedParser alloc] initWithData: responseData];
 //			NSLog(@"%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+			
 			id result = [xmlrpcResponse parse];
+			
+			if (result == nil)//empty response, occured with bad xml. network error?
+			{
+				[self setError:NSLocalizedString(@"Invalid response", "Network -> error")];
+				return;
+			}
+			
 			if ([xmlrpcResponse isFault])
 				[self setError:result];
 			else
