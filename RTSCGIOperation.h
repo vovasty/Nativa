@@ -12,7 +12,7 @@
 
 @class RTConnection;
 
-@interface SCGIOperation : NSOperation<NSStreamDelegate> 
+@interface RTSCGIOperation : NSOperation<NSStreamDelegate> 
 {
 	RTConnection* _connection;
 

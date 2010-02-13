@@ -6,10 +6,10 @@
 //  Copyright 2010 aramzamzam.net. All rights reserved.
 //
 
-#import "AddCommand.h"
+#import "RTAddCommand.h"
 
 
-@implementation AddCommand
+@implementation RTAddCommand
 @synthesize url = _url;
 @synthesize response = _response;
 @synthesize start = _start;

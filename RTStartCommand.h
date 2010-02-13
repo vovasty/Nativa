@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "RTorrentCommand.h"
 
-@interface StartCommand : NSObject<RTorrentCommand>
+@interface RTStartCommand : NSObject<RTorrentCommand>
 {
 	VoidResponseBlock _response;
 	NSString* _thash;

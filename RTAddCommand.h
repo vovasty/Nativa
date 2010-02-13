@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "RTorrentCommand.h"
 
-@interface AddCommand : NSObject<RTorrentCommand>
+@interface RTAddCommand : NSObject<RTorrentCommand>
 {
 	VoidResponseBlock _response;
 	NSURL* _url;

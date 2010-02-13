@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "RTorrentCommand.h"
 
-@interface SetPriority : NSObject<RTorrentCommand>
+@interface RTSetPriorityCommand : NSObject<RTorrentCommand>
 {
 	VoidResponseBlock _response;
 	NSString* _thash;

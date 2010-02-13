@@ -6,10 +6,10 @@
 //  Copyright 2010 aramzamzam.net. All rights reserved.
 //
 
-#import "EraseCommand.h"
+#import "RTEraseCommand.h"
 
 
-@implementation EraseCommand
+@implementation RTEraseCommand
 - (NSString *) command;
 {
 	return @"d.erase";

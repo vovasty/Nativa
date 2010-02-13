@@ -1,13 +1,17 @@
 //
-//  StartCommand.h
+//  StartCommand.m
 //  Nativa
 //
 //  Created by Vladimir Solomenchuk on 13.01.10.
 //  Copyright 2010 aramzamzam.net. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-#import "StartCommand.h"
+#import "RTStopCommand.h"
 
-@interface StopCommand : StartCommand
+
+@implementation RTStopCommand
+- (NSString *) command;
+{
+	return @"d.stop";
+}
 @end

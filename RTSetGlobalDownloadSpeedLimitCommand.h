@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "RTorrentCommand.h"
 
-@interface SetGlobalDownloadSpeedLimit : NSObject<RTorrentCommand> 
+@interface RTSetGlobalDownloadSpeedLimitCommand : NSObject<RTorrentCommand> 
 {
 	VoidResponseBlock _response;
 	int _speed;

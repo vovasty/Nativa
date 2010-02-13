@@ -6,10 +6,10 @@
 //  Copyright 2010 aramzamzam.net. All rights reserved.
 //
 
-#import "StartCommand.h"
+#import "RTStartCommand.h"
 
 
-@implementation StartCommand
+@implementation RTStartCommand
 @synthesize thash = _thash;
 @synthesize response = _response;
 

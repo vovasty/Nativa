@@ -1,28 +1,26 @@
 //
-//  SetPriority.m
+//  SetGlobalDownloadSpeed.m
 //  Nativa
 //
-//  Created by Vladimir Solomenchuk on 08.02.10.
+//  Created by Vladimir Solomenchuk on 28.01.10.
 //  Copyright 2010 aramzamzam.net. All rights reserved.
 //
 
-#import "SetPriority.h"
+#import "RTSetGlobalDownloadSpeedLimitCommand.h"
 
 
-@implementation SetPriority
-
-@synthesize priority = _priority;
+@implementation RTSetGlobalDownloadSpeedLimitCommand
+@synthesize speed = _speed;
 @synthesize response = _response;
-@synthesize thash = _thash;
 
-- (id)initWithHashAnsPriority:(NSString*) hash priority:(NSInteger)priority response:(VoidResponseBlock) resp;
+- (id)initWithSpeedAndResponse:(int)speed response:(VoidResponseBlock) resp;
 {
     self = [super init];
     if (self == nil)
         return nil;
-    self.thash = hash;
-    _priority = priority;
-    self.response = resp;
+    
+    _speed = speed;
+    _response = [resp retain];
     return self;
 }
 
@@ -34,21 +32,19 @@
 
 - (NSString *) command;
 {
-	return @"d.set_priority";
+	return @"set_download_rate";
 }
 
 - (NSArray *) arguments;
 {
 	return [NSArray arrayWithObjects:
-			_thash,
-			[NSNumber numberWithInteger:_priority], 
+			[NSNumber numberWithInt:_speed], 
 			nil];
 }
 
 - (void)dealloc
 {
 	[_response release];
-	[_thash release];
 	[super dealloc];
 }
 @end

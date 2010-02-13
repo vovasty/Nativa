@@ -6,10 +6,10 @@
 //  Copyright 2010 aramzamzam.net. All rights reserved.
 //
 
-#import "ListCommand.h"
+#import "RTListCommand.h"
 #import "Torrent.h"
 
-@interface ListCommand(Private)
+@interface RTListCommand(Private)
 
 - (TorrentState) defineTorrentState:(NSNumber*) state opened:(NSNumber*) opened done:(float) done;
 
@@ -17,7 +17,7 @@
 
 @end
 
-@implementation ListCommand
+@implementation RTListCommand
 
 @synthesize response = _response;
 
@@ -103,7 +103,7 @@
 }
 @end
 
-@implementation ListCommand(Private)
+@implementation RTListCommand(Private)
 
 - (TorrentState) defineTorrentState:(NSNumber*) state opened:(NSNumber*) opened done:(float) done
 {

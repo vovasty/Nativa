@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "StartCommand.h"
+#import "RTStartCommand.h"
 
-@interface EraseCommand : StartCommand
+@interface RTEraseCommand : RTStartCommand
 @end

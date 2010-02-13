@@ -8,17 +8,17 @@
 
 #import "RTorrentController.h"
 #import "RTConnection.h"
-#import "SCGIOperation.h"
-#import "ListCommand.h"
-#import "StartCommand.h"
-#import "StopCommand.h"
-#import "AddCommand.h"
-#import "EraseCommand.h"
+#import "RTSCGIOperation.h"
+#import "RTListCommand.h"
+#import "RTStartCommand.h"
+#import "RTStopCommand.h"
+#import "RTAddCommand.h"
+#import "RTEraseCommand.h"
 #import "RTorrentCommand.h"
 #import "TorrentDelegate.h"
-#import "SetGlobalDownloadSpeedLimit.h"
-#import "GetGlobalDownloadSpeedLimit.h"
-#import "SetPriority.h"
+#import "RTSetGlobalDownloadSpeedLimitCommand.h"
+#import "RTGetGlobalDownloadSpeedLimitCommand.h"
+#import "RTSetPriorityCommand.h"
 
 static NSString * OperationsChangedContext = @"OperationsChangedContext";
 
@@ -62,48 +62,48 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 
 - (void) list:(ArrayResponseBlock) response;
 {
-	ListCommand* command = [[ListCommand alloc] initWithArrayResponse:response];
+	RTListCommand* command = [[RTListCommand alloc] initWithArrayResponse:response];
 	[self _runCommand: command];
 	[command release];
 }
 
 - (void) start:(NSString *)hash response:(VoidResponseBlock) response;
 {
-	StartCommand* command = [[StartCommand alloc] initWithHashAndResponse:hash response:response];
+	RTStartCommand* command = [[RTStartCommand alloc] initWithHashAndResponse:hash response:response];
 	[self _runCommand: command];
 	[command release];
 }
 
 - (void) stop:(NSString *)hash response:(VoidResponseBlock) response;
 {
-	StopCommand* command = [[StopCommand  alloc] initWithHashAndResponse:hash response:response];
+	RTStopCommand* command = [[RTStopCommand  alloc] initWithHashAndResponse:hash response:response];
 	[self _runCommand: command];
 	[command release];
 }
 
 - (void) add:(NSURL *) torrentUrl response:(VoidResponseBlock) response;
 {
-	AddCommand* command = [[AddCommand  alloc] initWithUrlAndResponse:torrentUrl response:response];
+	RTAddCommand* command = [[RTAddCommand  alloc] initWithUrlAndResponse:torrentUrl response:response];
 	[self _runCommand: command];
 	[command release];
 }
 
 - (void) erase:(NSString *)hash response:(VoidResponseBlock) response;
 {
-	EraseCommand* command = [[EraseCommand  alloc] initWithHashAndResponse:hash response:response];
+	RTEraseCommand* command = [[RTEraseCommand  alloc] initWithHashAndResponse:hash response:response];
 	[self _runCommand: command];
 	[command release];
 }
 - (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 {
-	SetGlobalDownloadSpeedLimit* command = [[SetGlobalDownloadSpeedLimit alloc] initWithSpeedAndResponse:speed response:response];
+	RTSetGlobalDownloadSpeedLimitCommand* command = [[RTSetGlobalDownloadSpeedLimitCommand alloc] initWithSpeedAndResponse:speed response:response];
 	[self _runCommand: command];
 	[command release];
 }
 
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response
 {
-	GetGlobalDownloadSpeedLimit* command = [[GetGlobalDownloadSpeedLimit alloc] initWithResponse:response];
+	RTGetGlobalDownloadSpeedLimitCommand* command = [[RTGetGlobalDownloadSpeedLimitCommand alloc] initWithResponse:response];
 	[self _runCommand: command];
 	[command release];
 }
@@ -125,14 +125,14 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 			NSAssert1(NO, @"Unknown priority: %d", priority);
 	}
 	
-	SetPriority* command = [[SetPriority alloc] initWithHashAnsPriority:torrent.thash priority:pr response:response];
+	RTSetPriorityCommand* command = [[RTSetPriorityCommand alloc] initWithHashAnsPriority:torrent.thash priority:pr response:response];
 	[self _runCommand: command];
 	[command release];
 }
 
 -(void)_runCommand:(id<RTorrentCommand>) command
 {
-	SCGIOperation* operation = [[SCGIOperation alloc] initWithConnection:_connection];
+	RTSCGIOperation* operation = [[RTSCGIOperation alloc] initWithConnection:_connection];
 	operation.command = command;
 	operation.delegate = self;
 	[_queue addOperation:operation];

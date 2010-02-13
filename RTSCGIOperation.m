@@ -6,13 +6,13 @@
 //  Copyright 2010 aramzamzam.net. All rights reserved.
 //
 
-#import "SCGIOperation.h"
+#import "RTSCGIOperation.h"
 #import "RTConnection.h"
 #import "XMLRPCEncoder.h"
 #import "XMLRPCTreeBasedParser.h"
 #import "SCGI.h"
 
-@interface SCGIOperation ()
+@interface RTSCGIOperation ()
 - (void) requestDidSent;
 
 - (void) responseDidReceived;
@@ -25,7 +25,7 @@
 @end
 
 
-@implementation SCGIOperation
+@implementation RTSCGIOperation
 
 @synthesize command = _command;
 @synthesize connection = _connection;
