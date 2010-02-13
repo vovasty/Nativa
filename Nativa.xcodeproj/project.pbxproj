@@ -112,8 +112,8 @@
 		810659091118DA4700674B45 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
 		8106590A1118DA4700674B45 /* PreferencesWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesWindow.h; sourceTree = "<group>"; };
 		8106590B1118DA4700674B45 /* PreferencesWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindow.m; sourceTree = "<group>"; };
-		8107590910FFDF4F003FF9A6 /* FilterbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterbarController.h; sourceTree = "<group>"; };
-		8107590A10FFDF4F003FF9A6 /* FilterbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterbarController.m; sourceTree = "<group>"; };
+		8107590910FFDF4F003FF9A6 /* FilterbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterbarController.h; sourceTree = SOURCE_ROOT; };
+		8107590A10FFDF4F003FF9A6 /* FilterbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterbarController.m; sourceTree = SOURCE_ROOT; };
 		810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarRemoveTemplate.png; sourceTree = "<group>"; };
 		810AEF2F1113353200933772 /* ButtonToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonToolbarItem.h; sourceTree = "<group>"; };
 		810AEF301113353200933772 /* ButtonToolbarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonToolbarItem.m; sourceTree = "<group>"; };
@@ -233,10 +233,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				811B055A10F6A019000D1DDC /* Network */,
 				81B73C031113C50200A11521 /* additions */,
 				811B059D10F6A1B3000D1DDC /* Torrent */,
 				811B056910F6A055000D1DDC /* UI */,
-				811B055A10F6A019000D1DDC /* Network */,
 				256AC3D80F4B6AC300CF3369 /* NativaAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* NativaAppDelegate.m */,
 				819D3BE81110CD5200F7007C /* DownloadsController.h */,
@@ -246,6 +246,7 @@
 				81720931111666BD0018555A /* NativaConstants.h */,
 				816964521119F94800246098 /* ProcessesController.h */,
 				816964531119F94800246098 /* ProcessesController.m */,
+				81D1B9051106834700C8A69A /* SynthesizeSingleton.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -339,6 +340,8 @@
 		810758FC10FFDF30003FF9A6 /* Filterbar */ = {
 			isa = PBXGroup;
 			children = (
+				8107590910FFDF4F003FF9A6 /* FilterbarController.h */,
+				8107590A10FFDF4F003FF9A6 /* FilterbarController.m */,
 				8169685A111B0DF800246098 /* FilterButton.h */,
 				8169685B111B0DF800246098 /* FilterButton.m */,
 			);
@@ -374,17 +377,15 @@
 			isa = PBXGroup;
 			children = (
 				810659071118DA4700674B45 /* Preferences */,
-				81B73ABD111399DC00A11521 /* StatusBarView.h */,
-				81B73ABE111399DC00A11521 /* StatusBarView.m */,
 				810AEF2E1113353200933772 /* Toolbar */,
 				81DF15C4110FADA100AFCE02 /* TableView */,
-				8107590910FFDF4F003FF9A6 /* FilterbarController.h */,
-				8107590A10FFDF4F003FF9A6 /* FilterbarController.m */,
 				810758FC10FFDF30003FF9A6 /* Filterbar */,
 				810CD80C10FBCF0600963D10 /* TorrentDropView.m */,
 				810CD80B10FBCF0600963D10 /* TorrentDropView.h */,
 				81B73AFA1113B34000A11521 /* StatusbarController.h */,
 				81B73AFB1113B34000A11521 /* StatusbarController.m */,
+				81B73ABD111399DC00A11521 /* StatusBarView.h */,
+				81B73ABE111399DC00A11521 /* StatusBarView.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -392,9 +393,6 @@
 		811B059D10F6A1B3000D1DDC /* Torrent */ = {
 			isa = PBXGroup;
 			children = (
-				811EA55E1111F5A6001D16D0 /* RTorrentController.h */,
-				811EA55F1111F5A6001D16D0 /* RTorrentController.m */,
-				81D1B9051106834700C8A69A /* SynthesizeSingleton.h */,
 				812A724410FD099800795D8B /* RTorrent */,
 				811B05A010F6A1C7000D1DDC /* Torrent.h */,
 				811B05A110F6A1C7000D1DDC /* Torrent.m */,
@@ -434,6 +432,8 @@
 		812A724410FD099800795D8B /* RTorrent */ = {
 			isa = PBXGroup;
 			children = (
+				811EA55E1111F5A6001D16D0 /* RTorrentController.h */,
+				811EA55F1111F5A6001D16D0 /* RTorrentController.m */,
 				81E6BCEB10FE84C90083856D /* StopCommand.h */,
 				81E6BCEC10FE84C90083856D /* StopCommand.m */,
 				812A724E10FD0A0300795D8B /* RTConnection.h */,
