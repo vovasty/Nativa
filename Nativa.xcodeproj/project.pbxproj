@@ -26,6 +26,9 @@
 		810E7A911115F74900FC4640 /* RevealOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E7A8E1115F74900FC4640 /* RevealOn.png */; };
 		811B056810F6A030000D1DDC /* SCGI.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B056710F6A030000D1DDC /* SCGI.m */; };
 		811B05A210F6A1C7000D1DDC /* Torrent.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B05A110F6A1C7000D1DDC /* Torrent.m */; };
+		811B4B7611275B14008A23C3 /* AMServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B4B7111275B14008A23C3 /* AMServer.m */; };
+		811B4B7711275B14008A23C3 /* AMService.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B4B7311275B14008A23C3 /* AMService.m */; };
+		811B4B7811275B14008A23C3 /* AMSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B4B7511275B14008A23C3 /* AMSession.m */; };
 		811EA5601111F5A6001D16D0 /* RTorrentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA55F1111F5A6001D16D0 /* RTorrentController.m */; };
 		811EA5D31111FAD1001D16D0 /* TurtleTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */; };
 		811EA98E11124D93001D16D0 /* RTSetGlobalDownloadSpeedLimitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA98D11124D93001D16D0 /* RTSetGlobalDownloadSpeedLimitCommand.m */; };
@@ -134,6 +137,12 @@
 		811B056710F6A030000D1DDC /* SCGI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCGI.m; sourceTree = "<group>"; };
 		811B05A010F6A1C7000D1DDC /* Torrent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Torrent.h; sourceTree = "<group>"; };
 		811B05A110F6A1C7000D1DDC /* Torrent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Torrent.m; sourceTree = "<group>"; };
+		811B4B7011275B14008A23C3 /* AMServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMServer.h; sourceTree = "<group>"; };
+		811B4B7111275B14008A23C3 /* AMServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMServer.m; sourceTree = "<group>"; };
+		811B4B7211275B14008A23C3 /* AMService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMService.h; sourceTree = "<group>"; };
+		811B4B7311275B14008A23C3 /* AMService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMService.m; sourceTree = "<group>"; };
+		811B4B7411275B14008A23C3 /* AMSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSession.h; sourceTree = "<group>"; };
+		811B4B7511275B14008A23C3 /* AMSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSession.m; sourceTree = "<group>"; };
 		811EA55E1111F5A6001D16D0 /* RTorrentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTorrentController.h; sourceTree = "<group>"; };
 		811EA55F1111F5A6001D16D0 /* RTorrentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTorrentController.m; sourceTree = "<group>"; };
 		811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TurtleTemplate.png; sourceTree = "<group>"; };
@@ -366,6 +375,7 @@
 		811B055A10F6A019000D1DDC /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				811B4B6F11275B14008A23C3 /* SSH */,
 				814FF9671100AB7100335707 /* XMLRPC */,
 				811B056610F6A030000D1DDC /* SCGI.h */,
 				811B056710F6A030000D1DDC /* SCGI.m */,
@@ -399,6 +409,19 @@
 				812A710710FCFB1600795D8B /* TorrentDelegate.h */,
 			);
 			name = Torrent;
+			sourceTree = "<group>";
+		};
+		811B4B6F11275B14008A23C3 /* SSH */ = {
+			isa = PBXGroup;
+			children = (
+				811B4B7011275B14008A23C3 /* AMServer.h */,
+				811B4B7111275B14008A23C3 /* AMServer.m */,
+				811B4B7211275B14008A23C3 /* AMService.h */,
+				811B4B7311275B14008A23C3 /* AMService.m */,
+				811B4B7411275B14008A23C3 /* AMSession.h */,
+				811B4B7511275B14008A23C3 /* AMSession.m */,
+			);
+			path = SSH;
 			sourceTree = "<group>";
 		};
 		811EA5D11111FAD1001D16D0 /* images */ = {
@@ -623,6 +646,9 @@
 				816964541119F94800246098 /* ProcessesController.m in Sources */,
 				8169685C111B0DF800246098 /* FilterButton.m in Sources */,
 				81549AE91120B22500389035 /* RTSetPriorityCommand.m in Sources */,
+				811B4B7611275B14008A23C3 /* AMServer.m in Sources */,
+				811B4B7711275B14008A23C3 /* AMService.m in Sources */,
+				811B4B7811275B14008A23C3 /* AMSession.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
