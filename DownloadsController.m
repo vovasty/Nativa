@@ -129,18 +129,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	[[self _controller] getGlobalDownloadSpeedLimit:response];
 }
 
-#warning only for single process
-- (void) reveal:(Torrent*) torrent
+- (BOOL) reveal:(Torrent*) torrent
 {
 	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
 	NSString * location = pd.downloadsFolder;
 	if (location)
 	{
-		NSString* exactLocation = [NSString stringWithFormat:@"%@/%@", location, [torrent.dataLocation lastPathComponent]];
-		NSURL * file = [NSURL fileURLWithPath: exactLocation];
-		[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs: [NSArray arrayWithObject: file]];
+		NSMutableString* exactLocation = [NSMutableString stringWithCapacity:[location length]];
+		NSArray* splittedPath = [torrent.dataLocation pathComponents];
+		
+		[exactLocation setString:location];
+		
+		NSFileManager* dm = [NSFileManager defaultManager];
+		
+		for(int i=[splittedPath count]-1;i>-1;i--) //we do not know where is file, so lets make some guesses
+		{
+			for (int ii = i;ii<[splittedPath count];ii++)
+				[exactLocation appendFormat:@"/%@",[splittedPath objectAtIndex:ii]];
+
+			if ([dm fileExistsAtPath:exactLocation])
+				break;
+			else
+				[exactLocation setString:location];
+
+		}
+		
+		if ([dm fileExistsAtPath:exactLocation])
+		{
+			NSURL * file = [NSURL fileURLWithPath: exactLocation];
+			[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs: [NSArray arrayWithObject: file]];
+			return YES;
+		}
 	}
 	
+	return NO;
 }
 
 -(void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response

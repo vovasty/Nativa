@@ -47,7 +47,7 @@ extern NSString* const NINotifyUpdateDownloads;
 
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response;
 
-- (void) reveal:(Torrent*) torrent;
+- (BOOL) reveal:(Torrent*) torrent;
 
 -(void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response;
 @end
