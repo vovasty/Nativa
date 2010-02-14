@@ -19,7 +19,7 @@
 }
 
 
-- (void) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate;
+- (BOOL) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate;
 {
 	NSHost *host = [NSHost hostWithAddress:hostName];
 	if (host != nil)
@@ -37,7 +37,9 @@
 		
 		[(*oStream) open];
 		[(*iStream) open];
+		return YES;
 	}
+	return NO;
 }
 
 -(void)dealloc;

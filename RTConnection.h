@@ -16,5 +16,5 @@
 }
 - (id)initWithHostPort:(NSString *)initHost port:(int)initPort;
 
-- (void) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate;
+- (BOOL) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate;
 @end

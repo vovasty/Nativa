@@ -52,15 +52,19 @@
 
 	oStream = nil;
 	iStream = nil;
-	[_connection openStreams:&iStream oStream:&oStream delegate:self];
-	[iStream retain];
-	[oStream retain];
+	if ([_connection openStreams:&iStream oStream:&oStream delegate:self])
+	{
+		[iStream retain];
+		[oStream retain];
 	
-	do {
-		[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
-	} while (_isExecuting);
+		do {
+			[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+		} while (_isExecuting);
 	
-	
+	}
+	else 
+		NSLog(@"unable to open connection");
+
 	[pool release];
     self.pool = nil;	
 }
