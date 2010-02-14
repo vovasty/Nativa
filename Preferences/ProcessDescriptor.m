@@ -9,6 +9,9 @@
 #import "ProcessDescriptor.h"
 #import "RTConnection.h"
 #import "RTorrentController.h"
+#import "AMSession.h"
+#import "AMService.h"
+#import "AMServer.h"
 
 @implementation ProcessDescriptor
 
@@ -18,6 +21,13 @@
 @synthesize host = _host;
 @synthesize port = _port;
 @synthesize downloadsFolder = _downloadsFolder;
+
+@synthesize connectionType = _connectionType;
+@synthesize sshHost = _sshHost;
+@synthesize sshPort = _sshPort;
+@synthesize sshUsername = _sshUsername;
+@synthesize sshPassword = _sshPassword;
+@synthesize sshLocalPort = _sshLocalPort;
 
 //NSCoding stuff
 - (id)initWithCoder:(NSCoder*)coder
@@ -30,6 +40,13 @@
         self.host = [coder decodeObjectForKey:@"host"];
         self.port = [coder decodeIntForKey:@"port"];
 		self.downloadsFolder = [coder decodeObjectForKey:@"downloadsFolder"];
+		
+		self.connectionType = [coder decodeObjectForKey:@"connectionType"];
+		self.sshHost = [coder decodeObjectForKey:@"sshHost"];
+		self.sshPort = [coder decodeObjectForKey:@"sshPort"];
+		self.sshUsername = [coder decodeObjectForKey:@"sshUsername"];
+		self.sshPassword = [coder decodeObjectForKey:@"sshPassword"];
+		self.sshLocalPort = [coder decodeObjectForKey:@"sshLocalPort"];
     }
 	
     return self;
@@ -44,15 +61,32 @@
 	[coder encodeObject:_host forKey:@"host"];
 	[coder encodeInt:_port forKey:@"port"];
 	[coder encodeObject:_downloadsFolder forKey:@"downloadsFolder"];
+	
+	[coder encodeObject:_connectionType forKey:@"connectionType"];
+	[coder encodeObject:_sshHost forKey:@"sshHost"];
+	[coder encodeObject:_sshPort forKey:@"sshPort"];
+	[coder encodeObject:_sshUsername forKey:@"sshUsername"];
+	[coder encodeObject:_sshPassword forKey:@"sshPassword"];
+	[coder encodeObject:_sshLocalPort forKey:@"sshLocalPort"];
 }
 
 -(void) dealloc
 {
 	[_process release];
+	[_proxy release];
+
 	[_name release];
 	[_processType release];
 	[_host release];
 	[_downloadsFolder release];
+	
+	[_connectionType release];
+	[_sshHost release];
+	[_sshPort release];
+	[_sshUsername release];
+	[_sshPassword release];
+	[_sshLocalPort release];
+	
 	[super dealloc];
 }
 
@@ -60,11 +94,35 @@
 {
 	if (_process == nil)
 	{
-		RTConnection *connection = [[RTConnection alloc] initWithHostPort:_host port:_port];
+		if ([_connectionType isEqualToString: @"SSH"])
+		{
+			_proxy = [[AMSession alloc] init];
+			_proxy.sessionName = _name;
+			_proxy.remoteHost = _sshHost;
+			
+			AMService* portsMap = [[AMService alloc] initWithPorts:_sshLocalPort remotePorts:[NSString stringWithFormat:@"%d", _port ]];
+			
+			_proxy.portsMap = portsMap;
+			
+			AMServer *server = [[AMServer alloc] init];
+			server.host = _host;
+			server.username = _sshUsername;
+			server.password = _sshPassword;
+#warning hardcoded ssh port
+			server.port = @"22";
+			_proxy.currentServer = server;
+			[_proxy openTunnel];
+
+		}
+		RTConnection *connection = [[RTConnection alloc] initWithHostPort:_host port:_port proxy:_proxy];
 		_process = [[RTorrentController alloc] initWithConnection:connection];
 		[_process retain];
 		[connection release];
 	}
 	return _process;
+}
+-(void) closeProcess
+{
+	[_proxy closeTunnel];
 }
 @end

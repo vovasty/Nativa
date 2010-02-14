@@ -111,8 +111,8 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		8100449A1119F17900EFBF71 /* ProcessDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProcessDescriptor.h; sourceTree = "<group>"; };
-		8100449B1119F17900EFBF71 /* ProcessDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProcessDescriptor.m; sourceTree = "<group>"; };
+		8100449A1119F17900EFBF71 /* ProcessDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProcessDescriptor.h; path = Preferences/ProcessDescriptor.h; sourceTree = "<group>"; };
+		8100449B1119F17900EFBF71 /* ProcessDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProcessDescriptor.m; path = Preferences/ProcessDescriptor.m; sourceTree = "<group>"; };
 		810658F81118D5EF00674B45 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PreferencesWindow.xib; sourceTree = "<group>"; };
 		810659081118DA4700674B45 /* PreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesController.h; sourceTree = "<group>"; };
 		810659091118DA4700674B45 /* PreferencesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesController.m; sourceTree = "<group>"; };
@@ -250,10 +250,12 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				811B055A10F6A019000D1DDC /* Network */,
 				81B73C031113C50200A11521 /* additions */,
+				811B055A10F6A019000D1DDC /* Network */,
 				811B059D10F6A1B3000D1DDC /* Torrent */,
 				811B056910F6A055000D1DDC /* UI */,
+				8100449A1119F17900EFBF71 /* ProcessDescriptor.h */,
+				8100449B1119F17900EFBF71 /* ProcessDescriptor.m */,
 				256AC3D80F4B6AC300CF3369 /* NativaAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* NativaAppDelegate.m */,
 				819D3BE81110CD5200F7007C /* DownloadsController.h */,
@@ -349,8 +351,6 @@
 				810659091118DA4700674B45 /* PreferencesController.m */,
 				8106590A1118DA4700674B45 /* PreferencesWindow.h */,
 				8106590B1118DA4700674B45 /* PreferencesWindow.m */,
-				8100449A1119F17900EFBF71 /* ProcessDescriptor.h */,
-				8100449B1119F17900EFBF71 /* ProcessDescriptor.m */,
 				8169644A1119F81400246098 /* ProcessPreferencesController.h */,
 				8169644B1119F81400246098 /* ProcessPreferencesController.m */,
 			);

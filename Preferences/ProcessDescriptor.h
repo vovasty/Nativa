@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "TorrentDelegate.h"
 
+@class AMSession;
+
 @interface ProcessDescriptor : NSObject <NSCoding>
 {
 	NSString* _name;
@@ -19,6 +21,14 @@
 	id<TorrentController> _process;
 	NSString* _downloadsFolder;
 	
+	NSString* _connectionType;
+	NSString* _sshHost;
+	NSString* _sshPort;
+	NSString* _sshUsername;
+	NSString* _sshPassword;
+	NSString* _sshLocalPort;
+	AMSession* _proxy;
+	
 }
 @property (retain) NSString* name;
 @property (retain) NSString* processType;
@@ -27,5 +37,13 @@
 @property (retain) NSString* downloadsFolder;
 @property (assign) int port;
 
+@property (retain) NSString* connectionType;
+@property (retain) NSString* sshHost;
+@property (retain) NSString* sshPort;
+@property (retain) NSString* sshUsername;
+@property (retain) NSString* sshPassword;
+@property (retain) NSString* sshLocalPort;
+
 -(id<TorrentController>) process;
+-(void) closeProcess;
 @end

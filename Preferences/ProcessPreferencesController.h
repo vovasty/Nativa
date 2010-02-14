@@ -25,11 +25,28 @@
 	IBOutlet NSPopUpButton * _downloadsPathPopUp;
 	
 	IBOutlet NSWindow *_window;
+	
+	IBOutlet NSView *_sshConfig;
+	
+	IBOutlet NSPopUpButton * _connectionType;
+	
+	IBOutlet NSTextField * _sshHost;
+	
+	IBOutlet NSTextField * _sshPort;
+	
+	IBOutlet NSTextField * _sshUsername;
+	
+	IBOutlet NSTextField * _sshPassword;
+	
+	IBOutlet NSView *_sshAdvancedConfig;
 
+	IBOutlet NSTextField * _sshLocalPort;
 }
 
--(IBAction) toggleManualConfig:(id) sender;
+- (void) toggleManualConfig:(id) sender;
 
 - (void) downloadsPathShow: (id) sender;
+
+- (void) toggleConnectionDetails: (id) sender;
 
 @end

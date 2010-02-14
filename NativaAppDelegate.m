@@ -33,4 +33,9 @@
     return NO;
 }
 
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+	[[DownloadsController sharedDownloadsController] stopUpdates]; 
+}
 @end

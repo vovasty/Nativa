@@ -63,6 +63,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 -(void) stopUpdates;
 {
 	[_updateListTimer invalidate];
+	ProcessesController* pc = [ProcessesController sharedProcessesController];
+	
+	for (NSInteger i=0;i<[pc count];i++)
+	{
+		ProcessDescriptor* pd =[pc processDescriptorAtIndex:i];
+		[pd closeProcess];
+	}
 }
 
 -(NSArray*) downloads;

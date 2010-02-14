@@ -23,6 +23,7 @@
 
 - (void) awakeFromNib
 {
+//	[_tableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	[self updateSelectedProcess];
 }
 
@@ -55,13 +56,33 @@
 	{
 		[pd setPort:[_port intValue]];
 	}
+	else if ([notification object] == _sshHost)
+    {
+		[pd setSshHost:[_sshHost stringValue]];
+    }
+	else if ([notification object] == _sshPort)
+    {
+		[pd setSshPort:[_sshPort stringValue]];
+    }
+	else if ([notification object] == _sshUsername)
+    {
+		[pd setSshUsername:[_sshUsername stringValue]];
+    }
+	else if ([notification object] == _sshPassword)
+    {
+		[pd setSshPassword:[_sshPassword stringValue]];
+    }
+	else if ([notification object] == _sshLocalPort)
+    {
+		[pd setSshLocalPort:[_sshLocalPort stringValue]];
+    }
 	else;
 	
 	[[ProcessesController sharedProcessesController] saveProcesses];
 }
 
 
--(IBAction) toggleManualConfig:(id) sender
+-(void) toggleManualConfig:(id) sender
 {
 	BOOL s = [_manualConfig state];
 	[_host setEnabled:s];
@@ -70,6 +91,26 @@
 	[pd setManualConfig:s];
 	[[ProcessesController sharedProcessesController] saveProcesses];
 }
+
+-(void) toggleConnectionDetails:(id) sender
+{
+	NSString* connType = [_connectionType titleOfSelectedItem];
+	if ([connType isEqualToString:@"SSH"])
+	{
+		[_sshConfig setHidden:NO];
+		[_sshAdvancedConfig setHidden:NO];
+	}
+	else
+	{
+		[_sshConfig setHidden:YES];
+		[_sshAdvancedConfig setHidden:YES];
+	}
+	
+	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:[_tableView selectedRow]];
+	[pd setConnectionType:connType];
+	[[ProcessesController sharedProcessesController] saveProcesses];
+}
+
 
 //show folder doalog for downloads path
 - (void) downloadsPathShow: (id) sender
@@ -114,6 +155,26 @@
 		[_downloadsPathPopUp selectItemAtIndex: 0];
 		[_downloadsPathPopUp setEnabled:YES];
 		
+		[_connectionType selectItemAtIndex: [pd.connectionType isEqualToString:@"SSH"]?1:0];
+		[_connectionType setEnabled:YES];
+		//for some reason it do not want call automatically
+		[self toggleConnectionDetails:_connectionType];
+		
+		[_sshHost setStringValue:pd.sshHost];
+		[_sshHost setEnabled:YES];
+		
+		[_sshPort setStringValue:pd.sshPort];
+		[_sshPort setEnabled:YES];
+#warning store in keychain		
+		[_sshUsername setStringValue:pd.sshUsername];
+		[_sshUsername setEnabled:YES];
+		
+		[_sshPassword setStringValue:pd.sshPassword];
+		[_sshPassword setEnabled:YES];
+		
+		[_sshLocalPort setStringValue:pd.sshLocalPort];
+		[_sshLocalPort setEnabled:YES];
+
     }
     else
     {
@@ -132,8 +193,9 @@
 		[_downloadsPathPopUp insertItemWithTitle:@" " atIndex:0];
 		[_downloadsPathPopUp selectItemAtIndex: 0];
 		[_downloadsPathPopUp setEnabled:NO];
-		
-		
+
+		[_connectionType selectItemAtIndex: 0];
+		[_connectionType setEnabled:NO];
     }
 }
 
