@@ -35,7 +35,7 @@ extern	NSString const *AMNewErrorMessage;
 	BOOL			connectionInProgress;
 	NSPipe 			*stdOut;
 	NSString 		*connectionLink;
-	NSString 		*outputContent;
+	NSMutableString *outputContent;
 	NSString 		*zzz;
 	NSString 		*remoteHost;
 	NSString 		*sessionName;

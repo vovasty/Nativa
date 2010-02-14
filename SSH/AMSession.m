@@ -113,6 +113,7 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 		[sshTask terminate];
 	
 	[sshTask  release];
+	[outputContent release];
 	
 	[super dealloc];
 }
@@ -156,6 +157,8 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 		for (i = startPort; i <= stopPort; i++)
 			[ports addObject:[NSString stringWithFormat:@"%d", i]];
 	}
+	
+	[ranges release];
 	
 	return ports;
 }
@@ -233,9 +236,13 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 	
 	argumentsString = [self prepareSSHCommandWithRemotePorts:remotePorts localPorts:localPorts];
 	
+	[remotePorts release];
+	[localPorts release];
+	
 	args			= [NSArray arrayWithObjects:argumentsString, [currentServer password], nil];
 
-	outputContent	= [[NSString alloc] init];
+	[outputContent release];
+	outputContent	= [[NSMutableString alloc] initWithCapacity:1024];
 	[outputContent retain];
 
 
@@ -294,7 +301,12 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 	
 	data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
 	
-	outputContent	= [outputContent stringByAppendingString:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
+	NSString* stmp = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+	
+	[outputContent appendString:stmp];
+	
+	[stmp release];
+	
 	checkError		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTION_ERROR'"];
 	checkWrongPass	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'WRONG_PASSWORD'"];
 	checkConnected	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTED'"];
