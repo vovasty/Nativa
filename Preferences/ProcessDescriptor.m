@@ -98,14 +98,14 @@
 		{
 			_proxy = [[AMSession alloc] init];
 			_proxy.sessionName = _name;
-			_proxy.remoteHost = _sshHost;
+			_proxy.remoteHost = _host;
 			
 			AMService* portsMap = [[AMService alloc] initWithPorts:_sshLocalPort remotePorts:[NSString stringWithFormat:@"%d", _port ]];
 			
 			_proxy.portsMap = portsMap;
 			
 			AMServer *server = [[AMServer alloc] init];
-			server.host = _host;
+			server.host = _sshHost;
 			server.username = _sshUsername;
 			server.password = _sshPassword;
 #warning hardcoded ssh port
