@@ -62,8 +62,8 @@
 		} while (_isExecuting);
 	
 	}
-	else 
-		NSLog(@"unable to open connection");
+	else
+		[self setError:@"Network error: unable to open connection"];
 
 	[pool release];
     self.pool = nil;	
