@@ -2,42 +2,26 @@
 
 @implementation AMService
 
-@synthesize serviceName;
 @synthesize serviceLocalPorts;
 @synthesize serviceRemotePorts;
-@synthesize serviceDescription;
-@synthesize inputService;
 
 #pragma mark -
 #pragma mark Initializations
 
-- (id) init
+- (id) initWithPorts:(NSString*)localports remotePorts:(NSString*)remoteports;
 {
 	self = [super init];
 	
-	return self;
-}
-
-- (id) initWithName:(NSString*)name localPorts:(NSString*)localports remotePorts:(NSString*)remoteports description:(NSString*)desc input:(BOOL)isInput
-{
-	self = [super init];
-	
-	[self setServiceName:name];
 	[self setServiceLocalPorts:localports];
 	[self setServiceRemotePorts:remoteports];
-	[self setServiceDescription:desc];
-	[self setServiceDescription:desc];
-	[self setInputService:isInput];
 	
 	return self;
 }
 
 - (void) dealloc
 {
-	serviceName = nil;
-	serviceRemotePorts = nil;
-	serviceLocalPorts = nil;
-	serviceDescription = nil;
+	[serviceRemotePorts release];
+	[serviceLocalPorts release];
 	
 	[super dealloc];
 }
@@ -46,29 +30,16 @@
 {
 	self = [super init];
 	
-	serviceName			= [[coder decodeObjectForKey:@"serviceName"] retain];
-	serviceLocalPorts	= [[coder decodeObjectForKey:@"serviceLocalPorts"] retain];
-	serviceRemotePorts	= [[coder decodeObjectForKey:@"serviceRemotePorts"] retain];
-	serviceDescription	= [[coder decodeObjectForKey:@"serviceDescription"] retain];
+	self.serviceLocalPorts	= [coder decodeObjectForKey:@"serviceLocalPorts"];
+	self.serviceRemotePorts	= [coder decodeObjectForKey:@"serviceRemotePorts"];
 	
 	return self;
 }
 
 - (void) encodeWithCoder:(NSCoder *) coder
 {	
-	[coder encodeObject:serviceName forKey:@"serviceName"];
 	[coder encodeObject:serviceRemotePorts forKey:@"serviceRemotePorts"];
 	[coder encodeObject:serviceLocalPorts forKey:@"serviceLocalPorts"];
-	[coder encodeObject:serviceDescription forKey:@"serviceDescription"];
-}
-
-
-#pragma mark -
-#pragma mark Overloaded accessors
-
-- (NSString *) description
-{
-	return serviceName;
 }
 
 

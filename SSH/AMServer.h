@@ -20,8 +20,6 @@
 {
 	NSString	*password;
 	NSString	*port;
-	NSString	*serverName;
-	NSString	*statusImagePath;
 	NSString	*username;
 	NSString	*host;
 	NSPipe		*standartOutput;
@@ -29,14 +27,12 @@
 	NSPipe		*stdOut;
 	NSTask		*ping;
 }
-@property(readwrite, assign) NSString	*host;
-@property(readwrite, assign) NSString	*password;
-@property(readwrite, assign) NSString	*port;
-@property(readwrite, assign) NSString	*serverName;
-@property(readwrite, assign) NSString	*statusImagePath;
-@property(readwrite, assign) NSString	*username;
-@property(readwrite, assign) NSPipe		*standartOutput;
-@property(readwrite, assign) NSPipe		*standartInput;
+@property(readwrite, retain) NSString	*host;
+@property(readwrite, retain) NSString	*password;
+@property(readwrite, retain) NSString	*port;
+@property(readwrite, retain) NSString	*username;
+@property(readwrite, retain) NSPipe		*standartOutput;
+@property(readwrite, retain) NSPipe		*standartInput;
 
 
 #pragma mark -

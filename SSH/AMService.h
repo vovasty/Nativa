@@ -19,21 +19,15 @@
 
 @interface AMService : NSObject <NSCoding> 
 {
-	BOOL		inputService;
-	NSString	*serviceDescription;
 	NSString	*serviceLocalPorts;
-	NSString	*serviceName;
 	NSString	*serviceRemotePorts;
 
 }
-@property(readwrite)			BOOL		inputService;
-@property(readwrite, assign)	NSString	*serviceDescription;
-@property(readwrite, assign)	NSString	*serviceLocalPorts;
-@property(readwrite, assign)	NSString	*serviceName;
-@property(readwrite, assign)	NSString	*serviceRemotePorts;
+@property(readwrite, retain)	NSString	*serviceLocalPorts;
+@property(readwrite, retain)	NSString	*serviceRemotePorts;
 
 #pragma mark -
 #pragma mark Initializations
-- (id) initWithName:(NSString*)name localPorts:(NSString*)localports remotePorts:(NSString*)remoteports description:(NSString*)desc input:(BOOL)isInput;
+- (id) initWithPorts:(NSString*)localports remotePorts:(NSString*)remoteports;
 
 @end

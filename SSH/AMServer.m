@@ -18,12 +18,10 @@
 
 @implementation AMServer
 
-@synthesize serverName;
 @synthesize host;
 @synthesize username;
 @synthesize password;
 @synthesize port;
-@synthesize statusImagePath;
 @synthesize standartOutput;
 @synthesize standartInput;
 
@@ -34,20 +32,18 @@
 	self = [super init];
 	
 	[self setStandartOutput: [NSPipe pipe]];
-	[self pingHost];
+	//[self pingHost];
 	
 	return self;
 }
 
 - (void) dealloc
 {
-	host = nil;
-	port = nil;
-	username = nil;
-	password = nil;
-	serverName = nil;
-	statusImagePath = nil;
-	stdOut = nil;
+	[host release];
+	[port release];
+	[username release];
+	[password release];
+	[stdOut release];
 	
 	[super dealloc];
 }
@@ -56,15 +52,14 @@
 {
 	self = [super init];
 	
-	host		= [[coder decodeObjectForKey:@"host"] retain];
-	port		= [[coder decodeObjectForKey:@"port"] retain];
-	username	= [[coder decodeObjectForKey:@"username"] retain];
-	password	= [[coder decodeObjectForKey:@"password"] retain];
-	serverName	= [[coder decodeObjectForKey:@"serverName"] retain];
+	self.host		= [coder decodeObjectForKey:@"host"];
+	self.port		= [coder decodeObjectForKey:@"port"];
+	self.username	= [coder decodeObjectForKey:@"username"];
+	self.password	= [coder decodeObjectForKey:@"password"];
 	
 	[self setStandartInput:[NSPipe pipe]];
 	
-	[self pingHost];
+	//[self pingHost];
 	
 	return self;
 }
@@ -75,16 +70,6 @@
 	[coder encodeObject:port forKey:@"port"];
 	[coder encodeObject:username forKey:@"username"];
 	[coder encodeObject:password forKey:@"password"];
-	[coder encodeObject:serverName forKey:@"serverName"];
-}
-
-
-#pragma mark -
-#pragma mark Overloaded accessors
-
-- (NSString *) description
-{
-	return serverName;
 }
 
 
@@ -102,11 +87,6 @@
 	outputContent		= [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 	checkSuccess		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] '0% packet loss'"];
 	
-	
-	if ([checkSuccess evaluateWithObject:outputContent] == YES)
-		[self setStatusImagePath:[[NSBundle mainBundle] pathForResource:@"statusGreen" ofType:@"tif"]];
-	else
-		[self setStatusImagePath:[[NSBundle mainBundle] pathForResource:@"statusRed" ofType:@"tif"]];
 	
 	[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification object:[stdOut fileHandleForReading]];
 	[ping terminate];
@@ -128,7 +108,6 @@
 	if ([self host] == nil)
 		return;
 	
-	[self setStatusImagePath:[[NSBundle mainBundle] pathForResource:@"statusOrange" ofType:@"tif"]];
 	[ping setLaunchPath:@"/sbin/ping"];
 	[ping setArguments:[NSArray arrayWithObjects:@"-c", @"1", @"-t", @"2", [self host], nil]];
 	[ping setStandardOutput:stdOut];

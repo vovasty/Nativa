@@ -16,26 +16,20 @@
 
 #import "AMSession.h"
 
+NSString const *AMErrorLoadingSavedState = @"AMErrorLoadingSavedState";
+NSString const *AMNewGeneralMessage = @"AMNewGeneralMessage";
+NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
+
+
 @implementation AMSession
 
 @synthesize	sessionName;
 @synthesize portsMap;
 @synthesize remoteHost;
-@synthesize statusImagePath;
 @synthesize connected;
 @synthesize connectionInProgress;
 @synthesize currentServer;
-@synthesize sessionTunnelType;
-@synthesize tunnelTypeImagePath;
 @synthesize connectionLink;
-@synthesize globalProxyPort;
-@synthesize useDynamicProxy;
-@synthesize childrens;
-@synthesize	isLeaf;
-@synthesize isGroup;
-@synthesize autostart;
-@synthesize networkService;
-@synthesize autoReconnect;
 
 #pragma mark Initilizations
 
@@ -43,17 +37,8 @@
 {
 	self = [super init];
 	
-	[self setStatusImagePath:[[NSBundle mainBundle] pathForResource:@"statusRed" ofType:@"tif"]];
 	[self setConnected:NO];
 	[self setConnectionInProgress:NO];
-	[self setSessionTunnelType:AMSessionOutgoingTunnel];
-	[self setGlobalProxyPort:@"7777"];
-	[self setUseDynamicProxy:NO];
-	[self setChildrens:nil];
-	[self setIsLeaf:YES];
-	[self setIsGroup:NO];
-	[self setAutostart:NO];
-	[self setAutoReconnect:NO];
 	autoReconnectTimes = 0;
 	
 
@@ -92,29 +77,15 @@
 {
 	self = [super init];
 	
-	sessionName			= [[coder decodeObjectForKey:@"MVsessionName"] retain];
-	portsMap			= [[coder decodeObjectForKey:@"portsMap"] retain];
-	remoteHost			= [[coder decodeObjectForKey:@"MVremoteHost"] retain];
-	statusImagePath		= [[coder decodeObjectForKey:@"MVStatusImagePath"] retain];
-	currentServer		= [[coder decodeObjectForKey:@"MVcurrentServer"] retain];
-	globalProxyPort		= [[coder decodeObjectForKey:@"MVdynamicProxyPort"] retain];
-	sessionTunnelType	= [coder decodeIntForKey:@"MVoutgoingTunnel"];
-	useDynamicProxy		= [coder decodeBoolForKey:@"MVuseDynamicProxy"];
-	childrens			= [coder decodeObjectForKey:@"MVChildrens"];
-	isLeaf				= [coder decodeBoolForKey:@"MVIsLeaf"];
-	autostart			= [coder decodeBoolForKey:@"MVAutostart"];
-	autoReconnect		= [coder decodeBoolForKey:@"MVAutoReconnect"];
-	isGroup				= [coder decodeBoolForKey:@"MVIsGroup"];
-	networkService		= [coder decodeObjectForKey:@"MVNetworkService"];
+	self.sessionName			= [coder decodeObjectForKey:@"MVsessionName"];
+	self.portsMap			= [coder decodeObjectForKey:@"portsMap"];
+	self.remoteHost			= [coder decodeObjectForKey:@"MVremoteHost"];
+	self.currentServer		= [coder decodeObjectForKey:@"MVcurrentServer"];
 	
 	[self setConnected:NO];
 	[self setConnectionInProgress:NO];
 	autoReconnectTimes = 0;
 	
-	if (![self isGroup])
-		[self setStatusImagePath:[[NSBundle mainBundle] pathForResource:@"statusRed" ofType:@"tif"]];
-	else
-		[self setStatusImagePath:@""];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listernerForSSHTunnelDown:) 
 												 name:@"NSTaskDidTerminateNotification" object:self];
 	
@@ -126,85 +97,27 @@
 	[coder encodeObject:sessionName forKey:@"MVsessionName"];
 	[coder encodeObject:portsMap forKey:@"portsMap"];
 	[coder encodeObject:remoteHost forKey:@"MVremoteHost"];
-	[coder encodeObject:statusImagePath forKey:@"MVStatusImagePath"];
 	[coder encodeObject:currentServer forKey:@"MVcurrentServer"];
-	[coder encodeInt:sessionTunnelType forKey:@"MVoutgoingTunnel"];
-	[coder encodeObject:globalProxyPort forKey:@"MVdynamicProxyPort"];
-	[coder encodeBool:useDynamicProxy forKey:@"MVuseDynamicProxy"];
-	[coder encodeObject:childrens forKey:@"MVChildrens"];
-	[coder encodeBool:isLeaf forKey:@"MVIsLeaf"];
-	[coder encodeBool:autostart forKey:@"MVAutostart"];
-	[coder encodeBool:autoReconnect forKey:@"MVAutoReconnect"];
-	[coder encodeBool:isGroup forKey:@"MVIsGroup"];
-	[coder encodeObject:networkService forKey:@"MVNetworkService"];
 }
 
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	sessionName = nil;
-	portsMap = nil;
-	remoteHost = nil;
-	stdOut = nil;
+	[sessionName release];
+	[portsMap release];
+	[remoteHost release];
+	[stdOut release];
 	
 	if ([sshTask isRunning] == YES)
 		[sshTask terminate];
 	
-	sshTask = nil;
+	[sshTask  release];
 	
 	[super dealloc];
 }
 
-
-
-
-#pragma mark Overloaded accesors
-
-- (NSString *) tunnelTypeImagePath
-{
-	if ([self sessionTunnelType] == AMSessionOutgoingTunnel)
-		return [[NSBundle mainBundle] pathForResource:@"outTunnel" ofType:@"tif"];
-	else if ([self sessionTunnelType] == AMSessionIncomingTunnel) 
-		return [[NSBundle mainBundle] pathForResource:@"inTunnel" ofType:@"tif"];
-	else 
-		return [[NSBundle mainBundle] pathForResource:@"inTunnel" ofType:@"tif"];
-
-}
-
-
-- (void) setSessionTunnelType:(NSInteger)newValue
-{
-	[self willChangeValueForKey:@"outgoingTunnel"];
-	[self willChangeValueForKey:@"tunnelTypeImagePath"];
-	[self willChangeValueForKey:@"remoteHost"];
-	sessionTunnelType = newValue;
-	[self didChangeValueForKey:@"outgoingTunnel"];
-	[self didChangeValueForKey:@"tunnelTypeImagePath"];
-	[self didChangeValueForKey:@"remoteHost"];
-}
-
-
-
-
 #pragma mark Helper methods
-
-- (void)setProxyEnableForThisSession:(BOOL)enabled onPort:(NSString*)port
-{
-	NSTask *activateProxy = [[NSTask alloc] init];
-	[activateProxy setLaunchPath:@"/usr/sbin/networksetup"];
-	NSLog(@"%@", networkService);
-	if (enabled)
-		[activateProxy setArguments:[NSArray arrayWithObjects:@"-setsocksfirewallproxy", 
-									 [self networkService], 
-									 @"127.0.0.1", port, @"off", nil]];
-	else
-		[activateProxy setArguments:[NSArray arrayWithObjects:@"-setsocksfirewallproxystate",  
-									 [self networkService]
-									 , @"off", nil]];
-
-	[activateProxy launch];
-}
 
 - (NSMutableArray *) parsePortsSequence:(NSString*)seq
 {
@@ -249,42 +162,20 @@
 
 - (NSMutableString *) prepareSSHCommandWithRemotePorts:(NSMutableArray *)remotePorts localPorts:(NSMutableArray *)localPorts  
 {
-	NSMutableString *argumentsString = @"ssh ";
+	NSMutableString *argumentsString = [NSMutableString stringWithString: @"ssh "];
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"forceSSHVersion2"])
 		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@" -2 "];
 	
-	if ([self sessionTunnelType] == AMSessionOutgoingTunnel)
+	int i;
+	for(i = 0; i < [remotePorts count]; i++)
 	{
-		int i;
-		for(i = 0; i < [remotePorts count]; i++)
-		{
-			argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@"-N -L "];
-			argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[localPorts objectAtIndex:i]];
-			argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@":"];
-			argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:remoteHost];
-			argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@":"];
-			argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[remotePorts objectAtIndex:i]];
-		}
-	}
-	else if ([self sessionTunnelType] == AMSessionIncomingTunnel)
-	{
-		int i;
-		for(i = 0; i < [remotePorts count]; i++)
-		{
-			argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@"-N -R "];
-			argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[remotePorts objectAtIndex:i]];
-			argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@":"];
-			argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@"127.0.0.1"];
-			argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@":"];
-			argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[localPorts objectAtIndex:i]];
-		}
-	}
-	
-	if (([self useDynamicProxy] == YES) || ([self sessionTunnelType] == AMSessionGlobalProxy))
-	{
-		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@" -D "];
-		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[self globalProxyPort]];
+		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@"-N -L "];
+		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[localPorts objectAtIndex:i]];
+		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@":"];
+		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:remoteHost];
+		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@":"];
+		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[remotePorts objectAtIndex:i]];
 	}
 	
 	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@" "];
@@ -323,43 +214,16 @@
 		return;
 	}
 	
-	if ([self sessionTunnelType] == AMSessionOutgoingTunnel)
+	if (([self remoteHost] == nil) ||
+		([self portsMap] == nil))
 	{
-		if (([self remoteHost] == nil) ||
-			([self portsMap] == nil))
-		{
-			[self setConnected:NO];
-			[self setConnectionInProgress:NO];
-			[[NSNotificationCenter defaultCenter] postNotificationName:AMNewErrorMessage   
-																object:@"There is no service or remote host set for this session"];
-			return;
-		}
+		[self setConnected:NO];
+		[self setConnectionInProgress:NO];
+		[[NSNotificationCenter defaultCenter] postNotificationName:AMNewErrorMessage   
+															object:@"There is no service or remote host set for this session"];
+		return;
 	}
-	else if ([self sessionTunnelType] == AMSessionIncomingTunnel)
-	{
-		if (([self portsMap] == nil) ||
-			(([self useDynamicProxy] == YES) && ([self globalProxyPort] == nil)))
-		{
-			[self setConnected:NO];
-			[self setConnectionInProgress:NO];
-			[[NSNotificationCenter defaultCenter] postNotificationName:AMNewErrorMessage 
-																object:@"There is no services or dynamic port set for this session."];
-			return;
-		}
-	}
-	else if ([self sessionTunnelType] == AMSessionGlobalProxy)
-	{
-		if (([self networkService] == nil) ||
-			([self globalProxyPort] == nil))
-		{
-			[self setConnected:NO];
-			[self setConnectionInProgress:NO];
-			[[NSNotificationCenter defaultCenter] postNotificationName:AMNewErrorMessage 
-																object:@"There is no dynamic port set for this session."];
-			
-			return;
-		}
-	}
+
 	stdOut			= [NSPipe pipe];
 	sshTask			= [[NSTask alloc] init];
 	helperPath		= [[NSBundle mainBundle] pathForResource:@"SSHCommand" ofType:@"sh"];
@@ -371,8 +235,10 @@
 	
 	args			= [NSArray arrayWithObjects:argumentsString, [currentServer password], nil];
 
-	outputContent	= @"";
-	
+	outputContent	= [[NSString alloc] init];
+	[outputContent retain];
+
+
 	[sshTask setLaunchPath:helperPath];
 	[sshTask setArguments:args];
 
@@ -402,17 +268,12 @@
 														object:[@"Initializing connection for session "
 																stringByAppendingString:[self sessionName]]];
 	
-	[self setStatusImagePath:[[NSBundle mainBundle] pathForResource:@"statusOrange" ofType:@"tif"]];
-	
 	helperPath = nil;
 	args = nil;
 }
 
 - (void) closeTunnel
 {
-	if ([self sessionTunnelType] == AMSessionGlobalProxy)
-		[self setProxyEnableForThisSession:NO onPort:nil];
-	
 	NSLog(@"Session %@ is now closed.", [self sessionName]);
 	if ([sshTask isRunning])
 		[sshTask terminate];
@@ -447,7 +308,6 @@
 		{
 			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification object:[stdOut fileHandleForReading]];
 			
-			[self setStatusImagePath:[[NSBundle mainBundle] pathForResource:@"statusRed" ofType:@"tif"]];
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
 			[self setConnectionLink:@""];
@@ -462,7 +322,6 @@
 			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification object:[stdOut fileHandleForReading]];
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
-			[self setStatusImagePath:[[NSBundle mainBundle] pathForResource:@"statusRed" ofType:@"tif"]];
 			[self setConnectionLink:@""];
 			[sshTask terminate];
 			[[NSNotificationCenter defaultCenter] postNotificationName:AMNewErrorMessage
@@ -474,7 +333,6 @@
 		{
 			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:[stdOut fileHandleForReading]];
 			
-			[self setStatusImagePath:[[NSBundle mainBundle] pathForResource:@"statusRed" ofType:@"tif"]];
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
 			[self setConnectionLink:@""];
@@ -488,7 +346,6 @@
 		{
 			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification object:[stdOut fileHandleForReading]];
 			
-			[self setStatusImagePath:[[NSBundle mainBundle] pathForResource:@"statusRed" ofType:@"tif"]];
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
 			[self setConnectionLink:@""];
@@ -504,22 +361,12 @@
 			
 			[self setConnected:YES];
 			[self setConnectionInProgress:NO];
-			[self setStatusImagePath:[[NSBundle mainBundle] pathForResource:@"statusGreen" ofType:@"tif"]];
 			[[NSNotificationCenter defaultCenter] postNotificationName:AMNewGeneralMessage
 																object:[@"Sucessfully connects session "
 																		stringByAppendingString:[self sessionName]]];
 		
-			if ([self sessionTunnelType] == AMSessionOutgoingTunnel)
-				[self setConnectionLink:[@"127.0.0.1:" stringByAppendingString:[portsMap serviceLocalPorts]]];
-			else if ([self sessionTunnelType] == AMSessionIncomingTunnel)
-				[self setConnectionLink:[[[self currentServer] host] stringByAppendingString:[@":" stringByAppendingString:[portsMap serviceRemotePorts]]]];
+			[self setConnectionLink:[@"127.0.0.1:" stringByAppendingString:[portsMap serviceLocalPorts]]];
 			
-			if ([self sessionTunnelType] == AMSessionGlobalProxy)
-				[self setProxyEnableForThisSession:YES onPort:globalProxyPort];
-
-			
-			//[[NSPasteboard generalPasteboard] declareTypes:[NSArray arrayWithObject: NSStringPboardType] owner: nil];
-			//[[NSPasteboard generalPasteboard] setString:[self connectionLink] forType:NSStringPboardType];
 		}
 		else
 			[[stdOut fileHandleForReading] readInBackgroundAndNotify];
@@ -539,7 +386,6 @@
 	[self setConnected:NO];
 	[self setConnectionInProgress:NO];
 	[self setConnectionLink:@""];
-	[self setStatusImagePath:[[NSBundle mainBundle] pathForResource:@"statusRed" ofType:@"tif"]];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:AMNewGeneralMessage
 														object:[@"Connection close for session "
