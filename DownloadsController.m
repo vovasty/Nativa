@@ -204,7 +204,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	__block DownloadsController *blockSelf = self;
 	ArrayResponseBlock response = [^(NSArray *array, NSString* error) {
 		if (error != nil)
+		{
+			NSLog(@"update download list error: %@", error);
 			return;
+		}
 
 		NSUInteger idx;
 #warning multiple objects?

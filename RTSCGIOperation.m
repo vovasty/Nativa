@@ -212,7 +212,6 @@
 
 - (void) setError:(NSString*) error;
 {
-	NSLog(@"error: %@", error);
 	[self requestDidSent];
 	[self responseDidReceived];
 	[_command processResponse:nil error:error];
