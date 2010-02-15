@@ -54,8 +54,6 @@ extern	NSString const *AMNewErrorMessage;
 @property(readwrite, retain)	NSString 			*sessionName;
 
 
-- (void) prepareAuthorization;
-
 #pragma mark -
 #pragma mark Control methods
 - (void) closeTunnel;

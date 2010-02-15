@@ -20,6 +20,9 @@ NSString const *AMErrorLoadingSavedState = @"AMErrorLoadingSavedState";
 NSString const *AMNewGeneralMessage = @"AMNewGeneralMessage";
 NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 
+@interface AMSession(Private)
+-(void) analyzeOutput:(NSData*) data;
+@end
 
 @implementation AMSession
 
@@ -45,32 +48,6 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listernerForSSHTunnelDown:) 
 												 name:@"NSTaskDidTerminateNotification" object:self];
 	return self;
-}
-
-- (void) prepareAuthorization
-{	
-	OSStatus myStatus;
-	AuthorizationFlags myFlags = kAuthorizationFlagDefaults;
-	AuthorizationRef myAuthorizationRef;
-	myStatus = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment,
-								   myFlags, &myAuthorizationRef);    
-	
-	if (myStatus != errAuthorizationSuccess) 
-	{
-		NSLog(@"An administrator password is required...");
-	}
-	else
-	{
-		AuthorizationItem myItems = {kAuthorizationRightExecute, 0, NULL, 0};
-		
-		AuthorizationRights myRights = {1, &myItems};
-		myFlags = kAuthorizationFlagDefaults |                   
-		kAuthorizationFlagInteractionAllowed |
-		kAuthorizationFlagPreAuthorize |
-		kAuthorizationFlagExtendRights;
-		
-		myStatus = AuthorizationCopyRights (myAuthorizationRef, &myRights, NULL, myFlags, NULL );
-	}		
 }
 
 - (id) initWithCoder:(NSCoder *)coder
@@ -206,8 +183,6 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 	NSMutableArray		*localPorts;
 	NSMutableString		*argumentsString;
 	
-	//[self prepareAuthorization];
-	
 	if ([self currentServer] == nil)
 	{
 		[self setConnected:NO];
@@ -242,7 +217,7 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 	args			= [NSArray arrayWithObjects:argumentsString, [currentServer password], nil];
 
 	[outputContent release];
-	outputContent	= [[NSMutableString alloc] initWithCapacity:1024];
+	outputContent	= [[NSMutableString alloc] initWithCapacity:4096];
 	[outputContent retain];
 
 
@@ -263,10 +238,6 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 	
 	[[stdOut fileHandleForReading] readInBackgroundAndNotify];
 	[self setConnectionInProgress:YES];
-	
-	[auth permitWithRight:"system.privileges.admin" flags:kAuthorizationFlagDefaults|kAuthorizationFlagInteractionAllowed|
-	 kAuthorizationFlagExtendRights|kAuthorizationFlagPreAuthorize];
-	
 	
 	[sshTask launch];
 
@@ -292,30 +263,56 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 #pragma mark Observers and delegates
 - (void) handleProcessusExecution:(NSNotification *) aNotification
 {
-	NSData		*data;
-	NSPredicate *checkError;
-	NSPredicate *checkWrongPass;
-	NSPredicate *checkConnected;
-	NSPredicate *checkRefused;
-	NSPredicate *checkPort;
+	if ([sshTask isRunning])
+	{
+		NSData		*data;
 	
-	data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+		data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
 	
-	NSString* stmp = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+		[self analyzeOutput:data];
+	}
+}
+
+- (void) listernerForSSHTunnelDown:(NSNotification *)notification
+{	
+	NSData *data = [[stdOut fileHandleForReading] readDataToEndOfFile];
 	
-	[outputContent appendString:stmp];
+	[self analyzeOutput:data];
 	
-	[stmp release];
+	[[stdOut fileHandleForReading] closeFile];
+
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:sshTask];
+	[self setConnected:NO];
+	[self setConnectionInProgress:NO];
+	[self setConnectionLink:@""];
 	
-	checkError		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTION_ERROR'"];
-	checkWrongPass	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'WRONG_PASSWORD'"];
-	checkConnected	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTED'"];
-	checkRefused	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTION_REFUSED'"];
-	checkPort		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'Could not request local forwarding'"];
-	
-	
+	[[NSNotificationCenter defaultCenter] postNotificationName:AMNewGeneralMessage
+														object:[@"Connection close for session "
+																stringByAppendingString:[self sessionName]]];
+}
+
+
+@end
+
+@implementation AMSession(Private)
+-(void) analyzeOutput:(NSData*) data
+{
 	if ([data length])
 	{
+		NSPredicate *checkError		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTION_ERROR'"];
+		NSPredicate *checkWrongPass	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'WRONG_PASSWORD'"];
+		NSPredicate *checkConnected	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTED'"];
+		NSPredicate *checkRefused	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTION_REFUSED'"];
+		NSPredicate *checkPort		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'Could not request local forwarding'"];
+		
+		NSString* stmp = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+		
+		[outputContent appendString:stmp];
+		
+		NSLog(@"out:%@", stmp);
+		
+		[stmp release];
+		
 		if ([checkError evaluateWithObject:outputContent] == YES)
 		{
 			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification object:[stdOut fileHandleForReading]];
@@ -376,33 +373,12 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 			[[NSNotificationCenter defaultCenter] postNotificationName:AMNewGeneralMessage
 																object:[@"Sucessfully connects session "
 																		stringByAppendingString:[self sessionName]]];
-		
+			
 			[self setConnectionLink:[@"127.0.0.1:" stringByAppendingString:[portsMap serviceLocalPorts]]];
 			
 		}
 		else
 			[[stdOut fileHandleForReading] readInBackgroundAndNotify];
-		
-		data = nil;
-		checkError = nil;
-		checkWrongPass = nil;
-		checkConnected = nil;
-		checkPort = nil;
 	}
 }
-
-- (void) listernerForSSHTunnelDown:(NSNotification *)notification
-{	
-	[[stdOut fileHandleForReading] closeFile];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:sshTask];
-	[self setConnected:NO];
-	[self setConnectionInProgress:NO];
-	[self setConnectionLink:@""];
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:AMNewGeneralMessage
-														object:[@"Connection close for session "
-																stringByAppendingString:[self sessionName]]];
-}
-
-
 @end
