@@ -13,6 +13,8 @@
 #import "ProcessesController.h"
 #import "ProcessDescriptor.h"
 #import "PreferencesController.h"
+#include <Growl/Growl.h>
+
 
 NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
@@ -22,7 +24,9 @@ NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
 - (id<TorrentController>) _controller;
 
-- (VoidResponseBlock) _updateListResponse: (VoidResponseBlock) originalResponse;
+- (VoidResponseBlock) _updateListResponse: (VoidResponseBlock) originalResponse errorFormat:(NSString*) errorFormat;
+
+-(void) setError:(NSString*) fmt error:(NSString*) error;
 @end
 
 @implementation DownloadsController
@@ -82,14 +86,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void) start:(NSString *) hash response:(VoidResponseBlock) response
 {
-	VoidResponseBlock r = [self _updateListResponse:response];
+	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to start torrent: %@"];
 	[[self _controller] start:hash response:r];
 	[r release];
 }
 
 - (void) stop:(NSString *) hash response:(VoidResponseBlock) response
 {
-	VoidResponseBlock r = [self _updateListResponse:response];
+	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to stop torrent: %@"];
 	[[self _controller] stop:hash response:r];
 	[r release];
 }
@@ -101,8 +105,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		NSURL* url = [NSURL fileURLWithPath:file];
 		NSArray* urls = [NSArray arrayWithObjects:url, nil];
 		__block DownloadsController *blockSelf = self;
-		VoidResponseBlock response = [^{ 
+		VoidResponseBlock response = [^(NSString* error){ 
 #warning memory leak here (recycleURLs)
+			if (error)
+			{
+				[blockSelf setError:@"unable to add torrent" error:error];
+				return;
+			}
+				
 			if ([_defaults boolForKey:NITrashDownloadDescriptorsKey])
 			{
 				[[NSWorkspace sharedWorkspace] recycleURLs: urls
@@ -118,8 +128,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void) erase:(NSString *) hash response:(VoidResponseBlock) response
 {
-	VoidResponseBlock r = [self _updateListResponse:response];
-	[[self _controller] erase:hash response:[self _updateListResponse:r]];
+	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to erase torrent: %@"];
+	[[self _controller] erase:hash response:r];
 	[r release];
 }
 
@@ -128,7 +138,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response
 {
-	[[self _controller] setGlobalDownloadSpeedLimit:speed response:response];
+	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to set global speed limit: %@"];
+	[[self _controller] setGlobalDownloadSpeedLimit:speed response:r];
 }
 
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response
@@ -174,7 +185,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 -(void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response
 {
-	VoidResponseBlock r = [self _updateListResponse:response];
+	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to set priority for torrent: %@"];
 	[[self _controller] setPriority:torrent priority:priority response:r];
 	[r release];
 }
@@ -194,6 +205,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	ArrayResponseBlock response = [^(NSArray *array, NSString* error) {
 		if (error != nil)
 			return;
+
 		NSUInteger idx;
 #warning multiple objects?
 		Torrent* stored_obj;
@@ -237,15 +249,30 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	[response release];
 }
 
-- (VoidResponseBlock) _updateListResponse: (VoidResponseBlock) originalResponse
+- (VoidResponseBlock) _updateListResponse: (VoidResponseBlock) originalResponse errorFormat:(NSString*) errorFormat
 {
 	__block DownloadsController *blockSelf = self;
 	return [^(NSString* error){
 		if (originalResponse)
 			originalResponse(error);
+		
 		if (error)
-			NSLog(@"last operation error: %@", error);
+			[blockSelf setError:errorFormat error:error];
+		
 		[blockSelf _updateList];
 	}copy];
+}
+
+-(void) setError:(NSString*) fmt error:(NSString*) error;
+{
+	[GrowlApplicationBridge
+	 notifyWithTitle:@"Error"
+	 description:[NSString stringWithFormat:fmt, error]
+	 notificationName:@"ERROR"
+	 iconData:nil
+	 priority:0
+	 isSticky:NO
+	 clickContext:nil];
+	NSLog(fmt, error);
 }
 @end

@@ -14,6 +14,7 @@
 #include "Torrent.h"
 #include "TorrentDelegate.h"
 #include "TorrentTableView.h"
+#include <Growl/Growl.h>
 
 @implementation Controller
 +(void) initialize
@@ -34,6 +35,10 @@
 	
 	//Register the dictionary of defaults
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
+
+	//Growl needs it
+	[GrowlApplicationBridge setGrowlDelegate:@""];
+	
 }
 
 - (id)init
@@ -73,7 +78,6 @@
 	//bottom bar for window
 	//http://iloveco.de/bottom-bars-in-cocoa/
 	[_window setContentBorderThickness:24.0 forEdge:NSMinYEdge];
-	
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
