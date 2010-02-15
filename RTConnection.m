@@ -72,7 +72,7 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 -(void)dealloc;
 {
 	[hostName release];
-	[_proxy removeObserver:self forKeyPath:&ProxyConnectedContext];
+	[_proxy removeObserver:self forKeyPath:ProxyConnectedContext];
 	[super dealloc];
 }
 
