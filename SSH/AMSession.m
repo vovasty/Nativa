@@ -16,9 +16,12 @@
 
 #import "AMSession.h"
 
-NSString const *AMErrorLoadingSavedState = @"AMErrorLoadingSavedState";
-NSString const *AMNewGeneralMessage = @"AMNewGeneralMessage";
-NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
+enum {
+	AMUnrecoverable = -1,
+	AMSuccess = 0,
+	AMRecoverable = 1,
+	
+} AMOutputResult;
 
 @interface AMSession(Private)
 -(void) analyzeOutput:(NSData*) data;
@@ -32,7 +35,9 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 @synthesize connected;
 @synthesize connectionInProgress;
 @synthesize currentServer;
-@synthesize connectionLink;
+@synthesize autoReconnect;
+@synthesize maxAutoReconnectRetries;
+@dynamic error;
 
 #pragma mark Initilizations
 
@@ -43,7 +48,6 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 	[self setConnected:NO];
 	[self setConnectionInProgress:NO];
 	autoReconnectTimes = 0;
-	
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listernerForSSHTunnelDown:) 
 												 name:@"NSTaskDidTerminateNotification" object:self];
@@ -91,7 +95,7 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 	
 	[sshTask  release];
 	[outputContent release];
-	
+	[error release];
 	[super dealloc];
 }
 
@@ -177,31 +181,18 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 
 - (void) openTunnel
 {
+	if (connectionInProgress || connected) //prevent dublicate connect
+		return;
+	
 	NSString			*helperPath;
 	NSArray				*args;
 	NSMutableArray		*remotePorts;
 	NSMutableArray		*localPorts;
 	NSMutableString		*argumentsString;
 	
-	if ([self currentServer] == nil)
-	{
-		[self setConnected:NO];
-		[self setConnectionInProgress:NO];
-		[[NSNotificationCenter defaultCenter] postNotificationName:AMNewErrorMessage  
-															object:@"There is no server set for this session."];
-		return;
-	}
+	tryReconnect = autoReconnect;
+	[self setError: nil];
 	
-	if (([self remoteHost] == nil) ||
-		([self portsMap] == nil))
-	{
-		[self setConnected:NO];
-		[self setConnectionInProgress:NO];
-		[[NSNotificationCenter defaultCenter] postNotificationName:AMNewErrorMessage   
-															object:@"There is no service or remote host set for this session"];
-		return;
-	}
-
 	stdOut			= [NSPipe pipe];
 	sshTask			= [[NSTask alloc] init];
 	helperPath		= [[NSBundle mainBundle] pathForResource:@"SSHCommand" ofType:@"sh"];
@@ -217,7 +208,7 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 	args			= [NSArray arrayWithObjects:argumentsString, [currentServer password], nil];
 
 	[outputContent release];
-	outputContent	= [[NSMutableString alloc] initWithCapacity:4096];
+	outputContent	= [[NSMutableString alloc] initWithCapacity:256];
 	[outputContent retain];
 
 
@@ -242,20 +233,17 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 	[sshTask launch];
 
 	NSLog(@"Session %@ is now launched.", [self sessionName]);
-	[[NSNotificationCenter defaultCenter] postNotificationName:AMNewGeneralMessage
-														object:[@"Initializing connection for session "
-																stringByAppendingString:[self sessionName]]];
-	
-	helperPath = nil;
-	args = nil;
 }
 
 - (void) closeTunnel
 {
+	tryReconnect = NO;
+
 	NSLog(@"Session %@ is now closed.", [self sessionName]);
 	if ([sshTask isRunning])
 		[sshTask terminate];
 	sshTask = nil;
+	autoReconnectTimes = 0;
 }
 
 
@@ -265,9 +253,7 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 {
 	if ([sshTask isRunning])
 	{
-		NSData		*data;
-	
-		data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+		NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
 	
 		[self analyzeOutput:data];
 	}
@@ -284,14 +270,29 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:sshTask];
 	[self setConnected:NO];
 	[self setConnectionInProgress:NO];
-	[self setConnectionLink:@""];
 	
-	[[NSNotificationCenter defaultCenter] postNotificationName:AMNewGeneralMessage
-														object:[@"Connection close for session "
-																stringByAppendingString:[self sessionName]]];
+	if (tryReconnect && autoReconnectTimes<=maxAutoReconnectRetries)
+	{
+		NSLog(@"reconnecting ssh tunnel ...");
+		autoReconnectTimes++;
+		[self openTunnel];
+	}
+	else 
+		autoReconnectTimes = 0;
+
+}
+-(NSString*) error
+{
+	return error;
 }
 
-
+-(void)setError:(NSString *)newValue {
+    if (error != newValue) {
+        [error release];
+        error = [newValue retain];
+    }
+	NSLog(@"ssh tunnel error: %@", error);
+}
 @end
 
 @implementation AMSession(Private)
@@ -299,11 +300,13 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 {
 	if ([data length])
 	{
-		NSPredicate *checkError		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTION_ERROR'"];
-		NSPredicate *checkWrongPass	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'WRONG_PASSWORD'"];
-		NSPredicate *checkConnected	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTED'"];
-		NSPredicate *checkRefused	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTION_REFUSED'"];
-		NSPredicate *checkPort		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'Could not request local forwarding'"];
+		NSPredicate *checkError			= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTION_ERROR'"];
+		NSPredicate *checkWrongPass		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'WRONG_PASSWORD'"];
+		NSPredicate *checkConnected		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTED'"];
+		NSPredicate *checkRefused		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTION_REFUSED'"];
+		NSPredicate *checkTimeout		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTION_TIMEOUT'"];
+		NSPredicate *checkWrongHostname	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'WRONG_HOSTNAME'"];
+		NSPredicate *checkPort			= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'Could not request local forwarding'"];
 		
 		NSString* stmp = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 		
@@ -319,24 +322,17 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 			
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
-			[self setConnectionLink:@""];
+			[outputContent setString:@""];
 			[sshTask terminate];
-			[[NSNotificationCenter defaultCenter] postNotificationName:AMNewErrorMessage 
-																object:[@"Unknown error for session " 
-																		stringByAppendingString:[self sessionName]]];
-			NSRunAlertPanel(@"Error while connecting", @"Unknown error as occured while connecting." , @"Ok", nil, nil);
+			[self setError: @"Unknown error as occured while connecting."];
 		}
 		else if ([checkWrongPass evaluateWithObject:outputContent] == YES)
 		{
 			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification object:[stdOut fileHandleForReading]];
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
-			[self setConnectionLink:@""];
 			[sshTask terminate];
-			[[NSNotificationCenter defaultCenter] postNotificationName:AMNewErrorMessage
-																object:[@"Wrong server password for session "
-																		stringByAppendingString:[self sessionName]]];
-			NSRunAlertPanel(@"Error while connecting", @"The password or username set for the server are wrong" , @"Ok", nil, nil);
+			[self setError: @"The password or username set for the server are wrong"];
 		}
 		else if ([checkRefused evaluateWithObject:outputContent] == YES)
 		{
@@ -344,12 +340,26 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 			
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
-			[self setConnectionLink:@""];
 			[sshTask terminate];
-			[[NSNotificationCenter defaultCenter] postNotificationName:AMNewErrorMessage
-																object:[@"Connection has been refused by server for session "
-																		stringByAppendingString:[self sessionName]]];
-			NSRunAlertPanel(@"Error while connecting", @"Connection has been rejected by the server." , @"Ok", nil, nil);
+			[self setError: @"Connection has been rejected by the server."];
+		}		
+		else if ([checkWrongHostname evaluateWithObject:outputContent] == YES)
+		{
+			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:[stdOut fileHandleForReading]];
+			
+			[self setConnected:NO];
+			[self setConnectionInProgress:NO];
+			[sshTask terminate];
+			[self setError: @"Wrong hostname."];
+		}		
+		else if ([checkTimeout evaluateWithObject:outputContent] == YES)
+		{
+			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:[stdOut fileHandleForReading]];
+			
+			[self setConnected:NO];
+			[self setConnectionInProgress:NO];
+			[sshTask terminate];
+			[self setError: @"Connection timeout."];
 		}		
 		else if ([checkPort evaluateWithObject:outputContent] == YES)
 		{
@@ -357,12 +367,8 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 			
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
-			[self setConnectionLink:@""];
 			[sshTask terminate];
-			[[NSNotificationCenter defaultCenter] postNotificationName:AMNewErrorMessage
-																object:[@"Wrong server port for session " 
-																		stringByAppendingString:[self sessionName]]];
-			NSRunAlertPanel(@"Error while connecting", @"The port is already in used on server." , @"Ok", nil, nil);
+			[self setError: @"The port is already used on server."];
 		}
 		else if ([checkConnected evaluateWithObject:outputContent] == YES)
 		{
@@ -370,12 +376,8 @@ NSString const *AMNewErrorMessage = @"AMNewErrorMessage";
 			
 			[self setConnected:YES];
 			[self setConnectionInProgress:NO];
-			[[NSNotificationCenter defaultCenter] postNotificationName:AMNewGeneralMessage
-																object:[@"Sucessfully connects session "
-																		stringByAppendingString:[self sessionName]]];
-			
-			[self setConnectionLink:[@"127.0.0.1:" stringByAppendingString:[portsMap serviceLocalPorts]]];
-			
+			//reset autoreconnect counter
+			autoReconnectTimes = 0;
 		}
 		else
 			[[stdOut fileHandleForReading] readInBackgroundAndNotify];

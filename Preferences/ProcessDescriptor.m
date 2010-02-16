@@ -111,6 +111,8 @@
 #warning hardcoded ssh port
 			server.port = @"22";
 			_proxy.currentServer = server;
+			_proxy.maxAutoReconnectRetries = 10;
+			_proxy.autoReconnect = YES;
 			[_proxy openTunnel];
 
 		}

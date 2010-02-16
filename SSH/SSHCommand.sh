@@ -32,9 +32,12 @@ expect {
 		"?sh: Error*" {puts "CONNECTION_ERROR"; exit};
 		"*yes/no*" {send "yes\r"; exp_continue};
 		"*Connection refused*" {puts "CONNECTION_REFUSED"; exit};
+		"*Could not resolve hostname*" {puts "WRONG_HOSTNAME"; exit};
+		"*Operation timed out*" {puts "CONNECTION_TIMEOUT"; exit};
 		"*?assword:*" {	send "$password\r"; set timeout 4;
 						expect "*?assword:*" {puts "WRONG_PASSWORD"; exit;}
 					  };
+		default {puts "CONNECTION_ERROR"; exit;}
 }
 
 puts "CONNECTED";

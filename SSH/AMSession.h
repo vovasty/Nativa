@@ -31,27 +31,31 @@ extern	NSString const *AMNewErrorMessage;
 	AMServer 		*currentServer;
 	AMService		*portsMap;	
 	NSUInteger		autoReconnectTimes;
+	NSUInteger		maxAutoReconnectRetries;
+	BOOL			autoReconnect;
 	BOOL			connected;
 	BOOL			connectionInProgress;
+	BOOL			tryReconnect;
 	NSPipe 			*stdOut;
-	NSString 		*connectionLink;
 	NSMutableString *outputContent;
-	NSString 		*zzz;
 	NSString 		*remoteHost;
 	NSString 		*sessionName;
 	NSTask			*sshTask;
+	NSString		*error;
 	
 	SFAuthorization *auth;
 
 
 }
 @property(readwrite)			BOOL				connected;
+@property(readwrite)			BOOL				autoReconnect;
 @property(readwrite)			BOOL				connectionInProgress;
+@property(readwrite)			NSUInteger			maxAutoReconnectRetries;
 @property(readwrite, retain)	AMServer 			*currentServer;
 @property(readwrite, retain)	AMService 			*portsMap;
-@property(readwrite, retain)	NSString 			*connectionLink;
 @property(readwrite, retain)	NSString 			*remoteHost;
 @property(readwrite, retain)	NSString 			*sessionName;
+@property(readwrite, retain)	NSString 			*error;
 
 
 #pragma mark -
