@@ -16,13 +16,6 @@
 
 #import "AMSession.h"
 
-enum {
-	AMUnrecoverable = -1,
-	AMSuccess = 0,
-	AMRecoverable = 1,
-	
-} AMOutputResult;
-
 @interface AMSession(Private)
 -(void) analyzeOutput:(NSData*) data;
 @end
