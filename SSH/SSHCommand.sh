@@ -20,6 +20,9 @@
 set arguments [lindex $argv 0]
 set password [lindex $argv 1]
 
+#kill previous command
+exec ps | awk /$arguments/ | awk {!/(grep|expect)/ {print $1}} | xargs kill
+
 eval spawn $arguments
 
 match_max 100000
