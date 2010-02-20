@@ -284,7 +284,8 @@
         [error release];
         error = [newValue retain];
     }
-	NSLog(@"ssh tunnel error: %@", error);
+	if (error)
+		NSLog(@"ssh tunnel error: %@", error);
 }
 @end
 
