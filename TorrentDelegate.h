@@ -35,5 +35,7 @@
 - (void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response;
 
 - (id<RTorrentCommand>) errorCommand;
+
+-(BOOL) connected;
 @end
 

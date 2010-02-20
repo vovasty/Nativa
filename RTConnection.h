@@ -22,4 +22,6 @@
 - (BOOL) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate;
 
 -(void) closeConnection;
+
+@property (readonly) BOOL connected;
 @end

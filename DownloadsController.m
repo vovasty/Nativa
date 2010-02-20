@@ -201,6 +201,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void)_updateList
 {
+	if (![[self _controller] connected])
+		return;
+	
 	__block DownloadsController *blockSelf = self;
 	ArrayResponseBlock response = [^(NSArray *array, NSString* error) {
 		if (error != nil)

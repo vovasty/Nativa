@@ -14,6 +14,8 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 
 @implementation RTConnection
 
+@synthesize connected = _connected;
+
 - (id)initWithHostPort:(NSString *)initHost port:(int)initPort proxy:(AMSession*) proxy;
 {
 	hostName = [[NSString stringWithString:initHost] retain];

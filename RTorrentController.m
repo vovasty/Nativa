@@ -175,5 +175,10 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
                               context:context];
     }
 }
+
+-(BOOL) connected
+{
+	return [_connection connected];
+}
 @end
 
