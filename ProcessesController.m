@@ -23,16 +23,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
             _processesDescriptors = [[NSKeyedUnarchiver unarchiveObjectWithData: data] retain];
         else
         {
-            //default groups
-			ProcessDescriptor* pd = [[ProcessDescriptor alloc] init];
-			pd.name = @"local";
-			pd.processType = @"rtorrent";
-			pd.manualConfig = YES;
-			pd.host = @"127.0.0.1";
-			pd.port = 5000;
-			
-            _processesDescriptors = [[NSMutableArray alloc] initWithObjects: pd, nil];
-            [self saveProcesses]; //make sure this is saved right away
+            _processesDescriptors = [[[NSMutableArray alloc] init] retain];
         }
     }
     
@@ -54,6 +45,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 -(ProcessDescriptor*) processDescriptorAtIndex:(NSInteger) index;
 {
 	return [_processesDescriptors objectAtIndex:index];
+}
+
+-(void) addProcessDescriptor:(ProcessDescriptor*) descriptor
+{
+	[_processesDescriptors addObject:descriptor];
 }
 
 - (void) saveProcesses

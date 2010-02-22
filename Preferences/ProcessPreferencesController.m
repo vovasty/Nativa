@@ -98,30 +98,40 @@
 @implementation ProcessPreferencesController(Private)
 -(void)updateSelectedProcess
 {
-    ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex: [self currentProcess	]];
+    ProcessDescriptor *pd = nil;
+	if ([[ProcessesController sharedProcessesController] count]>[self currentProcess])
+		pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex: [self currentProcess]];
+	if (pd)
+	{
 		
-	[_host setStringValue:[pd host]];
+		[_host setStringValue:[pd host]];
 
-	[_port setIntValue:[pd port]];
+		[_port setIntValue:[pd port]];
 		
-	[_downloadsPathPopUp removeItemAtIndex:0];
-	[_downloadsPathPopUp insertItemWithTitle:pd.downloadsFolder==nil?@"":pd.downloadsFolder atIndex:0];
-	[_downloadsPathPopUp selectItemAtIndex: 0];
+		[_downloadsPathPopUp removeItemAtIndex:0];
+		[_downloadsPathPopUp insertItemWithTitle:pd.downloadsFolder==nil?@"":pd.downloadsFolder atIndex:0];
+		[_downloadsPathPopUp selectItemAtIndex: 0];
 	
-	[_useSSH setState:[pd.connectionType isEqualToString:@"SSH"]? NSOnState: NSOffState];
+		[_useSSH setState:[pd.connectionType isEqualToString:@"SSH"]? NSOnState: NSOffState];
 		
-	[_sshHost setStringValue:pd.sshHost];
+		[_sshHost setStringValue:pd.sshHost];
 		
-	[_sshPort setStringValue:pd.sshPort];
+		[_sshPort setStringValue:pd.sshPort];
 #warning store in keychain		
-	[_sshUsername setStringValue:pd.sshUsername];
+		[_sshUsername setStringValue:pd.sshUsername];
 		
-	[_sshPassword setStringValue:pd.sshPassword];
+		[_sshPassword setStringValue:pd.sshPassword];
 	
-	[_sshLocalPort setStringValue:pd.sshLocalPort];
-	
-	//for some reason I need trigger event manually
-	[self toggleSSH:_useSSH];
+		[_sshLocalPort setStringValue:pd.sshLocalPort];
+
+		//for some reason I need trigger event manually
+		[self toggleSSH:_useSSH];
+	}
+	else
+	{
+		pd = [[ProcessDescriptor alloc] init];
+		[[ProcessesController sharedProcessesController] addProcessDescriptor:pd];
+	}
 }
 
 - (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info

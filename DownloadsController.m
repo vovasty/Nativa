@@ -204,7 +204,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 @implementation DownloadsController(Private)
 - (id<TorrentController>) _controller
 {
-	ProcessDescriptor *p=[[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
+	
+	ProcessDescriptor *p = nil;
+	if ([[ProcessesController sharedProcessesController] count]>0)
+		p = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
 	return [p process];
 }
 

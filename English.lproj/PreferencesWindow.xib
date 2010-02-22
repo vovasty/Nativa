@@ -455,7 +455,7 @@
 						<reference key="NSSuperview" ref="957954228"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="188294225">
-							<int key="NSCellFlags">-2080244224</int>
+							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">0</int>
 							<string key="NSContents">Connect via SSH</string>
 							<reference key="NSSupport" ref="884388995"/>

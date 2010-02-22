@@ -14,6 +14,7 @@
 #include "Torrent.h"
 #include "TorrentDelegate.h"
 #include "TorrentTableView.h"
+#include "ProcessesController.h"
 #include <Growl/Growl.h>
 
 @implementation Controller
@@ -39,7 +40,9 @@
 	//Growl needs it
 	[GrowlApplicationBridge setGrowlDelegate:@""];
 	
-	[[DownloadsController sharedDownloadsController] startUpdates];
+	if ([[ProcessesController sharedProcessesController] count]>0)
+		[[DownloadsController sharedDownloadsController] startUpdates];
+	
 }
 
 - (id)init
@@ -79,6 +82,12 @@
 	//bottom bar for window
 	//http://iloveco.de/bottom-bars-in-cocoa/
 	[_window setContentBorderThickness:24.0 forEdge:NSMinYEdge];
+	
+	if ([[ProcessesController sharedProcessesController] count]==0)
+	{
+		[self showPreferencePanel:nil];
+	}
+	
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
