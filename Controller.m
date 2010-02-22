@@ -39,6 +39,7 @@
 	//Growl needs it
 	[GrowlApplicationBridge setGrowlDelegate:@""];
 	
+	[[DownloadsController sharedDownloadsController] startUpdates];
 }
 
 - (id)init
