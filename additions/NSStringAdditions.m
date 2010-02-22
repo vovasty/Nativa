@@ -95,11 +95,17 @@ tr_truncd( double x, int decimal_places )
 
 + (NSString *) stringForSpeedAbbrev: (CGFloat) speed
 {
-    if (speed <= 999.95) //0.0 K to 999.9 K
-        return [NSString localizedStringWithFormat: @"%.1f K", speed];
-    
+    if (speed <= 999.95) //0.0 B to 999.9 B
+        return [NSString localizedStringWithFormat: @"%.1f ", speed];
+
+
     speed /= 1024.0;
-    
+
+	if (speed <= 999.95) //0.0 K to 999.9 K
+        return [NSString localizedStringWithFormat: @"%.1f K", speed];
+
+    speed /= 1024.0;
+	
     if (speed <= 99.995) //0.98 M to 99.99 M
         return [NSString localizedStringWithFormat: @"%.2f M", speed];
     else if (speed <= 999.95) //100.0 M to 999.9 M

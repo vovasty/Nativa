@@ -50,9 +50,9 @@
 			NSNumber* opened = [row  objectAtIndex:5];
 			r.state = [self defineTorrentState:state opened:opened done:[r progress]];
 			NSNumber*  speedDownload = [row  objectAtIndex:6];
-			r.speedDownload = [speedDownload floatValue]/1024;
+			r.speedDownload = [speedDownload floatValue];
 			NSNumber*  speedUpload = [row  objectAtIndex:7];
-			r.speedUpload = [speedUpload floatValue]/1024;
+			r.speedUpload = [speedUpload floatValue];
 			NSNumber*  uploadRate = [row  objectAtIndex:8];
 			r.uploadRate = [uploadRate floatValue];
 			r.dataLocation = [row objectAtIndex:9];
