@@ -475,9 +475,9 @@
 		812A724410FD099800795D8B /* RTorrent */ = {
 			isa = PBXGroup;
 			children = (
-				812A731B10FD1CC500795D8B /* RTorrentCommand.h */,
 				811EA55E1111F5A6001D16D0 /* RTorrentController.h */,
 				811EA55F1111F5A6001D16D0 /* RTorrentController.m */,
+				812A731B10FD1CC500795D8B /* RTorrentCommand.h */,
 				81E6BCEB10FE84C90083856D /* RTStopCommand.h */,
 				81E6BCEC10FE84C90083856D /* RTStopCommand.m */,
 				812A724E10FD0A0300795D8B /* RTConnection.h */,

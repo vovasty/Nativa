@@ -23,6 +23,7 @@
  *****************************************************************************/
 
 #import "PreferencesWindow.h"
+#import "DownloadsController.h"
 
 @implementation PreferencesWindow
 
@@ -36,6 +37,9 @@
 
 - (void) close
 {
+	[[DownloadsController sharedDownloadsController] stopUpdates];
+	[[DownloadsController sharedDownloadsController] startUpdates];
+
     [self makeFirstResponder: nil]; //essentially saves pref changes on window close
     [super close];
 }

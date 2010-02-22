@@ -60,6 +60,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 -(void) startUpdates;
 {
 	[_updateListTimer invalidate];
+
+	ProcessesController* pc = [ProcessesController sharedProcessesController];
+	
+	for (NSInteger i=0;i<[pc count];i++)
+	{
+		ProcessDescriptor* pd =[pc processDescriptorAtIndex:i];
+		[pd openProcess];
+	}
+
 	_updateListTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(_updateList) userInfo:nil repeats:YES];
 	[_updateListTimer retain];
 	[[NSRunLoop currentRunLoop] addTimer:_updateListTimer forMode:NSDefaultRunLoopMode];	

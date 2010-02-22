@@ -23,5 +23,7 @@
 
 -(void) closeConnection;
 
+-(void) openConnection;
+
 @property (readonly) BOOL connected;
 @end

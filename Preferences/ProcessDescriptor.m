@@ -29,6 +29,9 @@
 @synthesize sshPassword = _sshPassword;
 @synthesize sshLocalPort = _sshLocalPort;
 
+@synthesize process = _process;
+@synthesize connection = _connection;
+
 //NSCoding stuff
 - (id)initWithCoder:(NSCoder*)coder
 {		
@@ -73,7 +76,6 @@
 -(void) dealloc
 {
 	[_process release];
-	[_proxy release];
 
 	[_name release];
 	[_processType release];
@@ -92,39 +94,43 @@
 
 -(id<TorrentController>) process;
 {
-	if (_process == nil)
-	{
-		if ([_connectionType isEqualToString: @"SSH"])
-		{
-			_proxy = [[AMSession alloc] init];
-			_proxy.sessionName = _name;
-			_proxy.remoteHost = _host;
-			
-			AMService* portsMap = [[AMService alloc] initWithPorts:_sshLocalPort remotePorts:[NSString stringWithFormat:@"%d", _port ]];
-			
-			_proxy.portsMap = portsMap;
-			
-			AMServer *server = [[AMServer alloc] init];
-			server.host = _sshHost;
-			server.username = _sshUsername;
-			server.password = _sshPassword;
-#warning hardcoded ssh port
-			server.port = @"22";
-			_proxy.currentServer = server;
-			_proxy.maxAutoReconnectRetries = 10;
-			_proxy.autoReconnect = YES;
-			[_proxy openTunnel];
-
-		}
-		RTConnection *connection = [[RTConnection alloc] initWithHostPort:_host port:_port proxy:_proxy];
-		_process = [[RTorrentController alloc] initWithConnection:connection];
-		[_process retain];
-		[connection release];
-	}
 	return _process;
 }
 -(void) closeProcess
 {
-	[_proxy closeTunnel];
+	self.process=nil;
+	[self.connection closeConnection];
+	self.connection=nil;
+}
+
+-(void) openProcess
+{
+	AMSession* proxy = nil;
+	if ([_connectionType isEqualToString: @"SSH"])
+	{
+		proxy = [[AMSession alloc] init];
+		proxy.sessionName = _name;
+		proxy.remoteHost = _host;
+		
+		AMService* portsMap = [[AMService alloc] initWithPorts:_sshLocalPort remotePorts:[NSString stringWithFormat:@"%d", _port ]];
+		
+		proxy.portsMap = portsMap;
+		
+		[portsMap release];
+		
+		AMServer *server = [[AMServer alloc] init];
+		server.host = _sshHost;
+		server.username = _sshUsername;
+		server.password = _sshPassword;
+		server.port = _sshPort;
+		proxy.currentServer = server;
+		proxy.maxAutoReconnectRetries = 10;
+		proxy.autoReconnect = YES;
+		[server release];
+	}
+	self.connection = [[RTConnection alloc] initWithHostPort:_host port:_port proxy:proxy];
+	[proxy release];
+	[self.connection openConnection];
+	self.process = [[RTorrentController alloc] initWithConnection:self.connection];
 }
 @end
