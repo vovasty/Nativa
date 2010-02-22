@@ -10,14 +10,8 @@
 
 @class ProcessDescriptor;
 
-@interface ProcessPreferencesController : NSObject<NSTableViewDataSource, NSTableViewDelegate>
+@interface ProcessPreferencesController : NSObject
 {
-	IBOutlet NSTableView *_tableView;
-	
-	IBOutlet NSTextField *_processType;
-	
-	IBOutlet NSButton *_manualConfig;
-	
 	IBOutlet NSTextField *_host;
 	
 	IBOutlet NSTextField *_port;
@@ -26,9 +20,7 @@
 	
 	IBOutlet NSWindow *_window;
 	
-	IBOutlet NSView *_sshConfig;
-	
-	IBOutlet NSPopUpButton * _connectionType;
+	IBOutlet NSButton * _useSSH;
 	
 	IBOutlet NSTextField * _sshHost;
 	
@@ -38,15 +30,15 @@
 	
 	IBOutlet NSTextField * _sshPassword;
 	
-	IBOutlet NSView *_sshAdvancedConfig;
-
 	IBOutlet NSTextField * _sshLocalPort;
+	
+	BOOL useSSHTunnel;
 }
 
-- (void) toggleManualConfig:(id) sender;
+@property BOOL useSSHTunnel;
 
 - (void) downloadsPathShow: (id) sender;
 
-- (void) toggleConnectionDetails: (id) sender;
+- (void) toggleSSH: (id) sender;
 
 @end

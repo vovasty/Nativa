@@ -87,7 +87,7 @@ NSString* const NIFilterKey = @"Filter";
     }
     else if ([ident isEqualToString: TOOLBAR_PROCESSES])
     {
-        [item setLabel: NSLocalizedString(@"Processes", "Preferences -> toolbar item title")];
+        [item setLabel: NSLocalizedString(@"rTorrent", "Preferences -> toolbar item title")];
         [item setImage: [NSImage imageNamed: NSImageNameComputer]];
         [item setTarget: self];
         [item setAction: @selector(setPrefView:)];
