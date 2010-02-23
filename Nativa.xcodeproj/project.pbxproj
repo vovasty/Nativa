@@ -21,6 +21,7 @@
 		810AEF3D1113360D00933772 /* GroupToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 810AEF3C1113360D00933772 /* GroupToolbarItem.m */; };
 		810AEF421113365600933772 /* ToolbarSegmentedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 810AEF411113365600933772 /* ToolbarSegmentedCell.m */; };
 		810CD80D10FBCF0600963D10 /* TorrentDropView.m in Sources */ = {isa = PBXBuildFile; fileRef = 810CD80C10FBCF0600963D10 /* TorrentDropView.m */; };
+		810DBC4011343E63000411D8 /* drag to trash.aif in Resources */ = {isa = PBXBuildFile; fileRef = 810DBC3F11343E63000411D8 /* drag to trash.aif */; };
 		810E7A8F1115F74900FC4640 /* RevealHover.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E7A8C1115F74900FC4640 /* RevealHover.png */; };
 		810E7A901115F74900FC4640 /* RevealOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E7A8D1115F74900FC4640 /* RevealOff.png */; };
 		810E7A911115F74900FC4640 /* RevealOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E7A8E1115F74900FC4640 /* RevealOn.png */; };
@@ -137,6 +138,7 @@
 		810AEF411113365600933772 /* ToolbarSegmentedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolbarSegmentedCell.m; sourceTree = "<group>"; };
 		810CD80B10FBCF0600963D10 /* TorrentDropView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentDropView.h; sourceTree = "<group>"; };
 		810CD80C10FBCF0600963D10 /* TorrentDropView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentDropView.m; sourceTree = "<group>"; };
+		810DBC3F11343E63000411D8 /* drag to trash.aif */ = {isa = PBXFileReference; lastKnownFileType = file; path = "drag to trash.aif"; sourceTree = "<group>"; };
 		810E7A8C1115F74900FC4640 /* RevealHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RevealHover.png; sourceTree = "<group>"; };
 		810E7A8D1115F74900FC4640 /* RevealOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RevealOff.png; sourceTree = "<group>"; };
 		810E7A8E1115F74900FC4640 /* RevealOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RevealOn.png; sourceTree = "<group>"; };
@@ -332,6 +334,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				810DBC3F11343E63000411D8 /* drag to trash.aif */,
 				811B4C0711276542008A23C3 /* SSHCommand.sh */,
 				811EA5D11111FAD1001D16D0 /* images */,
 				8D1107310486CEB800E47090 /* Nativa-Info.plist */,
@@ -617,6 +620,7 @@
 				815499AC111FCDD800389035 /* PriorityNormal.png in Resources */,
 				811B4C0811276542008A23C3 /* SSHCommand.sh in Resources */,
 				81CB5A841128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict in Resources */,
+				810DBC4011343E63000411D8 /* drag to trash.aif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

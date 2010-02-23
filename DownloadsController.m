@@ -124,8 +124,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 				
 			if ([_defaults boolForKey:NITrashDownloadDescriptorsKey])
 			{
+				//play "trash" sound
+				id resp = [^(NSDictionary *newURLs, NSError *error){
+					NSSound *deleteSound;
+					deleteSound  = [NSSound soundNamed: @"drag to trash"];
+					[deleteSound play];
+				}copy];
 				[[NSWorkspace sharedWorkspace] recycleURLs: urls
-										  completionHandler:nil];
+										 completionHandler:resp];
+				[resp release];
 			}
 			
 			[blockSelf _updateList];
