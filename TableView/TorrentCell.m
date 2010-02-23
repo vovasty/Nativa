@@ -833,7 +833,7 @@
 	{
 		if (torrent.speedDownload>0)
 		{
-			uint64_t eta = (torrent.size - torrent.downloadRate)/(torrent.speedDownload*1024);
+			uint64_t eta = (torrent.size - torrent.downloadRate)/(torrent.speedDownload);
 			string = [string stringByAppendingFormat: @" - %@", [NSString timeString: eta showSeconds: YES maxFields: 2]];
 		}
 		else
