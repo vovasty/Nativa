@@ -102,13 +102,19 @@
 -(IBAction)toggleTurtleSpeed:(id)sender
 {
 	__block Controller *blockSelf = self;
-	VoidResponseBlock response = [^(NSString* error){
-		[blockSelf checkSpeedLimit];
+	VoidResponseBlock responseDownload = [^(NSString* error)
+	{
+		VoidResponseBlock responseUpload = [^(NSString* error)
+		{
+			[blockSelf checkSpeedLimit];
+		}copy];
+		int speedUpload = [_turtleButton state] == NSOnState?[_defaults integerForKey:NISpeedLimitUpload]*1024:0;
+		[[DownloadsController sharedDownloadsController] setGlobalUploadSpeedLimit:speedUpload response:responseUpload];
+		[responseUpload release];
 	}copy];
-#warning only download speed sets
-	int speed = [_turtleButton state] == NSOnState?[_defaults integerForKey:NISpeedLimitDownload]*1024:0;
-	[[DownloadsController sharedDownloadsController] setGlobalDownloadSpeedLimit:speed response:response];
-	[response release];
+	int speedDownload = [_turtleButton state] == NSOnState?[_defaults integerForKey:NISpeedLimitDownload]*1024:0;
+	[[DownloadsController sharedDownloadsController] setGlobalDownloadSpeedLimit:speedDownload response:responseDownload];
+	[responseDownload release];
 }
 
 

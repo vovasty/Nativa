@@ -68,6 +68,7 @@
 		8169685C111B0DF800246098 /* FilterButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8169685B111B0DF800246098 /* FilterButton.m */; };
 		819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3BE91110CD5200F7007C /* DownloadsController.m */; };
 		819D3E0C1110EE6E00F7007C /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3E0B1110EE6E00F7007C /* Controller.m */; };
+		81ADA8DF1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81ADA8DE1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.m */; };
 		81B737E411136F6900A11521 /* RTGetGlobalDownloadSpeedLimitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B737E311136F6900A11521 /* RTGetGlobalDownloadSpeedLimitCommand.m */; };
 		81B73ABA1113993800A11521 /* UpArrowTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B73AB91113993800A11521 /* UpArrowTemplate.png */; };
 		81B73ABC1113994700A11521 /* DownArrowTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B73ABB1113994700A11521 /* DownArrowTemplate.png */; };
@@ -206,6 +207,8 @@
 		819D3BE91110CD5200F7007C /* DownloadsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsController.m; sourceTree = "<group>"; };
 		819D3E0A1110EE6E00F7007C /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		819D3E0B1110EE6E00F7007C /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
+		81ADA8DD1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSetGlobalUploadSpeedLimitCommand.h; sourceTree = "<group>"; };
+		81ADA8DE1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSetGlobalUploadSpeedLimitCommand.m; sourceTree = "<group>"; };
 		81B737E211136F6900A11521 /* RTGetGlobalDownloadSpeedLimitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTGetGlobalDownloadSpeedLimitCommand.h; sourceTree = "<group>"; };
 		81B737E311136F6900A11521 /* RTGetGlobalDownloadSpeedLimitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTGetGlobalDownloadSpeedLimitCommand.m; sourceTree = "<group>"; };
 		81B73AB91113993800A11521 /* UpArrowTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpArrowTemplate.png; sourceTree = "<group>"; };
@@ -495,6 +498,8 @@
 				81E6BD3C10FE87FB0083856D /* RTAddCommand.m */,
 				81E6BED210FF66730083856D /* RTEraseCommand.h */,
 				81E6BED310FF66730083856D /* RTEraseCommand.m */,
+				81ADA8DD1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.h */,
+				81ADA8DE1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.m */,
 				811EA98C11124D93001D16D0 /* RTSetGlobalDownloadSpeedLimitCommand.h */,
 				811EA98D11124D93001D16D0 /* RTSetGlobalDownloadSpeedLimitCommand.m */,
 				81B737E211136F6900A11521 /* RTGetGlobalDownloadSpeedLimitCommand.h */,
@@ -675,6 +680,7 @@
 				811B4B7611275B14008A23C3 /* AMServer.m in Sources */,
 				811B4B7711275B14008A23C3 /* AMService.m in Sources */,
 				811B4B7811275B14008A23C3 /* AMSession.m in Sources */,
+				81ADA8DF1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

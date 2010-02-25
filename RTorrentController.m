@@ -18,6 +18,7 @@
 #import "TorrentDelegate.h"
 #import "RTSetGlobalDownloadSpeedLimitCommand.h"
 #import "RTGetGlobalDownloadSpeedLimitCommand.h"
+#import "RTSetGlobalUploadSpeedLimitCommand.h"
 #import "RTSetPriorityCommand.h"
 
 static NSString * OperationsChangedContext = @"OperationsChangedContext";
@@ -94,9 +95,17 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	[self _runCommand: command];
 	[command release];
 }
+
 - (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 {
 	RTSetGlobalDownloadSpeedLimitCommand* command = [[RTSetGlobalDownloadSpeedLimitCommand alloc] initWithSpeedAndResponse:speed response:response];
+	[self _runCommand: command];
+	[command release];
+}
+
+- (void) setGlobalUploadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
+{
+	RTSetGlobalUploadSpeedLimitCommand* command = [[RTSetGlobalUploadSpeedLimitCommand alloc] initWithSpeedAndResponse:speed response:response];
 	[self _runCommand: command];
 	[command release];
 }
@@ -107,6 +116,7 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	[self _runCommand: command];
 	[command release];
 }
+
 
 - (void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response
 {

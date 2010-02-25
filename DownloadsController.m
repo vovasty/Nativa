@@ -163,6 +163,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	[[self _controller] getGlobalDownloadSpeedLimit:response];
 }
 
+- (void) setGlobalUploadSpeedLimit:(int) speed response:(VoidResponseBlock) response
+{
+	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to set global speed limit: %@"];
+	[[self _controller] setGlobalUploadSpeedLimit:speed response:r];
+}
+
 - (BOOL) reveal:(Torrent*) torrent
 {
 	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];

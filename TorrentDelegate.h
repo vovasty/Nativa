@@ -30,6 +30,8 @@
 
 - (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 
+- (void) setGlobalUploadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
+
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response;
 
 - (void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response;
