@@ -40,9 +40,7 @@
 		812A725010FD0A0300795D8B /* RTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A724F10FD0A0300795D8B /* RTConnection.m */; };
 		812A726D10FD0D3D00795D8B /* RTSCGIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A726C10FD0D3D00795D8B /* RTSCGIOperation.m */; };
 		812A731010FD1C0A00795D8B /* RTListCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A730F10FD1C0A00795D8B /* RTListCommand.m */; };
-		8130AC23111B5A8E009C1595 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8130AC22111B5A8E009C1595 /* BWToolkitFramework.framework */; };
 		8130AC25111B5A8E009C1595 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8130AC24111B5A8E009C1595 /* Sparkle.framework */; };
-		8130AC60111B5AA7009C1595 /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8130AC22111B5A8E009C1595 /* BWToolkitFramework.framework */; };
 		8130AC61111B5AA7009C1595 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8130AC24111B5A8E009C1595 /* Sparkle.framework */; };
 		814FF9761100AB7100335707 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF9691100AB7100335707 /* NSDataAdditions.m */; };
 		814FF9771100AB7100335707 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF96B1100AB7100335707 /* NSStringAdditions.m */; };
@@ -99,7 +97,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				81CB5A9E1128E73400A9D5D3 /* Growl.framework in CopyFiles */,
-				8130AC60111B5AA7009C1595 /* BWToolkitFramework.framework in CopyFiles */,
 				8130AC61111B5AA7009C1595 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -170,7 +167,6 @@
 		812A730E10FD1C0A00795D8B /* RTListCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTListCommand.h; sourceTree = "<group>"; };
 		812A730F10FD1C0A00795D8B /* RTListCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTListCommand.m; sourceTree = "<group>"; };
 		812A731B10FD1CC500795D8B /* RTorrentCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTorrentCommand.h; sourceTree = "<group>"; };
-		8130AC22111B5A8E009C1595 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = frameworks/BWToolkitFramework.framework; sourceTree = "<group>"; };
 		8130AC24111B5A8E009C1595 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		814FF9681100AB7100335707 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAdditions.h; sourceTree = "<group>"; };
 		814FF9691100AB7100335707 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
@@ -250,7 +246,6 @@
 				81CB5A8E1128E70C00A9D5D3 /* Growl.framework in Frameworks */,
 				8130AC25111B5A8E009C1595 /* Sparkle.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				8130AC23111B5A8E009C1595 /* BWToolkitFramework.framework in Frameworks */,
 				811B4BFC1127644D008A23C3 /* Security.framework in Frameworks */,
 				811B4BFE1127644D008A23C3 /* SecurityFoundation.framework in Frameworks */,
 			);
@@ -286,7 +281,6 @@
 			isa = PBXGroup;
 			children = (
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
-				8130AC22111B5A8E009C1595 /* BWToolkitFramework.framework */,
 				8130AC24111B5A8E009C1595 /* Sparkle.framework */,
 				811B4BFB1127644D008A23C3 /* Security.framework */,
 				811B4BFD1127644D008A23C3 /* SecurityFoundation.framework */,
