@@ -63,7 +63,7 @@
 	
 	}
 	else
-		[self setError:@"Network error: unable to open connection"];
+		[self setError:[_connection error]];
 
 	[pool release];
     self.pool = nil;	
