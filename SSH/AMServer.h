@@ -16,32 +16,16 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface AMServer : NSObject <NSCoding> 
+@interface AMServer : NSObject
 {
 	NSString	*password;
 	NSString	*port;
 	NSString	*username;
 	NSString	*host;
-	NSPipe		*standartOutput;
-	NSPipe		*standartInput;
-	NSPipe		*stdOut;
-	NSTask		*ping;
 }
 @property(readwrite, retain) NSString	*host;
 @property(readwrite, retain) NSString	*password;
 @property(readwrite, retain) NSString	*port;
 @property(readwrite, retain) NSString	*username;
-@property(readwrite, retain) NSPipe		*standartOutput;
-@property(readwrite, retain) NSPipe		*standartInput;
-
-
-#pragma mark -
-#pragma mark Helper methods
-- (void) pingHost;
-
-#pragma mark -
-#pragma mark Observers and delegates
-- (void) handleEndOfPing:(NSNotification *) aNotification;
-- (void) openShellOnThisServer;
 
 @end
