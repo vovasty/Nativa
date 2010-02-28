@@ -17,7 +17,6 @@
 
 @synthesize name = _name;
 @synthesize processType = _processType;
-@synthesize manualConfig = _manualConfig;
 @synthesize host = _host;
 @synthesize port = _port;
 @synthesize downloadsFolder = _downloadsFolder;
@@ -39,7 +38,6 @@
     {
         self.name = [coder decodeObjectForKey:@"name"];
 		self.processType = [coder decodeObjectForKey:@"processType"];
-        self.manualConfig = [coder decodeBoolForKey:@"manualConfig"];
         self.host = [coder decodeObjectForKey:@"host"];
         self.port = [coder decodeIntForKey:@"port"];
 		self.downloadsFolder = [coder decodeObjectForKey:@"downloadsFolder"];
@@ -60,7 +58,6 @@
 {	
 	[coder encodeObject:_name forKey:@"name"];
 	[coder encodeObject:_processType forKey:@"processType"];
-    [coder encodeBool:_manualConfig forKey:@"manualConfig"];
 	[coder encodeObject:_host forKey:@"host"];
 	[coder encodeInt:_port forKey:@"port"];
 	[coder encodeObject:_downloadsFolder forKey:@"downloadsFolder"];
