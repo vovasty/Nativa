@@ -92,7 +92,8 @@
 
 -(IBAction)showPreferencePanel:(id)sender;
 {
-    NSWindow * window = [_preferencesController window];
+	[[DownloadsController sharedDownloadsController] stopUpdates];
+	NSWindow * window = [_preferencesController window];
     if (![window isVisible])
         [window center];
 	
