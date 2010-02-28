@@ -16,6 +16,7 @@
 	int port;
 	AMSession* _proxy;
 	BOOL _connected;
+	BOOL _connecting;
 }
 - (id)initWithHostPort:(NSString *)initHost port:(int)initPort proxy:(AMSession*) proxy;
 
@@ -25,5 +26,8 @@
 
 -(void) openConnection;
 
-@property (readonly) BOOL connected;
+-(NSString*) error;
+
+@property (readwrite) BOOL connected;
+@property (readwrite) BOOL connecting;
 @end
