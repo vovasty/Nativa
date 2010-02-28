@@ -41,4 +41,5 @@
 
 - (void) toggleSSH: (id) sender;
 
+- (void) saveProcess: (id) sender;
 @end

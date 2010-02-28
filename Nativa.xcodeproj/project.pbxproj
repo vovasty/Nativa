@@ -76,6 +76,8 @@
 		81CB5A841128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */; };
 		81CB5A8E1128E70C00A9D5D3 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81CB5A8D1128E70C00A9D5D3 /* Growl.framework */; };
 		81CB5A9E1128E73400A9D5D3 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 81CB5A8D1128E70C00A9D5D3 /* Growl.framework */; };
+		81CE376D113AF37600C9F344 /* SaveProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81CE376C113AF37600C9F344 /* SaveProgress.xib */; };
+		81CE3805113B016000C9F344 /* SaveProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CE3804113B016000C9F344 /* SaveProgressController.m */; };
 		81DF15D4110FADA100AFCE02 /* TorrentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15C8110FADA100AFCE02 /* TorrentViewController.m */; };
 		81DF15D6110FADA100AFCE02 /* TorrentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CC110FADA100AFCE02 /* TorrentTableView.m */; };
 		81DF15D7110FADA100AFCE02 /* TorrentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CE110FADA100AFCE02 /* TorrentCell.m */; };
@@ -217,6 +219,9 @@
 		81B73C051113C50200A11521 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
 		81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		81CB5A8D1128E70C00A9D5D3 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = frameworks/Growl.framework; sourceTree = "<group>"; };
+		81CE376C113AF37600C9F344 /* SaveProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaveProgress.xib; sourceTree = "<group>"; };
+		81CE3803113B016000C9F344 /* SaveProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveProgressController.h; sourceTree = "<group>"; };
+		81CE3804113B016000C9F344 /* SaveProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveProgressController.m; sourceTree = "<group>"; };
 		81D1B9051106834700C8A69A /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		81DF15C7110FADA100AFCE02 /* TorrentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentViewController.h; sourceTree = "<group>"; };
 		81DF15C8110FADA100AFCE02 /* TorrentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentViewController.m; sourceTree = "<group>"; };
@@ -340,6 +345,7 @@
 				8169684F111B0CFC00246098 /* PreferencesWindow.xib */,
 				816967F8111A3F4900246098 /* dsa_pub.pem */,
 				81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */,
+				81CE376C113AF37600C9F344 /* SaveProgress.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -362,6 +368,8 @@
 				8106590B1118DA4700674B45 /* PreferencesWindow.m */,
 				8169644A1119F81400246098 /* ProcessPreferencesController.h */,
 				8169644B1119F81400246098 /* ProcessPreferencesController.m */,
+				81CE3803113B016000C9F344 /* SaveProgressController.h */,
+				81CE3804113B016000C9F344 /* SaveProgressController.m */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -620,6 +628,7 @@
 				811B4C0811276542008A23C3 /* SSHCommand.sh in Resources */,
 				81CB5A841128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict in Resources */,
 				810DBC4011343E63000411D8 /* drag to trash.aif in Resources */,
+				81CE376D113AF37600C9F344 /* SaveProgress.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -675,6 +684,7 @@
 				811B4B7711275B14008A23C3 /* AMService.m in Sources */,
 				811B4B7811275B14008A23C3 /* AMSession.m in Sources */,
 				81ADA8DF1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.m in Sources */,
+				81CE3805113B016000C9F344 /* SaveProgressController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,6 +9,7 @@
 #import "ProcessPreferencesController.h"
 #import "ProcessesController.h"
 #import "ProcessDescriptor.h"
+#import "SaveProgressController.h"
 
 @interface ProcessPreferencesController(Private)
 
@@ -17,7 +18,6 @@
 - (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info;
 
 - (NSInteger) currentProcess;
-
 @end
 
 @implementation ProcessPreferencesController
@@ -76,7 +76,6 @@
 	[self setUseSSHTunnel:[_useSSH state] == NSOnState];
 }
 
-
 //show folder doalog for downloads path
 - (void) downloadsPathShow: (id) sender
 {
@@ -92,6 +91,27 @@
 				   modalForWindow: _window modalDelegate: self didEndSelector:
 	 @selector(downloadsPathClosed:returnCode:contextInfo:) contextInfo: nil];
 	
+}
+
+- (void) saveProcess: (id) sender
+{
+	[_window makeFirstResponder: nil];
+	[[SaveProgressController sharedSaveProgressController] open: _window];
+	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex: [self currentProcess]];
+	[pd openProcess];
+
+	ArrayResponseBlock response = [^(NSArray *array, NSString* error) {
+		if (error != nil)
+		{
+			NSLog(@"update download list error: %@", error);
+			[[SaveProgressController sharedSaveProgressController] message: error];
+		}
+		else
+			[[SaveProgressController sharedSaveProgressController] close:nil];
+		[pd closeProcess];
+	} copy];
+	[[pd process] list:response];
+	[response release];
 }
 @end
 
