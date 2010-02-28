@@ -22,6 +22,7 @@
 #import "RTSetPriorityCommand.h"
 
 static NSString * OperationsChangedContext = @"OperationsChangedContext";
+static NSString * ConnectingContext = @"ConnectingContext";
 
 @interface RTorrentController(Private)
 -(void)_runCommand:(id<RTorrentCommand>) command;
@@ -45,11 +46,17 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	[_queue retain];
 	[_queue setMaxConcurrentOperationCount:1];
 	
+	[_queue setSuspended:YES];
+	
 	[_queue addObserver:self
 			forKeyPath:@"operations"
 			options:0
 			context:&OperationsChangedContext];
-	
+
+	[_connection addObserver:self
+			 forKeyPath:@"connecting"
+				options:0
+				context:&ConnectingContext];
 	return self;
 }
 
@@ -58,6 +65,8 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	[_connection release];
 	[_queue release];
 	[_errorCommand release];
+	[_queue removeObserver:self forKeyPath:@"operations"];
+	[_connection removeObserver:self forKeyPath:@"connecting"];
 	[super dealloc];
 }
 
@@ -147,6 +156,7 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
 	operation.delegate = self;
 	[_queue addOperation:operation];
 	[operation release];
+
 }
 
 - (void) setError:(id<RTorrentCommand>) ec;
@@ -173,9 +183,13 @@ static NSString * OperationsChangedContext = @"OperationsChangedContext";
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-    if (context == &OperationsChangedContext)
+	if (context == &OperationsChangedContext)
     {
         [self setWorking:[[_queue operations] count]>0];
+    }
+    else if (context == &ConnectingContext)
+    {
+		[_queue setSuspended:_connection.connecting];
     }
     else
     {
