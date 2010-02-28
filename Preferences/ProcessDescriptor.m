@@ -127,7 +127,7 @@
 	}
 	self.connection = [[RTConnection alloc] initWithHostPort:_host port:_port proxy:proxy];
 	[proxy release];
-	[self.connection openConnection];
 	self.process = [[RTorrentController alloc] initWithConnection:self.connection];
+	[self.connection openConnection];
 }
 @end
