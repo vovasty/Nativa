@@ -318,7 +318,7 @@
 			[self setConnectionInProgress:NO];
 			[outputContent setString:@""];
 			[sshTask terminate];
-			[self setError: @"Unknown error as occured while connecting."];
+			[self setError: @"SSH: Unknown error as occured while connecting."];
 		}
 		else if ([checkWrongPass evaluateWithObject:outputContent] == YES)
 		{
@@ -326,7 +326,7 @@
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
 			[sshTask terminate];
-			[self setError: @"The password or username set for the server are wrong"];
+			[self setError: @"SSH: The password or username set for the server are wrong"];
 		}
 		else if ([checkRefused evaluateWithObject:outputContent] == YES)
 		{
@@ -335,7 +335,7 @@
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
 			[sshTask terminate];
-			[self setError: @"Connection has been rejected by the server."];
+			[self setError: @"SSH: Connection has been rejected by the server."];
 		}		
 		else if ([checkWrongHostname evaluateWithObject:outputContent] == YES)
 		{
@@ -344,7 +344,7 @@
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
 			[sshTask terminate];
-			[self setError: @"Wrong hostname."];
+			[self setError: @"SSH: Wrong hostname."];
 		}		
 		else if ([checkTimeout evaluateWithObject:outputContent] == YES)
 		{
@@ -353,7 +353,7 @@
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
 			[sshTask terminate];
-			[self setError: @"Connection timeout."];
+			[self setError: @"SSH: Connection timeout."];
 		}		
 		else if ([checkPort evaluateWithObject:outputContent] == YES)
 		{
@@ -362,7 +362,7 @@
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
 			[sshTask terminate];
-			[self setError: @"The port is already used on server."];
+			[self setError: @"SSH: The port is already used on server."];
 		}
 		else if ([checkConnected evaluateWithObject:outputContent] == YES)
 		{
