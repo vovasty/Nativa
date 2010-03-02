@@ -47,33 +47,6 @@
 	return self;
 }
 
-- (id) initWithCoder:(NSCoder *)coder
-{
-	self = [super init];
-	
-	self.sessionName			= [coder decodeObjectForKey:@"MVsessionName"];
-	self.portsMap			= [coder decodeObjectForKey:@"portsMap"];
-	self.remoteHost			= [coder decodeObjectForKey:@"MVremoteHost"];
-	self.currentServer		= [coder decodeObjectForKey:@"MVcurrentServer"];
-	
-	[self setConnected:NO];
-	[self setConnectionInProgress:NO];
-	autoReconnectTimes = 0;
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listernerForSSHTunnelDown:) 
-												 name:@"NSTaskDidTerminateNotification" object:self];
-	
-	return self;
-}
-
-- (void) encodeWithCoder:(NSCoder *) coder
-{	
-	[coder encodeObject:sessionName forKey:@"MVsessionName"];
-	[coder encodeObject:portsMap forKey:@"portsMap"];
-	[coder encodeObject:remoteHost forKey:@"MVremoteHost"];
-	[coder encodeObject:currentServer forKey:@"MVcurrentServer"];
-}
-
 - (void) dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];

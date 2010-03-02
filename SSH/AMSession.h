@@ -26,7 +26,7 @@ extern	NSString const *AMNewErrorMessage;
 
 
 
-@interface AMSession : NSObject <NSCoding> 
+@interface AMSession : NSObject
 {
 	AMServer 		*currentServer;
 	AMService		*portsMap;	
