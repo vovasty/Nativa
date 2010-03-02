@@ -209,6 +209,8 @@
 
 - (void) closeTunnel
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:sshTask];
+
 	tryReconnect = NO;
 
 	NSLog(@"Session %@ is now closed.", [self sessionName]);

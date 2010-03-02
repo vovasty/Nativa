@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TorrentDropView, PreferencesController, StatusBarView, TorrentTableView;
+@class TorrentDropView, PreferencesController, StatusBarView, TorrentTableView, DragOverlayWindow;
 
 @interface Controller : NSObject {
 	IBOutlet NSWindow* _window;
@@ -16,6 +16,7 @@
 	IBOutlet NSButton* _turtleButton;
 	NSUserDefaults* _defaults;
 	PreferencesController* _preferencesController;
+	DragOverlayWindow* _overlayWindow;
 }
 
 -(IBAction)showPreferencePanel:(id)sender;

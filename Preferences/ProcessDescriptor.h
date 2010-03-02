@@ -27,7 +27,7 @@
 	NSString* _sshUsername;
 	NSString* _sshPassword;
 	NSString* _sshLocalPort;
-	
+	VoidResponseBlock openProcessResponse;
 }
 @property (retain) NSString* name;
 @property (retain) NSString* processType;
@@ -47,5 +47,5 @@
 
 
 -(void) closeProcess;
--(void) openProcess;
+-(void) openProcess:(VoidResponseBlock) response;
 @end

@@ -16,6 +16,7 @@
 #include "TorrentTableView.h"
 #include "ProcessesController.h"
 #include <Growl/Growl.h>
+#include "DragOverlayWindow.h"
 
 @implementation Controller
 +(void) initialize
@@ -39,10 +40,6 @@
 
 	//Growl needs it
 	[GrowlApplicationBridge setGrowlDelegate:@""];
-	
-	if ([[ProcessesController sharedProcessesController] count]>0)
-		[[DownloadsController sharedDownloadsController] startUpdates];
-	
 }
 
 - (id)init
@@ -82,12 +79,25 @@
 	//bottom bar for window
 	//http://iloveco.de/bottom-bars-in-cocoa/
 	[_window setContentBorderThickness:24.0 forEdge:NSMinYEdge];
+	_overlayWindow = [[DragOverlayWindow alloc] initWithWindow: _window];
 	
 	if ([[ProcessesController sharedProcessesController] count]==0)
 	{
 		[self showPreferencePanel:nil];
 	}
-	
+	else
+	{
+		[_overlayWindow setImageAndMessage:[NSImage imageNamed: @"TurtleTemplate.png"] mainMessage:@"Connecting ..." message:@"checking weapon ..."];
+		__block Controller *blockSelf = self;
+		VoidResponseBlock response = [^(NSString* error){
+			if (error)
+				[blockSelf->_overlayWindow setImageAndMessage:[NSImage imageNamed: @"TurtleTemplate.png"] mainMessage:@"Error" message:error];
+			else 
+				[blockSelf->_overlayWindow fadeOut];
+		}copy];
+		[[DownloadsController sharedDownloadsController] startUpdates:response];
+		[response release];
+	}
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
@@ -158,5 +168,4 @@
     if (code == NSOKButton)
 		[[DownloadsController sharedDownloadsController] add:[panel filenames]];
 }
-
 @end

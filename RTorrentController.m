@@ -22,6 +22,7 @@
 #import "RTSetPriorityCommand.h"
 
 static NSString * ConnectingContext = @"ConnectingContext";
+static NSString * ConnectedContext = @"ConnectingContext";
 
 @interface RTorrentController(Private)
 -(void)_runCommand:(id<RTorrentCommand>) command;
@@ -46,6 +47,11 @@ static NSString * ConnectingContext = @"ConnectingContext";
 			 forKeyPath:@"connecting"
 				options:0
 				context:&ConnectingContext];
+	
+	[_connection addObserver:self
+				  forKeyPath:@"connected"
+					 options:0
+					 context:&ConnectedContext];
 	return self;
 }
 
@@ -53,6 +59,7 @@ static NSString * ConnectingContext = @"ConnectingContext";
 {
 	[_queue release];
 	[_connection removeObserver:self forKeyPath:@"connecting"];
+	[_connection removeObserver:self forKeyPath:@"connected"];
 	[_connection release];
 	[super dealloc];
 }
@@ -145,6 +152,11 @@ static NSString * ConnectingContext = @"ConnectingContext";
     {
 		[_queue setSuspended:_connection.connecting];
     }
+	else if (context == &ConnectedContext)
+    {
+		if (_connectionResponse)
+			_connectionResponse([_connection error]);
+    }
     else
     {
         [super observeValueForKeyPath:keyPath
@@ -159,8 +171,11 @@ static NSString * ConnectingContext = @"ConnectingContext";
 	return [_connection connected];
 }
 
--(void) openConnection
+-(void) openConnection:(VoidResponseBlock) response;
 {
+	if (_connectionResponse != response)
+		[_connectionResponse release];
+	_connectionResponse = [response retain];
 	[_connection openConnection];
 }
 
@@ -168,7 +183,6 @@ static NSString * ConnectingContext = @"ConnectingContext";
 {
 	[_connection closeConnection];
 }
-
 @end
 
 @implementation RTorrentController(Private)

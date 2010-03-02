@@ -98,7 +98,7 @@
 	[_window makeFirstResponder: nil];
 	[[SaveProgressController sharedSaveProgressController] open: _window];
 	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex: [self currentProcess]];
-	[pd openProcess];
+	[pd openProcess:nil];
 
 	ArrayResponseBlock response = [^(NSArray *array, NSString* error) {
 		if (error != nil)

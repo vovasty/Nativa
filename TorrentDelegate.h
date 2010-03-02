@@ -32,7 +32,7 @@
 
 -(BOOL) connected;
 
--(void) openConnection;
+-(void) openConnection:(VoidResponseBlock) response;
 
 -(void) closeConnection;
 @end

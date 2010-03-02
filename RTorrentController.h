@@ -15,6 +15,7 @@
 {
 	NSOperationQueue* _queue;
 	RTConnection* _connection;
+	VoidResponseBlock _connectionResponse;
 }
 - (id)initWithConnection:(RTConnection*) conn;
 @end

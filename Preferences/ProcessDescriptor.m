@@ -100,7 +100,7 @@
 	self.connection = nil;
 }
 
--(void) openProcess
+-(void) openProcess:(VoidResponseBlock) response
 {
 	AMSession* proxy = nil;
 	if ([_connectionType isEqualToString: @"SSH"])
@@ -134,7 +134,7 @@
 	self.process = p;
 	[p release];
 	
-	[self.process openConnection];
+	[self.process openConnection:response];
 
 }
 @end

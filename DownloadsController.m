@@ -57,21 +57,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 #pragma mark -
 #pragma mark public methods
 
--(void) startUpdates;
+-(void) startUpdates:(VoidResponseBlock) response;
 {
 	[_updateListTimer invalidate];
 
 	ProcessesController* pc = [ProcessesController sharedProcessesController];
+	openedProcesses = 0;
+	lastOpenProcessError = nil;
+	__block DownloadsController *blockSelf = self;
+	VoidResponseBlock cummulativeResponse =  [^(NSString* error){
+		if (error)
+			lastOpenProcessError = error;
+
+		openedProcesses++;
+		if (openedProcesses == [pc count] && response)
+		{
+			response(lastOpenProcessError);
+			[blockSelf _updateList];
+			blockSelf->_updateListTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(_updateList) userInfo:nil repeats:YES];
+			[blockSelf->_updateListTimer retain];
+			[[NSRunLoop currentRunLoop] addTimer:blockSelf->_updateListTimer forMode:NSDefaultRunLoopMode];	
+			
+		}	
+	}copy];
+	
 	
 	for (NSInteger i=0;i<[pc count];i++)
 	{
 		ProcessDescriptor* pd =[pc processDescriptorAtIndex:i];
-		[pd openProcess];
+		[pd openProcess:cummulativeResponse];
 	}
-
-	_updateListTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(_updateList) userInfo:nil repeats:YES];
-	[_updateListTimer retain];
-	[[NSRunLoop currentRunLoop] addTimer:_updateListTimer forMode:NSDefaultRunLoopMode];	
+	
+	[cummulativeResponse release];
 }
 -(void) stopUpdates;
 {

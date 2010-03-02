@@ -1,7 +1,7 @@
 /******************************************************************************
- * $Id: PrefsWindow.m 9844 2010-01-01 21:12:04Z livings124 $
+ * $Id: DragOverlayWindow.h 9844 2010-01-01 21:12:04Z livings124 $
  *
- * Copyright (c) 2006-2010 Transmission authors and contributors
+ * Copyright (c) 2007-2010 Transmission authors and contributors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -22,26 +22,21 @@
  * DEALINGS IN THE SOFTWARE.
  *****************************************************************************/
 
-#import "PreferencesWindow.h"
-#import "DownloadsController.h"
+#import <Cocoa/Cocoa.h>
 
-@implementation PreferencesWindow
-
-- (void) keyDown: (NSEvent *) event
+@interface DragOverlayWindow : NSWindow
 {
-    if ([event keyCode] == 53) //esc key
-        [self close];
-    else
-        [super keyDown: event];
+    
+    NSViewAnimation * fFadeInAnimation, * fFadeOutAnimation;
 }
 
-- (void) close
-{
-	[[DownloadsController sharedDownloadsController] stopUpdates];
-	[[DownloadsController sharedDownloadsController] startUpdates:nil];
+- (id) initWithWindow: (NSWindow *) window;
 
-    [self makeFirstResponder: nil]; //essentially saves pref changes on window close
-    [super close];
-}
+- (void) setImageAndMessage:(NSImage*) image mainMessage:(NSString *) mainMessage message:(NSString *) message;
+- (void) setFile: (NSString *) file;
+- (void) setURL: (NSString *) url;
+
+- (void) fadeIn;
+- (void) fadeOut;
 
 @end
