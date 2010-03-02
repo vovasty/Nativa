@@ -28,6 +28,6 @@
 
 -(NSString*) error;
 
-@property (readwrite) BOOL connected;
-@property (readwrite) BOOL connecting;
+@property (readonly) BOOL connected;
+@property (readonly) BOOL connecting;
 @end

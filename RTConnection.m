@@ -21,8 +21,8 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 {
 	hostName = [[NSString stringWithString:initHost] retain];
 	port = initPort;
-	self.connecting = NO;
-	self.connected = NO;
+	_connecting = NO;
+	_connected = NO;
 	if (proxy)
 	{
 		_proxy = [proxy retain];
@@ -65,8 +65,12 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 
 -(void) closeConnection
 {
-	self.connected = NO;
-	self.connecting = NO;
+	[self willChangeValueForKey:@"connecting"];
+	[self willChangeValueForKey:@"connected"];
+	_connected = NO;
+	_connecting = NO;
+	[self didChangeValueForKey:@"connecting"];
+	[self didChangeValueForKey:@"connected"];
 	[_proxy closeTunnel];
 }
 
@@ -75,14 +79,18 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 	if (_proxy == nil)
 	{
 		[self willChangeValueForKey:@"connecting"];
-		self.connecting = NO;
+		[self willChangeValueForKey:@"connected"];
+		_connected = YES;
+		_connecting = NO;
 		[self didChangeValueForKey:@"connecting"];
-		self.connected = YES;
+		[self didChangeValueForKey:@"connected"];
 	}
 	else
 	{
-		self.connecting = YES;
-		self.connected = NO;
+		[self willChangeValueForKey:@"connecting"];
+		_connected = NO;
+		_connecting = YES;
+		[self didChangeValueForKey:@"connecting"];
 		[_proxy openTunnel];
 	}
 }
@@ -108,9 +116,12 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 {
     if (context == &ProxyConnectedContext)
     {
-		self.connected = _proxy.connected;
-		self.connecting =_proxy.connectionInProgress;
-
+		[self willChangeValueForKey:@"connecting"];
+		[self willChangeValueForKey:@"connected"];
+		_connected = _proxy.connected;
+		_connecting =_proxy.connectionInProgress;
+		[self didChangeValueForKey:@"connecting"];
+		[self didChangeValueForKey:@"connected"];
     }
     else
     {
