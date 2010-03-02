@@ -87,11 +87,11 @@
 	}
 	else
 	{
-		[_overlayWindow setImageAndMessage:[NSImage imageNamed: @"TurtleTemplate.png"] mainMessage:@"Connecting ..." message:@"checking weapon ..."];
+		[_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.png"] mainMessage:@"Connecting ..." message:@"in progress ..."];
 		__block Controller *blockSelf = self;
 		VoidResponseBlock response = [^(NSString* error){
 			if (error)
-				[blockSelf->_overlayWindow setImageAndMessage:[NSImage imageNamed: @"TurtleTemplate.png"] mainMessage:@"Error" message:error];
+				[blockSelf->_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.png"] mainMessage:@"Error" message:error];
 			else 
 				[blockSelf->_overlayWindow fadeOut];
 		}copy];

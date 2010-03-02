@@ -88,6 +88,7 @@
 		81E6BED410FF66730083856D /* RTEraseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BED310FF66730083856D /* RTEraseCommand.m */; };
 		81FA9EFA113DA51900FDF920 /* DragOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FA9EF6113DA51900FDF920 /* DragOverlayView.m */; };
 		81FA9EFB113DA51900FDF920 /* DragOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FA9EF7113DA51900FDF920 /* DragOverlayWindow.m */; };
+		81FAA11B113DCD9900FDF920 /* Loading.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FAA11A113DCD9900FDF920 /* Loading.png */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -245,6 +246,7 @@
 		81FA9EF7113DA51900FDF920 /* DragOverlayWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragOverlayWindow.m; sourceTree = "<group>"; };
 		81FA9EF8113DA51900FDF920 /* DragOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragOverlayView.h; sourceTree = "<group>"; };
 		81FA9EF9113DA51900FDF920 /* DragOverlayWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragOverlayWindow.h; sourceTree = "<group>"; };
+		81FAA11A113DCD9900FDF920 /* Loading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Loading.png; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Nativa-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Nativa-Info.plist"; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Nativa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nativa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -462,6 +464,7 @@
 		811EA5D11111FAD1001D16D0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81FAA11A113DCD9900FDF920 /* Loading.png */,
 				815499AB111FCDD800389035 /* PriorityNormal.png */,
 				815498FB111FC1A300389035 /* PriorityHigh.png */,
 				815498FC111FC1A300389035 /* PriorityLow.png */,
@@ -647,6 +650,7 @@
 				81CB5A841128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict in Resources */,
 				810DBC4011343E63000411D8 /* drag to trash.aif in Resources */,
 				81CE376D113AF37600C9F344 /* SaveProgress.xib in Resources */,
+				81FAA11B113DCD9900FDF920 /* Loading.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
