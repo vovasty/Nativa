@@ -95,9 +95,9 @@
 }
 -(void) closeProcess
 {
-	self.process=nil;
-	[self.connection closeConnection];
-	self.connection=nil;
+	[self.process closeConnection];
+	self.process = nil;
+	self.connection = nil;
 }
 
 -(void) openProcess
@@ -125,9 +125,16 @@
 		proxy.autoReconnect = YES;
 		[server release];
 	}
-	self.connection = [[RTConnection alloc] initWithHostPort:_host port:_port proxy:proxy];
+	RTConnection* c = [[RTConnection alloc] initWithHostPort:_host port:_port proxy:proxy];
+	self.connection = c;
+	[c release];
 	[proxy release];
-	self.process = [[RTorrentController alloc] initWithConnection:self.connection];
-	[self.connection openConnection];
+	
+	RTorrentController *p = [[RTorrentController alloc] initWithConnection:self.connection];
+	self.process = p;
+	[p release];
+	
+	[self.process openConnection];
+
 }
 @end
