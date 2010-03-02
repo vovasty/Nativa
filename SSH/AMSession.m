@@ -25,8 +25,8 @@
 @synthesize	sessionName;
 @synthesize portsMap;
 @synthesize remoteHost;
-@synthesize connected;
-@synthesize connectionInProgress;
+@synthesize connected = _connected;
+@synthesize connectionInProgress = _connectionInProgress;
 @synthesize currentServer;
 @synthesize autoReconnect;
 @synthesize maxAutoReconnectRetries;
@@ -39,8 +39,8 @@
 	if ((self = [super init]) == nil)
 		return nil;
 	
-	[self setConnected:NO];
-	[self setConnectionInProgress:NO];
+	_connected = NO;
+	_connectionInProgress = NO;
 	autoReconnectTimes = 0;
 
 	outputContent	= [[NSMutableString alloc] init];
@@ -154,9 +154,8 @@
 	NSMutableArray		*localPorts;
 	NSMutableString		*argumentsString;
 	
-	[self setConnectionInProgress:YES];
-
-	[self setConnected:NO];
+	_connectionInProgress = YES;
+	_connected = NO;
 
 	tryReconnect = autoReconnect;
 
@@ -202,7 +201,6 @@
 											   object:sshTask];
 	
 	[outputHandle readInBackgroundAndNotify];
-	[self setConnectionInProgress:YES];
 	
 	[sshTask launch];
 
@@ -249,8 +247,12 @@
 		autoReconnectTimes = 0;
 		if (error == nil)
 			[self setError:@"SSH: unknown error"];
-		[self setConnectionInProgress:NO];
-		[self setConnected:NO];
+		[self willChangeValueForKey:@"connectionInProgress"];
+		[self willChangeValueForKey:@"connected"];
+		_connectionInProgress = NO;
+		_connected = NO;
+		[self didChangeValueForKey:@"connectionInProgress"];
+		[self didChangeValueForKey:@"connected"];
 	}
 
 }
@@ -319,8 +321,12 @@
 		{
 			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:outputHandle];
 			
-			[self setConnected:YES];
-			[self setConnectionInProgress:NO];
+			[self willChangeValueForKey:@"connectionInProgress"];
+			[self willChangeValueForKey:@"connected"];
+			_connectionInProgress = NO;
+			_connected = YES;
+			[self didChangeValueForKey:@"connectionInProgress"];
+			[self didChangeValueForKey:@"connected"];
 			//reset autoreconnect counter
 			autoReconnectTimes = 0;
 		}

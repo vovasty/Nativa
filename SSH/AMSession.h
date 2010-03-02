@@ -33,8 +33,8 @@ extern	NSString const *AMNewErrorMessage;
 	NSUInteger		autoReconnectTimes;
 	NSUInteger		maxAutoReconnectRetries;
 	BOOL			autoReconnect;
-	BOOL			connected;
-	BOOL			connectionInProgress;
+	BOOL			_connected;
+	BOOL			_connectionInProgress;
 	BOOL			tryReconnect;
 	NSMutableString *outputContent;
 	NSString 		*remoteHost;
@@ -47,9 +47,9 @@ extern	NSString const *AMNewErrorMessage;
 
 
 }
-@property(readwrite)			BOOL				connected;
+@property(readonly)			BOOL				connected;
 @property(readwrite)			BOOL				autoReconnect;
-@property(readwrite)			BOOL				connectionInProgress;
+@property(readonly)			BOOL				connectionInProgress;
 @property(readwrite)			NSUInteger			maxAutoReconnectRetries;
 @property(readwrite, retain)	AMServer 			*currentServer;
 @property(readwrite, retain)	AMService 			*portsMap;
