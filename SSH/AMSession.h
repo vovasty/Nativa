@@ -36,12 +36,12 @@ extern	NSString const *AMNewErrorMessage;
 	BOOL			connected;
 	BOOL			connectionInProgress;
 	BOOL			tryReconnect;
-	NSPipe 			*stdOut;
 	NSMutableString *outputContent;
 	NSString 		*remoteHost;
 	NSString 		*sessionName;
 	NSTask			*sshTask;
 	NSString		*error;
+	NSFileHandle* outputHandle;
 	
 	SFAuthorization *auth;
 

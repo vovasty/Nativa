@@ -43,11 +43,7 @@
 	[self setConnectionInProgress:NO];
 	autoReconnectTimes = 0;
 
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listernerForSSHTunnelDown:) 
-												 name:@"NSTaskDidTerminateNotification" object:self];
-	
-	outputContent	= [[NSMutableString alloc] initWithCapacity:256];
-	[outputContent retain];
+	outputContent	= [[NSMutableString alloc] init];
 
 	return self;
 }
@@ -59,7 +55,6 @@
 	[sessionName release];
 	[portsMap release];
 	[remoteHost release];
-	[stdOut release];
 	
 	if ([sshTask isRunning] == YES)
 		[sshTask terminate];
@@ -67,6 +62,7 @@
 	[sshTask  release];
 	[outputContent release];
 	[error release];
+	[currentServer release];
 	[super dealloc];
 }
 
@@ -152,20 +148,27 @@
 
 - (void) openTunnel
 {
-	if (connectionInProgress || connected) //prevent dublicate connect
-		return;
-	
 	NSString			*helperPath;
 	NSArray				*args;
 	NSMutableArray		*remotePorts;
 	NSMutableArray		*localPorts;
 	NSMutableString		*argumentsString;
 	
+	[self setConnectionInProgress:YES];
+
+	[self setConnected:NO];
+
 	tryReconnect = autoReconnect;
+
 	[self setError: nil];
 	
-	stdOut			= [NSPipe pipe];
+	NSPipe *stdOut			= [NSPipe pipe];
+	
+	
+	[sshTask release];
+
 	sshTask			= [[NSTask alloc] init];
+	
 	helperPath		= [[NSBundle mainBundle] pathForResource:@"SSHCommand" ofType:@"sh"];
 	
 	remotePorts		= [self parsePortsSequence:[portsMap serviceRemotePorts]];
@@ -181,21 +184,24 @@
 	[outputContent setString:@""];
 
 	[sshTask setLaunchPath:helperPath];
+
 	[sshTask setArguments:args];
 
 	[sshTask setStandardOutput:stdOut];
 	
+	outputHandle = [[sshTask standardOutput] fileHandleForReading];
+	
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(handleProcessusExecution:)
 												 name:NSFileHandleReadCompletionNotification
-											   object:[[sshTask standardOutput] fileHandleForReading]];
+											   object:outputHandle];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(listernerForSSHTunnelDown:) 
-												 name:@"NSTaskDidTerminateNotification" 
+												 name:NSTaskDidTerminateNotification
 											   object:sshTask];
 	
-	[[stdOut fileHandleForReading] readInBackgroundAndNotify];
+	[outputHandle readInBackgroundAndNotify];
 	[self setConnectionInProgress:YES];
 	
 	[sshTask launch];
@@ -210,6 +216,7 @@
 	NSLog(@"Session %@ is now closed.", [self sessionName]);
 	if ([sshTask isRunning])
 		[sshTask terminate];
+	[sshTask release];
 	sshTask = nil;
 	autoReconnectTimes = 0;
 }
@@ -219,26 +226,18 @@
 #pragma mark Observers and delegates
 - (void) handleProcessusExecution:(NSNotification *) aNotification
 {
-	if ([sshTask isRunning])
-	{
-		NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
-	
-		[self analyzeOutput:data];
-	}
+	NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+	[self analyzeOutput:data];
 }
 
 - (void) listernerForSSHTunnelDown:(NSNotification *)notification
 {	
-	NSData *data = [[stdOut fileHandleForReading] readDataToEndOfFile];
+	NSDate *future = [NSDate dateWithTimeIntervalSinceNow: 0.1];
+    [[NSRunLoop currentRunLoop] runUntilDate: future];
 	
-	[self analyzeOutput:data];
-	
-	[[stdOut fileHandleForReading] closeFile];
-
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:sshTask];
-	[self setConnected:NO];
-	[self setConnectionInProgress:NO];
-	
+	[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:outputHandle];
+
 	if (tryReconnect && autoReconnectTimes<=maxAutoReconnectRetries)
 	{
 		NSLog(@"reconnecting ssh tunnel ...");
@@ -246,7 +245,13 @@
 		[self openTunnel];
 	}
 	else 
+	{
 		autoReconnectTimes = 0;
+		if (error == nil)
+			[self setError:@"SSH: unknown error"];
+		[self setConnectionInProgress:NO];
+		[self setConnected:NO];
+	}
 
 }
 -(NSString*) error
@@ -281,66 +286,38 @@
 		
 		[outputContent appendString:stmp];
 		
-		NSLog(@"out:%@", stmp);
+		NSLog(@"ssh out:%@", stmp);
 		
 		[stmp release];
 		
 		if ([checkError evaluateWithObject:outputContent] == YES)
 		{
-			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification object:[stdOut fileHandleForReading]];
-			
-			[self setConnected:NO];
-			[self setConnectionInProgress:NO];
-			[sshTask terminate];
 			[self setError: @"SSH: Unknown error as occured while connecting."];
+			
 		}
 		else if ([checkWrongPass evaluateWithObject:outputContent] == YES)
 		{
-			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification object:[stdOut fileHandleForReading]];
-			[self setConnected:NO];
-			[self setConnectionInProgress:NO];
-			[sshTask terminate];
 			[self setError: @"SSH: The password or username set for the server are wrong"];
 		}
 		else if ([checkRefused evaluateWithObject:outputContent] == YES)
 		{
-			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:[stdOut fileHandleForReading]];
-			
-			[self setConnected:NO];
-			[self setConnectionInProgress:NO];
-			[sshTask terminate];
 			[self setError: @"SSH: Connection has been rejected by the server."];
 		}		
 		else if ([checkWrongHostname evaluateWithObject:outputContent] == YES)
 		{
-			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:[stdOut fileHandleForReading]];
-			
-			[self setConnected:NO];
-			[self setConnectionInProgress:NO];
-			[sshTask terminate];
 			[self setError: @"SSH: Wrong hostname."];
 		}		
 		else if ([checkTimeout evaluateWithObject:outputContent] == YES)
 		{
-			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:[stdOut fileHandleForReading]];
-			
-			[self setConnected:NO];
-			[self setConnectionInProgress:NO];
-			[sshTask terminate];
 			[self setError: @"SSH: Connection timeout."];
 		}		
 		else if ([checkPort evaluateWithObject:outputContent] == YES)
 		{
-			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification object:[stdOut fileHandleForReading]];
-			
-			[self setConnected:NO];
-			[self setConnectionInProgress:NO];
-			[sshTask terminate];
 			[self setError: @"SSH: The port is already used on server."];
 		}
 		else if ([checkConnected evaluateWithObject:outputContent] == YES)
 		{
-			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:[stdOut fileHandleForReading]];
+			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:outputHandle];
 			
 			[self setConnected:YES];
 			[self setConnectionInProgress:NO];
@@ -348,7 +325,7 @@
 			autoReconnectTimes = 0;
 		}
 		else
-			[[stdOut fileHandleForReading] readInBackgroundAndNotify];
+			[outputHandle readInBackgroundAndNotify];
 	}
 }
 @end
