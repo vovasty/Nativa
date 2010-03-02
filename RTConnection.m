@@ -109,7 +109,7 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
     if (context == &ProxyConnectedContext)
     {
 		self.connected = _proxy.connected;
-		self.connecting = NO;
+		self.connecting =_proxy.connectionInProgress;
 
     }
     else
