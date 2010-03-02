@@ -36,7 +36,8 @@
 
 - (id) init
 {
-	self = [super init];
+	if ((self = [super init]) == nil)
+		return nil;
 	
 	[self setConnected:NO];
 	[self setConnectionInProgress:NO];
@@ -44,6 +45,10 @@
 
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(listernerForSSHTunnelDown:) 
 												 name:@"NSTaskDidTerminateNotification" object:self];
+	
+	outputContent	= [[NSMutableString alloc] initWithCapacity:256];
+	[outputContent retain];
+
 	return self;
 }
 
@@ -173,10 +178,7 @@
 	
 	args			= [NSArray arrayWithObjects:argumentsString, [currentServer password], nil];
 
-	[outputContent release];
-	outputContent	= [[NSMutableString alloc] initWithCapacity:256];
-	[outputContent retain];
-
+	[outputContent setString:@""];
 
 	[sshTask setLaunchPath:helperPath];
 	[sshTask setArguments:args];
@@ -289,7 +291,6 @@
 			
 			[self setConnected:NO];
 			[self setConnectionInProgress:NO];
-			[outputContent setString:@""];
 			[sshTask terminate];
 			[self setError: @"SSH: Unknown error as occured while connecting."];
 		}
