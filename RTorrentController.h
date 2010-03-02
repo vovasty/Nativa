@@ -15,7 +15,6 @@
 {
 	NSOperationQueue* _queue;
 	RTConnection* _connection;
-	id<RTorrentCommand> _errorCommand;
 	BOOL _working;
 }
 @property (readonly) NSOperationQueue* queue;

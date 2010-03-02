@@ -64,7 +64,6 @@ static NSString * ConnectingContext = @"ConnectingContext";
 {
 	[_connection release];
 	[_queue release];
-	[_errorCommand release];
 	[_queue removeObserver:self forKeyPath:@"operations"];
 	[_connection removeObserver:self forKeyPath:@"connecting"];
 	[super dealloc];
@@ -156,20 +155,6 @@ static NSString * ConnectingContext = @"ConnectingContext";
 	[_queue addOperation:operation];
 	[operation release];
 
-}
-
-- (void) setError:(id<RTorrentCommand>) ec;
-{
-	if (ec != _errorCommand)
-	{
-		[_errorCommand release];
-		_errorCommand = [ec retain];
-	}
-}
-
-- (id<RTorrentCommand>) errorCommand;
-{
-	return _errorCommand;
 }
 
 -(void)setWorking:(BOOL) flag;
