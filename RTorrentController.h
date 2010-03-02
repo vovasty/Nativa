@@ -16,8 +16,5 @@
 	NSOperationQueue* _queue;
 	RTConnection* _connection;
 }
-@property (readonly) NSOperationQueue* queue;
-@property (readonly) RTConnection* connection;
 - (id)initWithConnection:(RTConnection*) conn;
-
 @end

@@ -29,19 +29,15 @@ static NSString * ConnectingContext = @"ConnectingContext";
 
 @implementation RTorrentController
 
-@synthesize connection = _connection;
-@synthesize queue = _queue;
-
 - (id)initWithConnection:(RTConnection*) conn;
 {
 	self = [super init];
 	if (self == nil)
 		return nil;
 	
-	_connection = conn;
-	[_connection retain];
+	_connection = [conn retain];
+
 	_queue = [[NSOperationQueue alloc] init];
-	[_queue retain];
 	[_queue setMaxConcurrentOperationCount:1];
 	
 	[_queue setSuspended:YES];
@@ -55,9 +51,9 @@ static NSString * ConnectingContext = @"ConnectingContext";
 
 -(void)dealloc;
 {
-	[_connection release];
 	[_queue release];
 	[_connection removeObserver:self forKeyPath:@"connecting"];
+	[_connection release];
 	[super dealloc];
 }
 
@@ -140,15 +136,6 @@ static NSString * ConnectingContext = @"ConnectingContext";
 	[command release];
 }
 
--(void)_runCommand:(id<RTorrentCommand>) command
-{
-	RTSCGIOperation* operation = [[RTSCGIOperation alloc] initWithConnection:_connection];
-	operation.command = command;
-	[_queue addOperation:operation];
-	[operation release];
-
-}
-
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change
@@ -171,5 +158,25 @@ static NSString * ConnectingContext = @"ConnectingContext";
 {
 	return [_connection connected];
 }
+
+-(void) openConnection
+{
+	[_connection openConnection];
+}
+
+-(void) closeConnection
+{
+	[_connection closeConnection];
+}
+
 @end
 
+@implementation RTorrentController(Private)
+-(void)_runCommand:(id<RTorrentCommand>) command
+{
+	RTSCGIOperation* operation = [[RTSCGIOperation alloc] initWithConnection:_connection];
+	operation.command = command;
+	[_queue addOperation:operation];
+	[operation release];
+}
+@end

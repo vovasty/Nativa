@@ -31,5 +31,9 @@
 - (void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response;
 
 -(BOOL) connected;
+
+-(void) openConnection;
+
+-(void) closeConnection;
 @end
 
