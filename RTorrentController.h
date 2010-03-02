@@ -15,11 +15,9 @@
 {
 	NSOperationQueue* _queue;
 	RTConnection* _connection;
-	BOOL _working;
 }
 @property (readonly) NSOperationQueue* queue;
 @property (readonly) RTConnection* connection;
-@property (readonly) BOOL working;
 - (id)initWithConnection:(RTConnection*) conn;
 
 @end

@@ -21,7 +21,6 @@
 #import "RTSetGlobalUploadSpeedLimitCommand.h"
 #import "RTSetPriorityCommand.h"
 
-static NSString * OperationsChangedContext = @"OperationsChangedContext";
 static NSString * ConnectingContext = @"ConnectingContext";
 
 @interface RTorrentController(Private)
@@ -32,7 +31,6 @@ static NSString * ConnectingContext = @"ConnectingContext";
 
 @synthesize connection = _connection;
 @synthesize queue = _queue;
-@synthesize working = _working;
 
 - (id)initWithConnection:(RTConnection*) conn;
 {
@@ -48,11 +46,6 @@ static NSString * ConnectingContext = @"ConnectingContext";
 	
 	[_queue setSuspended:YES];
 	
-	[_queue addObserver:self
-			forKeyPath:@"operations"
-			options:0
-			context:&OperationsChangedContext];
-
 	[_connection addObserver:self
 			 forKeyPath:@"connecting"
 				options:0
@@ -64,7 +57,6 @@ static NSString * ConnectingContext = @"ConnectingContext";
 {
 	[_connection release];
 	[_queue release];
-	[_queue removeObserver:self forKeyPath:@"operations"];
 	[_connection removeObserver:self forKeyPath:@"connecting"];
 	[super dealloc];
 }
@@ -157,21 +149,12 @@ static NSString * ConnectingContext = @"ConnectingContext";
 
 }
 
--(void)setWorking:(BOOL) flag;
-{
-	_working = flag;
-}
-
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-	if (context == &OperationsChangedContext)
-    {
-        [self setWorking:[[_queue operations] count]>0];
-    }
-    else if (context == &ConnectingContext)
+	if (context == &ConnectingContext)
     {
 		[_queue setSuspended:_connection.connecting];
     }
