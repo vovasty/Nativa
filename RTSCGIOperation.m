@@ -29,7 +29,6 @@
 
 @synthesize command = _command;
 @synthesize connection = _connection;
-@synthesize delegate = _delegate;
 @synthesize pool;
 - (id)initWithConnection:(RTConnection *) conn;
 {
@@ -215,7 +214,6 @@
 	[self requestDidSent];
 	[self responseDidReceived];
 	[_command processResponse:nil error:error];
-	[_delegate setError:_command];
 	[self finish];
 }
 

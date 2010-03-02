@@ -153,7 +153,6 @@ static NSString * ConnectingContext = @"ConnectingContext";
 {
 	RTSCGIOperation* operation = [[RTSCGIOperation alloc] initWithConnection:_connection];
 	operation.command = command;
-	operation.delegate = self;
 	[_queue addOperation:operation];
 	[operation release];
 

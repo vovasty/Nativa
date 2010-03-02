@@ -11,7 +11,7 @@
 
 @class RTConnection;
 
-@interface RTorrentController : NSObject<TorrentController, TorrentControllerDelegate>
+@interface RTorrentController : NSObject<TorrentController>
 {
 	NSOperationQueue* _queue;
 	RTConnection* _connection;

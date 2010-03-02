@@ -10,12 +10,6 @@
 #import "RTorrentCommand.h"
 #import "Torrent.h"
 
-@protocol TorrentControllerDelegate
-
-- (void) setError:(id<RTorrentCommand>) _error;
-
-@end
-
 @protocol TorrentController<NSObject>
 
 - (void) list:(ArrayResponseBlock) response;

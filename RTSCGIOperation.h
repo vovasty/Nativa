@@ -28,16 +28,12 @@
 	
     BOOL _isExecuting;
 	
-	id<TorrentControllerDelegate> _delegate;
-	
 	NSAutoreleasePool *pool;
 }
 
 - (id)initWithConnection:(RTConnection *) conn;
 
 @property (retain) id<RTorrentCommand> command;
-
-@property (assign) id<TorrentControllerDelegate> delegate;
 
 @property (assign) RTConnection* connection;
 
