@@ -17,7 +17,7 @@
 
 - (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info;
 
-- (NSInteger) currentProcess;
+- (ProcessDescriptor *) currentProcess;
 @end
 
 @implementation ProcessPreferencesController
@@ -32,7 +32,7 @@
 
 - (void) controlTextDidEndEditing: (NSNotification *) notification
 {
-	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:[self currentProcess]];
+	ProcessDescriptor *pd = [self currentProcess];
     if ([notification object] == _host)
     {
 		[pd setHost:[_host stringValue]];
@@ -62,16 +62,13 @@
 		[pd setSshLocalPort:[_sshLocalPort stringValue]];
     }
 	else;
-	
-	[[ProcessesController sharedProcessesController] saveProcesses];
 }
 
 
 -(void) toggleSSH:(id) sender
 {
-	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:[self currentProcess]];
+	ProcessDescriptor *pd = [self currentProcess];
 	[pd setConnectionType:[_useSSH state]==NSOnState?@"SSH":@"Local"];
-	[[ProcessesController sharedProcessesController] saveProcesses];
 
 	[self setUseSSHTunnel:[_useSSH state] == NSOnState];
 }
@@ -97,7 +94,7 @@
 {
 	[_window makeFirstResponder: nil];
 	[[SaveProgressController sharedSaveProgressController] open: _window];
-	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex: [self currentProcess]];
+	ProcessDescriptor *pd = [self currentProcess];
 	[pd openProcess:nil];
 
 	ArrayResponseBlock response = [^(NSArray *array, NSString* error) {
@@ -107,7 +104,14 @@
 			[[SaveProgressController sharedSaveProgressController] message: error];
 		}
 		else
+		{
 			[[SaveProgressController sharedSaveProgressController] close:nil];
+			if (unsavedProcessDescriptor)
+			{
+				[[ProcessesController sharedProcessesController] addProcessDescriptor:unsavedProcessDescriptor];
+			}
+			[[ProcessesController sharedProcessesController] saveProcesses];
+		}
 		[pd closeProcess];
 	} copy];
 	[[pd process] list:response];
@@ -118,47 +122,36 @@
 @implementation ProcessPreferencesController(Private)
 -(void)updateSelectedProcess
 {
-    ProcessDescriptor *pd = nil;
-	if ([[ProcessesController sharedProcessesController] count]>[self currentProcess])
-		pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex: [self currentProcess]];
-	if (pd)
-	{
-		
-		[_host setStringValue:[pd host]];
+    ProcessDescriptor *pd = [self currentProcess];
+	[_host setStringValue:[pd host]];
 
-		[_port setIntValue:[pd port]];
+	[_port setIntValue:[pd port]];
 		
-		[_downloadsPathPopUp removeItemAtIndex:0];
-		[_downloadsPathPopUp insertItemWithTitle:pd.downloadsFolder==nil?@"":pd.downloadsFolder atIndex:0];
-		[_downloadsPathPopUp selectItemAtIndex: 0];
+	[_downloadsPathPopUp removeItemAtIndex:0];
+	[_downloadsPathPopUp insertItemWithTitle:pd.downloadsFolder==nil?@"":pd.downloadsFolder atIndex:0];
+	[_downloadsPathPopUp selectItemAtIndex: 0];
 	
-		[_useSSH setState:[pd.connectionType isEqualToString:@"SSH"]? NSOnState: NSOffState];
+	[_useSSH setState:[pd.connectionType isEqualToString:@"SSH"]? NSOnState: NSOffState];
 		
-		[_sshHost setStringValue:pd.sshHost];
+	[_sshHost setStringValue:pd.sshHost];
 		
-		[_sshPort setStringValue:pd.sshPort];
+	[_sshPort setStringValue:pd.sshPort];
 #warning store in keychain		
-		[_sshUsername setStringValue:pd.sshUsername];
+	[_sshUsername setStringValue:pd.sshUsername];
 		
-		[_sshPassword setStringValue:pd.sshPassword];
+	[_sshPassword setStringValue:pd.sshPassword];
 	
-		[_sshLocalPort setStringValue:pd.sshLocalPort];
+	[_sshLocalPort setStringValue:pd.sshLocalPort];
 
 		//for some reason I need trigger event manually
-		[self toggleSSH:_useSSH];
-	}
-	else
-	{
-		pd = [[ProcessDescriptor alloc] init];
-		[[ProcessesController sharedProcessesController] addProcessDescriptor:pd];
-	}
+	[self toggleSSH:_useSSH];
 }
 
 - (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info
 {
     if (code == NSOKButton)
     {
-        ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex: [self currentProcess]];
+        ProcessDescriptor *pd = [self currentProcess];
 		
 		NSString * folder = [[openPanel filenames] objectAtIndex: 0];
 
@@ -168,14 +161,29 @@
 		
 		[pd setDownloadsFolder:folder];
 		
-		[[ProcessesController sharedProcessesController] saveProcesses];
-
     }
     [_downloadsPathPopUp selectItemAtIndex: 0];
 }
 
-- (NSInteger) currentProcess
+- (ProcessDescriptor *) currentProcess;
 {
-	return 0;
+	if ([[ProcessesController sharedProcessesController] count]>0)
+		return [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
+	else if (!unsavedProcessDescriptor)
+	{
+		unsavedProcessDescriptor = [[ProcessDescriptor alloc] init];
+		unsavedProcessDescriptor.host = @"127.0.0.1";
+		unsavedProcessDescriptor.port = 5000;
+		unsavedProcessDescriptor.connectionType = @"Local";
+		unsavedProcessDescriptor.sshHost = @"";
+		unsavedProcessDescriptor.sshPort = @"22";
+		unsavedProcessDescriptor.sshUsername = @"";
+		unsavedProcessDescriptor.sshPassword = @"";
+		unsavedProcessDescriptor.sshLocalPort = @"5000";
+		
+	}
+	else;
+	
+	return unsavedProcessDescriptor;
 }
 @end

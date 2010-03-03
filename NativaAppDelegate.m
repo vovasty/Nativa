@@ -8,15 +8,29 @@
 
 #import "NativaAppDelegate.h"
 #import "DownloadsController.h"
+#import "ProcessesController.h"
+#import "PreferencesController.h"
 
 @implementation NativaAppDelegate
 
 @synthesize window;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	// Insert code here to initialize your application 
+	if ([[ProcessesController sharedProcessesController] count]==0)
+	{
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert addButtonWithTitle:@"Bring me on"];
+		[alert setMessageText:@"Configuration"];
+		[alert setInformativeText:@"Before using Nativa you should configure it."];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert beginSheetModalForWindow:window modalDelegate:self didEndSelector:@selector(configSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+	}
 }
 
+- (void)configSheetDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo 
+{
+	[[PreferencesController sharedPreferencesController] openPreferences:NIPReferencesViewProcesses];
+}
 
 - (void) application: (NSApplication *) app openFiles: (NSArray *) fileNames
 {

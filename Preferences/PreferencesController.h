@@ -31,6 +31,11 @@ extern NSString* const NIStartTransferWhenAddedKey;
 extern NSString* const NIProcessListKey;
 extern NSString* const NIFilterKey;
 
+typedef enum 
+{ 
+	NIPReferencesViewDefault = 0,
+	NIPReferencesViewProcesses = 1
+} NIPReferencesView;
 
 @interface PreferencesController : NSWindowController<NSToolbarDelegate>
 {
@@ -38,4 +43,6 @@ extern NSString* const NIFilterKey;
 	
 	NSUserDefaults* _defaults;
 }
++ (PreferencesController *)sharedPreferencesController;
+-(void) openPreferences:(NIPReferencesView) view;
 @end

@@ -33,6 +33,8 @@
 	IBOutlet NSTextField * _sshLocalPort;
 	
 	BOOL useSSHTunnel;
+	
+	ProcessDescriptor* unsavedProcessDescriptor;
 }
 
 @property BOOL useSSHTunnel;

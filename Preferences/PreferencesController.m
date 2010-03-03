@@ -24,6 +24,8 @@
 
 #import "PreferencesController.h"
 #import "ProcessDescriptor.h"
+#import "DownloadsController.h"
+#import "SynthesizeSingleton.h"
 
 #define TOOLBAR_GENERAL     @"TOOLBAR_GENERAL"
 #define TOOLBAR_PROCESSES   @"TOOLBAR_PROCESSES"
@@ -46,6 +48,7 @@ NSString* const NIFilterKey = @"Filter";
 @end
 
 @implementation PreferencesController
+SYNTHESIZE_SINGLETON_FOR_CLASS(PreferencesController);
 
 - (id) init
 {
@@ -116,6 +119,21 @@ NSString* const NIFilterKey = @"Filter";
 {
     return [self toolbarAllowedItemIdentifiers: toolbar];
 }
+
+-(void) openPreferences:(NIPReferencesView) view;
+{
+ 	[[DownloadsController sharedDownloadsController] stopUpdates];
+	NSWindow* window = [self window];
+	if (![window isVisible])
+        [window center];
+	
+    [window makeKeyAndOrderFront: nil];
+	if (view == NIPReferencesViewProcesses)
+	{
+		[[NSUserDefaults standardUserDefaults] setObject: TOOLBAR_PROCESSES forKey: @"SelectedPrefView"];
+		[self setPrefView: nil];
+	}
+}
 @end
 
 @implementation PreferencesController (Private)
@@ -171,5 +189,4 @@ NSString* const NIFilterKey = @"Filter";
             }
     }
 }
-
 @end

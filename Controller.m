@@ -47,7 +47,6 @@
     if (self = [super init]) 
 	{
 		_defaults = [NSUserDefaults standardUserDefaults];
-		_preferencesController = [[PreferencesController alloc] init];
     }
     return self;
 }
@@ -81,11 +80,7 @@
 	[_window setContentBorderThickness:24.0 forEdge:NSMinYEdge];
 	_overlayWindow = [[DragOverlayWindow alloc] initWithWindow: _window];
 	
-	if ([[ProcessesController sharedProcessesController] count]==0)
-	{
-		[self showPreferencePanel:nil];
-	}
-	else
+	if ([[ProcessesController sharedProcessesController] count]>0)
 	{
 		[_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.png"] mainMessage:@"Connecting ..." message:@"in progress ..."];
 		__block Controller *blockSelf = self;
@@ -102,12 +97,7 @@
 
 -(IBAction)showPreferencePanel:(id)sender;
 {
-	[[DownloadsController sharedDownloadsController] stopUpdates];
-	NSWindow * window = [_preferencesController window];
-    if (![window isVisible])
-        [window center];
-	
-    [window makeKeyAndOrderFront: nil];
+	[[PreferencesController sharedPreferencesController] openPreferences:NIPReferencesViewDefault];
 }
 
 -(IBAction)toggleTurtleSpeed:(id)sender
