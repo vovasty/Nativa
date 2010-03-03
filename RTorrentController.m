@@ -155,7 +155,12 @@ static NSString * ConnectedContext = @"ConnectingContext";
 	else if (context == &ConnectedContext)
     {
 		if (_connectionResponse)
+		{
 			_connectionResponse([_connection error]);
+			//we will call response only once
+			[_connectionResponse release];
+			_connectionResponse = nil;
+		}
     }
     else
     {

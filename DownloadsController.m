@@ -70,9 +70,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 			lastOpenProcessError = error;
 
 		openedProcesses++;
-		if (openedProcesses == [pc count] && response)
+		if (openedProcesses == [pc count])
 		{
-			response(lastOpenProcessError);
+			if (response)
+				response(lastOpenProcessError);
+			
 			[blockSelf _updateList];
 			blockSelf->_updateListTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(_updateList) userInfo:nil repeats:YES];
 			[blockSelf->_updateListTimer retain];
