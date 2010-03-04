@@ -43,7 +43,7 @@ extern NSString* const NINotifyUpdateDownloads;
 
 - (void) add:(NSArray *) filesNames;
 
-- (void) erase:(NSString *) hash response:(VoidResponseBlock) response;
+- (void) erase:(Torrent *) torrent response:(VoidResponseBlock) response;
 
 - (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 
@@ -51,7 +51,7 @@ extern NSString* const NINotifyUpdateDownloads;
 
 - (void) setGlobalUploadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 
-- (BOOL) reveal:(Torrent*) torrent;
+- (void) reveal:(Torrent*) torrent;
 
 -(void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response;
 @end

@@ -41,6 +41,8 @@ NSString* const NIProcessListKey = @"ProcessList";
 
 NSString* const NIFilterKey = @"Filter";
 
+NSString* const NIDeleteTransferDataKey = @"DeleteTransferData";
+
 @interface PreferencesController (Private)
 
 - (void) setPrefView: (id) sender;

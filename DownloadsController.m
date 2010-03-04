@@ -27,6 +27,11 @@ NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 - (VoidResponseBlock) _updateListResponse: (VoidResponseBlock) originalResponse errorFormat:(NSString*) errorFormat;
 
 -(void) setError:(NSString*) fmt error:(NSString*) error;
+
+-(void) playTrashSound;
+
+-(NSString*) findLocation:(Torrent *)torrent;
+
 @end
 
 @implementation DownloadsController
@@ -145,9 +150,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 			{
 				//play "trash" sound
 				id resp = [^(NSDictionary *newURLs, NSError *error){
-					NSSound *deleteSound;
-					deleteSound  = [NSSound soundNamed: @"drag to trash"];
-					[deleteSound play];
+					if (!error)
+					{
+						NSSound *deleteSound;
+						deleteSound  = [NSSound soundNamed: @"drag to trash"];
+						[deleteSound play];
+					}
 				}copy];
 				[[NSWorkspace sharedWorkspace] recycleURLs: urls
 										 completionHandler:resp];
@@ -161,10 +169,64 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	}
 }
 
-- (void) erase:(NSString *) hash response:(VoidResponseBlock) response
+- (void) erase:(Torrent *) torrent response:(VoidResponseBlock) response
 {
-	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to erase torrent: %@"];
-	[[self _controller] erase:hash response:r];
+	__block DownloadsController *blockSelf = self;
+	VoidResponseBlock r = [^(NSString* error){
+		if (response)
+			response(error);
+		
+		if (error)
+		{
+			[blockSelf setError:@"Unable to remove torrent:" error:error];
+			return;
+		}
+		
+		if ([_defaults boolForKey:NIDeleteTransferDataKey])
+		{
+			NSString* dataLocation = [blockSelf findLocation:torrent];
+			if (dataLocation)
+			{
+				id resp = [^(NSDictionary *newURLs, NSError *error){
+					if (error)
+					{
+						NSLog(@"unable to trash file %@:",error);
+						NSError* removeError = nil;
+						[[NSFileManager defaultManager] removeItemAtPath:dataLocation error:&removeError];
+						if (removeError)
+							[self setError:@"Unable to delete file %@: " error:[removeError localizedDescription]];
+						else 
+						{
+							//play "trash" sound
+							NSSound *deleteSound;
+							deleteSound  = [NSSound soundNamed: @"drag to trash"];
+							[deleteSound play];
+						}
+
+					}
+					else
+					{
+						//play "trash" sound
+						NSSound *deleteSound;
+						deleteSound  = [NSSound soundNamed: @"drag to trash"];
+						[deleteSound play];
+					}
+				}copy];
+				NSURL* url = [NSURL fileURLWithPath:dataLocation];
+				NSArray* urls = [NSArray arrayWithObjects:url, nil];
+				[[NSWorkspace sharedWorkspace] recycleURLs: urls
+										 completionHandler:resp];
+				[resp release];
+			}
+			else 
+				[self setError:@"Unable to delete torrent data: %@" error:@"cannot find torrent data"];
+
+		}
+		
+		[blockSelf _updateList];
+	}copy];
+	
+	[[self _controller] erase:[torrent thash] response:r];
 	[r release];
 }
 
@@ -188,40 +250,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	[[self _controller] setGlobalUploadSpeedLimit:speed response:r];
 }
 
-- (BOOL) reveal:(Torrent*) torrent
+- (void) reveal:(Torrent*) torrent
 {
 	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
-	NSString * location = pd.downloadsFolder;
+	
+	NSString* location = [self findLocation:torrent];
+	if (!location)
+		location =  pd.downloadsFolder;
 	if (location)
 	{
-		NSMutableString* exactLocation = [NSMutableString stringWithCapacity:[location length]];
-		NSArray* splittedPath = [torrent.dataLocation pathComponents];
-		
-		[exactLocation setString:location];
-		
-		NSFileManager* dm = [NSFileManager defaultManager];
-		
-		for(int i=[splittedPath count]-1;i>-1;i--) //we do not know where is file, so lets make some guesses
-		{
-			for (int ii = i;ii<[splittedPath count];ii++)
-				[exactLocation appendFormat:@"/%@",[splittedPath objectAtIndex:ii]];
-
-			if ([dm fileExistsAtPath:exactLocation])
-				break;
-			else
-				[exactLocation setString:location];
-
-		}
-		
-		if ([dm fileExistsAtPath:exactLocation])
-		{
-			NSURL * file = [NSURL fileURLWithPath: exactLocation];
-			[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs: [NSArray arrayWithObject: file]];
-			return YES;
-		}
-	}
+		NSURL * file = [NSURL fileURLWithPath: location];
+		[[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs: [NSArray arrayWithObject: file]];
 	
-	return NO;
+	}
 }
 
 -(void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response
@@ -325,4 +366,45 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	 clickContext:nil];
 	NSLog(fmt, error);
 }
+
+-(void) playTrashSound
+{
+	NSSound *deleteSound;
+	deleteSound  = [NSSound soundNamed: @"drag to trash"];
+	[deleteSound play];
+}
+
+-(NSString*) findLocation:(Torrent *)torrent
+{
+	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
+	NSString * location = pd.downloadsFolder;
+	if (location)
+	{
+		NSMutableString* exactLocation = [NSMutableString stringWithCapacity:[location length]];
+		NSArray* splittedPath = [torrent.dataLocation pathComponents];
+		
+		[exactLocation setString:location];
+		
+		NSFileManager* dm = [NSFileManager defaultManager];
+		
+		for(int i=[splittedPath count]-1;i>-1;i--) //we do not know where is file, so lets make some guesses
+		{
+			for (int ii = i;ii<[splittedPath count];ii++)
+				[exactLocation appendFormat:@"/%@",[splittedPath objectAtIndex:ii]];
+			
+			if ([dm fileExistsAtPath:exactLocation])
+				break;
+			else
+				[exactLocation setString:location];
+			
+		}
+		
+		if ([dm fileExistsAtPath:exactLocation] && ![exactLocation isEqualToString:location])
+		{
+			return exactLocation;
+		}
+	}
+	return nil;
+}
+
 @end
