@@ -76,6 +76,7 @@
 		81CB5A841128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */; };
 		81CB5A8E1128E70C00A9D5D3 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81CB5A8D1128E70C00A9D5D3 /* Growl.framework */; };
 		81CB5A9E1128E73400A9D5D3 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 81CB5A8D1128E70C00A9D5D3 /* Growl.framework */; };
+		81CCDE18113FF81B00893CCC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 81CCDE17113FF81B00893CCC /* Credits.rtf */; };
 		81CE376D113AF37600C9F344 /* SaveProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81CE376C113AF37600C9F344 /* SaveProgress.xib */; };
 		81CE3805113B016000C9F344 /* SaveProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CE3804113B016000C9F344 /* SaveProgressController.m */; };
 		81DF15D4110FADA100AFCE02 /* TorrentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15C8110FADA100AFCE02 /* TorrentViewController.m */; };
@@ -222,6 +223,7 @@
 		81B73C051113C50200A11521 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
 		81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		81CB5A8D1128E70C00A9D5D3 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = frameworks/Growl.framework; sourceTree = "<group>"; };
+		81CCDE17113FF81B00893CCC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		81CE376C113AF37600C9F344 /* SaveProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaveProgress.xib; sourceTree = "<group>"; };
 		81CE3803113B016000C9F344 /* SaveProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveProgressController.h; sourceTree = "<group>"; };
 		81CE3804113B016000C9F344 /* SaveProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveProgressController.m; sourceTree = "<group>"; };
@@ -344,6 +346,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				81CCDE17113FF81B00893CCC /* Credits.rtf */,
 				810DBC3F11343E63000411D8 /* drag to trash.aif */,
 				811B4C0711276542008A23C3 /* SSHCommand.sh */,
 				811EA5D11111FAD1001D16D0 /* images */,
@@ -651,6 +654,7 @@
 				810DBC4011343E63000411D8 /* drag to trash.aif in Resources */,
 				81CE376D113AF37600C9F344 /* SaveProgress.xib in Resources */,
 				81FAA11B113DCD9900FDF920 /* Loading.png in Resources */,
+				81CCDE18113FF81B00893CCC /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
