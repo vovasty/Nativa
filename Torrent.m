@@ -45,6 +45,7 @@
 	self.totalPeersSeed=anotherItem.totalPeersSeed;
 	self.totalPeersLeech=anotherItem.totalPeersLeech;
 	self.totalPeersDisconnected=anotherItem.totalPeersDisconnected;
+	self.dataLocation = (anotherItem.dataLocation == nil?self.dataLocation:anotherItem.dataLocation);
 	self.priority = anotherItem.priority;
 }
 
