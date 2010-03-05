@@ -102,7 +102,7 @@
     
     //place main text
     NSSize mainLineSize = [mainLine sizeWithAttributes: fMainLineAttributes];
-    NSSize subLineSize = [subLine sizeWithAttributes: fSubLineAttributes];
+    NSSize subLineSize = subLine?[subLine sizeWithAttributes: fSubLineAttributes]:NSSizeFromString(@"{0,0}");
     
     NSRect lineRect = NSMakeRect(PADDING + ICON_WIDTH + 5.0f,
                         (badgeSize.height + (subLineSize.height + 2.0f - mainLineSize.height)) * 0.5f,
@@ -110,9 +110,12 @@
     [mainLine drawInRect: lineRect withAttributes: fMainLineAttributes];
     
     //place sub text
-    lineRect.origin.y -= subLineSize.height + 2.0f;
-    lineRect.size.height = subLineSize.height;
-    [subLine drawInRect: lineRect withAttributes: fSubLineAttributes];
+	if (subLine)
+	{
+		lineRect.origin.y -= subLineSize.height + 2.0f;
+		lineRect.size.height = subLineSize.height;
+		[subLine drawInRect: lineRect withAttributes: fSubLineAttributes];
+	}
     
     [fBadge unlockFocus];
     

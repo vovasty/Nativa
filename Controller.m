@@ -82,7 +82,7 @@
 	
 	if ([[ProcessesController sharedProcessesController] count]>0)
 	{
-		[_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.gif"] mainMessage:@"Connecting ..." message:@"in progress ..."];
+		[_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.gif"] mainMessage:@"Connecting ..." message:nil];
 		__block Controller *blockSelf = self;
 		VoidResponseBlock response = [^(NSString* error){
 			if (error)
