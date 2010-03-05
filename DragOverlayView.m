@@ -69,6 +69,9 @@
         
         [stringShadow release];
         [paragraphStyle release];
+		
+		_imageView = [[NSImageView alloc] init];
+
     }
     return self;
 }
@@ -81,6 +84,7 @@
     [fMainLineAttributes release];
     [fSubLineAttributes release];
     
+	[_imageView release];
     [super dealloc];
 }
 
@@ -93,8 +97,8 @@
     [fBadge lockFocus];
     
     //place icon
-    [icon drawInRect: NSMakeRect(PADDING, (badgeSize.height - ICON_WIDTH) * 0.5f, ICON_WIDTH, ICON_WIDTH) fromRect: NSZeroRect
-            operation: NSCompositeSourceOver fraction: 1.0f];
+	[_imageView setImage:icon];
+	[_imageView setAnimates:YES];
     
     //place main text
     NSSize mainLineSize = [mainLine sizeWithAttributes: fMainLineAttributes];
@@ -123,6 +127,10 @@
         NSSize imageSize = [fBadge size];
         [fBadge compositeToPoint: NSMakePoint((frame.size.width - imageSize.width) * 0.5f,
                     (frame.size.height - imageSize.height) * 0.5f) operation: NSCompositeSourceOver];
+		
+		NSRect iconFrame = NSMakeRect((frame.size.width - imageSize.width) * 0.5f+PADDING, (frame.size.height - imageSize.height) * 0.5f+(imageSize.height - ICON_WIDTH) * 0.5f, ICON_WIDTH, ICON_WIDTH);
+		[_imageView setFrame:iconFrame];
+		[self addSubview:_imageView];
     }
 }
 

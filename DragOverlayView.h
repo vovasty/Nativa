@@ -29,6 +29,8 @@
     NSImage * fBadge, * fBackBadge;
     
     NSDictionary * fMainLineAttributes, * fSubLineAttributes;
+	
+	NSImageView* _imageView;
 }
 
 - (void) setOverlay: (NSImage *) icon mainLine: (NSString *) mainLine subLine: (NSString *) subLine;
