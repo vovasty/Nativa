@@ -54,5 +54,7 @@ extern NSString* const NINotifyUpdateDownloads;
 - (void) reveal:(Torrent*) torrent;
 
 -(void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response;
+
+-(NSString*) findLocation:(Torrent *)torrent;
 @end
 

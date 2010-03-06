@@ -90,6 +90,9 @@
 		81E6BCED10FE84C90083856D /* RTStopCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BCEC10FE84C90083856D /* RTStopCommand.m */; };
 		81E6BD3D10FE87FB0083856D /* RTAddCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BD3C10FE87FB0083856D /* RTAddCommand.m */; };
 		81E6BED410FF66730083856D /* RTEraseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BED310FF66730083856D /* RTEraseCommand.m */; };
+		81E76DEE1141BD7F000C37D6 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81E76DED1141BD7F000C37D6 /* QuickLook.framework */; };
+		81E76DF41141BDAD000C37D6 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81E76DF31141BDAD000C37D6 /* Quartz.framework */; };
+		81E76E761141CB89000C37D6 /* QuickLookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E76E751141CB89000C37D6 /* QuickLookController.m */; };
 		81FA9EFB113DA51900FDF920 /* DragOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FA9EF7113DA51900FDF920 /* DragOverlayWindow.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -248,6 +251,10 @@
 		81E6BD3C10FE87FB0083856D /* RTAddCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTAddCommand.m; sourceTree = "<group>"; };
 		81E6BED210FF66730083856D /* RTEraseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTEraseCommand.h; sourceTree = "<group>"; };
 		81E6BED310FF66730083856D /* RTEraseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTEraseCommand.m; sourceTree = "<group>"; };
+		81E76DED1141BD7F000C37D6 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		81E76DF31141BDAD000C37D6 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		81E76E741141CB89000C37D6 /* QuickLookController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuickLookController.h; sourceTree = "<group>"; };
+		81E76E751141CB89000C37D6 /* QuickLookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickLookController.m; sourceTree = "<group>"; };
 		81FA9EF7113DA51900FDF920 /* DragOverlayWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragOverlayWindow.m; sourceTree = "<group>"; };
 		81FA9EF8113DA51900FDF920 /* DragOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragOverlayView.h; sourceTree = "<group>"; };
 		81FA9EF9113DA51900FDF920 /* DragOverlayWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragOverlayWindow.h; sourceTree = "<group>"; };
@@ -265,6 +272,8 @@
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				811B4BFC1127644D008A23C3 /* Security.framework in Frameworks */,
 				811B4BFE1127644D008A23C3 /* SecurityFoundation.framework in Frameworks */,
+				81E76DEE1141BD7F000C37D6 /* QuickLook.framework in Frameworks */,
+				81E76DF41141BDAD000C37D6 /* Quartz.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,6 +311,7 @@
 				811B4BFB1127644D008A23C3 /* Security.framework */,
 				811B4BFD1127644D008A23C3 /* SecurityFoundation.framework */,
 				81CB5A8D1128E70C00A9D5D3 /* Growl.framework */,
+				81E76DED1141BD7F000C37D6 /* QuickLook.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -332,6 +342,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				81E76DF31141BDAD000C37D6 /* Quartz.framework */,
 			);
 			name = Nativa;
 			sourceTree = "<group>";
@@ -427,6 +438,7 @@
 		811B056910F6A055000D1DDC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				81E76E731141CB6F000C37D6 /* QuickLook */,
 				81FA9EF2113DA50B00FDF920 /* Overlay */,
 				810659071118DA4700674B45 /* Preferences */,
 				810AEF2E1113353200933772 /* Toolbar */,
@@ -567,6 +579,15 @@
 				81DF15D2110FADA100AFCE02 /* ProgressGradients.m */,
 			);
 			path = TableView;
+			sourceTree = "<group>";
+		};
+		81E76E731141CB6F000C37D6 /* QuickLook */ = {
+			isa = PBXGroup;
+			children = (
+				81E76E741141CB89000C37D6 /* QuickLookController.h */,
+				81E76E751141CB89000C37D6 /* QuickLookController.m */,
+			);
+			name = QuickLook;
 			sourceTree = "<group>";
 		};
 		81FA9EF2113DA50B00FDF920 /* Overlay */ = {
@@ -717,6 +738,7 @@
 				81CE3805113B016000C9F344 /* SaveProgressController.m in Sources */,
 				81FA9EFB113DA51900FDF920 /* DragOverlayWindow.m in Sources */,
 				815B0E62114092F700C68070 /* DragOverlayView.m in Sources */,
+				81E76E761141CB89000C37D6 /* QuickLookController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -28,6 +28,7 @@
 #import "TorrentCell.h"
 #import "TorrentGroup.h"
 #import "DownloadsController.h"
+#import "QuickLookController.h"
 
 #define MAX_GROUP 999999
 
@@ -482,8 +483,10 @@
     if (firstChar == 'f' && [event modifierFlags] & NSAlternateKeyMask && [event modifierFlags] & NSCommandKeyMask)
         [fController focusFilterField];
     else if (firstChar == ' ')
-        [fController toggleQuickLook: nil];
-    else
+	{
+		[QuickLookController show];
+	}
+	else
         [super keyDown: event];
 }
 
@@ -728,5 +731,4 @@
     [[self tableColumnWithIdentifier: @"DL"] setHidden: ratio];
     [[self tableColumnWithIdentifier: @"DL Image"] setHidden: ratio];
 }
-
 @end

@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class TorrentTableView;
+
 @interface NativaAppDelegate : NSObject <NSApplicationDelegate> {
     NSWindow *window;
 }

@@ -75,6 +75,9 @@
 
 	[self checkSpeedLimit];
 	
+	//for QuickLook functionality
+	[_window makeFirstResponder:_downloadsView];
+	
 	//bottom bar for window
 	//http://iloveco.de/bottom-bars-in-cocoa/
 	[_window setContentBorderThickness:24.0 forEdge:NSMinYEdge];

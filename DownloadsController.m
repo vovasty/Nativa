@@ -30,8 +30,6 @@ NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
 -(void) playTrashSound;
 
--(NSString*) findLocation:(Torrent *)torrent;
-
 @end
 
 @implementation DownloadsController
@@ -272,6 +270,38 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	[r release];
 }
 
+-(NSString*) findLocation:(Torrent *)torrent
+{
+	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
+	NSString * location = pd.downloadsFolder;
+	if (location)
+	{
+		NSMutableString* exactLocation = [NSMutableString stringWithCapacity:[location length]];
+		NSArray* splittedPath = [torrent.dataLocation pathComponents];
+		
+		[exactLocation setString:location];
+		
+		NSFileManager* dm = [NSFileManager defaultManager];
+		
+		for(int i=[splittedPath count]-1;i>-1;i--) //we do not know where is file, so lets make some guesses
+		{
+			for (int ii = i;ii<[splittedPath count];ii++)
+				[exactLocation appendFormat:@"/%@",[splittedPath objectAtIndex:ii]];
+			
+			if ([dm fileExistsAtPath:exactLocation])
+				break;
+			else
+				[exactLocation setString:location];
+			
+		}
+		
+		if ([dm fileExistsAtPath:exactLocation] && ![exactLocation isEqualToString:location])
+		{
+			return exactLocation;
+		}
+	}
+	return nil;
+}
 @end
 
 @implementation DownloadsController(Private)
@@ -373,38 +403,4 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	deleteSound  = [NSSound soundNamed: @"drag to trash"];
 	[deleteSound play];
 }
-
--(NSString*) findLocation:(Torrent *)torrent
-{
-	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
-	NSString * location = pd.downloadsFolder;
-	if (location)
-	{
-		NSMutableString* exactLocation = [NSMutableString stringWithCapacity:[location length]];
-		NSArray* splittedPath = [torrent.dataLocation pathComponents];
-		
-		[exactLocation setString:location];
-		
-		NSFileManager* dm = [NSFileManager defaultManager];
-		
-		for(int i=[splittedPath count]-1;i>-1;i--) //we do not know where is file, so lets make some guesses
-		{
-			for (int ii = i;ii<[splittedPath count];ii++)
-				[exactLocation appendFormat:@"/%@",[splittedPath objectAtIndex:ii]];
-			
-			if ([dm fileExistsAtPath:exactLocation])
-				break;
-			else
-				[exactLocation setString:location];
-			
-		}
-		
-		if ([dm fileExistsAtPath:exactLocation] && ![exactLocation isEqualToString:location])
-		{
-			return exactLocation;
-		}
-	}
-	return nil;
-}
-
 @end
