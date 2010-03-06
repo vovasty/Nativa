@@ -84,9 +84,9 @@ static NSString * ConnectedContext = @"ConnectingContext";
 	[command release];
 }
 
-- (void) add:(NSURL *) torrentUrl response:(VoidResponseBlock) response;
+- (void) add:(NSURL *) torrentUrl start:(BOOL) start response:(VoidResponseBlock) response;
 {
-	RTAddCommand* command = [[RTAddCommand  alloc] initWithUrlAndResponse:torrentUrl response:response];
+	RTAddCommand* command = [[RTAddCommand  alloc] initWithUrlAndResponse:torrentUrl start:start response:response];
 	[self _runCommand: command];
 	[command release];
 }

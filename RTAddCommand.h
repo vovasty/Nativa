@@ -19,5 +19,5 @@
 @property (assign)BOOL start;
 @property (readonly, retain) NSURL * url;
 @property (readonly, retain) VoidResponseBlock response;
-- (id)initWithUrlAndResponse:(NSURL *)url response:(VoidResponseBlock) resp;
+- (id)initWithUrlAndResponse:(NSURL *)url start:(BOOL) start response:(VoidResponseBlock) resp;
 @end

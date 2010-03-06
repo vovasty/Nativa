@@ -14,7 +14,7 @@
 @synthesize response = _response;
 @synthesize start = _start;
 
-- (id)initWithUrlAndResponse:(NSURL *)url response:(VoidResponseBlock) resp;
+- (id)initWithUrlAndResponse:(NSURL *)url start:(BOOL) start response:(VoidResponseBlock) resp;
 {
     self = [super init];
     if (self == nil)
@@ -22,6 +22,7 @@
     
     _url = [url retain];
     _response = [resp retain];
+	_start = start;
     return self;
 }
 

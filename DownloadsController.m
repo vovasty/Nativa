@@ -162,7 +162,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 			
 			[blockSelf _updateList];
 		} copy];
-		[[self _controller] add:url response:response];
+		[[self _controller] add:url start:[_defaults boolForKey:NIStartTransferWhenAddedKey] response:response];
 		[response release];
 	}
 }
