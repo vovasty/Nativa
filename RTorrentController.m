@@ -15,7 +15,6 @@
 #import "RTAddCommand.h"
 #import "RTEraseCommand.h"
 #import "RTorrentCommand.h"
-#import "TorrentDelegate.h"
 #import "RTSetGlobalDownloadSpeedLimitCommand.h"
 #import "RTGetGlobalDownloadSpeedLimitCommand.h"
 #import "RTSetGlobalUploadSpeedLimitCommand.h"

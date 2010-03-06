@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "TorrentDelegate.h"
+#import "TorrentController.h"
 #import "Torrent.h"
 
 extern NSString* const NINotifyUpdateDownloads;

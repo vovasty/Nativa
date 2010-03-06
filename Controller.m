@@ -12,7 +12,6 @@
 #import "PreferencesController.h"
 #include "TorrentViewController.h"
 #include "Torrent.h"
-#include "TorrentDelegate.h"
 #include "TorrentTableView.h"
 #include "ProcessesController.h"
 #include <Growl/Growl.h>

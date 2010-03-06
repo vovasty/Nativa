@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import "RTorrentCommand.h"
-#import "TorrentDelegate.h"
 
 @class RTConnection;
 

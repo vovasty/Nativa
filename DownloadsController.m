@@ -9,7 +9,7 @@
 #import "DownloadsController.h"
 #import "SynthesizeSingleton.h"
 #import "Torrent.h"
-#import "TorrentDelegate.h"
+#import "TorrentController.h"
 #import "ProcessesController.h"
 #import "ProcessDescriptor.h"
 #import "PreferencesController.h"
