@@ -111,7 +111,7 @@
 		{
 			[blockSelf checkSpeedLimit];
 		}copy];
-		int speedUpload = [_turtleButton state] == NSOnState?[_defaults integerForKey:NISpeedLimitUpload]*1024:0;
+		int speedUpload = [blockSelf->_turtleButton state] == NSOnState?[blockSelf->_defaults integerForKey:NISpeedLimitUpload]*1024:0;
 		[[DownloadsController sharedDownloadsController] setGlobalUploadSpeedLimit:speedUpload response:responseUpload];
 		[responseUpload release];
 	}copy];

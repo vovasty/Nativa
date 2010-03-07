@@ -9,31 +9,39 @@
 #import <Cocoa/Cocoa.h>
 #import "RTorrentCommand.h"
 
+typedef void(^SCGIOperationResponseBlock)(id data, NSString* error);
+
 @class RTConnection;
 
 @interface RTSCGIOperation : NSOperation<NSStreamDelegate> 
 {
-	RTConnection* _connection;
+	RTConnection*				_connection;
 
-	NSOutputStream* oStream;
-	NSInputStream* iStream;
+	NSOutputStream*				oStream;
+	
+	NSInputStream*				iStream;
 
-	NSMutableData* responseData;
+	NSMutableData*				responseData;
 	
-	BOOL _carriageReturn;
-	BOOL _headers_not_found;
+	BOOL						_carriageReturn;
 	
-	id<RTorrentCommand> _command;
+	BOOL						_headers_not_found;
 	
-    BOOL _isExecuting;
+	NSString					*_command;
 	
-	NSAutoreleasePool *pool;
+	NSArray						*_arguments;
+	
+	SCGIOperationResponseBlock	_response;
+	
+    BOOL						_isExecuting;
+	
+	NSAutoreleasePool			*pool;
+	
+	id<RTorrentCommand>         _operation;
 }
 
-- (id)initWithConnection:(RTConnection *) conn;
+- (id)initWithCommand:(RTConnection *) conn command:(NSString*)command arguments:(NSArray*)arguments response:(SCGIOperationResponseBlock) response;
 
-@property (retain) id<RTorrentCommand> command;
-
-@property (assign) RTConnection* connection;
+- (id)initWithOperation:(RTConnection *) conn operation:(id<RTorrentCommand>) operation;
 
 @end

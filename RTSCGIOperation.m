@@ -19,7 +19,13 @@
 
 - (void) setError:(NSString*) error;
 
-- (void)finish;
+- (void) finish;
+
+- (void) runResponse:(NSData*) data error:(NSString*) error;
+
+- (NSArray*) arguments;
+
+- (NSString*) command;
 
 @property (nonatomic, assign) NSAutoreleasePool *pool;
 @end
@@ -27,19 +33,30 @@
 
 @implementation RTSCGIOperation
 
-@synthesize command = _command;
-@synthesize connection = _connection;
 @synthesize pool;
-- (id)initWithConnection:(RTConnection *) conn;
+
+- (id)initWithCommand:(RTConnection *) conn command:(NSString*)command arguments:(NSArray*)arguments response:(SCGIOperationResponseBlock) response
 {
-	self = [super init];
-	if (self == nil)
-		return nil;
-	
-	_connection = [conn retain];
+	if (self = [super init])
+	{
+		_connection = [conn retain];
+		   _command = [command retain];
+		 _arguments = [arguments retain];
+		  _response = [response retain];
+	}
 	return self;
+	
 }
 
+- (id)initWithOperation:(RTConnection *) conn operation:(id<RTorrentCommand>) operation;
+{
+	if (self = [super init])
+	{
+		_connection = [conn retain];
+		_operation  = [operation retain];
+	}
+	return self;
+}
 
 - (void)main;
 {
@@ -73,7 +90,11 @@
 {
 	[responseData release];
 	[_command release];
+	[_arguments release];
+	[_response release];
 	[_connection release];
+	[_operation release];
+	
 	[super dealloc];
 }
 
@@ -115,7 +136,7 @@
 			if (stream == oStream)
 			{
 				XMLRPCEncoder* xmlrpc_request = [[XMLRPCEncoder alloc] init];
-				[xmlrpc_request setMethod:[_command command] withParameters:[_command arguments]];
+				[xmlrpc_request setMethod:[self command] withParameters:[self arguments]];
 
 				NSString* scgi_req = [xmlrpc_request encode];
 				
@@ -186,6 +207,8 @@
 			
 			id result = [xmlrpcResponse parse];
 			
+			NSLog(@"%d", [result retainCount]);
+			
 			if (result == nil)//empty response, occured with bad xml. network error?
 			{
 				[self setError:NSLocalizedString(@"Invalid response", "Network -> error")];
@@ -195,7 +218,7 @@
 			if ([xmlrpcResponse isFault])
 				[self setError:result];
 			else
-				[_command processResponse:result error:nil];
+				[self runResponse:result error:nil];
 			[xmlrpcResponse release];
 			[self finish];
             break;
@@ -213,8 +236,26 @@
 {
 	[self requestDidSent];
 	[self responseDidReceived];
-	[_command processResponse:nil error:error];
+	[self runResponse:nil error:error];
 	[self finish];
+}
+
+- (void) runResponse:(NSData*) data error:(NSString*) error
+{
+	if (_operation == nil && _response)
+		_response(data, error);
+	else
+		[_operation processResponse:data error:error];
+}
+
+- (NSArray*) arguments
+{
+	return _operation==nil?_arguments:[_operation arguments];
+}
+
+- (NSString*) command
+{
+	return _operation==nil?_command:[_operation command];
 }
 
 @end

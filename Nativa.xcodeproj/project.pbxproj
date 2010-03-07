@@ -35,11 +35,9 @@
 		811B4C0811276542008A23C3 /* SSHCommand.sh in Resources */ = {isa = PBXBuildFile; fileRef = 811B4C0711276542008A23C3 /* SSHCommand.sh */; };
 		811EA5601111F5A6001D16D0 /* RTorrentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA55F1111F5A6001D16D0 /* RTorrentController.m */; };
 		811EA5D31111FAD1001D16D0 /* TurtleTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */; };
-		811EA98E11124D93001D16D0 /* RTSetGlobalDownloadSpeedLimitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA98D11124D93001D16D0 /* RTSetGlobalDownloadSpeedLimitCommand.m */; };
 		8127692A111BEAC100D8749B /* Nativa.icns in Resources */ = {isa = PBXBuildFile; fileRef = 81276929111BEAC100D8749B /* Nativa.icns */; };
 		812A725010FD0A0300795D8B /* RTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A724F10FD0A0300795D8B /* RTConnection.m */; };
 		812A726D10FD0D3D00795D8B /* RTSCGIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A726C10FD0D3D00795D8B /* RTSCGIOperation.m */; };
-		812A731010FD1C0A00795D8B /* RTListCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A730F10FD1C0A00795D8B /* RTListCommand.m */; };
 		8130AC25111B5A8E009C1595 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8130AC24111B5A8E009C1595 /* Sparkle.framework */; };
 		8130AC61111B5AA7009C1595 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8130AC24111B5A8E009C1595 /* Sparkle.framework */; };
 		814FF9761100AB7100335707 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF9691100AB7100335707 /* NSDataAdditions.m */; };
@@ -49,7 +47,6 @@
 		815498FD111FC1A300389035 /* PriorityHigh.png in Resources */ = {isa = PBXBuildFile; fileRef = 815498FB111FC1A300389035 /* PriorityHigh.png */; };
 		815498FE111FC1A300389035 /* PriorityLow.png in Resources */ = {isa = PBXBuildFile; fileRef = 815498FC111FC1A300389035 /* PriorityLow.png */; };
 		815499AC111FCDD800389035 /* PriorityNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 815499AB111FCDD800389035 /* PriorityNormal.png */; };
-		81549AE91120B22500389035 /* RTSetPriorityCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81549AE81120B22500389035 /* RTSetPriorityCommand.m */; };
 		815B0E62114092F700C68070 /* DragOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 815B0E61114092F700C68070 /* DragOverlayView.m */; };
 		816215771114D77E0095862B /* ResumeHover.png in Resources */ = {isa = PBXBuildFile; fileRef = 816215741114D77E0095862B /* ResumeHover.png */; };
 		816215781114D77E0095862B /* ResumeOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 816215751114D77E0095862B /* ResumeOff.png */; };
@@ -69,8 +66,6 @@
 		8169685C111B0DF800246098 /* FilterButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8169685B111B0DF800246098 /* FilterButton.m */; };
 		819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3BE91110CD5200F7007C /* DownloadsController.m */; };
 		819D3E0C1110EE6E00F7007C /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3E0B1110EE6E00F7007C /* Controller.m */; };
-		81ADA8DF1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81ADA8DE1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.m */; };
-		81B737E411136F6900A11521 /* RTGetGlobalDownloadSpeedLimitCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B737E311136F6900A11521 /* RTGetGlobalDownloadSpeedLimitCommand.m */; };
 		81B73ABA1113993800A11521 /* UpArrowTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B73AB91113993800A11521 /* UpArrowTemplate.png */; };
 		81B73ABC1113994700A11521 /* DownArrowTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B73ABB1113994700A11521 /* DownArrowTemplate.png */; };
 		81B73ABF111399DC00A11521 /* StatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73ABE111399DC00A11521 /* StatusBarView.m */; };
@@ -86,13 +81,11 @@
 		81DF15D6110FADA100AFCE02 /* TorrentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CC110FADA100AFCE02 /* TorrentTableView.m */; };
 		81DF15D7110FADA100AFCE02 /* TorrentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CE110FADA100AFCE02 /* TorrentCell.m */; };
 		81DF15D9110FADA100AFCE02 /* ProgressGradients.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15D2110FADA100AFCE02 /* ProgressGradients.m */; };
-		81E6BCB710FE80420083856D /* RTStartCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BCB610FE80420083856D /* RTStartCommand.m */; };
-		81E6BCED10FE84C90083856D /* RTStopCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BCEC10FE84C90083856D /* RTStopCommand.m */; };
 		81E6BD3D10FE87FB0083856D /* RTAddCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BD3C10FE87FB0083856D /* RTAddCommand.m */; };
-		81E6BED410FF66730083856D /* RTEraseCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BED310FF66730083856D /* RTEraseCommand.m */; };
 		81E76DEE1141BD7F000C37D6 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81E76DED1141BD7F000C37D6 /* QuickLook.framework */; };
 		81E76DF41141BDAD000C37D6 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81E76DF31141BDAD000C37D6 /* Quartz.framework */; };
 		81E76E761141CB89000C37D6 /* QuickLookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E76E751141CB89000C37D6 /* QuickLookController.m */; };
+		81E774081142DBC4000C37D6 /* RTListCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E774051142DBC4000C37D6 /* RTListCommand.m */; };
 		81FA9EFB113DA51900FDF920 /* DragOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FA9EF7113DA51900FDF920 /* DragOverlayWindow.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -166,16 +159,12 @@
 		811EA55E1111F5A6001D16D0 /* RTorrentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTorrentController.h; sourceTree = "<group>"; };
 		811EA55F1111F5A6001D16D0 /* RTorrentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTorrentController.m; sourceTree = "<group>"; };
 		811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TurtleTemplate.png; sourceTree = "<group>"; };
-		811EA98C11124D93001D16D0 /* RTSetGlobalDownloadSpeedLimitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSetGlobalDownloadSpeedLimitCommand.h; sourceTree = "<group>"; };
-		811EA98D11124D93001D16D0 /* RTSetGlobalDownloadSpeedLimitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSetGlobalDownloadSpeedLimitCommand.m; sourceTree = "<group>"; };
 		81276929111BEAC100D8749B /* Nativa.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Nativa.icns; sourceTree = "<group>"; };
 		812A710710FCFB1600795D8B /* TorrentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentController.h; sourceTree = "<group>"; };
 		812A724E10FD0A0300795D8B /* RTConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTConnection.h; sourceTree = "<group>"; };
 		812A724F10FD0A0300795D8B /* RTConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTConnection.m; sourceTree = "<group>"; };
 		812A726B10FD0D3D00795D8B /* RTSCGIOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSCGIOperation.h; sourceTree = "<group>"; };
 		812A726C10FD0D3D00795D8B /* RTSCGIOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSCGIOperation.m; sourceTree = "<group>"; };
-		812A730E10FD1C0A00795D8B /* RTListCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTListCommand.h; sourceTree = "<group>"; };
-		812A730F10FD1C0A00795D8B /* RTListCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTListCommand.m; sourceTree = "<group>"; };
 		812A731B10FD1CC500795D8B /* RTorrentCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTorrentCommand.h; sourceTree = "<group>"; };
 		8130AC24111B5A8E009C1595 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = frameworks/Sparkle.framework; sourceTree = "<group>"; };
 		814FF9681100AB7100335707 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAdditions.h; sourceTree = "<group>"; };
@@ -189,8 +178,6 @@
 		815498FB111FC1A300389035 /* PriorityHigh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PriorityHigh.png; sourceTree = "<group>"; };
 		815498FC111FC1A300389035 /* PriorityLow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PriorityLow.png; sourceTree = "<group>"; };
 		815499AB111FCDD800389035 /* PriorityNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PriorityNormal.png; sourceTree = "<group>"; };
-		81549AE71120B22500389035 /* RTSetPriorityCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSetPriorityCommand.h; sourceTree = "<group>"; };
-		81549AE81120B22500389035 /* RTSetPriorityCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSetPriorityCommand.m; sourceTree = "<group>"; };
 		815B0E61114092F700C68070 /* DragOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragOverlayView.m; sourceTree = "<group>"; };
 		816215741114D77E0095862B /* ResumeHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResumeHover.png; sourceTree = "<group>"; };
 		816215751114D77E0095862B /* ResumeOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResumeOff.png; sourceTree = "<group>"; };
@@ -216,10 +203,6 @@
 		819D3BE91110CD5200F7007C /* DownloadsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsController.m; sourceTree = "<group>"; };
 		819D3E0A1110EE6E00F7007C /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		819D3E0B1110EE6E00F7007C /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
-		81ADA8DD1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSetGlobalUploadSpeedLimitCommand.h; sourceTree = "<group>"; };
-		81ADA8DE1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSetGlobalUploadSpeedLimitCommand.m; sourceTree = "<group>"; };
-		81B737E211136F6900A11521 /* RTGetGlobalDownloadSpeedLimitCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTGetGlobalDownloadSpeedLimitCommand.h; sourceTree = "<group>"; };
-		81B737E311136F6900A11521 /* RTGetGlobalDownloadSpeedLimitCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTGetGlobalDownloadSpeedLimitCommand.m; sourceTree = "<group>"; };
 		81B73AB91113993800A11521 /* UpArrowTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpArrowTemplate.png; sourceTree = "<group>"; };
 		81B73ABB1113994700A11521 /* DownArrowTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DownArrowTemplate.png; sourceTree = "<group>"; };
 		81B73ABD111399DC00A11521 /* StatusBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusBarView.h; sourceTree = "<group>"; };
@@ -243,18 +226,14 @@
 		81DF15CE110FADA100AFCE02 /* TorrentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentCell.m; sourceTree = "<group>"; };
 		81DF15D1110FADA100AFCE02 /* ProgressGradients.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressGradients.h; sourceTree = "<group>"; };
 		81DF15D2110FADA100AFCE02 /* ProgressGradients.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressGradients.m; sourceTree = "<group>"; };
-		81E6BCB510FE80420083856D /* RTStartCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTStartCommand.h; sourceTree = "<group>"; };
-		81E6BCB610FE80420083856D /* RTStartCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTStartCommand.m; sourceTree = "<group>"; };
-		81E6BCEB10FE84C90083856D /* RTStopCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTStopCommand.h; sourceTree = "<group>"; };
-		81E6BCEC10FE84C90083856D /* RTStopCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTStopCommand.m; sourceTree = "<group>"; };
 		81E6BD3B10FE87FB0083856D /* RTAddCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAddCommand.h; sourceTree = "<group>"; };
 		81E6BD3C10FE87FB0083856D /* RTAddCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTAddCommand.m; sourceTree = "<group>"; };
-		81E6BED210FF66730083856D /* RTEraseCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTEraseCommand.h; sourceTree = "<group>"; };
-		81E6BED310FF66730083856D /* RTEraseCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTEraseCommand.m; sourceTree = "<group>"; };
 		81E76DED1141BD7F000C37D6 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		81E76DF31141BDAD000C37D6 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		81E76E741141CB89000C37D6 /* QuickLookController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuickLookController.h; sourceTree = "<group>"; };
 		81E76E751141CB89000C37D6 /* QuickLookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickLookController.m; sourceTree = "<group>"; };
+		81E774041142DBC4000C37D6 /* RTListCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTListCommand.h; sourceTree = "<group>"; };
+		81E774051142DBC4000C37D6 /* RTListCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTListCommand.m; sourceTree = "<group>"; };
 		81FA9EF7113DA51900FDF920 /* DragOverlayWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragOverlayWindow.m; sourceTree = "<group>"; };
 		81FA9EF8113DA51900FDF920 /* DragOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragOverlayView.h; sourceTree = "<group>"; };
 		81FA9EF9113DA51900FDF920 /* DragOverlayWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragOverlayWindow.h; sourceTree = "<group>"; };
@@ -513,30 +492,16 @@
 			isa = PBXGroup;
 			children = (
 				811EA55E1111F5A6001D16D0 /* RTorrentController.h */,
-				811EA55F1111F5A6001D16D0 /* RTorrentController.m */,
 				812A731B10FD1CC500795D8B /* RTorrentCommand.h */,
-				81E6BCEB10FE84C90083856D /* RTStopCommand.h */,
-				81E6BCEC10FE84C90083856D /* RTStopCommand.m */,
+				811EA55F1111F5A6001D16D0 /* RTorrentController.m */,
 				812A724E10FD0A0300795D8B /* RTConnection.h */,
 				812A724F10FD0A0300795D8B /* RTConnection.m */,
 				812A726B10FD0D3D00795D8B /* RTSCGIOperation.h */,
 				812A726C10FD0D3D00795D8B /* RTSCGIOperation.m */,
-				812A730E10FD1C0A00795D8B /* RTListCommand.h */,
-				812A730F10FD1C0A00795D8B /* RTListCommand.m */,
-				81E6BCB510FE80420083856D /* RTStartCommand.h */,
-				81E6BCB610FE80420083856D /* RTStartCommand.m */,
+				81E774041142DBC4000C37D6 /* RTListCommand.h */,
+				81E774051142DBC4000C37D6 /* RTListCommand.m */,
 				81E6BD3B10FE87FB0083856D /* RTAddCommand.h */,
 				81E6BD3C10FE87FB0083856D /* RTAddCommand.m */,
-				81E6BED210FF66730083856D /* RTEraseCommand.h */,
-				81E6BED310FF66730083856D /* RTEraseCommand.m */,
-				81ADA8DD1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.h */,
-				81ADA8DE1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.m */,
-				811EA98C11124D93001D16D0 /* RTSetGlobalDownloadSpeedLimitCommand.h */,
-				811EA98D11124D93001D16D0 /* RTSetGlobalDownloadSpeedLimitCommand.m */,
-				81B737E211136F6900A11521 /* RTGetGlobalDownloadSpeedLimitCommand.h */,
-				81B737E311136F6900A11521 /* RTGetGlobalDownloadSpeedLimitCommand.m */,
-				81549AE71120B22500389035 /* RTSetPriorityCommand.h */,
-				81549AE81120B22500389035 /* RTSetPriorityCommand.m */,
 			);
 			name = RTorrent;
 			sourceTree = "<group>";
@@ -689,11 +654,7 @@
 				810CD80D10FBCF0600963D10 /* TorrentDropView.m in Sources */,
 				812A725010FD0A0300795D8B /* RTConnection.m in Sources */,
 				812A726D10FD0D3D00795D8B /* RTSCGIOperation.m in Sources */,
-				812A731010FD1C0A00795D8B /* RTListCommand.m in Sources */,
-				81E6BCB710FE80420083856D /* RTStartCommand.m in Sources */,
-				81E6BCED10FE84C90083856D /* RTStopCommand.m in Sources */,
 				81E6BD3D10FE87FB0083856D /* RTAddCommand.m in Sources */,
-				81E6BED410FF66730083856D /* RTEraseCommand.m in Sources */,
 				8107590B10FFDF4F003FF9A6 /* FilterbarController.m in Sources */,
 				814FF9761100AB7100335707 /* NSDataAdditions.m in Sources */,
 				814FF9771100AB7100335707 /* NSStringAdditions.m in Sources */,
@@ -706,12 +667,10 @@
 				819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */,
 				819D3E0C1110EE6E00F7007C /* Controller.m in Sources */,
 				811EA5601111F5A6001D16D0 /* RTorrentController.m in Sources */,
-				811EA98E11124D93001D16D0 /* RTSetGlobalDownloadSpeedLimitCommand.m in Sources */,
 				810AEF331113353200933772 /* ButtonToolbarItem.m in Sources */,
 				810AEF341113353200933772 /* ToolbarControllerAdditions.m in Sources */,
 				810AEF3D1113360D00933772 /* GroupToolbarItem.m in Sources */,
 				810AEF421113365600933772 /* ToolbarSegmentedCell.m in Sources */,
-				81B737E411136F6900A11521 /* RTGetGlobalDownloadSpeedLimitCommand.m in Sources */,
 				81B73ABF111399DC00A11521 /* StatusBarView.m in Sources */,
 				81B73AFC1113B34000A11521 /* StatusbarController.m in Sources */,
 				81B73C061113C50200A11521 /* NSStringAdditions.m in Sources */,
@@ -722,15 +681,14 @@
 				8169644C1119F81400246098 /* ProcessPreferencesController.m in Sources */,
 				816964541119F94800246098 /* ProcessesController.m in Sources */,
 				8169685C111B0DF800246098 /* FilterButton.m in Sources */,
-				81549AE91120B22500389035 /* RTSetPriorityCommand.m in Sources */,
 				811B4B7611275B14008A23C3 /* AMServer.m in Sources */,
 				811B4B7711275B14008A23C3 /* AMService.m in Sources */,
 				811B4B7811275B14008A23C3 /* AMSession.m in Sources */,
-				81ADA8DF1136C2AB00957EFB /* RTSetGlobalUploadSpeedLimitCommand.m in Sources */,
 				81CE3805113B016000C9F344 /* SaveProgressController.m in Sources */,
 				81FA9EFB113DA51900FDF920 /* DragOverlayWindow.m in Sources */,
 				815B0E62114092F700C68070 /* DragOverlayView.m in Sources */,
 				81E76E761141CB89000C37D6 /* QuickLookController.m in Sources */,
+				81E774081142DBC4000C37D6 /* RTListCommand.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,22 +9,16 @@
 #import "RTorrentController.h"
 #import "RTConnection.h"
 #import "RTSCGIOperation.h"
-#import "RTListCommand.h"
-#import "RTStartCommand.h"
-#import "RTStopCommand.h"
 #import "RTAddCommand.h"
-#import "RTEraseCommand.h"
-#import "RTorrentCommand.h"
-#import "RTSetGlobalDownloadSpeedLimitCommand.h"
-#import "RTGetGlobalDownloadSpeedLimitCommand.h"
-#import "RTSetGlobalUploadSpeedLimitCommand.h"
-#import "RTSetPriorityCommand.h"
+#import "RTListCommand.h"
 
 static NSString * ConnectingContext = @"ConnectingContext";
 static NSString * ConnectedContext = @"ConnectingContext";
 
 @interface RTorrentController(Private)
--(void)_runCommand:(id<RTorrentCommand>) command;
+-(void)_runOperation:(id<RTorrentCommand>) operation;
+-(void)_runCommand:(NSString*) command arguments:(NSArray*)arguments response:(SCGIOperationResponseBlock) response;
+-(SCGIOperationResponseBlock)_voidResponse:(VoidResponseBlock) response;
 @end
 
 @implementation RTorrentController
@@ -66,57 +60,83 @@ static NSString * ConnectedContext = @"ConnectingContext";
 - (void) list:(ArrayResponseBlock) response;
 {
 	RTListCommand* command = [[RTListCommand alloc] initWithArrayResponse:response];
-	[self _runCommand: command];
+	[self _runOperation: command];
 	[command release];
 }
 
 - (void) start:(NSString *)hash response:(VoidResponseBlock) response;
 {
-	RTStartCommand* command = [[RTStartCommand alloc] initWithHashAndResponse:hash response:response];
-	[self _runCommand: command];
-	[command release];
+	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	[self _runCommand:@"d.start"
+			 arguments:[NSArray arrayWithObjects:
+						hash, 
+						nil]
+			  response:r];
+	[r release];
 }
 
 - (void) stop:(NSString *)hash response:(VoidResponseBlock) response;
 {
-	RTStopCommand* command = [[RTStopCommand  alloc] initWithHashAndResponse:hash response:response];
-	[self _runCommand: command];
-	[command release];
+	
+	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	[self _runCommand:@"d.stop"
+			 arguments:[NSArray arrayWithObjects:
+						hash, 
+						nil]
+			  response:r];
+	[r release];
 }
 
 - (void) add:(NSURL *) torrentUrl start:(BOOL) start response:(VoidResponseBlock) response;
 {
 	RTAddCommand* command = [[RTAddCommand  alloc] initWithUrlAndResponse:torrentUrl start:start response:response];
-	[self _runCommand: command];
+	[self _runOperation: command];
 	[command release];
 }
 
 - (void) erase:(NSString *)hash response:(VoidResponseBlock) response;
 {
-	RTEraseCommand* command = [[RTEraseCommand  alloc] initWithHashAndResponse:hash response:response];
-	[self _runCommand: command];
-	[command release];
+	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	[self _runCommand:@"d.erase"
+			arguments:[NSArray arrayWithObjects:
+					   hash, 
+					   nil]
+			 response:r];
+	[r release];
 }
 
 - (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 {
-	RTSetGlobalDownloadSpeedLimitCommand* command = [[RTSetGlobalDownloadSpeedLimitCommand alloc] initWithSpeedAndResponse:speed response:response];
-	[self _runCommand: command];
-	[command release];
+	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	[self _runCommand:@"set_download_rate"
+			arguments:[NSArray arrayWithObjects:
+					   [NSNumber numberWithInt:speed],
+					   nil]
+			 response:r];
+	[r release];
 }
 
 - (void) setGlobalUploadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 {
-	RTSetGlobalUploadSpeedLimitCommand* command = [[RTSetGlobalUploadSpeedLimitCommand alloc] initWithSpeedAndResponse:speed response:response];
-	[self _runCommand: command];
-	[command release];
+	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	[self _runCommand:@"set_upload_rate"
+			arguments:[NSArray arrayWithObjects:
+					   [NSNumber numberWithInt:speed],
+					   nil]
+			 response:r];
+	[r release];
 }
 
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response
 {
-	RTGetGlobalDownloadSpeedLimitCommand* command = [[RTGetGlobalDownloadSpeedLimitCommand alloc] initWithResponse:response];
-	[self _runCommand: command];
-	[command release];
+	SCGIOperationResponseBlock r = [^(id data, NSString* error){
+		if (response)
+			response(data, error);
+	}copy];
+	[self _runCommand:@"get_download_rate"
+			arguments:nil
+			 response:r];
+	[r release];
 }
 
 
@@ -137,9 +157,14 @@ static NSString * ConnectedContext = @"ConnectingContext";
 			NSAssert1(NO, @"Unknown priority: %d", priority);
 	}
 	
-	RTSetPriorityCommand* command = [[RTSetPriorityCommand alloc] initWithHashAnsPriority:torrent.thash priority:pr response:response];
-	[self _runCommand: command];
-	[command release];
+	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	[self _runCommand:@"d.set_priority"
+			arguments:[NSArray arrayWithObjects:
+					   [torrent thash],
+					   [NSNumber numberWithInteger:pr], 
+					   nil]
+			 response:r];
+	[r release];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -190,11 +215,25 @@ static NSString * ConnectedContext = @"ConnectingContext";
 @end
 
 @implementation RTorrentController(Private)
--(void)_runCommand:(id<RTorrentCommand>) command
+-(void)_runOperation:(id<RTorrentCommand>) operation
 {
-	RTSCGIOperation* operation = [[RTSCGIOperation alloc] initWithConnection:_connection];
-	operation.command = command;
-	[_queue addOperation:operation];
-	[operation release];
+	RTSCGIOperation* scgiOperation = [[RTSCGIOperation alloc] initWithOperation:_connection operation:operation];
+	[_queue addOperation:scgiOperation];
+	[scgiOperation release];
+}
+
+-(void)_runCommand:(NSString*) command arguments:(NSArray*)arguments response:(SCGIOperationResponseBlock) response
+{
+	RTSCGIOperation* scgiOperation = [[RTSCGIOperation alloc] initWithCommand:_connection command:command arguments:arguments response:response];
+	[_queue addOperation:scgiOperation];
+	[scgiOperation release];
+}
+
+-(SCGIOperationResponseBlock)_voidResponse:(VoidResponseBlock) response
+{
+	return [^(id data, NSString* error){
+		if (response)
+			response(error);
+	}copy];
 }
 @end
