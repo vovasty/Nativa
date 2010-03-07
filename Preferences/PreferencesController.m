@@ -30,18 +30,21 @@
 #define TOOLBAR_GENERAL     @"TOOLBAR_GENERAL"
 #define TOOLBAR_PROCESSES   @"TOOLBAR_PROCESSES"
 
-NSString* const NISpeedLimitDownload = @"SpeedLimitDownload";
-NSString* const NISpeedLimitUpload = @"SpeedLimitUpload";
+NSString* const NISpeedLimitDownload			= @"SpeedLimitDownload";
 
-NSString* const NITrashDownloadDescriptorsKey = @"TrashOriginalTransferDescriptor";
+NSString* const NISpeedLimitUpload				= @"SpeedLimitUpload";
 
-NSString* const NIStartTransferWhenAddedKey = @"StartTransferWhenAdded";
+NSString* const NITrashDownloadDescriptorsKey	= @"TrashOriginalTransferDescriptor";
 
-NSString* const NIProcessListKey = @"ProcessList";
+NSString* const NIStartTransferWhenAddedKey		= @"StartTransferWhenAdded";
 
-NSString* const NIFilterKey = @"Filter";
+NSString* const NIProcessListKey				= @"ProcessList";
 
-NSString* const NIDeleteTransferDataKey = @"DeleteTransferData";
+NSString* const NIFilterKey						= @"Filter";
+
+NSString* const NIDeleteTransferDataKey			= @"DeleteTransferData";
+
+NSString* const NIRefreshRateKey				= @"RefreshRateKey";
 
 @interface PreferencesController (Private)
 

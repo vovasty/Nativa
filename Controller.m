@@ -24,16 +24,18 @@
 	NSMutableDictionary* defaultValues = [NSMutableDictionary dictionary];
 	
 	//Put defaults into dictionary
-	[defaultValues setObject:[NSNumber numberWithInt:10]
+	[defaultValues setObject:[NSNumber numberWithInteger:10]
 					  forKey:NISpeedLimitUpload];
 
-	[defaultValues setObject:[NSNumber numberWithInt:10]
+	[defaultValues setObject:[NSNumber numberWithInteger:10]
 					  forKey:NISpeedLimitDownload];
 
 	[defaultValues setObject:[NSNumber numberWithBool:YES]
 					  forKey:NITrashDownloadDescriptorsKey];
 
-	
+	[defaultValues setObject:[NSNumber numberWithInteger:3]
+					  forKey:NIRefreshRateKey];
+
 	//Register the dictionary of defaults
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
 

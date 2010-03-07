@@ -31,6 +31,7 @@ extern NSString* const NIStartTransferWhenAddedKey;
 extern NSString* const NIProcessListKey;
 extern NSString* const NIFilterKey;
 extern NSString* const NIDeleteTransferDataKey;
+extern NSString* const NIRefreshRateKey;
 
 typedef enum 
 { 

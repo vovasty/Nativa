@@ -79,7 +79,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 				response(lastOpenProcessError);
 			
 			[blockSelf _updateList];
-			blockSelf->_updateListTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(_updateList) userInfo:nil repeats:YES];
+			blockSelf->_updateListTimer = [NSTimer scheduledTimerWithTimeInterval:
+											[blockSelf->_defaults integerForKey:NIRefreshRateKey]
+											target:self 
+											selector:@selector(_updateList) 
+											userInfo:nil 
+											repeats:YES];
 			[blockSelf->_updateListTimer retain];
 			[[NSRunLoop currentRunLoop] addTimer:blockSelf->_updateListTimer forMode:NSDefaultRunLoopMode];	
 			
@@ -320,7 +325,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 {
 	if (![[self _controller] connected])
 		return;
-	
 	__block DownloadsController *blockSelf = self;
 	ArrayResponseBlock response = [^(NSArray *array, NSString* error) {
 		if (error != nil)
