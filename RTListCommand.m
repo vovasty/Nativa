@@ -57,12 +57,13 @@
 			r.uploadRate = [uploadRate floatValue];
 			r.dataLocation = [row objectAtIndex:9];
 			NSNumber *conn = [row  objectAtIndex:10];
-			NSNumber *notConn = [row  objectAtIndex:11];;
-			NSNumber *compl = [row  objectAtIndex:12];;
+			NSNumber *notConn = [row  objectAtIndex:11];
+			NSNumber *compl = [row  objectAtIndex:12];
 			r.totalPeersLeech = [conn integerValue] - [compl integerValue];
 			r.totalPeersSeed = [compl integerValue];
 			r.totalPeersDisconnected = [notConn integerValue];
 			r.priority = [self defineTorrentPriority:[row objectAtIndex:13]];
+			r.isFolder = [[row  objectAtIndex:14] isEqualToString:r.dataLocation];
 			[result addObject:r];
 		}
 		[result autorelease];
@@ -93,6 +94,7 @@
 			@"d.get_peers_not_connected=",
 			@"d.get_peers_complete=",
 			@"d.get_priority=",
+			@"d.get_directory=",
 			nil];
 }
 

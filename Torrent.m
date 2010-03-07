@@ -11,7 +11,7 @@
 
 @implementation Torrent
 
-@synthesize name, size, thash, state, speedDownload, speedUpload, dataLocation, uploadRate, downloadRate, totalPeersSeed, totalPeersLeech, totalPeersDisconnected, priority;
+@synthesize name, size, thash, state, speedDownload, speedUpload, dataLocation, uploadRate, downloadRate, totalPeersSeed, totalPeersLeech, totalPeersDisconnected, priority, isFolder;
 
 - (void)dealloc
 {
@@ -57,7 +57,8 @@
 - (NSImage*) icon
 {
 	if (!_icon)
-		_icon = [[[NSWorkspace sharedWorkspace] iconForFileType: [[self name] pathExtension]] retain];
+		_icon = [[[NSWorkspace sharedWorkspace] iconForFileType: [self isFolder] ? NSFileTypeForHFSTypeCode('fldr')
+															   : [[self name] pathExtension]] retain];
 
 	return _icon;
 }

@@ -56,6 +56,8 @@ typedef enum
 	NSString* dataLocation;
 	
 	TorrentPriority priority;
+	
+	BOOL isFolder;
 }
 @property (readwrite, retain) NSString* name;
 
@@ -82,6 +84,8 @@ typedef enum
 @property NSInteger totalPeersDisconnected;
 
 @property TorrentPriority priority;
+
+@property BOOL isFolder;
 
 - (void) update: (Torrent *) anotherItem;
 - (double) progress;
