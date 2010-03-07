@@ -74,8 +74,6 @@
 {
 	[self setupToolbar];
 
-	[self checkSpeedLimit];
-	
 	//for QuickLook functionality
 	[_window makeFirstResponder:_downloadsView];
 	
@@ -92,7 +90,10 @@
 			if (error)
 				[blockSelf->_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Error" message:error];
 			else 
+			{
+				[self checkSpeedLimit];
 				[blockSelf->_overlayWindow fadeOut];
+			}
 		}copy];
 		[[DownloadsController sharedDownloadsController] startUpdates:response];
 		[response release];
