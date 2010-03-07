@@ -235,6 +235,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 {
 	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to set global speed limit: %@"];
 	[[self _controller] setGlobalDownloadSpeedLimit:speed response:r];
+	[r release];
 }
 
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response
@@ -246,6 +247,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 {
 	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to set global speed limit: %@"];
 	[[self _controller] setGlobalUploadSpeedLimit:speed response:r];
+	[r release];
 }
 
 - (void) reveal:(Torrent*) torrent
