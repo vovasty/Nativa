@@ -15,9 +15,11 @@
 	QLPreviewPanel* _panel;
 	TorrentTableView* _view;
 	NSWindow* _window;
+	BOOL _isVisible;
 }
+@property BOOL isVisible;
 +(QuickLookController*) sharedQuickLookController;
-+(void)show;
++(void) show;
 -(void) beginPanel:(QLPreviewPanel*) panel window:(NSWindow*)window view:(TorrentTableView*) _downloadsView;
 -(void) endPanel;
 @end

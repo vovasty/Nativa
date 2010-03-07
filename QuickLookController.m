@@ -59,17 +59,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(QuickLookController);
 
 +(void) show
 {
-	[[QLPreviewPanel sharedPreviewPanel] updateController];
-	NSLog(@"quicklook controller %@", [[QLPreviewPanel sharedPreviewPanel] currentController]);
 	if ([[QLPreviewPanel sharedPreviewPanel] isVisible])
 		[[QLPreviewPanel sharedPreviewPanel] orderOut: nil];
 	else
 		[[QLPreviewPanel sharedPreviewPanel] makeKeyAndOrderFront: nil];
 }
 
+@synthesize isVisible = _isVisible;
 
 -(void) beginPanel:(QLPreviewPanel*) panel window:(NSWindow*)window view:(TorrentTableView*) view
 {
+	self.isVisible = YES;
 	_panel = [panel retain];
 	_panel.delegate = self;
 	_panel.dataSource = self;
@@ -80,6 +80,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(QuickLookController);
 
 -(void) endPanel;
 {
+	self.isVisible = NO;
+	
 	[_panel release];
 	_panel = nil;
 	

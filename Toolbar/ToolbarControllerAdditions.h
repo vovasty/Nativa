@@ -14,4 +14,5 @@
 @interface Controller(ToolbarControllerAdditions)<NSToolbarDelegate>
 - (IBAction) selectedToolbarClicked:(id)sender;
 - (void) setupToolbar;
+- (void) toggleQuickLook:(id)sender;
 @end

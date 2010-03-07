@@ -12,11 +12,13 @@
 #import "ToolbarSegmentedCell.h"
 #import "TorrentTableView.h"
 #import "Torrent.h"
+#import "QuickLookController.h"
 
 #define TOOLBAR_REMOVE                  @"Toolbar Remove"
 #define TOOLBAR_PAUSE_RESUME_SELECTED   @"Toolbar Pause / Resume Selected"
 #define TOOLBAR_PAUSE_SELECTED          @"Toolbar Pause Selected"
 #define TOOLBAR_RESUME_SELECTED         @"Toolbar Resume Selected"
+#define TOOLBAR_QUICKLOOK               @"Toolbar QuickLook"
 
 typedef enum
 {
@@ -78,6 +80,7 @@ typedef enum
     return [NSArray arrayWithObjects:
             TOOLBAR_REMOVE,
             TOOLBAR_PAUSE_RESUME_SELECTED,
+			TOOLBAR_QUICKLOOK,
             NSToolbarSeparatorItemIdentifier,
             NSToolbarSpaceItemIdentifier,
             NSToolbarFlexibleSpaceItemIdentifier,
@@ -89,7 +92,8 @@ typedef enum
 {
     return [NSArray arrayWithObjects:
             TOOLBAR_REMOVE, NSToolbarSeparatorItemIdentifier,
-            TOOLBAR_PAUSE_RESUME_SELECTED, nil];
+            TOOLBAR_PAUSE_RESUME_SELECTED, NSToolbarFlexibleSpaceItemIdentifier,
+            TOOLBAR_QUICKLOOK, nil];
 }
 
 
@@ -148,6 +152,21 @@ typedef enum
         [segmentedControl release];
         return [groupItem autorelease];
     }
+	else if ([ident isEqualToString: TOOLBAR_QUICKLOOK])
+    {
+        ButtonToolbarItem * item = [self standardToolbarButtonWithIdentifier: ident];
+        [[(NSButton *)[item view] cell] setShowsStateBy: NSContentsCellMask]; //blue when enabled
+        
+        [item setLabel: NSLocalizedString(@"Quick Look", "QuickLook toolbar item -> label")];
+        [item setPaletteLabel: NSLocalizedString(@"Quick Look", "QuickLook toolbar item -> palette label")];
+        [item setToolTip: NSLocalizedString(@"Quick Look", "QuickLook toolbar item -> tooltip")];
+        [item setImage: [NSImage imageNamed: NSImageNameQuickLookTemplate]];
+        [item setTarget: self];
+        [item setAction: @selector(toggleQuickLook:)];
+        
+        return item;
+    }
+	
     else
         return nil;
 }
@@ -177,8 +196,27 @@ typedef enum
                 return YES;
         return NO;
     }
-    
+
+	if ([ident isEqualToString: TOOLBAR_RESUME_SELECTED])
+    {
+        for (Torrent * torrent in [_downloadsView selectedTorrents])
+            if (torrent.state == NITorrentStateStopped)
+                return YES;
+        return NO;
+    }
+
+	if ([ident isEqualToString: TOOLBAR_QUICKLOOK])
+    {
+		[(NSButton *)[toolbarItem view] setState: [[QuickLookController sharedQuickLookController] isVisible]];
+        return YES;
+    }
+	
+	
     return YES;
 }
 
+- (void) toggleQuickLook:(id)sender
+{
+	[QuickLookController show];
+}
 @end
