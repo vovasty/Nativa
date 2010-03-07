@@ -207,8 +207,6 @@
 			
 			id result = [xmlrpcResponse parse];
 			
-			NSLog(@"%d", [result retainCount]);
-			
 			if (result == nil)//empty response, occured with bad xml. network error?
 			{
 				[self setError:NSLocalizedString(@"Invalid response", "Network -> error")];
