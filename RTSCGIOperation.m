@@ -63,18 +63,33 @@
 	self.pool = [[NSAutoreleasePool alloc] init];
     _isExecuting = YES;
 	
-	_carriageReturn = FALSE;
-	_headers_not_found = TRUE;
-
 	oStream = nil;
 	iStream = nil;
+	
+	XMLRPCEncoder* xmlrpc_request = [[XMLRPCEncoder alloc] init];
+	[xmlrpc_request setMethod:[self command] withParameters:[self arguments]];
+	
+	NSString* scgi_req = [xmlrpc_request encode];
+	
+	[xmlrpc_request release];
+	_writtenBytesCounter = 0;
+	_requestData = SCGIcreateRequest(scgi_req);
+	[_requestData retain];
+	
+	
 	if ([_connection openStreams:&iStream oStream:&oStream delegate:self])
 	{
 		[iStream retain];
 		[oStream retain];
-	
+		time_t startTime = time(NULL) * 1000;
+		time_t timeout = 1000;
 		do {
 			[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+			if ((time(NULL) * 1000 - startTime)>timeout)
+			{
+				[self setError:NSLocalizedString(@"Network timeout", "Network -> error")];
+				break;
+			}
 		} while (_isExecuting);
 	
 	}
@@ -88,13 +103,13 @@
 
 - (void)dealloc
 {
-	[responseData release];
+	[_responseData release];
 	[_command release];
 	[_arguments release];
 	[_response release];
 	[_connection release];
 	[_operation release];
-	
+	[_requestData release];
 	[super dealloc];
 }
 
@@ -135,75 +150,81 @@
         {
 			if (stream == oStream)
 			{
-				XMLRPCEncoder* xmlrpc_request = [[XMLRPCEncoder alloc] init];
-				[xmlrpc_request setMethod:[self command] withParameters:[self arguments]];
-
-				NSString* scgi_req = [xmlrpc_request encode];
-				
-				[xmlrpc_request release];
-				NSData* requestData = SCGIcreateRequest(scgi_req);
-				
-				NSUInteger len = [requestData length];
+				uint8_t *readBytes = (uint8_t *)[_requestData bytes];
+				readBytes += _writtenBytesCounter; // instance variable to move pointer
+				int data_len = [_requestData length];
+				unsigned int len = ((data_len - _writtenBytesCounter >= 1024) ?
+									1024 : (data_len-_writtenBytesCounter));
 				uint8_t buf[len];
-				[requestData getBytes:buf];
-				NSInteger bytesWritten = [oStream write:buf maxLength:[requestData length]];
-				[self requestDidSent];
-				if (bytesWritten != len)
-					[self setError:@"Network error"];
+				(void)memcpy(buf, readBytes, len);
+				len = [oStream write:(const uint8_t *)buf maxLength:len];
+				_writtenBytesCounter += len;
+				
+				if (_writtenBytesCounter == data_len)
+					[self requestDidSent];
 			}
             break;
         }
 		case NSStreamEventHasBytesAvailable:
         {
-			if(!responseData)
-                responseData = [[NSMutableData data] retain];
+			if(!_responseData)
+                _responseData = [[NSMutableData data] retain];
             
-            uint8_t buf[1024];
+			uint8_t buf[1024];
             NSInteger len = 0;
-			NSInteger start = 0;
-            len = [(NSInputStream *)stream read:buf maxLength:1024];
+            
+			len = [(NSInputStream *)stream read:buf maxLength:1024];
+			
 			if (len)
-			{
-				if (_headers_not_found)
-				{
-					for (int i=0;i<len;i++)
-					{
-						if (buf[i]=='\r') //skip single \r's
-							continue;
-						
-						if (buf[i]=='\n')
-						{
-							if (_carriageReturn)
-							{
-								_headers_not_found = FALSE;
-								_carriageReturn = TRUE;
-								start = i+1;
-								break;
-							}
-							else
-								_carriageReturn = TRUE;
-						}
-						else
-							_carriageReturn = FALSE;
-					}
-				}
-				if (_headers_not_found || len <= start)
-				{
-					[self setError:NSLocalizedString(@"Invalid response", "Network -> error")];
-					break;
-				}
-				 //headers are found, keep body only, otherwise skip it all
-				uint8_t* buf2 = &buf[start];
-				[responseData appendBytes:buf2 length:(len - start)];
-			}
+				[_responseData appendBytes:buf length:len];
+
 			break;
 		}
 			
 		case NSStreamEventEndEncountered:
         {
 			[self responseDidReceived];
-			XMLRPCTreeBasedParser* xmlrpcResponse = [[XMLRPCTreeBasedParser alloc] initWithData: responseData];
-//			NSLog(@"%@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
+			NSInteger len = [_responseData length];
+			NSInteger start = 0;
+			uint8_t *buf = (uint8_t *)[_responseData bytes];
+			BOOL carriageReturnFound = NO;
+			BOOL headerDividerFound = NO;
+
+			//look for \n\n or \r\n\r\n
+			if (len)
+			{
+				for (int i=0;i<len;i++)
+				{
+					if (buf[i]=='\r') //skip single \r's
+						continue;
+						
+					if (buf[i]=='\n')
+					{
+						if (carriageReturnFound)
+							{
+								carriageReturnFound = YES;
+								headerDividerFound = YES;
+								start = i+1;
+								break;
+							}
+							else
+								carriageReturnFound = YES;
+						}
+						else
+							carriageReturnFound = NO;
+				}
+				if (!headerDividerFound || len <= start)
+				{
+					[self setError:NSLocalizedString(@"Invalid response", "Network -> error")];
+					break;
+				}
+			}
+			else
+				[self setError:NSLocalizedString(@"Invalid response", "Network -> error")];
+			
+			NSData *body = [NSData dataWithBytes:(buf+start) length:(len-start)];
+			XMLRPCTreeBasedParser* xmlrpcResponse = [[XMLRPCTreeBasedParser alloc] initWithData: body];
+//			NSLog(@"%@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
 			
 			id result = [xmlrpcResponse parse];
 			

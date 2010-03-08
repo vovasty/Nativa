@@ -21,11 +21,7 @@ typedef void(^SCGIOperationResponseBlock)(id data, NSString* error);
 	
 	NSInputStream*				iStream;
 
-	NSMutableData*				responseData;
-	
-	BOOL						_carriageReturn;
-	
-	BOOL						_headers_not_found;
+	NSMutableData*				_responseData;
 	
 	NSString					*_command;
 	
@@ -38,6 +34,10 @@ typedef void(^SCGIOperationResponseBlock)(id data, NSString* error);
 	NSAutoreleasePool			*pool;
 	
 	id<RTorrentCommand>         _operation;
+	
+	NSData						*_requestData;
+
+	NSInteger					_writtenBytesCounter;
 }
 
 - (id)initWithCommand:(RTConnection *) conn command:(NSString*)command arguments:(NSArray*)arguments response:(SCGIOperationResponseBlock) response;
