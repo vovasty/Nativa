@@ -181,7 +181,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		
 		if (error)
 		{
-			[blockSelf setError:@"Unable to remove torrent:" error:error];
+			[blockSelf setError:@"Unable to remove torrent:%@" error:error];
 			return;
 		}
 		
