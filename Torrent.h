@@ -57,6 +57,8 @@ typedef enum
 	
 	TorrentPriority priority;
 	
+	NSString* error;
+	
 	BOOL isFolder;
 }
 @property (readwrite, retain) NSString* name;
@@ -86,6 +88,8 @@ typedef enum
 @property TorrentPriority priority;
 
 @property BOOL isFolder;
+
+@property (retain) NSString* error;
 
 - (void) update: (Torrent *) anotherItem;
 - (double) progress;

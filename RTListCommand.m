@@ -64,6 +64,8 @@
 			r.totalPeersDisconnected = [notConn integerValue];
 			r.priority = [self defineTorrentPriority:[row objectAtIndex:13]];
 			r.isFolder = [[row  objectAtIndex:14] isEqualToString:r.dataLocation];
+			NSString* errorMessage = [row  objectAtIndex:15];
+			r.error = [errorMessage isEqualToString:@""]?nil:errorMessage;
 			[result addObject:r];
 		}
 		[result autorelease];
@@ -95,6 +97,7 @@
 			@"d.get_peers_complete=",
 			@"d.get_priority=",
 			@"d.get_directory=",
+			@"d.get_message=",
 			nil];
 }
 

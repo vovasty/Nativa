@@ -11,14 +11,15 @@
 
 @implementation Torrent
 
-@synthesize name, size, thash, state, speedDownload, speedUpload, dataLocation, uploadRate, downloadRate, totalPeersSeed, totalPeersLeech, totalPeersDisconnected, priority, isFolder;
+@synthesize name, size, thash, state, speedDownload, speedUpload, dataLocation, uploadRate, downloadRate, totalPeersSeed, totalPeersLeech, totalPeersDisconnected, priority, isFolder, error;
 
 - (void)dealloc
 {
-	[name release];
-	[thash release];
+	[self setName:nil];
+	[self setThash:nil];
 	[_icon release];
-	[dataLocation release];
+	[self setDataLocation:nil];
+	[self setError:nil];
 	[super dealloc];
 }
 
@@ -47,6 +48,7 @@
 	self.totalPeersDisconnected=anotherItem.totalPeersDisconnected;
 	self.dataLocation = (anotherItem.dataLocation == nil?self.dataLocation:anotherItem.dataLocation);
 	self.priority = anotherItem.priority;
+	self.error = anotherItem.error;
 }
 
 - (double) progress
