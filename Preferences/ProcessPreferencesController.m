@@ -128,7 +128,24 @@
 	[_port setIntValue:[pd port]];
 		
 	[_downloadsPathPopUp removeItemAtIndex:0];
-	[_downloadsPathPopUp insertItemWithTitle:pd.downloadsFolder==nil?@"":pd.downloadsFolder atIndex:0];
+	if (pd.downloadsFolder == nil)
+		[_downloadsPathPopUp insertItemWithTitle:nil atIndex:0];
+	else
+	{
+		[_downloadsPathPopUp insertItemWithTitle:[[NSFileManager defaultManager] displayNameAtPath: pd.downloadsFolder] atIndex:0];
+		
+		NSString * path = [pd.downloadsFolder stringByExpandingTildeInPath];
+		NSImage * icon;
+		//show a folder icon if the folder doesn't exist
+		if ([[path pathExtension] isEqualToString: @""] && ![[NSFileManager defaultManager] fileExistsAtPath: path])
+			icon = [[NSWorkspace sharedWorkspace] iconForFileType: NSFileTypeForHFSTypeCode('fldr')];
+		else
+			icon = [[NSWorkspace sharedWorkspace] iconForFile: path];
+		
+		[icon setSize: NSMakeSize(16.0, 16.0)];
+		NSMenuItem* menuItem = [_downloadsPathPopUp itemAtIndex:0];
+		[menuItem setImage:icon];
+	}
 	[_downloadsPathPopUp selectItemAtIndex: 0];
 	
 	[_useSSH setState:[pd.connectionType isEqualToString:@"SSH"]? NSOnState: NSOffState];
@@ -155,14 +172,11 @@
 		
 		NSString * folder = [[openPanel filenames] objectAtIndex: 0];
 
-		[_downloadsPathPopUp removeItemAtIndex:0];
-
-		[_downloadsPathPopUp insertItemWithTitle:folder atIndex:0];
-		
 		[pd setDownloadsFolder:folder];
 		
+		[self updateSelectedProcess];
+		
     }
-    [_downloadsPathPopUp selectItemAtIndex: 0];
 }
 
 - (ProcessDescriptor *) currentProcess;
