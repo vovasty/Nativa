@@ -129,7 +129,7 @@
 		
 	[_downloadsPathPopUp removeItemAtIndex:0];
 	if (pd.downloadsFolder == nil)
-		[_downloadsPathPopUp insertItemWithTitle:nil atIndex:0];
+		[_downloadsPathPopUp insertItemWithTitle:@"" atIndex:0];
 	else
 	{
 		[_downloadsPathPopUp insertItemWithTitle:[[NSFileManager defaultManager] displayNameAtPath: pd.downloadsFolder] atIndex:0];
