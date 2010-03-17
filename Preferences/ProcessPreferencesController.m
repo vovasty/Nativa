@@ -95,6 +95,9 @@
 	[_window makeFirstResponder: nil];
 	[[SaveProgressController sharedSaveProgressController] open: _window];
 	ProcessDescriptor *pd = [self currentProcess];
+	//test connection with only one reconnect
+	int maxReconnects = (pd.maxReconnects == 0?10:pd.maxReconnects);
+	pd.maxReconnects = 0;
 	[pd openProcess:nil];
 
 	ArrayResponseBlock response = [^(NSArray *array, NSString* error) {
@@ -106,10 +109,13 @@
 		else
 		{
 			[[SaveProgressController sharedSaveProgressController] close:nil];
+			
+			pd.maxReconnects = maxReconnects;
+			
 			if (unsavedProcessDescriptor)
-			{
 				[[ProcessesController sharedProcessesController] addProcessDescriptor:unsavedProcessDescriptor];
-			}
+
+			//set default number of reconnects
 			[[ProcessesController sharedProcessesController] saveProcesses];
 		}
 		[pd closeProcess];
@@ -194,7 +200,6 @@
 		unsavedProcessDescriptor.sshUsername = @"";
 		unsavedProcessDescriptor.sshPassword = @"";
 		unsavedProcessDescriptor.sshLocalPort = @"5000";
-		
 	}
 	else;
 	
