@@ -238,7 +238,7 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:sshTask];
 	[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:outputHandle];
 
-	if (tryReconnect && autoReconnectTimes<=maxAutoReconnectRetries)
+	if (tryReconnect && autoReconnectTimes<maxAutoReconnectRetries)
 	{
 		NSLog(@"reconnecting ssh tunnel ...");
 		autoReconnectTimes++;
@@ -297,27 +297,33 @@
 		if ([checkError evaluateWithObject:outputContent] == YES)
 		{
 			[self setError: @"SSH: Unknown error as occured while connecting."];
+			[sshTask terminate];
 			
 		}
 		else if ([checkWrongPass evaluateWithObject:outputContent] == YES)
 		{
 			[self setError: @"SSH: The password or username set for the server are wrong"];
+			[sshTask terminate];
 		}
 		else if ([checkRefused evaluateWithObject:outputContent] == YES)
 		{
 			[self setError: @"SSH: Connection has been rejected by the server."];
+			[sshTask terminate];
 		}		
 		else if ([checkWrongHostname evaluateWithObject:outputContent] == YES)
 		{
 			[self setError: @"SSH: Wrong hostname."];
+			[sshTask terminate];
 		}		
 		else if ([checkTimeout evaluateWithObject:outputContent] == YES)
 		{
 			[self setError: @"SSH: Connection timeout."];
+			[sshTask terminate];
 		}		
 		else if ([checkPort evaluateWithObject:outputContent] == YES)
 		{
 			[self setError: @"SSH: The port is already used on server."];
+			[sshTask terminate];
 		}
 		else if ([checkConnected evaluateWithObject:outputContent] == YES)
 		{

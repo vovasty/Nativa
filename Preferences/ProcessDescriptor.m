@@ -30,6 +30,7 @@
 
 @synthesize process = _process;
 @synthesize connection = _connection;
+@synthesize maxReconnects = _maxReconnects;
 
 //NSCoding stuff
 - (id)initWithCoder:(NSCoder*)coder
@@ -48,6 +49,7 @@
 		self.sshUsername = [coder decodeObjectForKey:@"sshUsername"];
 		self.sshPassword = [coder decodeObjectForKey:@"sshPassword"];
 		self.sshLocalPort = [coder decodeObjectForKey:@"sshLocalPort"];
+		self.maxReconnects = [coder decodeIntForKey:@"maxReconnects"];
     }
 	
     return self;
@@ -68,6 +70,7 @@
 	[coder encodeObject:_sshUsername forKey:@"sshUsername"];
 	[coder encodeObject:_sshPassword forKey:@"sshPassword"];
 	[coder encodeObject:_sshLocalPort forKey:@"sshLocalPort"];
+	[coder encodeInt:_maxReconnects forKey:@"maxReconnects"];
 }
 
 -(void) dealloc
@@ -121,7 +124,7 @@
 		server.password = _sshPassword;
 		server.port = _sshPort;
 		proxy.currentServer = server;
-		proxy.maxAutoReconnectRetries = 10;
+		proxy.maxAutoReconnectRetries = _maxReconnects;
 		proxy.autoReconnect = YES;
 		[server release];
 	}
