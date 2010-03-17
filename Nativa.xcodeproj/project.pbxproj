@@ -40,6 +40,7 @@
 		812A726D10FD0D3D00795D8B /* RTSCGIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A726C10FD0D3D00795D8B /* RTSCGIOperation.m */; };
 		8130AC25111B5A8E009C1595 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8130AC24111B5A8E009C1595 /* Sparkle.framework */; };
 		8130AC61111B5AA7009C1595 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8130AC24111B5A8E009C1595 /* Sparkle.framework */; };
+		814D45BA115177F600B59F82 /* KillTunnel.sh in Resources */ = {isa = PBXBuildFile; fileRef = 814D45B9115177F600B59F82 /* KillTunnel.sh */; };
 		814FF9761100AB7100335707 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF9691100AB7100335707 /* NSDataAdditions.m */; };
 		814FF9771100AB7100335707 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF96B1100AB7100335707 /* NSStringAdditions.m */; };
 		814FF9781100AB7100335707 /* XMLRPCEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF96D1100AB7100335707 /* XMLRPCEncoder.m */; };
@@ -167,6 +168,7 @@
 		812A726C10FD0D3D00795D8B /* RTSCGIOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSCGIOperation.m; sourceTree = "<group>"; };
 		812A731B10FD1CC500795D8B /* RTorrentCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTorrentCommand.h; sourceTree = "<group>"; };
 		8130AC24111B5A8E009C1595 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = frameworks/Sparkle.framework; sourceTree = "<group>"; };
+		814D45B9115177F600B59F82 /* KillTunnel.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = KillTunnel.sh; path = SSH/KillTunnel.sh; sourceTree = "<group>"; };
 		814FF9681100AB7100335707 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAdditions.h; sourceTree = "<group>"; };
 		814FF9691100AB7100335707 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
 		814FF96A1100AB7100335707 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
@@ -340,6 +342,7 @@
 			children = (
 				81CCDE17113FF81B00893CCC /* Credits.rtf */,
 				810DBC3F11343E63000411D8 /* drag to trash.aif */,
+				814D45B9115177F600B59F82 /* KillTunnel.sh */,
 				811B4C0711276542008A23C3 /* SSHCommand.sh */,
 				811EA5D11111FAD1001D16D0 /* images */,
 				8D1107310486CEB800E47090 /* Nativa-Info.plist */,
@@ -637,6 +640,7 @@
 				81CCDE18113FF81B00893CCC /* Credits.rtf in Resources */,
 				81639434114153F0007C4B97 /* Loading.gif in Resources */,
 				8163946F114156FB007C4B97 /* Error-large.png in Resources */,
+				814D45BA115177F600B59F82 /* KillTunnel.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
