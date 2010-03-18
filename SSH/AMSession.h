@@ -17,19 +17,17 @@
 #import <Foundation/Foundation.h>
 #import <SecurityFoundation/SFAuthorization.h>
 
-#import "AMServer.h";
-#import "AMService.h";
-
 extern	NSString const *AMErrorLoadingSavedState;
 extern	NSString const *AMNewGeneralMessage;
 extern	NSString const *AMNewErrorMessage;
 
-
+@class AMServer;
 
 @interface AMSession : NSObject
 {
 	AMServer 		*currentServer;
-	AMService		*portsMap;	
+	NSUInteger		localPort;
+	NSUInteger		remotePort;
 	NSUInteger		autoReconnectTimes;
 	NSUInteger		maxAutoReconnectRetries;
 	BOOL			autoReconnect;
@@ -47,16 +45,16 @@ extern	NSString const *AMNewErrorMessage;
 
 
 }
-@property(readonly)			BOOL				connected;
+@property(readonly)				BOOL				connected;
 @property(readwrite)			BOOL				autoReconnect;
-@property(readonly)			BOOL				connectionInProgress;
+@property(readonly)				BOOL				connectionInProgress;
 @property(readwrite)			NSUInteger			maxAutoReconnectRetries;
 @property(readwrite, retain)	AMServer 			*currentServer;
-@property(readwrite, retain)	AMService 			*portsMap;
 @property(readwrite, retain)	NSString 			*remoteHost;
 @property(readwrite, retain)	NSString 			*sessionName;
 @property(readwrite, retain)	NSString 			*error;
-
+@property						NSUInteger			localPort;
+@property						NSUInteger			remotePort;
 
 #pragma mark -
 #pragma mark Control methods
@@ -70,8 +68,7 @@ extern	NSString const *AMNewErrorMessage;
 
 #pragma mark -
 #pragma mark Helper methods
-- (NSMutableArray *) parsePortsSequence:(NSString*)seq;
-- (NSMutableString *) prepareSSHCommandWithRemotePorts:(NSMutableArray *)remotePorts localPorts:(NSMutableArray *)localPorts;
+- (NSMutableString *) prepareSSHCommand;
 
 
 @end

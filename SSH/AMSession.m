@@ -15,6 +15,7 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 #import "AMSession.h"
+#import "AMServer.h"
 
 @interface AMSession(Private)
 -(void) analyzeOutput:(NSData*) data;
@@ -23,14 +24,15 @@
 @implementation AMSession
 
 @synthesize	sessionName;
-@synthesize portsMap;
 @synthesize remoteHost;
 @synthesize connected = _connected;
 @synthesize connectionInProgress = _connectionInProgress;
 @synthesize currentServer;
 @synthesize autoReconnect;
 @synthesize maxAutoReconnectRetries;
-@dynamic error;
+@synthesize remotePort;
+@synthesize localPort;
+@dynamic	error;
 
 #pragma mark Initilizations
 
@@ -53,7 +55,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[sessionName release];
-	[portsMap release];
 	[remoteHost release];
 	
 	if ([sshTask isRunning] == YES)
@@ -66,68 +67,19 @@
 	[super dealloc];
 }
 
-#pragma mark Helper methods
-
-- (NSMutableArray *) parsePortsSequence:(NSString*)seq
-{
-	NSArray *units;
-	NSMutableArray *ranges = [[NSMutableArray alloc] init];
-	NSMutableArray	*ports  = [[NSMutableArray alloc] init];
-	NSPredicate *containRange = [NSPredicate predicateWithFormat:@"SELF contains[c] '-' "];
-	NSPredicate *validPort = [NSPredicate predicateWithFormat:@"SELF matches '[0-9]+'"];
-	
-	units = [seq componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" ,;"]];
-	
-	for (NSString* s in units)
-	{
-		
-		if ([containRange evaluateWithObject:s] == YES)
-		{
-			[ranges addObject:s];
-		}
-		else if ([validPort evaluateWithObject:s])
-		{
-			[ports addObject:s];
-		}
-	}
-	
-	for (NSString* s in ranges)
-	{
-		NSInteger	startPort;
-		NSInteger	stopPort;
-		NSInteger	i;
-		NSArray		*bounds;
-		
-		bounds = [s componentsSeparatedByString:@"-"];
-		startPort = [[bounds objectAtIndex:0] intValue];
-		stopPort = [[bounds objectAtIndex:1] intValue];
-		
-		for (i = startPort; i <= stopPort; i++)
-			[ports addObject:[NSString stringWithFormat:@"%d", i]];
-	}
-	
-	[ranges release];
-	
-	return ports;
-}
-
-- (NSMutableString *) prepareSSHCommandWithRemotePorts:(NSMutableArray *)remotePorts localPorts:(NSMutableArray *)localPorts  
+- (NSMutableString *) prepareSSHCommand  
 {
 	NSMutableString *argumentsString = [NSMutableString stringWithString: @"ssh "];
 	
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"forceSSHVersion2"])
-		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@" -2 "];
+//	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"forceSSHVersion2"])
+//		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@" -2 "];
 	
-	int i;
-	for(i = 0; i < [remotePorts count]; i++)
-	{
-		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@"-N -L "];
-		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[localPorts objectAtIndex:i]];
-		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@":"];
-		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:remoteHost];
-		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@":"];
-		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[remotePorts objectAtIndex:i]];
-	}
+	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@"-N -L "];
+	argumentsString = (NSMutableString *)[argumentsString stringByAppendingFormat:@"%d", localPort];
+	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@":"];
+	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:remoteHost];
+	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@":"];
+	argumentsString = (NSMutableString *)[argumentsString stringByAppendingFormat:@"%d", remotePort];
 	
 	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@" "];
 	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[currentServer username]];
@@ -150,8 +102,6 @@
 {
 	NSString			*helperPath;
 	NSArray				*args;
-	NSMutableArray		*remotePorts;
-	NSMutableArray		*localPorts;
 	NSMutableString		*argumentsString;
 	
 	_connectionInProgress = YES;
@@ -170,13 +120,7 @@
 	
 	helperPath		= [[NSBundle mainBundle] pathForResource:@"SSHCommand" ofType:@"sh"];
 	
-	remotePorts		= [self parsePortsSequence:[portsMap serviceRemotePorts]];
-	localPorts		= [self parsePortsSequence:[portsMap serviceLocalPorts]];
-	
-	argumentsString = [self prepareSSHCommandWithRemotePorts:remotePorts localPorts:localPorts];
-	
-	[remotePorts release];
-	[localPorts release];
+	argumentsString = [self prepareSSHCommand];
 	
 	args			= [NSArray arrayWithObjects:argumentsString, [currentServer password], nil];
 
@@ -201,6 +145,9 @@
 											   object:sshTask];
 	
 	[outputHandle readInBackgroundAndNotify];
+	
+	[auth permitWithRight:"system.privileges.admin" flags:kAuthorizationFlagDefaults|kAuthorizationFlagInteractionAllowed|
+	 kAuthorizationFlagExtendRights|kAuthorizationFlagPreAuthorize];
 	
 	[sshTask launch];
 
@@ -284,7 +231,7 @@
 		NSPredicate *checkRefused		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTION_REFUSED'"];
 		NSPredicate *checkTimeout		= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'CONNECTION_TIMEOUT'"];
 		NSPredicate *checkWrongHostname	= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'WRONG_HOSTNAME'"];
-		NSPredicate *checkPort			= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'Could not request local forwarding'"];
+		NSPredicate *checkPort			= [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] 'Address already in use'"];
 		
 		NSString* stmp = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 		

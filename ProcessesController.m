@@ -19,8 +19,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
     if ((self = [super init]))
     {
         NSData * data;
+		
         if ((data = [[NSUserDefaults standardUserDefaults] dataForKey: NIProcessListKey]))
-            _processesDescriptors = [[NSKeyedUnarchiver unarchiveObjectWithData: data] retain];
+		{
+			@try {
+				_processesDescriptors = [[NSKeyedUnarchiver unarchiveObjectWithData: data] retain];
+			}
+			@catch (NSException * e) {
+				NSLog(@"Unable to unarchive settings: %@", e);
+				_processesDescriptors = [[[NSMutableArray alloc] init] retain];
+			}
+		}
         else
         {
             _processesDescriptors = [[[NSMutableArray alloc] init] retain];

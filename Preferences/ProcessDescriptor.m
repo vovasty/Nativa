@@ -10,7 +10,6 @@
 #import "RTConnection.h"
 #import "RTorrentController.h"
 #import "AMSession.h"
-#import "AMService.h"
 #import "AMServer.h"
 
 @implementation ProcessDescriptor
@@ -48,7 +47,7 @@
 		self.sshPort = [coder decodeObjectForKey:@"sshPort"];
 		self.sshUsername = [coder decodeObjectForKey:@"sshUsername"];
 		self.sshPassword = [coder decodeObjectForKey:@"sshPassword"];
-		self.sshLocalPort = [coder decodeObjectForKey:@"sshLocalPort"];
+		self.sshLocalPort = [coder decodeIntForKey:@"sshLocalPort"];
 		self.maxReconnects = [coder decodeIntForKey:@"maxReconnects"];
     }
 	
@@ -69,7 +68,7 @@
 	[coder encodeObject:_sshPort forKey:@"sshPort"];
 	[coder encodeObject:_sshUsername forKey:@"sshUsername"];
 	[coder encodeObject:_sshPassword forKey:@"sshPassword"];
-	[coder encodeObject:_sshLocalPort forKey:@"sshLocalPort"];
+	[coder encodeInt:_sshLocalPort forKey:@"sshLocalPort"];
 	[coder encodeInt:_maxReconnects forKey:@"maxReconnects"];
 }
 
@@ -87,7 +86,6 @@
 	[_sshPort release];
 	[_sshUsername release];
 	[_sshPassword release];
-	[_sshLocalPort release];
 	
 	[super dealloc];
 }
@@ -112,11 +110,8 @@
 		proxy.sessionName = _name;
 		proxy.remoteHost = _host;
 		
-		AMService* portsMap = [[AMService alloc] initWithPorts:_sshLocalPort remotePorts:[NSString stringWithFormat:@"%d", _port ]];
-		
-		proxy.portsMap = portsMap;
-		
-		[portsMap release];
+		proxy.localPort = _sshLocalPort;
+		proxy.remotePort = _port;
 		
 		AMServer *server = [[AMServer alloc] init];
 		server.host = _sshHost;

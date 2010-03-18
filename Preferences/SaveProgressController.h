@@ -23,7 +23,9 @@
 + (SaveProgressController *)sharedSaveProgressController;
 
 - (IBAction) close: (id) sender;
-- (IBAction) open: (NSWindow*) window;
+- (IBAction) open: (NSWindow*) window message:(NSString*) message;
 - (void) message: (NSString*) message;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo;
+- (void)start;
+- (void)stop;
 @end

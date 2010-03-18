@@ -59,7 +59,7 @@
     }
 	else if ([notification object] == _sshLocalPort)
     {
-		[pd setSshLocalPort:[_sshLocalPort stringValue]];
+		[pd setSshLocalPort:[_sshLocalPort intValue]];
     }
 	else;
 }
@@ -93,7 +93,7 @@
 - (void) saveProcess: (id) sender
 {
 	[_window makeFirstResponder: nil];
-	[[SaveProgressController sharedSaveProgressController] open: _window];
+	[[SaveProgressController sharedSaveProgressController] open: _window message:NSLocalizedString(@"Checking configuration...", "Preferences -> Save process")];
 	ProcessDescriptor *pd = [self currentProcess];
 	//test connection with only one reconnect
 	int maxReconnects = (pd.maxReconnects == 0?10:pd.maxReconnects);
@@ -105,6 +105,7 @@
 		{
 			NSLog(@"update download list error: %@", error);
 			[[SaveProgressController sharedSaveProgressController] message: error];
+			[[SaveProgressController sharedSaveProgressController] stop];
 		}
 		else
 		{
@@ -114,7 +115,10 @@
 			
 			if (unsavedProcessDescriptor)
 				[[ProcessesController sharedProcessesController] addProcessDescriptor:unsavedProcessDescriptor];
-
+			
+			[unsavedProcessDescriptor release];
+			unsavedProcessDescriptor = nil;
+			
 			//set default number of reconnects
 			[[ProcessesController sharedProcessesController] saveProcesses];
 		}
@@ -164,7 +168,7 @@
 		
 	[_sshPassword setStringValue:pd.sshPassword];
 	
-	[_sshLocalPort setStringValue:pd.sshLocalPort];
+	[_sshLocalPort setIntValue:pd.sshLocalPort];
 
 		//for some reason I need trigger event manually
 	[self toggleSSH:_useSSH];
@@ -199,7 +203,7 @@
 		unsavedProcessDescriptor.sshPort = @"22";
 		unsavedProcessDescriptor.sshUsername = @"";
 		unsavedProcessDescriptor.sshPassword = @"";
-		unsavedProcessDescriptor.sshLocalPort = @"5000";
+		unsavedProcessDescriptor.sshLocalPort = 5000;
 	}
 	else;
 	

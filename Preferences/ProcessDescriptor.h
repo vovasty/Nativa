@@ -16,7 +16,7 @@
 	NSString* _name;
 	NSString* _processType;
 	NSString* _host;
-	int _port;
+	NSUInteger _port;
 	id<TorrentController> _process;
 	RTConnection* _connection;
 	NSString* _downloadsFolder;
@@ -26,26 +26,26 @@
 	NSString* _sshPort;
 	NSString* _sshUsername;
 	NSString* _sshPassword;
-	NSString* _sshLocalPort;
+	NSUInteger _sshLocalPort;
 	VoidResponseBlock openProcessResponse;
-	int _maxReconnects;
+	NSUInteger _maxReconnects;
 }
 @property (retain) NSString* name;
 @property (retain) NSString* processType;
 @property (retain) NSString* host;
 @property (retain) NSString* downloadsFolder;
-@property (assign) int port;
+@property (assign) NSUInteger port;
 
 @property (retain) NSString* connectionType;
 @property (retain) NSString* sshHost;
 @property (retain) NSString* sshPort;
 @property (retain) NSString* sshUsername;
 @property (retain) NSString* sshPassword;
-@property (retain) NSString* sshLocalPort;
+@property (assign) NSUInteger sshLocalPort;
 
 @property (retain) id<TorrentController> process;
 @property (retain) RTConnection* connection;
-@property (assign) int maxReconnects;
+@property (assign) NSUInteger maxReconnects;
 
 
 -(void) closeProcess;

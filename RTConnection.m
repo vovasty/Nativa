@@ -45,8 +45,10 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 	NSHost *host = [NSHost hostWithAddress:hostName];
 	if (host != nil)
 	{
-		[NSStream getStreamsToHost:host port:port inputStream:iStream
-					  outputStream:oStream];
+		[NSStream getStreamsToHost:host 
+							  port:(_proxy==nil?port:[_proxy localPort]) 
+						inputStream:iStream
+					   outputStream:oStream];
 		
 		[(*iStream) scheduleInRunLoop:[NSRunLoop currentRunLoop]
 						   forMode:NSDefaultRunLoopMode];

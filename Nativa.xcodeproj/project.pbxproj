@@ -28,7 +28,6 @@
 		811B056810F6A030000D1DDC /* SCGI.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B056710F6A030000D1DDC /* SCGI.m */; };
 		811B05A210F6A1C7000D1DDC /* Torrent.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B05A110F6A1C7000D1DDC /* Torrent.m */; };
 		811B4B7611275B14008A23C3 /* AMServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B4B7111275B14008A23C3 /* AMServer.m */; };
-		811B4B7711275B14008A23C3 /* AMService.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B4B7311275B14008A23C3 /* AMService.m */; };
 		811B4B7811275B14008A23C3 /* AMSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B4B7511275B14008A23C3 /* AMSession.m */; };
 		811B4BFC1127644D008A23C3 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 811B4BFB1127644D008A23C3 /* Security.framework */; };
 		811B4BFE1127644D008A23C3 /* SecurityFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 811B4BFD1127644D008A23C3 /* SecurityFoundation.framework */; };
@@ -40,7 +39,6 @@
 		812A726D10FD0D3D00795D8B /* RTSCGIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A726C10FD0D3D00795D8B /* RTSCGIOperation.m */; };
 		8130AC25111B5A8E009C1595 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8130AC24111B5A8E009C1595 /* Sparkle.framework */; };
 		8130AC61111B5AA7009C1595 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8130AC24111B5A8E009C1595 /* Sparkle.framework */; };
-		814D45BA115177F600B59F82 /* KillTunnel.sh in Resources */ = {isa = PBXBuildFile; fileRef = 814D45B9115177F600B59F82 /* KillTunnel.sh */; };
 		814FF9761100AB7100335707 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF9691100AB7100335707 /* NSDataAdditions.m */; };
 		814FF9771100AB7100335707 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF96B1100AB7100335707 /* NSStringAdditions.m */; };
 		814FF9781100AB7100335707 /* XMLRPCEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF96D1100AB7100335707 /* XMLRPCEncoder.m */; };
@@ -150,8 +148,6 @@
 		811B05A110F6A1C7000D1DDC /* Torrent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Torrent.m; sourceTree = "<group>"; };
 		811B4B7011275B14008A23C3 /* AMServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMServer.h; sourceTree = "<group>"; };
 		811B4B7111275B14008A23C3 /* AMServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMServer.m; sourceTree = "<group>"; };
-		811B4B7211275B14008A23C3 /* AMService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMService.h; sourceTree = "<group>"; };
-		811B4B7311275B14008A23C3 /* AMService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMService.m; sourceTree = "<group>"; };
 		811B4B7411275B14008A23C3 /* AMSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMSession.h; sourceTree = "<group>"; };
 		811B4B7511275B14008A23C3 /* AMSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AMSession.m; sourceTree = "<group>"; };
 		811B4BFB1127644D008A23C3 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -168,7 +164,6 @@
 		812A726C10FD0D3D00795D8B /* RTSCGIOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSCGIOperation.m; sourceTree = "<group>"; };
 		812A731B10FD1CC500795D8B /* RTorrentCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTorrentCommand.h; sourceTree = "<group>"; };
 		8130AC24111B5A8E009C1595 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = frameworks/Sparkle.framework; sourceTree = "<group>"; };
-		814D45B9115177F600B59F82 /* KillTunnel.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = KillTunnel.sh; path = SSH/KillTunnel.sh; sourceTree = "<group>"; };
 		814FF9681100AB7100335707 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAdditions.h; sourceTree = "<group>"; };
 		814FF9691100AB7100335707 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
 		814FF96A1100AB7100335707 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
@@ -342,7 +337,6 @@
 			children = (
 				81CCDE17113FF81B00893CCC /* Credits.rtf */,
 				810DBC3F11343E63000411D8 /* drag to trash.aif */,
-				814D45B9115177F600B59F82 /* KillTunnel.sh */,
 				811B4C0711276542008A23C3 /* SSHCommand.sh */,
 				811EA5D11111FAD1001D16D0 /* images */,
 				8D1107310486CEB800E47090 /* Nativa-Info.plist */,
@@ -453,8 +447,6 @@
 			children = (
 				811B4B7011275B14008A23C3 /* AMServer.h */,
 				811B4B7111275B14008A23C3 /* AMServer.m */,
-				811B4B7211275B14008A23C3 /* AMService.h */,
-				811B4B7311275B14008A23C3 /* AMService.m */,
 				811B4B7411275B14008A23C3 /* AMSession.h */,
 				811B4B7511275B14008A23C3 /* AMSession.m */,
 			);
@@ -640,7 +632,6 @@
 				81CCDE18113FF81B00893CCC /* Credits.rtf in Resources */,
 				81639434114153F0007C4B97 /* Loading.gif in Resources */,
 				8163946F114156FB007C4B97 /* Error-large.png in Resources */,
-				814D45BA115177F600B59F82 /* KillTunnel.sh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -686,7 +677,6 @@
 				816964541119F94800246098 /* ProcessesController.m in Sources */,
 				8169685C111B0DF800246098 /* FilterButton.m in Sources */,
 				811B4B7611275B14008A23C3 /* AMServer.m in Sources */,
-				811B4B7711275B14008A23C3 /* AMService.m in Sources */,
 				811B4B7811275B14008A23C3 /* AMSession.m in Sources */,
 				81CE3805113B016000C9F344 /* SaveProgressController.m in Sources */,
 				81FA9EFB113DA51900FDF920 /* DragOverlayWindow.m in Sources */,
