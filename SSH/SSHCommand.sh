@@ -22,7 +22,7 @@ set password [lindex $argv 1]
 set path $argv0
 
 #kill previous command
-exec ps -opid,args | awk /$arguments/ | awk {!/(grep|expect)/ {print $1}} | xargs kill
+exec $path/../KillTunnel.sh $arguments
 
 eval spawn $arguments
 
