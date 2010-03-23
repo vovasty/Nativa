@@ -459,23 +459,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void)_updateGlobals
 {
-//	__block DownloadsController *blockSelf = self;
-//	NumberResponseBlock response = [^(NSNumber *number, NSString* error){
-//		if (error)
-//			NSLog(@"update globals error: %@", error);
-//		else
-//			[blockSelf setSpaceLeft:[number doubleValue]];
-//	}copy];
-//	
-//	[[self _controller] getSpaceLeft:response];
-//	
-//	[response release];
 	NSString *path = [[self _descriptor] downloadsFolder];
 	if (path == nil)
 		return;
 	
 	NSError* error = nil;
 	NSDictionary *attr = [[NSFileManager defaultManager] attributesOfFileSystemForPath:path error:&error];
-	[self setSpaceLeft:[[attr objectForKey:NSFileSystemFreeSize] doubleValue]];
+	if (error == nil)
+		[self setSpaceLeft:[[attr objectForKey:NSFileSystemFreeSize] doubleValue]];
 }
 @end
