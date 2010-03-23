@@ -65,6 +65,7 @@
 		81696850111B0CFC00246098 /* PreferencesWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8169684F111B0CFC00246098 /* PreferencesWindow.xib */; };
 		8169685C111B0DF800246098 /* FilterButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8169685B111B0DF800246098 /* FilterButton.m */; };
 		81747F301159153A00192413 /* YingYangTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81747F2F1159153A00192413 /* YingYangTemplate.png */; };
+		817C3D371159851000DC97DA /* DiskSpace.png in Resources */ = {isa = PBXBuildFile; fileRef = 817C3D361159851000DC97DA /* DiskSpace.png */; };
 		819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3BE91110CD5200F7007C /* DownloadsController.m */; };
 		819D3E0C1110EE6E00F7007C /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3E0B1110EE6E00F7007C /* Controller.m */; };
 		81B73ABA1113993800A11521 /* UpArrowTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B73AB91113993800A11521 /* UpArrowTemplate.png */; };
@@ -199,6 +200,7 @@
 		8169685B111B0DF800246098 /* FilterButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterButton.m; sourceTree = "<group>"; };
 		81720931111666BD0018555A /* NativaConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativaConstants.h; sourceTree = "<group>"; };
 		81747F2F1159153A00192413 /* YingYangTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = YingYangTemplate.png; sourceTree = "<group>"; };
+		817C3D361159851000DC97DA /* DiskSpace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DiskSpace.png; sourceTree = "<group>"; };
 		819D3BE81110CD5200F7007C /* DownloadsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadsController.h; sourceTree = "<group>"; };
 		819D3BE91110CD5200F7007C /* DownloadsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsController.m; sourceTree = "<group>"; };
 		819D3E0A1110EE6E00F7007C /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 		811EA5D11111FAD1001D16D0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				817C3D361159851000DC97DA /* DiskSpace.png */,
 				81747F2F1159153A00192413 /* YingYangTemplate.png */,
 				8163946E114156FB007C4B97 /* Error-large.png */,
 				81639433114153F0007C4B97 /* Loading.gif */,
@@ -636,6 +639,7 @@
 				8163946F114156FB007C4B97 /* Error-large.png in Resources */,
 				810A08531152E7230011E46A /* KillTunnel.sh in Resources */,
 				81747F301159153A00192413 /* YingYangTemplate.png in Resources */,
+				817C3D371159851000DC97DA /* DiskSpace.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

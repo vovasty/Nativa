@@ -134,6 +134,7 @@ typedef enum
 - (void) changeStatusLabel;
 {
 	NSString *statusLabel = [[NSUserDefaults standardUserDefaults] objectForKey:@"StatusLabel"];
+	NSUInteger tag;
 
 	if (_currentObserver != nil)
 		[[DownloadsController sharedDownloadsController] removeObserver:self forKeyPath:_currentObserver];
@@ -148,6 +149,7 @@ typedef enum
 		[_statusButton setTitle:[NSString stringWithFormat: @"DL: %@ UL: %@", 
 								 [NSString stringForFileSize:[DownloadsController sharedDownloadsController].globalDownloadSize],
 								 [NSString stringForFileSize:[DownloadsController sharedDownloadsController].globalUploadSize]]];
+		tag = STATUS_TRANSFER_TOTAL_TAG;
 	}
 	else if ([statusLabel isEqualToString:STATUS_RATIO_TOTAL])
 	{
@@ -158,6 +160,9 @@ typedef enum
 															 context:&GlobalRatioContext];
 		[_statusButton setTitle:[NSString stringWithFormat: @"Ratio: %@", 
 								 [NSString stringForRatio:[DownloadsController sharedDownloadsController].globalRatio]]];
+		NSMenuItem* item = [[_statusButton menu] itemAtIndex:0];
+		[item setImage:[NSImage imageNamed: @"YingYangTemplate.png"]];
+		tag = STATUS_RATIO_TOTAL_TAG;
 	}
 	else
 	{
@@ -168,8 +173,13 @@ typedef enum
 														 context:&SpaceLeftContext];
 		[_statusButton setTitle:[NSString stringWithFormat: @"Space left: %@", [
 								 NSString stringForFileSize:[DownloadsController sharedDownloadsController].spaceLeft]]];
+		tag = STATUS_TRANSFER_TOTAL_TAG;
 	}
 	
+	NSMenuItem* item0 = [[_statusButton menu] itemAtIndex:0];
+	NSMenuItem* itemT = [[_statusButton menu] itemWithTag:tag];
+	[item0 setImage:[itemT image]];
+
 	[self resizeStatusButton];
 
 	

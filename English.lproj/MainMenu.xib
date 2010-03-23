@@ -12,9 +12,9 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="960"/>
 			<integer value="81"/>
 			<integer value="769"/>
-			<integer value="960"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -434,7 +434,7 @@
 						<string key="NSKeyEquiv"/>
 						<int key="NSKeyEquivModMask">1048576</int>
 						<int key="NSMnemonicLoc">2147483647</int>
-						<object class="NSCustomResource" key="NSImage">
+						<object class="NSCustomResource" key="NSImage" id="825215471">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">YingYangTemplate</string>
 						</object>
@@ -448,6 +448,7 @@
 						<string key="NSKeyEquiv"/>
 						<int key="NSKeyEquivModMask">1048576</int>
 						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSImage" ref="825215471"/>
 						<reference key="NSOnImage" ref="35465992"/>
 						<reference key="NSMixedImage" ref="502551668"/>
 					</object>
@@ -457,6 +458,10 @@
 						<string key="NSKeyEquiv"/>
 						<int key="NSKeyEquivModMask">1048576</int>
 						<int key="NSMnemonicLoc">2147483647</int>
+						<object class="NSCustomResource" key="NSImage" id="268100891">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">DiskSpace</string>
+						</object>
 						<reference key="NSOnImage" ref="35465992"/>
 						<reference key="NSMixedImage" ref="502551668"/>
 						<int key="NSTag">1</int>
@@ -467,6 +472,7 @@
 						<string key="NSKeyEquiv"/>
 						<int key="NSKeyEquivModMask">1048576</int>
 						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSImage" ref="268100891"/>
 						<reference key="NSOnImage" ref="35465992"/>
 						<reference key="NSMixedImage" ref="502551668"/>
 						<int key="NSTag">2</int>
@@ -3095,7 +3101,7 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{411, 705}, {162, 83}}</string>
+					<string>{{411, 773}, {178, 83}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
