@@ -41,6 +41,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 @synthesize	globalUploadSpeed = _globalUploadSpeed;
 @synthesize globalDownloadSpeed = _globalDownloadSpeed;
 @synthesize spaceLeft = _spaceLeft;
+@synthesize globalDownloadSize = _globalDownloadSize;
+@synthesize globalUploadSize = _globalUploadSize;
 
 
 -(id)init;
@@ -356,6 +358,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		Torrent* stored_obj;
 		CGFloat globalUploadRate = 0.0;
 		CGFloat globalDownloadRate = 0.0;
+		CGFloat download = 0.0;
+		CGFloat upload = 0.0;
+		
 		for (Torrent *obj in array)
 		{
 			idx = [blockSelf->_downloads indexOfObject:obj];
@@ -369,6 +374,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 			}
 			globalUploadRate += [obj speedUpload];
 			globalDownloadRate += [obj speedDownload];
+			download+=obj.downloadRate;
+			upload+=obj.uploadRate;
 		}
 		
 		//find removed torrents
@@ -387,8 +394,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		}
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName: NINotifyUpdateDownloads object: blockSelf];
-		blockSelf.globalDownloadSpeed = globalDownloadRate;
-		blockSelf.globalUploadSpeed = globalUploadRate;
+		[blockSelf willChangeValueForKey:@"globalDownloadSpeed"];
+		[blockSelf willChangeValueForKey:@"globalUploadSpeed"];
+		[blockSelf willChangeValueForKey:@"globalDownloadSize"];
+		[blockSelf willChangeValueForKey:@"globalUploadSize"];
+		_globalDownloadSpeed = globalDownloadRate;
+		_globalUploadSpeed = globalUploadRate;
+		_globalUploadSize = upload;
+		_globalDownloadSize = download;
+		[blockSelf didChangeValueForKey:@"globalDownloadSpeed"];
+		[blockSelf didChangeValueForKey:@"globalUploadSpeed"];
+		[blockSelf didChangeValueForKey:@"globalDownloadSize"];
+		[blockSelf didChangeValueForKey:@"globalUploadSize"];
 	} copy];
 	[[self _controller] list:response];
 	[response release];

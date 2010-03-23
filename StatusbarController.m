@@ -17,6 +17,8 @@ static NSString* GlobalDownloadContext = @"GlobalDownloadContext";
 
 static NSString* SpaceLeftContext = @"SpaceLeftContext";
 
+static NSString* GlobalUploadSizeContext = @"GlobalUploadSizeContext";
+
 typedef enum
 {
     STATUS_RATIO_TOTAL_TAG = 0,
@@ -46,6 +48,7 @@ typedef enum
 				forKeyPath:@"globalDownloadContext"
 				options:0
 				context:&GlobalUploadContext];
+
 	[self changeStatusLabel];
 	
 }
@@ -62,10 +65,16 @@ typedef enum
 		[_globalSpeedUp setStringValue:[NSString stringForSpeed:up]];
 		[_globalSpeedDown setStringValue:[NSString stringForSpeed:down]];
     }
-    else if (context == &SpaceLeftContext)
+	else if (context == &SpaceLeftContext)
     {
 		[_statusButton setTitle:[NSString stringWithFormat: @"Space left: %@", [NSString stringForFileSize:[DownloadsController sharedDownloadsController].spaceLeft]]];
 		[self resizeStatusButton];
+    }
+	else if (context == &GlobalUploadSizeContext)
+    {
+		[_statusButton setTitle:[NSString stringWithFormat: @"DL: %@ UL: %@", 
+								 [NSString stringForFileSize:[DownloadsController sharedDownloadsController].globalDownloadSize],
+								 [NSString stringForFileSize:[DownloadsController sharedDownloadsController].globalUploadSize]]];
     }
     else
     {
@@ -119,22 +128,26 @@ typedef enum
 {
 	NSString *statusLabel = [[NSUserDefaults standardUserDefaults] objectForKey:@"StatusLabel"];
 
-	@try {
-		if (_currentObserver != nil)
-			[[DownloadsController sharedDownloadsController] removeObserver:self forKeyPath:_currentObserver];
-	}
-	@catch (NSException * e) {
-		//just ignore it
-	}
+	if (_currentObserver != nil)
+		[[DownloadsController sharedDownloadsController] removeObserver:self forKeyPath:_currentObserver];
 	
-	if (1 == 2) // ([statusLabel isEqualToString:STATUS_SPACE_LEFT])
+	if ([statusLabel isEqualToString:STATUS_TRANSFER_TOTAL])
 	{
+		_currentObserver = @"globalUploadSize";
+		[[DownloadsController sharedDownloadsController] addObserver:self
+														  forKeyPath:_currentObserver
+															 options:0
+															 context:&GlobalUploadSizeContext];
+		[_statusButton setTitle:[NSString stringWithFormat: @"DL: %@ UL: %@", 
+								 [NSString stringForFileSize:[DownloadsController sharedDownloadsController].globalDownloadSize],
+								 [NSString stringForFileSize:[DownloadsController sharedDownloadsController].globalUploadSize]]];
+		[self resizeStatusButton];
 	}
 	else
 	{
-		_currentObserver = SpaceLeftContext;
+		_currentObserver = @"spaceLeft";
 		[[DownloadsController sharedDownloadsController] addObserver:self
-													  forKeyPath:@"spaceLeft"
+													  forKeyPath:_currentObserver
 														 options:0
 														 context:&SpaceLeftContext];
 		[_statusButton setTitle:[NSString stringWithFormat: @"Space left: %@", [NSString stringForFileSize:[DownloadsController sharedDownloadsController].spaceLeft]]];

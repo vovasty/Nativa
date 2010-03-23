@@ -38,7 +38,7 @@
 	[defaultValues setObject:[NSNumber numberWithInteger:3]
 					  forKey:NIRefreshRateKey];
 
-	[defaultValues setObject:[NSNumber numberWithInteger:60]
+	[defaultValues setObject:[NSNumber numberWithInteger:3]
 					  forKey:NIUpdateGlobalsRateKey];
 	
 	//Register the dictionary of defaults
