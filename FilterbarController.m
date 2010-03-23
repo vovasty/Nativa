@@ -40,7 +40,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FilterbarController);
     if (sender != prevFilterButton)
     {
         [prevFilterButton setState: NSOffState];
-        [sender setState: NSOnState];
+        [(NSButton *)sender setState: NSOnState];
 		
 		NSString *filterType;
 		
@@ -56,7 +56,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FilterbarController);
         [[NSUserDefaults standardUserDefaults] setObject: filterType forKey: NIFilterKey];
     }
     else
-        [sender setState: NSOnState];
+        [(NSButton *)sender setState: NSOnState];
 	
     [self _updateFilter];
 }
