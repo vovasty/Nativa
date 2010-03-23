@@ -16,6 +16,8 @@
 #include "ProcessesController.h"
 #include <Growl/Growl.h>
 #include "DragOverlayWindow.h"
+#import "ToolbarControllerAdditions.h"
+
 
 @implementation Controller
 +(void) initialize
