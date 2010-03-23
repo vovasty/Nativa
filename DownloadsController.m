@@ -26,6 +26,8 @@ NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
 - (id<TorrentController>) _controller;
 
+- (ProcessDescriptor *) _descriptor;
+
 - (VoidResponseBlock) _updateListResponse: (VoidResponseBlock) originalResponse errorFormat:(NSString*) errorFormat;
 
 -(void) setError:(NSString*) fmt error:(NSString*) error;
@@ -336,10 +338,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 - (id<TorrentController>) _controller
 {
 	
+	return [[self _descriptor] process];
+}
+
+- (ProcessDescriptor *) _descriptor
+{
+	
 	ProcessDescriptor *p = nil;
 	if ([[ProcessesController sharedProcessesController] count]>0)
 		p = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
-	return [p process];
+	return p;
 }
 
 - (void)_updateList
@@ -451,16 +459,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void)_updateGlobals
 {
-	__block DownloadsController *blockSelf = self;
-	NumberResponseBlock response = [^(NSNumber *number, NSString* error){
-		if (error)
-			NSLog(@"update globals error: %@", error);
-		else
-			[blockSelf setSpaceLeft:[number doubleValue]];
-	}copy];
+//	__block DownloadsController *blockSelf = self;
+//	NumberResponseBlock response = [^(NSNumber *number, NSString* error){
+//		if (error)
+//			NSLog(@"update globals error: %@", error);
+//		else
+//			[blockSelf setSpaceLeft:[number doubleValue]];
+//	}copy];
+//	
+//	[[self _controller] getSpaceLeft:response];
+//	
+//	[response release];
+	NSString *path = [[self _descriptor] downloadsFolder];
+	if (path == nil)
+		return;
 	
-	[[self _controller] getSpaceLeft:response];
-	
-	[response release];
+	NSError* error = nil;
+	NSDictionary *attr = [[NSFileManager defaultManager] attributesOfFileSystemForPath:path error:&error];
+	[self setSpaceLeft:[[attr objectForKey:NSFileSystemFreeSize] doubleValue]];
 }
 @end

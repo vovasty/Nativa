@@ -28,8 +28,6 @@
 
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response;
 
-- (void) getSpaceLeft:(NumberResponseBlock) response;
-
 - (void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response;
 
 -(BOOL) connected;
