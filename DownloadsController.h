@@ -25,6 +25,7 @@ extern NSString* const NINotifyUpdateDownloads;
 	CGFloat			  _spaceLeft;
 	CGFloat			  _globalUploadSize;
 	CGFloat			  _globalDownloadSize;
+	CGFloat			  _globalRatio;
 	NSUserDefaults	* _defaults;
 	int			      openedProcesses;
 	NSString		* lastOpenProcessError;
@@ -34,6 +35,7 @@ extern NSString* const NINotifyUpdateDownloads;
 @property (assign)	CGFloat spaceLeft;
 @property (assign)	CGFloat globalDownloadSize;
 @property (assign)	CGFloat globalUploadSize;
+@property (assign)	CGFloat globalRatio;
 
 
 + (DownloadsController *)sharedDownloadsController;

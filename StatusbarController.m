@@ -19,6 +19,8 @@ static NSString* SpaceLeftContext = @"SpaceLeftContext";
 
 static NSString* GlobalUploadSizeContext = @"GlobalUploadSizeContext";
 
+static NSString* GlobalRatioContext = @"GlobalRatioContext";
+
 typedef enum
 {
     STATUS_RATIO_TOTAL_TAG = 0,
@@ -75,6 +77,11 @@ typedef enum
 		[_statusButton setTitle:[NSString stringWithFormat: @"DL: %@ UL: %@", 
 								 [NSString stringForFileSize:[DownloadsController sharedDownloadsController].globalDownloadSize],
 								 [NSString stringForFileSize:[DownloadsController sharedDownloadsController].globalUploadSize]]];
+    }
+	else if (context == &GlobalRatioContext)
+    {
+		[_statusButton setTitle:[NSString stringWithFormat: @"Ratio: %@", 
+								 [NSString stringForRatio:[DownloadsController sharedDownloadsController].globalRatio]]];
     }
     else
     {
@@ -141,7 +148,16 @@ typedef enum
 		[_statusButton setTitle:[NSString stringWithFormat: @"DL: %@ UL: %@", 
 								 [NSString stringForFileSize:[DownloadsController sharedDownloadsController].globalDownloadSize],
 								 [NSString stringForFileSize:[DownloadsController sharedDownloadsController].globalUploadSize]]];
-		[self resizeStatusButton];
+	}
+	else if ([statusLabel isEqualToString:STATUS_RATIO_TOTAL])
+	{
+		_currentObserver = @"globalRatio";
+		[[DownloadsController sharedDownloadsController] addObserver:self
+														  forKeyPath:_currentObserver
+															 options:0
+															 context:&GlobalRatioContext];
+		[_statusButton setTitle:[NSString stringWithFormat: @"Ratio: %@", 
+								 [NSString stringForRatio:[DownloadsController sharedDownloadsController].globalRatio]]];
 	}
 	else
 	{
@@ -150,9 +166,12 @@ typedef enum
 													  forKeyPath:_currentObserver
 														 options:0
 														 context:&SpaceLeftContext];
-		[_statusButton setTitle:[NSString stringWithFormat: @"Space left: %@", [NSString stringForFileSize:[DownloadsController sharedDownloadsController].spaceLeft]]];
-		[self resizeStatusButton];
+		[_statusButton setTitle:[NSString stringWithFormat: @"Space left: %@", [
+								 NSString stringForFileSize:[DownloadsController sharedDownloadsController].spaceLeft]]];
 	}
+	
+	[self resizeStatusButton];
+
 	
 }
 @end

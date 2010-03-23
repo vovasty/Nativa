@@ -43,6 +43,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 @synthesize spaceLeft = _spaceLeft;
 @synthesize globalDownloadSize = _globalDownloadSize;
 @synthesize globalUploadSize = _globalUploadSize;
+@synthesize globalRatio = _globalRatio;
 
 
 -(id)init;
@@ -398,14 +399,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		[blockSelf willChangeValueForKey:@"globalUploadSpeed"];
 		[blockSelf willChangeValueForKey:@"globalDownloadSize"];
 		[blockSelf willChangeValueForKey:@"globalUploadSize"];
+		[blockSelf willChangeValueForKey:@"globalRatio"];
 		_globalDownloadSpeed = globalDownloadRate;
 		_globalUploadSpeed = globalUploadRate;
 		_globalUploadSize = upload;
 		_globalDownloadSize = download;
+		_globalRatio = upload/download;
 		[blockSelf didChangeValueForKey:@"globalDownloadSpeed"];
 		[blockSelf didChangeValueForKey:@"globalUploadSpeed"];
 		[blockSelf didChangeValueForKey:@"globalDownloadSize"];
 		[blockSelf didChangeValueForKey:@"globalUploadSize"];
+		[blockSelf didChangeValueForKey:@"globalRatio"];
 	} copy];
 	[[self _controller] list:response];
 	[response release];
