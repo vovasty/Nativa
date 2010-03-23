@@ -139,6 +139,18 @@ static NSString * ConnectedContext = @"ConnectingContext";
 	[r release];
 }
 
+- (void) getSpaceLeft:(NumberResponseBlock) response
+{
+	SCGIOperationResponseBlock r = [^(id data, NSString* error){
+		if (response)
+			response(data, error);
+	}copy];
+	[self _runCommand:@"get_safe_free_diskspace"
+			arguments:nil
+			 response:r];
+	[r release];
+	
+}
 
 - (void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response
 {

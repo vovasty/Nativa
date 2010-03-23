@@ -46,6 +46,7 @@ NSString* const NIDeleteTransferDataKey			= @"DeleteTransferData";
 
 NSString* const NIRefreshRateKey				= @"RefreshRateKey";
 
+NSString* const NIUpdateGlobalsRateKey			= @"UpdateGlobalsRateKey";
 @interface PreferencesController (Private)
 
 - (void) setPrefView: (id) sender;

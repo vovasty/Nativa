@@ -22,6 +22,8 @@ NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
 - (void)_updateList;
 
+- (void)_updateGlobals;
+
 - (id<TorrentController>) _controller;
 
 - (VoidResponseBlock) _updateListResponse: (VoidResponseBlock) originalResponse errorFormat:(NSString*) errorFormat;
@@ -38,6 +40,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 @synthesize	globalUploadSpeed = _globalUploadSpeed;
 @synthesize globalDownloadSpeed = _globalDownloadSpeed;
+@synthesize spaceLeft = _spaceLeft;
 
 
 -(id)init;
@@ -63,6 +66,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 -(void) startUpdates:(VoidResponseBlock) response;
 {
 	[_updateListTimer invalidate];
+	[_updateGlobalsTimer invalidate];
 
 	ProcessesController* pc = [ProcessesController sharedProcessesController];
 	openedProcesses = 0;
@@ -87,6 +91,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 											repeats:YES];
 			[blockSelf->_updateListTimer retain];
 			[[NSRunLoop currentRunLoop] addTimer:blockSelf->_updateListTimer forMode:NSDefaultRunLoopMode];	
+
+			[blockSelf _updateGlobals];
+			blockSelf->_updateGlobalsTimer = [NSTimer scheduledTimerWithTimeInterval:
+										   [blockSelf->_defaults integerForKey:NIUpdateGlobalsRateKey]
+																		   target:self 
+																		 selector:@selector(_updateGlobals) 
+																		 userInfo:nil 
+																		  repeats:YES];
+			[blockSelf->_updateGlobalsTimer retain];
+			[[NSRunLoop currentRunLoop] addTimer:blockSelf->_updateGlobalsTimer forMode:NSDefaultRunLoopMode];	
 			
 		}	
 	}copy];
@@ -103,6 +117,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 -(void) stopUpdates;
 {
 	[_updateListTimer invalidate];
+	[_updateGlobalsTimer invalidate];
+	
 	ProcessesController* pc = [ProcessesController sharedProcessesController];
 	
 	for (NSInteger i=0;i<[pc count];i++)
@@ -166,6 +182,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 			}
 			
 			[blockSelf _updateList];
+			[blockSelf _updateGlobals];
 		} copy];
 		[[self _controller] add:url start:[_defaults boolForKey:NIStartTransferWhenAddedKey] response:response];
 		[response release];
@@ -227,6 +244,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		}
 		
 		[blockSelf _updateList];
+		[blockSelf _updateGlobals];
 	}copy];
 	
 	[[self _controller] erase:[torrent thash] response:r];
@@ -408,5 +426,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	NSSound *deleteSound;
 	deleteSound  = [NSSound soundNamed: @"drag to trash"];
 	[deleteSound play];
+}
+
+- (void)_updateGlobals
+{
+	__block DownloadsController *blockSelf = self;
+	NumberResponseBlock response = [^(NSNumber *number, NSString* error){
+		if (error)
+			NSLog(@"update globals error: %@", error);
+		else
+			[blockSelf setSpaceLeft:[number doubleValue]];
+	}copy];
+	
+	[[self _controller] getSpaceLeft:response];
+	
+	[response release];
 }
 @end

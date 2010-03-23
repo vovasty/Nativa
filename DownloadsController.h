@@ -17,16 +17,19 @@ extern NSString* const NINotifyUpdateDownloads;
 @interface DownloadsController : NSObject 
 {
 @private
-	NSMutableArray* _downloads;
-	NSTimer* _updateListTimer;
-	CGFloat _globalUploadSpeed;
-	CGFloat _globalDownloadSpeed;
-	NSUserDefaults* _defaults;
-	int openedProcesses;
-	NSString* lastOpenProcessError;
+	NSMutableArray	* _downloads;
+	NSTimer			* _updateListTimer;
+	NSTimer			* _updateGlobalsTimer;
+	CGFloat			  _globalUploadSpeed;
+	CGFloat			  _globalDownloadSpeed;
+	CGFloat			  _spaceLeft;
+	NSUserDefaults	* _defaults;
+	int				openedProcesses;
+	NSString		* lastOpenProcessError;
 }
 @property (assign)	CGFloat globalUploadSpeed;
 @property (assign)	CGFloat globalDownloadSpeed;
+@property (assign)	CGFloat spaceLeft;
 
 
 + (DownloadsController *)sharedDownloadsController;

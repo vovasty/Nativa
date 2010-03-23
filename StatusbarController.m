@@ -15,6 +15,26 @@ static NSString* GlobalUploadContext = @"GlobalUploadContext";
 
 static NSString* GlobalDownloadContext = @"GlobalDownloadContext";
 
+static NSString* SpaceLeftContext = @"SpaceLeftContext";
+
+typedef enum
+{
+    STATUS_RATIO_TOTAL_TAG = 0,
+    STATUS_TRANSFER_TOTAL_TAG = 1,
+    STATUS_SPACE_LEFT_TAG = 2
+} statusTag;
+
+
+#define STATUS_RATIO_TOTAL      @"RatioTotal"
+#define STATUS_TRANSFER_TOTAL   @"TransferTotal"
+#define STATUS_SPACE_LEFT		@"SpaceLeft"
+
+
+@interface StatusbarController(Private)
+- (void) resizeStatusButton;
+- (void) changeStatusLabel;
+@end
+
 @implementation StatusbarController
 - (void)awakeFromNib
 {
@@ -23,9 +43,10 @@ static NSString* GlobalDownloadContext = @"GlobalDownloadContext";
 				options:0
 				context:&GlobalUploadContext];
 	[[DownloadsController sharedDownloadsController] addObserver:self
-				forKeyPath:@"GlobalDownloadContext"
+				forKeyPath:@"globalDownloadContext"
 				options:0
 				context:&GlobalUploadContext];
+	[self changeStatusLabel];
 	
 }
 
@@ -41,6 +62,11 @@ static NSString* GlobalDownloadContext = @"GlobalDownloadContext";
 		[_globalSpeedUp setStringValue:[NSString stringForSpeed:up]];
 		[_globalSpeedDown setStringValue:[NSString stringForSpeed:down]];
     }
+    else if (context == &SpaceLeftContext)
+    {
+		[_statusButton setTitle:[NSString stringWithFormat: @"Space left: %@", [NSString stringForFileSize:[DownloadsController sharedDownloadsController].spaceLeft]]];
+		[self resizeStatusButton];
+    }
     else
     {
         [super observeValueForKeyPath:keyPath
@@ -50,4 +76,70 @@ static NSString* GlobalDownloadContext = @"GlobalDownloadContext";
     }
 }
 
+- (void) setStatusLabel: (id) sender
+{
+    NSString * statusLabel;
+    switch ([sender tag])
+    {
+        case STATUS_RATIO_TOTAL_TAG:
+            statusLabel = STATUS_RATIO_TOTAL;
+            break;
+        case STATUS_TRANSFER_TOTAL_TAG:
+            statusLabel = STATUS_TRANSFER_TOTAL;
+            break;
+        case STATUS_SPACE_LEFT_TAG:
+            statusLabel = STATUS_SPACE_LEFT;
+            break;
+        default:
+            NSAssert1(NO, @"Unknown status label tag received: %d", [sender tag]);
+            return;
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject: statusLabel forKey: @"StatusLabel"];
+	[self changeStatusLabel];
+}
+@end
+
+@implementation StatusbarController(Private)
+- (void) resizeStatusButton
+{
+    [_statusButton sizeToFit];
+    
+    //width ends up being too long
+    NSRect statusFrame = [_statusButton frame];
+    statusFrame.size.width -= 25.0;
+    
+    CGFloat difference = NSMaxX(statusFrame) + 5.0 - [_totalDLImageView frame].origin.x;
+    if (difference > 0)
+        statusFrame.size.width -= difference;
+    
+    [_statusButton setFrame: statusFrame];
+}
+- (void) changeStatusLabel;
+{
+	NSString *statusLabel = [[NSUserDefaults standardUserDefaults] objectForKey:@"StatusLabel"];
+
+	@try {
+		if (_currentObserver != nil)
+			[[DownloadsController sharedDownloadsController] removeObserver:self forKeyPath:_currentObserver];
+	}
+	@catch (NSException * e) {
+		//just ignore it
+	}
+	
+	if (1 == 2) // ([statusLabel isEqualToString:STATUS_SPACE_LEFT])
+	{
+	}
+	else
+	{
+		_currentObserver = SpaceLeftContext;
+		[[DownloadsController sharedDownloadsController] addObserver:self
+													  forKeyPath:@"spaceLeft"
+														 options:0
+														 context:&SpaceLeftContext];
+		[_statusButton setTitle:[NSString stringWithFormat: @"Space left: %@", [NSString stringForFileSize:[DownloadsController sharedDownloadsController].spaceLeft]]];
+		[self resizeStatusButton];
+	}
+	
+}
 @end

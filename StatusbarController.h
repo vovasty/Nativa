@@ -11,8 +11,11 @@
 
 @interface StatusbarController : NSObject 
 {
-	IBOutlet NSTextField* _globalSpeedDown;
-	IBOutlet NSTextField* _globalSpeedUp;
+	IBOutlet NSTextField	* _globalSpeedDown;
+	IBOutlet NSTextField	* _globalSpeedUp;
+	IBOutlet NSButton		* _statusButton;
+	IBOutlet NSImageView    * _totalDLImageView;
+	NSString				*_currentObserver;
 }
-
+- (void) setStatusLabel: (id) sender;
 @end
