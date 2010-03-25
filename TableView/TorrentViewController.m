@@ -1,57 +1,31 @@
 /*
-     File: ATContentController.m
- Abstract: The basic controller for the demo app. An instance exists inside the MainMenu.xib file.
- 
-  Version: 1.0
- 
- Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
- Inc. ("Apple") in consideration of your agreement to the following
- terms, and your use, installation, modification or redistribution of
- this Apple software constitutes acceptance of these terms.  If you do
- not agree with these terms, please do not use, install, modify or
- redistribute this Apple software.
- 
- In consideration of your agreement to abide by the following terms, and
- subject to these terms, Apple grants you a personal, non-exclusive
- license, under Apple's copyrights in this original Apple software (the
- "Apple Software"), to use, reproduce, modify and redistribute the Apple
- Software, with or without modifications, in source and/or binary forms;
- provided that if you redistribute the Apple Software in its entirety and
- without modifications, you must retain this notice and the following
- text and disclaimers in all such redistributions of the Apple Software.
- Neither the name, trademarks, service marks or logos of Apple Inc. may
- be used to endorse or promote products derived from the Apple Software
- without specific prior written permission from Apple.  Except as
- expressly stated in this notice, no other rights or licenses, express or
- implied, are granted by Apple herein, including but not limited to any
- patent rights that may be infringed by your derivative works or by other
- works in which the Apple Software may be incorporated.
- 
- The Apple Software is provided by Apple on an "AS IS" basis.  APPLE
- MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION
- THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS
- FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND
- OPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
- 
- IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL
- OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION,
- MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED
- AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
- STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
- POSSIBILITY OF SUCH DAMAGE.
- 
- Copyright (C) 2009 Apple Inc. All Rights Reserved.
- 
+ * Nativa - MacOS X UI for rtorrent
+ *
+ * Copyright Solomenchuk V. 2010.
+ * Solomenchuk Vladimir <vovasty@aramzamzam.net>
+ *
+ * Licensed under the GPL, Version 3.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
+
 
 #import "TorrentViewController.h"
 #import "TorrentCell.h"
 #import "TorrentTableView.h"
+#import "TorrentGroup.h"
 #import "Torrent.h";
 #import "DownloadsController.h"
 #import "FilterbarController.h"
+#import "NSStringTorrentAdditions.h"
 
 static NSString* FilterTorrents = @"FilterTorrents";
 
@@ -64,18 +38,30 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 @implementation TorrentViewController
 
-- (void)dealloc {
+- (void)dealloc 
+{
     [_tableContents release];
     [super dealloc];
 }
 
 - (void)awakeFromNib {
+	_defaults = [NSUserDefaults standardUserDefaults];
+
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(updateList:) name: NINotifyUpdateDownloads object: nil];
 	_tableContents = [[[NSArray alloc] init] retain]; 
 	[[FilterbarController sharedFilterbarController] addObserver:self
 													 forKeyPath:@"stateFilter"
 													  options:0
 													  context:&FilterTorrents];
+	_tableContents = [[[NSMutableArray alloc] init] retain];
+	TorrentGroup* g0 = [[TorrentGroup alloc] initWithGroup:0];
+	g0.name = @"group 0";
+	g0.color = [NSColor blueColor];
+	[_tableContents addObject:g0];
+	TorrentGroup* g1 = [[TorrentGroup alloc] initWithGroup:1];
+	g1.name = @"group 1";
+	g1.color = [NSColor greenColor];
+	[_tableContents addObject:g1];
 	
 }
 
@@ -103,7 +89,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 {
 	NSPredicate* filter = [FilterbarController sharedFilterbarController].stateFilter;
 	NSMutableArray* arr = [NSMutableArray arrayWithArray:[[DownloadsController sharedDownloadsController] downloads]];
-	[_tableContents release];
+	//[_tableContents release];
 
 	if (filter != nil)
 		[arr filterUsingPredicate:filter];
@@ -112,8 +98,26 @@ static NSString* FilterTorrents = @"FilterTorrents";
 	[arr sortUsingDescriptors:[NSArray arrayWithObject:nameSorter]];
 	[nameSorter release];
 
-	_tableContents = [arr retain];
+	//_tableContents = [arr retain];
+	for(int i=0;i<[_tableContents count];i++)
+		[[[_tableContents objectAtIndex:i] torrents] removeAllObjects];
+	
+	for(int i=0;i<[arr count];i++)
+	{
+		NSMutableArray* ga;
+		
+		if ((i % 2) == 0)
+			ga = [[_tableContents objectAtIndex:0] torrents];
+		else 
+			ga = [[_tableContents objectAtIndex:1] torrents];
+		
+		Torrent* o = [arr objectAtIndex:i];
+		if (![ga containsObject:o])
+			  [ga addObject:o];
 
+	}
+	
+	
 	if ([_window isVisible]) 
 	{
 		@synchronized(self)
@@ -126,17 +130,23 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 - (NSInteger) outlineView: (NSOutlineView *) outlineView numberOfChildrenOfItem: (id) item
 {
-	return [_tableContents count];
+    if (item)
+        return [[item torrents] count];
+    else
+        return [_tableContents count];
 }
 
 - (id) outlineView: (NSOutlineView *) outlineView child: (NSInteger) index ofItem: (id) item
 {
-	return [_tableContents objectAtIndex: index];
+    if (item)
+        return [[item torrents] objectAtIndex: index];
+    else
+        return [_tableContents objectAtIndex: index];
 }
 
 - (BOOL) outlineView: (NSOutlineView *) outlineView isItemExpandable: (id) item
 {
-    return NO;
+    return ![item isKindOfClass: [Torrent class]];
 }
 
 - (id) outlineView: (NSOutlineView *) outlineView objectValueForTableColumn: (NSTableColumn *) tableColumn byItem: (id) item
@@ -144,8 +154,34 @@ static NSString* FilterTorrents = @"FilterTorrents";
     if ([item isKindOfClass: [Torrent class]])
         return ((Torrent*)item).thash;
 	else 
-		return @"";
-
+	{
+        NSString * ident = [tableColumn identifier];
+        if ([ident isEqualToString: @"Group"])
+        {
+            return [item name];
+        }
+        else if ([ident isEqualToString: @"Color"])
+        {
+            return [item icon];
+        }
+        else if ([ident isEqualToString: @"DL Image"])
+            return [NSImage imageNamed: @"DownArrowGroupTemplate.png"];
+        else if ([ident isEqualToString: @"UL Image"])
+            return [NSImage imageNamed: [_defaults boolForKey: @"DisplayGroupRowRatio"]
+					? @"YingYangGroupTemplate.png" : @"UpArrowGroupTemplate.png"];
+        else
+        {
+            TorrentGroup * group = (TorrentGroup *)item;
+            
+            if ([_defaults boolForKey: @"DisplayGroupRowRatio"])
+                return [NSString stringForRatio: [group ratio]];
+            else
+            {
+                CGFloat rate = [ident isEqualToString: @"UL"] ? [group uploadRate] : [group downloadRate];
+                return [NSString stringForSpeed: rate];
+            }
+        }
+	}
 }
 
 @end

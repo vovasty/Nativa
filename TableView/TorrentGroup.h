@@ -28,7 +28,13 @@
 {
     NSInteger fGroup;
     NSMutableArray * fTorrents;
+	NSString *name;
+	NSImage* icon;
+	NSColor* color;
 }
+
+@property (retain) NSString* name;
+@property (retain) NSColor* color;
 
 - (id) initWithGroup: (NSInteger) group;
 
@@ -38,5 +44,5 @@
 - (CGFloat) ratio;
 - (CGFloat) uploadRate;
 - (CGFloat) downloadRate;
-
+- (NSImage*) icon;
 @end

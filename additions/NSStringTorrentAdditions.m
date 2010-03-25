@@ -22,10 +22,7 @@
  * DEALINGS IN THE SOFTWARE.
  *****************************************************************************/
 
-#import "NSStringAdditions.h"
-//#import "NSApplicationAdditions.h"
-//#import "utils.h"
-//#import <transmission.h>
+#import "NSStringTorrentAdditions.h"
 #import "NativaConstants.h"
 
 double

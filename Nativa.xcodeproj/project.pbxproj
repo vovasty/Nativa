@@ -13,6 +13,8 @@
 		8106590C1118DA4700674B45 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 810659091118DA4700674B45 /* PreferencesController.m */; };
 		8106590D1118DA4700674B45 /* PreferencesWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8106590B1118DA4700674B45 /* PreferencesWindow.m */; };
 		8107590B10FFDF4F003FF9A6 /* FilterbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590A10FFDF4F003FF9A6 /* FilterbarController.m */; };
+		81079202115C0CFA00A87CEA /* DownArrowGroupTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81079200115C0CFA00A87CEA /* DownArrowGroupTemplate.png */; };
+		81079203115C0CFA00A87CEA /* UpArrowGroupTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81079201115C0CFA00A87CEA /* UpArrowGroupTemplate.png */; };
 		810A08531152E7230011E46A /* KillTunnel.sh in Resources */ = {isa = PBXBuildFile; fileRef = 810A08521152E7230011E46A /* KillTunnel.sh */; };
 		810AEEFD11132FE400933772 /* ToolbarRemoveTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */; };
 		810AEF331113353200933772 /* ButtonToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 810AEF301113353200933772 /* ButtonToolbarItem.m */; };
@@ -72,7 +74,7 @@
 		81B73ABC1113994700A11521 /* DownArrowTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B73ABB1113994700A11521 /* DownArrowTemplate.png */; };
 		81B73ABF111399DC00A11521 /* StatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73ABE111399DC00A11521 /* StatusBarView.m */; };
 		81B73AFC1113B34000A11521 /* StatusbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73AFB1113B34000A11521 /* StatusbarController.m */; };
-		81B73C061113C50200A11521 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73C051113C50200A11521 /* NSStringAdditions.m */; };
+		81B73C061113C50200A11521 /* NSStringTorrentAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73C051113C50200A11521 /* NSStringTorrentAdditions.m */; };
 		81CB5A841128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */; };
 		81CB5A8E1128E70C00A9D5D3 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81CB5A8D1128E70C00A9D5D3 /* Growl.framework */; };
 		81CB5A9E1128E73400A9D5D3 /* Growl.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 81CB5A8D1128E70C00A9D5D3 /* Growl.framework */; };
@@ -127,6 +129,8 @@
 		8106590B1118DA4700674B45 /* PreferencesWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesWindow.m; sourceTree = "<group>"; };
 		8107590910FFDF4F003FF9A6 /* FilterbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterbarController.h; sourceTree = SOURCE_ROOT; };
 		8107590A10FFDF4F003FF9A6 /* FilterbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterbarController.m; sourceTree = SOURCE_ROOT; };
+		81079200115C0CFA00A87CEA /* DownArrowGroupTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DownArrowGroupTemplate.png; sourceTree = "<group>"; };
+		81079201115C0CFA00A87CEA /* UpArrowGroupTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpArrowGroupTemplate.png; sourceTree = "<group>"; };
 		810A08521152E7230011E46A /* KillTunnel.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = KillTunnel.sh; path = SSH/KillTunnel.sh; sourceTree = "<group>"; };
 		810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarRemoveTemplate.png; sourceTree = "<group>"; };
 		810AEF2F1113353200933772 /* ButtonToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonToolbarItem.h; sourceTree = "<group>"; };
@@ -211,8 +215,8 @@
 		81B73ABE111399DC00A11521 /* StatusBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusBarView.m; sourceTree = "<group>"; };
 		81B73AFA1113B34000A11521 /* StatusbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusbarController.h; sourceTree = "<group>"; };
 		81B73AFB1113B34000A11521 /* StatusbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusbarController.m; sourceTree = "<group>"; };
-		81B73C041113C50200A11521 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
-		81B73C051113C50200A11521 /* NSStringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringAdditions.m; sourceTree = "<group>"; };
+		81B73C041113C50200A11521 /* NSStringTorrentAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringTorrentAdditions.h; sourceTree = "<group>"; };
+		81B73C051113C50200A11521 /* NSStringTorrentAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringTorrentAdditions.m; sourceTree = "<group>"; };
 		81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		81CB5A8D1128E70C00A9D5D3 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = frameworks/Growl.framework; sourceTree = "<group>"; };
 		81CCDE17113FF81B00893CCC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
@@ -459,6 +463,8 @@
 		811EA5D11111FAD1001D16D0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81079200115C0CFA00A87CEA /* DownArrowGroupTemplate.png */,
+				81079201115C0CFA00A87CEA /* UpArrowGroupTemplate.png */,
 				817C3D361159851000DC97DA /* DiskSpace.png */,
 				81747F2F1159153A00192413 /* YingYangTemplate.png */,
 				8163946E114156FB007C4B97 /* Error-large.png */,
@@ -524,8 +530,8 @@
 		81B73C031113C50200A11521 /* additions */ = {
 			isa = PBXGroup;
 			children = (
-				81B73C041113C50200A11521 /* NSStringAdditions.h */,
-				81B73C051113C50200A11521 /* NSStringAdditions.m */,
+				81B73C041113C50200A11521 /* NSStringTorrentAdditions.h */,
+				81B73C051113C50200A11521 /* NSStringTorrentAdditions.m */,
 			);
 			path = additions;
 			sourceTree = "<group>";
@@ -640,6 +646,8 @@
 				810A08531152E7230011E46A /* KillTunnel.sh in Resources */,
 				81747F301159153A00192413 /* YingYangTemplate.png in Resources */,
 				817C3D371159851000DC97DA /* DiskSpace.png in Resources */,
+				81079202115C0CFA00A87CEA /* DownArrowGroupTemplate.png in Resources */,
+				81079203115C0CFA00A87CEA /* UpArrowGroupTemplate.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -676,7 +684,7 @@
 				810AEF421113365600933772 /* ToolbarSegmentedCell.m in Sources */,
 				81B73ABF111399DC00A11521 /* StatusBarView.m in Sources */,
 				81B73AFC1113B34000A11521 /* StatusbarController.m in Sources */,
-				81B73C061113C50200A11521 /* NSStringAdditions.m in Sources */,
+				81B73C061113C50200A11521 /* NSStringTorrentAdditions.m in Sources */,
 				8162160F11152ED30095862B /* TorrentGroup.m in Sources */,
 				8106590C1118DA4700674B45 /* PreferencesController.m in Sources */,
 				8106590D1118DA4700674B45 /* PreferencesWindow.m in Sources */,
