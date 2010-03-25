@@ -26,6 +26,7 @@
 #import "DownloadsController.h"
 #import "FilterbarController.h"
 #import "NSStringTorrentAdditions.h"
+#import "GroupsController.h"
 
 static NSString* FilterTorrents = @"FilterTorrents";
 
@@ -85,48 +86,22 @@ static NSString* FilterTorrents = @"FilterTorrents";
     }
 }
 
-- (void)updateList:(NSNotification*) notification;
+- (void) setGroup: (id) sender
 {
-	NSPredicate* filter = [FilterbarController sharedFilterbarController].stateFilter;
-	NSMutableArray* arr = [NSMutableArray arrayWithArray:[[DownloadsController sharedDownloadsController] downloads]];
-	//[_tableContents release];
-
-	if (filter != nil)
-		[arr filterUsingPredicate:filter];
-
-	NSSortDescriptor *nameSorter = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-	[arr sortUsingDescriptors:[NSArray arrayWithObject:nameSorter]];
-	[nameSorter release];
-
-	//_tableContents = [arr retain];
-	for(int i=0;i<[_tableContents count];i++)
-		[[[_tableContents objectAtIndex:i] torrents] removeAllObjects];
-	
-	for(int i=0;i<[arr count];i++)
-	{
-		NSMutableArray* ga;
-		
-		if ((i % 2) == 0)
-			ga = [[_tableContents objectAtIndex:0] torrents];
-		else 
-			ga = [[_tableContents objectAtIndex:1] torrents];
-		
-		Torrent* o = [arr objectAtIndex:i];
-		if (![ga containsObject:o])
-			  [ga addObject:o];
-
-	}
-	
-	
-	if ([_window isVisible]) 
-	{
-		@synchronized(self)
-		{
-			[_outlineView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
-		}
-	}
+//    for (Torrent * torrent in [fTableView selectedTorrents])
+//    {
+//        [fTableView removeCollapsedGroup: [torrent groupValue]]; //remove old collapsed group
+//        
+//        [torrent setGroupValue: [sender tag]];
+//    }
+//    
+//    [self applyFilter: nil];
+//    [self updateUI];
+//    [self updateTorrentHistory];
 }
 
+#pragma mark -
+#pragma mark NSTableViewDelegate & NSTableViewDataSource
 
 - (NSInteger) outlineView: (NSOutlineView *) outlineView numberOfChildrenOfItem: (id) item
 {
@@ -181,6 +156,111 @@ static NSString* FilterTorrents = @"FilterTorrents";
                 return [NSString stringForSpeed: rate];
             }
         }
+	}
+}
+
+#pragma mark -
+#pragma mark NSMenuDelegate
+
+- (void) menuNeedsUpdate: (NSMenu *) menu
+{
+    if (menu == _groupsMenu)
+    {
+        [menu removeAllItems];
+		
+        NSMenu * groupMenu;
+            groupMenu = [[GroupsController groups] groupMenuWithTarget: self action: @selector(setGroup:) isSmall: NO];
+        
+        const NSInteger groupMenuCount = [groupMenu numberOfItems];
+        for (NSInteger i = 0; i < groupMenuCount; i++)
+        {
+            NSMenuItem * item = [[groupMenu itemAtIndex: 0] retain];
+            [groupMenu removeItemAtIndex: 0];
+            [menu addItem: item];
+            [item release];
+        }
+    }
+    else;
+}
+
+- (BOOL) validateMenuItem: (NSMenuItem *) menuItem
+{
+    SEL action = [menuItem action];
+	
+    BOOL canUseTable = [_window isKeyWindow] || [[menuItem menu] supermenu] != [NSApp mainMenu];
+	
+    if (action == @selector(setGroup:))
+    {
+        BOOL checked = NO;
+        
+        NSInteger index = [menuItem tag];
+		
+		NSString *groupName = [[GroupsController groups] nameForIndex:index];
+		
+        for (Torrent * torrent in [_outlineView selectedTorrents])
+		{
+			if ([torrent groupName] == nil)
+			{
+				if (index == -1) //empty group menu item?
+					checked = YES;
+				break;
+			}
+			else if ([groupName isEqualToString:[torrent groupName]])
+            {
+                checked = YES;
+                break;
+            }
+			else;
+			
+        }
+        [menuItem setState: checked ? NSOnState : NSOffState];
+        return canUseTable && [_outlineView numberOfSelectedRows] > 0;
+    }
+    return YES;
+}
+@end
+
+@implementation TorrentViewController(Private)
+
+- (void)updateList:(NSNotification*) notification;
+{
+	NSPredicate* filter = [FilterbarController sharedFilterbarController].stateFilter;
+	NSMutableArray* arr = [NSMutableArray arrayWithArray:[[DownloadsController sharedDownloadsController] downloads]];
+	//[_tableContents release];
+	
+	if (filter != nil)
+		[arr filterUsingPredicate:filter];
+	
+	NSSortDescriptor *nameSorter = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+	[arr sortUsingDescriptors:[NSArray arrayWithObject:nameSorter]];
+	[nameSorter release];
+	
+	//_tableContents = [arr retain];
+	for(int i=0;i<[_tableContents count];i++)
+		[[[_tableContents objectAtIndex:i] torrents] removeAllObjects];
+	
+	for(int i=0;i<[arr count];i++)
+	{
+		NSMutableArray* ga;
+		
+		if ((i % 2) == 0)
+			ga = [[_tableContents objectAtIndex:0] torrents];
+		else 
+			ga = [[_tableContents objectAtIndex:1] torrents];
+		
+		Torrent* o = [arr objectAtIndex:i];
+		if (![ga containsObject:o])
+			[ga addObject:o];
+		
+	}
+	
+	
+	if ([_window isVisible]) 
+	{
+		@synchronized(self)
+		{
+			[_outlineView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+		}
 	}
 }
 

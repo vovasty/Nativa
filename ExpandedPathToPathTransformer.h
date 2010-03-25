@@ -1,7 +1,7 @@
 /******************************************************************************
- * $Id: PrefsController.h 9844 2010-01-01 21:12:04Z livings124 $
- *
- * Copyright (c) 2005-2010 Transmission authors and contributors
+ * $Id: ExpandedPathToPathTransformer.h 9844 2010-01-01 21:12:04Z livings124 $
+ * 
+ * Copyright (c) 2007-2010 Transmission authors and contributors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -22,30 +22,10 @@
  * DEALINGS IN THE SOFTWARE.
  *****************************************************************************/
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-extern NSString* const NISpeedLimitDownload;
-extern NSString* const NISpeedLimitUpload;
-extern NSString* const NITrashDownloadDescriptorsKey;
-extern NSString* const NIStartTransferWhenAddedKey;
-extern NSString* const NIProcessListKey;
-extern NSString* const NIFilterKey;
-extern NSString* const NIDeleteTransferDataKey;
-extern NSString* const NIRefreshRateKey;
-extern NSString* const NIUpdateGlobalsRateKey;
-
-typedef enum 
-{ 
-	NIPReferencesViewDefault = 0,
-	NIPReferencesViewProcesses = 1
-} NIPReferencesView;
-
-@interface PreferencesController : NSWindowController<NSToolbarDelegate>
+@interface ExpandedPathToPathTransformer : NSValueTransformer
 {
-	IBOutlet NSView * _generalView, * _processesView, *_groupsView;
-	
-	NSUserDefaults* _defaults;
 }
-+ (PreferencesController *)sharedPreferencesController;
--(void) openPreferences:(NIPReferencesView) view;
+
 @end

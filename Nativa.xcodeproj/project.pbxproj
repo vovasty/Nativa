@@ -15,6 +15,12 @@
 		8107590B10FFDF4F003FF9A6 /* FilterbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107590A10FFDF4F003FF9A6 /* FilterbarController.m */; };
 		81079202115C0CFA00A87CEA /* DownArrowGroupTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81079200115C0CFA00A87CEA /* DownArrowGroupTemplate.png */; };
 		81079203115C0CFA00A87CEA /* UpArrowGroupTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81079201115C0CFA00A87CEA /* UpArrowGroupTemplate.png */; };
+		8107925C115C1A7300A87CEA /* GroupsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81079257115C1A7300A87CEA /* GroupsController.m */; };
+		8107925D115C1A7300A87CEA /* GroupsPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81079259115C1A7300A87CEA /* GroupsPrefsController.m */; };
+		81079290115C1E8900A87CEA /* Groups.png in Resources */ = {isa = PBXBuildFile; fileRef = 8107928F115C1E8900A87CEA /* Groups.png */; };
+		810792E6115C239300A87CEA /* GroupsNoneTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 810792E5115C239300A87CEA /* GroupsNoneTemplate.png */; };
+		81079342115C2AEF00A87CEA /* ExpandedPathToPathTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107933E115C2AEF00A87CEA /* ExpandedPathToPathTransformer.m */; };
+		81079343115C2AEF00A87CEA /* ExpandedPathToIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 81079340115C2AEF00A87CEA /* ExpandedPathToIconTransformer.m */; };
 		810A08531152E7230011E46A /* KillTunnel.sh in Resources */ = {isa = PBXBuildFile; fileRef = 810A08521152E7230011E46A /* KillTunnel.sh */; };
 		810AEEFD11132FE400933772 /* ToolbarRemoveTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */; };
 		810AEF331113353200933772 /* ButtonToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 810AEF301113353200933772 /* ButtonToolbarItem.m */; };
@@ -131,6 +137,16 @@
 		8107590A10FFDF4F003FF9A6 /* FilterbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterbarController.m; sourceTree = SOURCE_ROOT; };
 		81079200115C0CFA00A87CEA /* DownArrowGroupTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DownArrowGroupTemplate.png; sourceTree = "<group>"; };
 		81079201115C0CFA00A87CEA /* UpArrowGroupTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpArrowGroupTemplate.png; sourceTree = "<group>"; };
+		81079256115C1A7300A87CEA /* GroupsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsController.h; sourceTree = "<group>"; };
+		81079257115C1A7300A87CEA /* GroupsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsController.m; sourceTree = "<group>"; };
+		81079258115C1A7300A87CEA /* GroupsPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsPrefsController.h; sourceTree = "<group>"; };
+		81079259115C1A7300A87CEA /* GroupsPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsPrefsController.m; sourceTree = "<group>"; };
+		8107928F115C1E8900A87CEA /* Groups.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Groups.png; sourceTree = "<group>"; };
+		810792E5115C239300A87CEA /* GroupsNoneTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GroupsNoneTemplate.png; sourceTree = "<group>"; };
+		8107933E115C2AEF00A87CEA /* ExpandedPathToPathTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandedPathToPathTransformer.m; sourceTree = "<group>"; };
+		8107933F115C2AEF00A87CEA /* ExpandedPathToPathTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandedPathToPathTransformer.h; sourceTree = "<group>"; };
+		81079340115C2AEF00A87CEA /* ExpandedPathToIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandedPathToIconTransformer.m; sourceTree = "<group>"; };
+		81079341115C2AEF00A87CEA /* ExpandedPathToIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandedPathToIconTransformer.h; sourceTree = "<group>"; };
 		810A08521152E7230011E46A /* KillTunnel.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = KillTunnel.sh; path = SSH/KillTunnel.sh; sourceTree = "<group>"; };
 		810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarRemoveTemplate.png; sourceTree = "<group>"; };
 		810AEF2F1113353200933772 /* ButtonToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonToolbarItem.h; sourceTree = "<group>"; };
@@ -392,6 +408,17 @@
 			path = Filterbar;
 			sourceTree = "<group>";
 		};
+		81079255115C1A7300A87CEA /* Groups */ = {
+			isa = PBXGroup;
+			children = (
+				81079256115C1A7300A87CEA /* GroupsController.h */,
+				81079257115C1A7300A87CEA /* GroupsController.m */,
+				81079258115C1A7300A87CEA /* GroupsPrefsController.h */,
+				81079259115C1A7300A87CEA /* GroupsPrefsController.m */,
+			);
+			path = Groups;
+			sourceTree = "<group>";
+		};
 		810AEF2E1113353200933772 /* Toolbar */ = {
 			isa = PBXGroup;
 			children = (
@@ -421,11 +448,16 @@
 		811B056910F6A055000D1DDC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				81079255115C1A7300A87CEA /* Groups */,
 				81FA9EF2113DA50B00FDF920 /* Overlay */,
 				810659071118DA4700674B45 /* Preferences */,
 				810AEF2E1113353200933772 /* Toolbar */,
 				81DF15C4110FADA100AFCE02 /* TableView */,
 				810758FC10FFDF30003FF9A6 /* Filterbar */,
+				8107933E115C2AEF00A87CEA /* ExpandedPathToPathTransformer.m */,
+				8107933F115C2AEF00A87CEA /* ExpandedPathToPathTransformer.h */,
+				81079340115C2AEF00A87CEA /* ExpandedPathToIconTransformer.m */,
+				81079341115C2AEF00A87CEA /* ExpandedPathToIconTransformer.h */,
 				810CD80B10FBCF0600963D10 /* TorrentDropView.h */,
 				810CD80C10FBCF0600963D10 /* TorrentDropView.m */,
 				81B73AFA1113B34000A11521 /* StatusbarController.h */,
@@ -463,6 +495,8 @@
 		811EA5D11111FAD1001D16D0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				810792E5115C239300A87CEA /* GroupsNoneTemplate.png */,
+				8107928F115C1E8900A87CEA /* Groups.png */,
 				81079200115C0CFA00A87CEA /* DownArrowGroupTemplate.png */,
 				81079201115C0CFA00A87CEA /* UpArrowGroupTemplate.png */,
 				817C3D361159851000DC97DA /* DiskSpace.png */,
@@ -648,6 +682,8 @@
 				817C3D371159851000DC97DA /* DiskSpace.png in Resources */,
 				81079202115C0CFA00A87CEA /* DownArrowGroupTemplate.png in Resources */,
 				81079203115C0CFA00A87CEA /* UpArrowGroupTemplate.png in Resources */,
+				81079290115C1E8900A87CEA /* Groups.png in Resources */,
+				810792E6115C239300A87CEA /* GroupsNoneTemplate.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -699,6 +735,10 @@
 				815B0E62114092F700C68070 /* DragOverlayView.m in Sources */,
 				81E76E761141CB89000C37D6 /* QuickLookController.m in Sources */,
 				81E774081142DBC4000C37D6 /* RTListCommand.m in Sources */,
+				8107925C115C1A7300A87CEA /* GroupsController.m in Sources */,
+				8107925D115C1A7300A87CEA /* GroupsPrefsController.m in Sources */,
+				81079342115C2AEF00A87CEA /* ExpandedPathToPathTransformer.m in Sources */,
+				81079343115C2AEF00A87CEA /* ExpandedPathToIconTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

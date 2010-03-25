@@ -60,6 +60,8 @@ typedef enum
 	NSString* error;
 	
 	BOOL isFolder;
+	
+	NSString *groupName;
 }
 @property (readwrite, retain) NSString* name;
 
@@ -90,6 +92,8 @@ typedef enum
 @property BOOL isFolder;
 
 @property (retain) NSString* error;
+
+@property (retain) NSString* groupName;
 
 - (void) update: (Torrent *) anotherItem;
 - (double) progress;

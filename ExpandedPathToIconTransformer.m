@@ -1,7 +1,7 @@
 /******************************************************************************
- * $Id: PrefsController.h 9844 2010-01-01 21:12:04Z livings124 $
- *
- * Copyright (c) 2005-2010 Transmission authors and contributors
+ * $Id: ExpandedPathToIconTransformer.m 9844 2010-01-01 21:12:04Z livings124 $
+ * 
+ * Copyright (c) 2007-2010 Transmission authors and contributors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -22,30 +22,36 @@
  * DEALINGS IN THE SOFTWARE.
  *****************************************************************************/
 
-#import <Cocoa/Cocoa.h>
+#import "ExpandedPathToIconTransformer.h"
 
-extern NSString* const NISpeedLimitDownload;
-extern NSString* const NISpeedLimitUpload;
-extern NSString* const NITrashDownloadDescriptorsKey;
-extern NSString* const NIStartTransferWhenAddedKey;
-extern NSString* const NIProcessListKey;
-extern NSString* const NIFilterKey;
-extern NSString* const NIDeleteTransferDataKey;
-extern NSString* const NIRefreshRateKey;
-extern NSString* const NIUpdateGlobalsRateKey;
+@implementation ExpandedPathToIconTransformer
 
-typedef enum 
-{ 
-	NIPReferencesViewDefault = 0,
-	NIPReferencesViewProcesses = 1
-} NIPReferencesView;
-
-@interface PreferencesController : NSWindowController<NSToolbarDelegate>
++ (Class) transformedValueClass
 {
-	IBOutlet NSView * _generalView, * _processesView, *_groupsView;
-	
-	NSUserDefaults* _defaults;
+    return [NSImage class];
 }
-+ (PreferencesController *)sharedPreferencesController;
--(void) openPreferences:(NIPReferencesView) view;
+
++ (BOOL) allowsReverseTransformation
+{
+    return NO;
+}
+
+- (id) transformedValue: (id) value
+{
+    if (!value)
+        return nil;
+    
+    NSString * path = [value stringByExpandingTildeInPath];
+    NSImage * icon;
+    //show a folder icon if the folder doesn't exist
+    if ([[path pathExtension] isEqualToString: @""] && ![[NSFileManager defaultManager] fileExistsAtPath: path])
+        icon = [[NSWorkspace sharedWorkspace] iconForFileType: NSFileTypeForHFSTypeCode('fldr')];
+    else
+        icon = [[NSWorkspace sharedWorkspace] iconForFile: path];
+    
+    [icon setSize: NSMakeSize(16.0, 16.0)];
+    
+    return icon;
+}
+
 @end

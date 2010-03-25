@@ -19,15 +19,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "TorrentTableView.h"
+@class Torrent, TorrentTableView;
 
-@class Torrent;
-
-@interface TorrentViewController : NSObject <NSTableViewDelegate, NSTableViewDataSource> {
+@interface TorrentViewController : NSObject <NSTableViewDelegate, NSTableViewDataSource, NSMenuDelegate> {
 @private
-    NSMutableArray *_tableContents;
-    IBOutlet NSOutlineView *_outlineView;
-	IBOutlet NSWindow* _window;
-	NSUserDefaults* _defaults;
+    NSMutableArray			*_tableContents;
+    IBOutlet TorrentTableView	*_outlineView;
+	IBOutlet NSWindow		*_window;
+	NSUserDefaults			*_defaults;
+	IBOutlet NSMenu			*_groupsMenu;
 }
+- (void) setGroup: (id) sender;
 @end

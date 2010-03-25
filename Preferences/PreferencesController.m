@@ -29,6 +29,7 @@
 
 #define TOOLBAR_GENERAL     @"TOOLBAR_GENERAL"
 #define TOOLBAR_PROCESSES   @"TOOLBAR_PROCESSES"
+#define TOOLBAR_GROUPS		@"TOOLBAR_GROUPS"
 
 NSString* const NISpeedLimitDownload			= @"SpeedLimitDownload";
 
@@ -102,6 +103,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PreferencesController);
         [item setAction: @selector(setPrefView:)];
         [item setAutovalidates: NO];
     }
+    else if ([ident isEqualToString: TOOLBAR_GROUPS])
+    {
+        [item setLabel: NSLocalizedString(@"Groups", "Preferences -> toolbar item title")];
+        [item setImage: [NSImage imageNamed: @"Groups.png"]];
+        [item setTarget: self];
+        [item setAction: @selector(setPrefView:)];
+        [item setAutovalidates: NO];
+    }
     else
     {
         [item release];
@@ -113,7 +122,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PreferencesController);
 
 - (NSArray *) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar
 {
-    return [NSArray arrayWithObjects: TOOLBAR_GENERAL, TOOLBAR_PROCESSES, nil];
+    return [NSArray arrayWithObjects: TOOLBAR_GENERAL, TOOLBAR_PROCESSES, TOOLBAR_GROUPS, nil];
 }
 
 - (NSArray *) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar
@@ -158,6 +167,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PreferencesController);
     NSView * view;
     if ([identifier isEqualToString: TOOLBAR_PROCESSES])
         view = _processesView;
+	else if ([identifier isEqualToString: TOOLBAR_GROUPS])
+        view = _groupsView;
     else
     {
         identifier = TOOLBAR_GENERAL; //general view is the default selected

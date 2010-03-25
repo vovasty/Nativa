@@ -1,7 +1,7 @@
 /******************************************************************************
- * $Id: PrefsController.h 9844 2010-01-01 21:12:04Z livings124 $
+ * $Id: GroupsPrefsController.h 9844 2010-01-01 21:12:04Z livings124 $
  *
- * Copyright (c) 2005-2010 Transmission authors and contributors
+ * Copyright (c) 2007-2010 Transmission authors and contributors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -24,28 +24,30 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString* const NISpeedLimitDownload;
-extern NSString* const NISpeedLimitUpload;
-extern NSString* const NITrashDownloadDescriptorsKey;
-extern NSString* const NIStartTransferWhenAddedKey;
-extern NSString* const NIProcessListKey;
-extern NSString* const NIFilterKey;
-extern NSString* const NIDeleteTransferDataKey;
-extern NSString* const NIRefreshRateKey;
-extern NSString* const NIUpdateGlobalsRateKey;
-
-typedef enum 
-{ 
-	NIPReferencesViewDefault = 0,
-	NIPReferencesViewProcesses = 1
-} NIPReferencesView;
-
-@interface PreferencesController : NSWindowController<NSToolbarDelegate>
+@interface GroupsPrefsController : NSObject
 {
-	IBOutlet NSView * _generalView, * _processesView, *_groupsView;
-	
-	NSUserDefaults* _defaults;
+    IBOutlet NSTableView * fTableView;
+    IBOutlet NSSegmentedControl * fAddRemoveControl;
+    
+    IBOutlet NSColorWell * fSelectedColorView;
+    IBOutlet NSTextField * fSelectedColorNameField;
+    IBOutlet NSButton * fCustomLocationEnableCheck;
+    IBOutlet NSPopUpButton * fCustomLocationPopUp;
+    
+    IBOutlet NSButton * fAutoAssignRulesEnableCheck;
+    IBOutlet NSButton * fAutoAssignRulesEditButton;
+    
+    IBOutlet NSWindow * fGroupRulesSheetWindow;
+    IBOutlet NSPredicateEditor * fRuleEditor;
 }
-+ (PreferencesController *)sharedPreferencesController;
--(void) openPreferences:(NIPReferencesView) view;
+
+- (void) addRemoveGroup: (id) sender;
+
+- (IBAction) toggleUseCustomDownloadLocation: (id) sender;
+- (IBAction) customDownloadLocationSheetShow: (id) sender;
+
+- (IBAction) toggleUseAutoAssignRules: (id) sender;
+- (IBAction) orderFrontRulesSheet: (id) sender;
+- (IBAction) cancelRules: (id) sender;
+- (IBAction) saveRules: (id) sender;
 @end
