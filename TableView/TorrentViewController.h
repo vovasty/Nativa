@@ -23,11 +23,11 @@
 
 @interface TorrentViewController : NSObject <NSTableViewDelegate, NSTableViewDataSource, NSMenuDelegate> {
 @private
-    NSMutableArray			*_tableContents;
+    NSMutableArray				*_tableContents;
     IBOutlet TorrentTableView	*_outlineView;
-	IBOutlet NSWindow		*_window;
-	NSUserDefaults			*_defaults;
-	IBOutlet NSMenu			*_groupsMenu;
+	IBOutlet NSWindow			*_window;
+	NSUserDefaults				*_defaults;
+	IBOutlet NSMenu				*_groupsMenu;
 }
 - (void) setGroup: (id) sender;
 @end

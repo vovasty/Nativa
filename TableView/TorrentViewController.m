@@ -54,16 +54,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 													 forKeyPath:@"stateFilter"
 													  options:0
 													  context:&FilterTorrents];
-	_tableContents = [[[NSMutableArray alloc] init] retain];
-	TorrentGroup* g0 = [[TorrentGroup alloc] initWithGroup:0];
-	g0.name = @"group 0";
-	g0.color = [NSColor blueColor];
-	[_tableContents addObject:g0];
-	TorrentGroup* g1 = [[TorrentGroup alloc] initWithGroup:1];
-	g1.name = @"group 1";
-	g1.color = [NSColor greenColor];
-	[_tableContents addObject:g1];
-	
+	_tableContents = [[[NSMutableArray alloc] init] retain];	
 }
 
 
@@ -88,16 +79,11 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 - (void) setGroup: (id) sender
 {
-//    for (Torrent * torrent in [fTableView selectedTorrents])
-//    {
-//        [fTableView removeCollapsedGroup: [torrent groupValue]]; //remove old collapsed group
-//        
-//        [torrent setGroupValue: [sender tag]];
-//    }
-//    
-//    [self applyFilter: nil];
-//    [self updateUI];
-//    [self updateTorrentHistory];
+	NSString *group = [[GroupsController groups] nameForIndex:[sender tag]];
+	for (Torrent * torrent in [_outlineView selectedTorrents])
+    {
+		[[DownloadsController sharedDownloadsController] setGroup:torrent group:group response:nil];
+    }
 }
 
 #pragma mark -
@@ -133,11 +119,14 @@ static NSString* FilterTorrents = @"FilterTorrents";
         NSString * ident = [tableColumn identifier];
         if ([ident isEqualToString: @"Group"])
         {
-            return [item name];
+            NSInteger group = [item groupIndex];
+            return group != -1 ? [[GroupsController groups] nameForIndex: group]
+				: NSLocalizedString(@"No Group", "Group table row");
         }
         else if ([ident isEqualToString: @"Color"])
         {
-            return [item icon];
+            NSInteger group = [item groupIndex];
+            return [[GroupsController groups] imageForIndex: group];
         }
         else if ([ident isEqualToString: @"DL Image"])
             return [NSImage imageNamed: @"DownArrowGroupTemplate.png"];
@@ -226,7 +215,6 @@ static NSString* FilterTorrents = @"FilterTorrents";
 {
 	NSPredicate* filter = [FilterbarController sharedFilterbarController].stateFilter;
 	NSMutableArray* arr = [NSMutableArray arrayWithArray:[[DownloadsController sharedDownloadsController] downloads]];
-	//[_tableContents release];
 	
 	if (filter != nil)
 		[arr filterUsingPredicate:filter];
@@ -235,25 +223,40 @@ static NSString* FilterTorrents = @"FilterTorrents";
 	[arr sortUsingDescriptors:[NSArray arrayWithObject:nameSorter]];
 	[nameSorter release];
 	
-	//_tableContents = [arr retain];
 	for(int i=0;i<[_tableContents count];i++)
 		[[[_tableContents objectAtIndex:i] torrents] removeAllObjects];
 	
 	for(int i=0;i<[arr count];i++)
 	{
-		NSMutableArray* ga;
-		
-		if ((i % 2) == 0)
-			ga = [[_tableContents objectAtIndex:0] torrents];
-		else 
-			ga = [[_tableContents objectAtIndex:1] torrents];
-		
-		Torrent* o = [arr objectAtIndex:i];
-		if (![ga containsObject:o])
-			[ga addObject:o];
-		
+		Torrent* torrent = [arr objectAtIndex:i];
+		TorrentGroup *group = nil;
+		NSInteger groupIndex = [[GroupsController groups] groupIndexForName:[torrent groupName]];
+		for(TorrentGroup* g in _tableContents)
+		{
+			if ([g groupIndex] == groupIndex)
+			{
+				group = g;
+				break;
+			}
+		}
+
+		if (group == nil)
+		{
+			group = [[TorrentGroup alloc] initWithGroup:groupIndex];
+			[_tableContents addObject:group];
+		}
+
+		[[group torrents] addObject:torrent];
 	}
 	
+	NSMutableArray *discardedItems = [NSMutableArray array];
+	
+	for (TorrentGroup *item in _tableContents) {
+		if ([[item torrents] count] == 0)
+			[discardedItems addObject:item];
+	}
+	
+	[_tableContents removeObjectsInArray:discardedItems];
 	
 	if ([_window isVisible]) 
 	{

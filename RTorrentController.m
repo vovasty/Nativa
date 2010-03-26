@@ -1,10 +1,21 @@
-//
-//  RTorrentController.m
-//  Nativa
-//
-//  Created by Vladimir Solomenchuk on 30.12.09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
-//
+/*
+ * Nativa - MacOS X UI for rtorrent
+ *
+ * Copyright Solomenchuk V. 2010.
+ * Solomenchuk Vladimir <vovasty@aramzamzam.net>
+ *
+ * Licensed under the GPL, Version 3.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.gnu.org/licenses/gpl-3.0.html
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #import "RTorrentController.h"
 #import "RTConnection.h"
@@ -22,6 +33,7 @@ static NSString * ConnectedContext = @"ConnectingContext";
 @end
 
 @implementation RTorrentController
+@dynamic groupField;
 
 - (id)initWithConnection:(RTConnection*) conn;
 {
@@ -54,12 +66,15 @@ static NSString * ConnectedContext = @"ConnectingContext";
 	[_connection removeObserver:self forKeyPath:@"connecting"];
 	[_connection removeObserver:self forKeyPath:@"connected"];
 	[_connection release];
+	[_getGroupCommand release];
+	[_setGroupCommand release];
 	[super dealloc];
 }
 
 - (void) list:(ArrayResponseBlock) response;
 {
 	RTListCommand* command = [[RTListCommand alloc] initWithArrayResponse:response];
+	[command setGroupCommand:_getGroupCommand];
 	[self _runOperation: command];
 	[command release];
 }
@@ -166,6 +181,18 @@ static NSString * ConnectedContext = @"ConnectingContext";
 	[r release];
 }
 
+- (void) setGroup:(Torrent *)torrent group:(NSString *) group response:(VoidResponseBlock) response
+{
+	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	[self _runCommand:_setGroupCommand
+			arguments:[NSArray arrayWithObjects:
+					   torrent.thash,
+					   group,
+					   nil]
+			 response:r];
+	[r release];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change
@@ -210,6 +237,22 @@ static NSString * ConnectedContext = @"ConnectingContext";
 -(void) closeConnection
 {
 	[_connection closeConnection];
+}
+
+-(NSUInteger) groupField;
+{
+	return _groupField;
+}
+
+-(void) setGroupField:(NSUInteger) value
+{
+	[_getGroupCommand release];
+	_getGroupCommand = [NSString stringWithFormat:@"d.get_custom%@",[NSString stringWithFormat:@"%d", _groupField+1]];
+	[_getGroupCommand retain];
+	[_setGroupCommand release];
+	_setGroupCommand = [NSString stringWithFormat:@"d.set_custom%@",[NSString stringWithFormat:@"%d", _groupField+1]];
+	[_setGroupCommand retain];
+	_groupField = value;
 }
 @end
 

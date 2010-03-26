@@ -30,8 +30,6 @@
 
 @implementation TorrentGroup
 
-@synthesize name, color;
-
 - (id) initWithGroup: (NSInteger) group
 {
     if ((self = [super init]))
@@ -45,7 +43,6 @@
 - (void) dealloc
 {
     [fTorrents release];
-	[name release];
     [super dealloc];
 }
 
@@ -98,34 +95,4 @@
     
     return rate;
 }
-
-- (NSImage *) icon
-{
-	if (icon == nil)
-    {
-		NSRect rect = NSMakeRect(0.0, 0.0, ICON_WIDTH, ICON_WIDTH);
-    
-		NSBezierPath * bp = [NSBezierPath bezierPathWithRoundedRect: rect xRadius: 3.0 yRadius: 3.0];
-		icon = [[NSImage alloc] initWithSize: rect.size];
-    
-		[icon lockFocus];
-    
-		//border
-		NSGradient * gradient = [[NSGradient alloc] initWithStartingColor: [color blendedColorWithFraction: 0.45 ofColor:
-																		[NSColor whiteColor]] endingColor: color];
-		[gradient drawInBezierPath: bp angle: 270.0];
-		[gradient release];
-    
-		//inside
-		bp = [NSBezierPath bezierPathWithRoundedRect: NSInsetRect(rect, 1.0, 1.0) xRadius: 3.0 yRadius: 3.0];
-		gradient = [[NSGradient alloc] initWithStartingColor: [color blendedColorWithFraction: 0.75 ofColor: [NSColor whiteColor]]
-											 endingColor: [color blendedColorWithFraction: 0.2 ofColor: [NSColor whiteColor]]];
-		[gradient drawInBezierPath: bp angle: 270.0];
-		[gradient release];
-    
-		[icon unlockFocus];
-    }
-    return icon;
-}
-
 @end

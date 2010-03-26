@@ -66,4 +66,6 @@
 - (NSMenu *) groupMenuWithTarget: (id) target action: (SEL) action isSmall: (BOOL) small;
 
 - (NSInteger) groupIndexForTorrent: (Torrent *) torrent;
+
+- (NSInteger) groupIndexForName: (NSString *) groupName;
 @end

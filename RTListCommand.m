@@ -20,6 +20,7 @@
 @implementation RTListCommand
 
 @synthesize response = _response;
+@synthesize groupCommand;
 
 - (id)initWithArrayResponse:(ArrayResponseBlock) resp;
 {
@@ -66,6 +67,8 @@
 			r.isFolder = [[row  objectAtIndex:14] isEqualToString:r.dataLocation];
 			NSString* errorMessage = [row  objectAtIndex:15];
 			r.error = [errorMessage isEqualToString:@""]?nil:errorMessage;
+			NSString *groupName = [row  objectAtIndex:16];
+			r.groupName = [groupName isEqualToString:@""]?nil:groupName;
 			[result addObject:r];
 		}
 		[result autorelease];
@@ -98,12 +101,14 @@
 			@"d.get_priority=",
 			@"d.get_directory=",
 			@"d.get_message=",
+			[groupCommand stringByAppendingString:@"="],
 			nil];
 }
 
 - (void)dealloc
 {
 	[_response release];
+	[self setGroupCommand:nil];
 	[super dealloc];
 }
 @end
