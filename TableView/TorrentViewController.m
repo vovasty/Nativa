@@ -84,6 +84,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
     {
 		[[DownloadsController sharedDownloadsController] setGroup:torrent group:group response:nil];
     }
+	[_outlineView deselectAll: nil];
 }
 
 #pragma mark -
