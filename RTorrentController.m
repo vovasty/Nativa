@@ -187,7 +187,7 @@ static NSString * ConnectedContext = @"ConnectingContext";
 	[self _runCommand:_setGroupCommand
 			arguments:[NSArray arrayWithObjects:
 					   torrent.thash,
-					   group,
+					   group==nil?@"":group,
 					   nil]
 			 response:r];
 	[r release];
