@@ -13,7 +13,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="81"/>
-			<integer value="576"/>
+			<integer value="769"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -605,7 +605,7 @@
 								<object class="NSTextField" id="981590429">
 									<reference key="NSNextResponder" ref="155784920"/>
 									<int key="NSvFlags">257</int>
-									<string key="NSFrame">{{325, 4}, {76, 14}}</string>
+									<string key="NSFrame">{{343, 4}, {76, 14}}</string>
 									<reference key="NSSuperview" ref="155784920"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSTextFieldCell" key="NSCell" id="609956739">
@@ -621,7 +621,7 @@
 								<object class="NSTextField" id="1065211094">
 									<reference key="NSNextResponder" ref="155784920"/>
 									<int key="NSvFlags">257</int>
-									<string key="NSFrame">{{412, 4}, {76, 14}}</string>
+									<string key="NSFrame">{{421, 4}, {76, 14}}</string>
 									<reference key="NSSuperview" ref="155784920"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSTextFieldCell" key="NSCell" id="359342820">
@@ -649,7 +649,7 @@
 											<string>NeXT TIFF v4.0 pasteboard type</string>
 										</object>
 									</object>
-									<string key="NSFrame">{{401, 5}, {8, 12}}</string>
+									<string key="NSFrame">{{410, 5}, {8, 12}}</string>
 									<reference key="NSSuperview" ref="155784920"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSImageCell" key="NSCell" id="382033365">
@@ -681,7 +681,7 @@
 											<string>NeXT TIFF v4.0 pasteboard type</string>
 										</object>
 									</object>
-									<string key="NSFrame">{{314, 5}, {8, 12}}</string>
+									<string key="NSFrame">{{332, 5}, {8, 12}}</string>
 									<reference key="NSSuperview" ref="155784920"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSImageCell" key="NSCell" id="510975469">
@@ -3631,6 +3631,10 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">TorrentViewController</string>
 					<string key="superclassName">NSObject</string>
+					<object class="NSMutableDictionary" key="actions">
+						<string key="NS.key.0">setGroup:</string>
+						<string key="NS.object.0">id</string>
+					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -3642,7 +3646,7 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSMenu</string>
-							<string>NSOutlineView</string>
+							<string>TorrentTableView</string>
 							<string>NSWindow</string>
 						</object>
 					</object>
