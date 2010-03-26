@@ -372,8 +372,12 @@ GroupsController * fGroupsInstance = nil;
 	if (groupName != nil)
     {
         for (NSInteger i = 0; i < [fGroups count]; i++)
-            if ([groupName isEqualToString:[[fGroups objectAtIndex: i] objectForKey: @"Name"]])
-                return i;
+		{
+            NSDictionary *group=[fGroups objectAtIndex: i];
+			
+			if ([groupName isEqualToString:[group objectForKey: @"Name"]])
+                return [[group objectForKey: @"Index"] integerValue];
+		}
     }
     return -1;
 }
