@@ -58,24 +58,19 @@
 
 - (CGFloat) ratio
 {
-    uint64_t uploaded = 0, downloaded = 0;
+    uint64_t uploaded = 0.0, downloaded = 0.0;
     for (Torrent * torrent in fTorrents)
     {
         uploaded += torrent.uploadRate;
         downloaded += torrent.downloadRate;
     }
-	double ratio;
+	CGFloat ratio;
 	if( downloaded )
-        ratio = uploaded / downloaded;
-    else if( uploaded )
-        ratio = 0;
+        ratio = (CGFloat)uploaded / (CGFloat)downloaded;
     else
         ratio = 0;
 	
     return ratio;
-	
-	
-    return 0;//tr_getRatio(uploaded, downloaded);
 }
 
 - (CGFloat) uploadRate
