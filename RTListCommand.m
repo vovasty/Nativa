@@ -20,7 +20,7 @@
 @implementation RTListCommand
 
 @synthesize response = _response;
-@synthesize groupCommand;
+@synthesize groupCommand = _groupCommand;
 
 - (id)initWithArrayResponse:(ArrayResponseBlock) resp;
 {
@@ -101,7 +101,7 @@
 			@"d.get_priority=",
 			@"d.get_directory=",
 			@"d.get_message=",
-			[groupCommand stringByAppendingString:@"="],
+			[_groupCommand stringByAppendingString:@"="],
 			nil];
 }
 

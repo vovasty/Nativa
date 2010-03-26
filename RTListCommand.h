@@ -12,7 +12,7 @@
 @interface RTListCommand : NSObject<RTorrentCommand>
 {
 	ArrayResponseBlock	_response;
-	NSString			*getGroupCommand;
+	NSString			*_groupCommand;
 }
 - (id)initWithArrayResponse:(ArrayResponseBlock) resp;
 @property (retain) ArrayResponseBlock	response;
