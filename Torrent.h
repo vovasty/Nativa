@@ -43,9 +43,9 @@ typedef enum
 	
 	CGFloat speedUpload;
 	
-	CGFloat downloadRate;
+	uint64_t downloadRate;
 	
-	CGFloat uploadRate;
+	uint64_t uploadRate;
 	
 	NSInteger totalPeersSeed;
 	
@@ -77,9 +77,9 @@ typedef enum
 
 @property (retain) NSString* dataLocation;
 
-@property CGFloat downloadRate;
+@property uint64_t downloadRate;
 
-@property CGFloat uploadRate;
+@property uint64_t uploadRate;
 
 @property NSInteger totalPeersSeed;
 

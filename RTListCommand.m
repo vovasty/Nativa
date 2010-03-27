@@ -55,7 +55,7 @@
 			NSNumber*  speedUpload = [row  objectAtIndex:7];
 			r.speedUpload = [speedUpload floatValue];
 			NSNumber*  uploadRate = [row  objectAtIndex:8];
-			r.uploadRate = [uploadRate floatValue];
+			r.uploadRate = [uploadRate integerValue];
 			r.dataLocation = [row objectAtIndex:9];
 			NSNumber *conn = [row  objectAtIndex:10];
 			NSNumber *notConn = [row  objectAtIndex:11];
