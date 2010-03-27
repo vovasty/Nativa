@@ -33,6 +33,8 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 - (void)updateList:(NSNotification*) notification;
 
+- (void)updateGroups:(NSNotification*) notification;
+
 @end
 
 
@@ -52,24 +54,16 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 	_allGroups = [[NSMutableDictionary alloc] init];
 	_orderedGroups = [[NSMutableArray alloc] init];
-	TorrentGroup* noGroup = [[TorrentGroup alloc ] initWithGroup:-1];
-	[_orderedGroups addObject:noGroup];
-	
-	for (NSInteger i=0;i<[[GroupsController groups] numberOfGroups];i++)
-	{
-		NSInteger index = [[GroupsController groups] indexForRow:i];
-		TorrentGroup* group = [[TorrentGroup alloc ] initWithGroup:index];
-		NSString *groupName = [[GroupsController groups] nameForIndex:index];
-		[_allGroups setObject:group forKey:groupName];
-		[_orderedGroups addObject:group];
-	}
-	
 	[_allGroups retain];
 	[_orderedGroups retain];
+	
+	[self updateGroups:nil];
 	
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(updateList:) name: NINotifyUpdateDownloads object: nil];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateGroups:) name:@"UpdateGroups" object:nil];
 	
 	_tableContents = [[[NSArray alloc] init] retain]; 
 	[[FilterbarController sharedFilterbarController] addObserver:self
@@ -233,6 +227,25 @@ static NSString* FilterTorrents = @"FilterTorrents";
 @end
 
 @implementation TorrentViewController(Private)
+
+- (void)updateGroups:(NSNotification*) notification
+{
+	[_orderedGroups removeAllObjects];
+	[_allGroups removeAllObjects];
+	
+	TorrentGroup* noGroup = [[TorrentGroup alloc ] initWithGroup:-1];
+	[_orderedGroups addObject:noGroup];
+
+	for (NSInteger i=0;i<[[GroupsController groups] numberOfGroups];i++)
+	{
+		NSInteger index = [[GroupsController groups] indexForRow:i];
+		TorrentGroup* group = [[TorrentGroup alloc ] initWithGroup:index];
+		NSString *groupName = [[GroupsController groups] nameForIndex:index];
+		[_allGroups setObject:group forKey:groupName];
+		[_orderedGroups addObject:group];
+	}
+	[self updateList:nil];
+}
 
 - (void)updateList:(NSNotification*) notification;
 {
