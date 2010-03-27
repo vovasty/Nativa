@@ -20,6 +20,7 @@
 	[_icon release];
 	[self setDataLocation:nil];
 	[self setError:nil];
+	[self setGroupName:nil];
 	[super dealloc];
 }
 
