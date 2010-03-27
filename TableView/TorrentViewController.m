@@ -280,6 +280,8 @@ static NSString* FilterTorrents = @"FilterTorrents";
 	@synchronized(self)
 	{
 		[_outlineView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+
+		//expand groups
 		for (TorrentGroup * group in _tableContents)
 		{
 			if ([_outlineView isGroupCollapsed: [group groupIndex]])
