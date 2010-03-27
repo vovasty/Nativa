@@ -42,12 +42,31 @@ static NSString* FilterTorrents = @"FilterTorrents";
 - (void)dealloc 
 {
     [_tableContents release];
+	[_allGroups release];
+	[_orderedGroups release];
     [super dealloc];
 }
 
 - (void)awakeFromNib {
 	_defaults = [NSUserDefaults standardUserDefaults];
 
+	_allGroups = [[NSMutableDictionary alloc] init];
+	_orderedGroups = [[NSMutableArray alloc] init];
+	TorrentGroup* noGroup = [[TorrentGroup alloc ] initWithGroup:-1];
+	[_orderedGroups addObject:noGroup];
+	
+	for (NSInteger i=0;i<[[GroupsController groups] numberOfGroups];i++)
+	{
+		NSInteger index = [[GroupsController groups] indexForRow:i];
+		TorrentGroup* group = [[TorrentGroup alloc ] initWithGroup:index];
+		NSString *groupName = [[GroupsController groups] nameForIndex:index];
+		[_allGroups setObject:group forKey:groupName];
+		[_orderedGroups addObject:group];
+	}
+	
+	[_allGroups retain];
+	[_orderedGroups retain];
+	
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(updateList:) name: NINotifyUpdateDownloads object: nil];
 	_tableContents = [[[NSArray alloc] init] retain]; 
 	[[FilterbarController sharedFilterbarController] addObserver:self
@@ -224,40 +243,29 @@ static NSString* FilterTorrents = @"FilterTorrents";
 	[arr sortUsingDescriptors:[NSArray arrayWithObject:nameSorter]];
 	[nameSorter release];
 	
+	//clean all groups
 	for(int i=0;i<[_tableContents count];i++)
 		[[[_tableContents objectAtIndex:i] torrents] removeAllObjects];
+
+	//clean view table
+	[_tableContents removeAllObjects];
 	
-	for(int i=0;i<[arr count];i++)
+	for(Torrent* torrent in arr)
 	{
-		Torrent* torrent = [arr objectAtIndex:i];
-		TorrentGroup *group = nil;
-		NSInteger groupIndex = [[GroupsController groups] groupIndexForName:[torrent groupName]];
-		for(TorrentGroup* g in _tableContents)
-		{
-			if ([g groupIndex] == groupIndex)
-			{
-				group = g;
-				break;
-			}
-		}
+		TorrentGroup *group = [_allGroups objectForKey:[torrent groupName]];
 
-		if (group == nil)
-		{
-			group = [[TorrentGroup alloc] initWithGroup:groupIndex];
-			[_tableContents addObject:group];
-		}
-
+		if (group == nil) //set default group if no group found
+			group = [_orderedGroups objectAtIndex:0];
+		
 		[[group torrents] addObject:torrent];
 	}
 	
-	NSMutableArray *discardedItems = [NSMutableArray array];
-	
-	for (TorrentGroup *item in _tableContents) {
-		if ([[item torrents] count] == 0)
-			[discardedItems addObject:item];
+	//add only non-empty groups
+	for (TorrentGroup *item in _orderedGroups) 
+	{
+		if ([[item torrents] count] != 0)
+			[_tableContents addObject:item];
 	}
-	
-	[_tableContents removeObjectsInArray:discardedItems];
 	
 	if ([_window isVisible]) 
 	{

@@ -28,6 +28,8 @@
 	IBOutlet NSWindow			*_window;
 	NSUserDefaults				*_defaults;
 	IBOutlet NSMenu				*_groupsMenu;
+	NSMutableDictionary			*_allGroups;
+	NSMutableArray				*_orderedGroups;
 }
 - (void) setGroup: (id) sender;
 @end
