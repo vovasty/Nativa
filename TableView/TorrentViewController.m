@@ -17,7 +17,6 @@
  * limitations under the License.
  */
 
-
 #import "TorrentViewController.h"
 #import "TorrentCell.h"
 #import "TorrentTableView.h"
@@ -44,6 +43,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
     [_tableContents release];
 	[_allGroups release];
 	[_orderedGroups release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 
@@ -68,6 +68,9 @@ static NSString* FilterTorrents = @"FilterTorrents";
 	[_orderedGroups retain];
 	
     [[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(updateList:) name: NINotifyUpdateDownloads object: nil];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
+	
 	_tableContents = [[[NSArray alloc] init] retain]; 
 	[[FilterbarController sharedFilterbarController] addObserver:self
 													 forKeyPath:@"stateFilter"
@@ -233,6 +236,11 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 - (void)updateList:(NSNotification*) notification;
 {
+	//skip updates if window is not visible
+	if (![_window isVisible]) 
+		return;
+
+	
 	NSPredicate* filter = [FilterbarController sharedFilterbarController].stateFilter;
 	NSMutableArray* arr = [NSMutableArray arrayWithArray:[[DownloadsController sharedDownloadsController] downloads]];
 	
@@ -247,9 +255,6 @@ static NSString* FilterTorrents = @"FilterTorrents";
 	for(int i=0;i<[_tableContents count];i++)
 		[[[_tableContents objectAtIndex:i] torrents] removeAllObjects];
 
-	//clean view table
-	[_tableContents removeAllObjects];
-	
 	for(Torrent* torrent in arr)
 	{
 		TorrentGroup *group = [_allGroups objectForKey:[torrent groupName]];
@@ -259,21 +264,36 @@ static NSString* FilterTorrents = @"FilterTorrents";
 		
 		[[group torrents] addObject:torrent];
 	}
+
+	//clean view table
+	[_tableContents removeAllObjects];
 	
 	//add only non-empty groups
-	for (TorrentGroup *item in _orderedGroups) 
+	for (TorrentGroup *group in _orderedGroups) 
 	{
-		if ([[item torrents] count] != 0)
-			[_tableContents addObject:item];
-	}
-	
-	if ([_window isVisible]) 
-	{
-		@synchronized(self)
+		if ([[group torrents] count] != 0)
 		{
-			[_outlineView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+			[_tableContents addObject:group];
 		}
 	}
+	
+	@synchronized(self)
+	{
+		[_outlineView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+		for (TorrentGroup * group in _tableContents)
+		{
+			if ([_outlineView isGroupCollapsed: [group groupIndex]])
+				[_outlineView collapseItem: group];
+			else
+				[_outlineView expandItem: group];
+		}
+		
+	}
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+	[_outlineView saveCollapsedGroups];
 }
 
 @end
