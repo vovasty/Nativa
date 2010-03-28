@@ -465,13 +465,13 @@
         id item = [self itemAtRow: i];
         if ([item isKindOfClass: [Torrent class]])
             [torrents addObject: item];
-//        else
-//        {
-//            NSArray * groupTorrents = [item torrents];
-//            [torrents addObjectsFromArray: groupTorrents];
-//            if ([self isItemExpanded: item])
-//                i +=[groupTorrents count];
-//        }
+        else
+        {
+            NSArray * groupTorrents = [item torrents];
+            [torrents addObjectsFromArray: groupTorrents];
+            if ([self isItemExpanded: item])
+                i +=[groupTorrents count];
+        }
     }
     
     return torrents;
