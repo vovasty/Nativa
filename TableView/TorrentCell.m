@@ -33,7 +33,6 @@
 #define BAR_HEIGHT 12.0
 
 #define IMAGE_SIZE_REG 32.0
-#define IMAGE_SIZE_MIN 16.0
 #define ERROR_IMAGE_SIZE 20.0
 
 #define NORMAL_BUTTON_WIDTH 14.0
@@ -51,11 +50,8 @@
 #define PADDING_BETWEEN_IMAGE_AND_BAR 7.0
 #define PADDING_BETWEEN_TITLE_AND_PRIORITY 4.0
 #define PADDING_ABOVE_TITLE 4.0
-#define PADDING_ABOVE_MIN_STATUS 4.0
-#define PADDING_BETWEEN_TITLE_AND_MIN_STATUS 2.0
 #define PADDING_BETWEEN_TITLE_AND_PROGRESS 1.0
 #define PADDING_BETWEEN_PROGRESS_AND_BAR 2.0
-#define PADDING_BETWEEN_TITLE_AND_BAR_MIN 3.0
 #define PADDING_BETWEEN_BAR_AND_STATUS 2.0
 
 #define PIECES_TOTAL_PERCENT 0.6
@@ -120,10 +116,8 @@
 
 - (NSRect) iconRectForBounds: (NSRect) bounds
 {
-    const CGFloat imageSize = [fDefaults boolForKey: @"SmallView"] ? IMAGE_SIZE_MIN : IMAGE_SIZE_REG;
-    
-    return NSMakeRect(NSMinX(bounds) + PADDING_HORIZONTAL, floor(NSMidY(bounds) - imageSize * 0.5),
-                        imageSize, imageSize);
+    return NSMakeRect(NSMinX(bounds) + PADDING_HORIZONTAL, floor(NSMidY(bounds) - IMAGE_SIZE_REG * 0.5),
+                        IMAGE_SIZE_REG, IMAGE_SIZE_REG);
 }
 
 - (NSUInteger) hitTestForEvent: (NSEvent *) event inRect: (NSRect) cellFrame ofView: (NSView *) controlView
@@ -442,10 +436,8 @@
     result.origin.x = NSMaxX(bounds) - 3.0 * (PADDING_HORIZONTAL + NORMAL_BUTTON_WIDTH);
     
     result.origin.y = NSMinY(bounds) + PADDING_ABOVE_TITLE + HEIGHT_TITLE - (NORMAL_BUTTON_WIDTH - BAR_HEIGHT) * 0.5;
-    if ([fDefaults boolForKey: @"SmallView"])
-        result.origin.y += PADDING_BETWEEN_TITLE_AND_BAR_MIN;
-    else
-        result.origin.y += PADDING_BETWEEN_TITLE_AND_PROGRESS + HEIGHT_STATUS + PADDING_BETWEEN_PROGRESS_AND_BAR;
+
+	result.origin.y += PADDING_BETWEEN_TITLE_AND_PROGRESS + HEIGHT_STATUS + PADDING_BETWEEN_PROGRESS_AND_BAR;
     
     return result;
 }
@@ -644,10 +636,8 @@
     result.origin.x = NSMaxX(bounds) - 2.0 * (PADDING_HORIZONTAL + NORMAL_BUTTON_WIDTH);
     
     result.origin.y = NSMinY(bounds) + PADDING_ABOVE_TITLE + HEIGHT_TITLE - (NORMAL_BUTTON_WIDTH - BAR_HEIGHT) * 0.5;
-    if ([fDefaults boolForKey: @"SmallView"])
-        result.origin.y += PADDING_BETWEEN_TITLE_AND_BAR_MIN;
-    else
-        result.origin.y += PADDING_BETWEEN_TITLE_AND_PROGRESS + HEIGHT_STATUS + PADDING_BETWEEN_PROGRESS_AND_BAR;
+    
+	result.origin.y += PADDING_BETWEEN_TITLE_AND_PROGRESS + HEIGHT_STATUS + PADDING_BETWEEN_PROGRESS_AND_BAR;
     
     return result;
 }
@@ -660,10 +650,8 @@
     result.origin.x = NSMaxX(bounds) - (PADDING_HORIZONTAL + NORMAL_BUTTON_WIDTH);
     
     result.origin.y = NSMinY(bounds) + PADDING_ABOVE_TITLE + HEIGHT_TITLE - (NORMAL_BUTTON_WIDTH - BAR_HEIGHT) * 0.5;
-    if ([fDefaults boolForKey: @"SmallView"])
-        result.origin.y += PADDING_BETWEEN_TITLE_AND_BAR_MIN;
-    else
-        result.origin.y += PADDING_BETWEEN_TITLE_AND_PROGRESS + HEIGHT_STATUS + PADDING_BETWEEN_PROGRESS_AND_BAR;
+
+	result.origin.y += PADDING_BETWEEN_TITLE_AND_PROGRESS + HEIGHT_STATUS + PADDING_BETWEEN_PROGRESS_AND_BAR;
     
     return result;
 }
