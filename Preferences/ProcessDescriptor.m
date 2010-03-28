@@ -61,6 +61,7 @@
 		self.sshPassword = [coder decodeObjectForKey:@"sshPassword"];
 		self.sshLocalPort = [coder decodeIntForKey:@"sshLocalPort"];
 		self.maxReconnects = [coder decodeIntForKey:@"maxReconnects"];
+		self.groupsField = [coder decodeIntForKey:@"groupsField"];
     }
 	
     return self;
@@ -82,6 +83,7 @@
 	[coder encodeObject:_sshPassword forKey:@"sshPassword"];
 	[coder encodeInt:_sshLocalPort forKey:@"sshLocalPort"];
 	[coder encodeInt:_maxReconnects forKey:@"maxReconnects"];
+	[coder encodeInt:_groupsField forKey:@"groupsField"];
 }
 
 -(void) dealloc

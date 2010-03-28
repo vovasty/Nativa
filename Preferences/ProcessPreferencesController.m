@@ -61,6 +61,11 @@
     {
 		[pd setSshLocalPort:[_sshLocalPort intValue]];
     }
+	else if ([notification object] == _groupCustomField)
+    {
+		[pd setGroupsField:[_groupCustomField intValue]];
+    }
+	
 	else;
 }
 
@@ -136,6 +141,8 @@
 	[_host setStringValue:[pd host]];
 
 	[_port setIntValue:[pd port]];
+	
+	[_groupCustomField setIntValue:[pd groupsField]];
 		
 	[_downloadsPathPopUp removeItemAtIndex:0];
 	if (pd.downloadsFolder == nil)
@@ -204,6 +211,7 @@
 		unsavedProcessDescriptor.sshUsername = @"";
 		unsavedProcessDescriptor.sshPassword = @"";
 		unsavedProcessDescriptor.sshLocalPort = 5000;
+		unsavedProcessDescriptor.groupsField = 1;
 	}
 	else;
 	

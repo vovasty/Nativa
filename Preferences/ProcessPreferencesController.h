@@ -32,6 +32,8 @@
 	
 	IBOutlet NSTextField * _sshLocalPort;
 	
+	IBOutlet NSTextField * _groupCustomField;
+	
 	BOOL useSSHTunnel;
 	
 	ProcessDescriptor* unsavedProcessDescriptor;
