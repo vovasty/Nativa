@@ -12,8 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="769"/>
 			<integer value="81"/>
+			<integer value="769"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -581,6 +581,12 @@
 						<reference key="NSMixedImage" ref="502551668"/>
 						<int key="NSTag">2</int>
 					</object>
+				</object>
+			</object>
+			<object class="NSMenu" id="13654245">
+				<string key="NSTitle">StatusMenu</string>
+				<object class="NSMutableArray" key="NSMenuItems">
+					<bool key="EncodedWithXMLCoder">YES</bool>
 				</object>
 			</object>
 			<object class="NSWindowTemplate" id="972006081">
@@ -2097,6 +2103,22 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 					</object>
 					<int key="connectionID">997</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">fGroupMenu</string>
+						<reference key="source" ref="995799562"/>
+						<reference key="destination" ref="13654245"/>
+					</object>
+					<int key="connectionID">1007</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="13654245"/>
+						<reference key="destination" ref="995799562"/>
+					</object>
+					<int key="connectionID">1009</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -2933,6 +2955,15 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 						<reference key="object" ref="822963012"/>
 						<reference key="parent" ref="892732657"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">999</int>
+						<reference key="object" ref="13654245"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+						</object>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">OutlineGroupMenu</string>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -3148,6 +3179,9 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 					<string>992.IBEditorWindowLastContentRect</string>
 					<string>992.IBPluginDependency</string>
 					<string>992.ImportedFromIB2</string>
+					<string>999.IBEditorWindowLastContentRect</string>
+					<string>999.IBPluginDependency</string>
+					<string>999.ImportedFromIB2</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3360,6 +3394,9 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 					<string>{{860, 429}, {64, 6}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
+					<string>{{411, 316}, {100, 23}}</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<integer value="1"/>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -3378,7 +3415,7 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">997</int>
+			<int key="maxID">1009</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3564,53 +3601,24 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 					<string key="className">TorrentTableView</string>
 					<string key="superclassName">NSOutlineView</string>
 					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>checkFile:</string>
-							<string>paste:</string>
-							<string>setGlobalLimit:</string>
-							<string>setPriority:</string>
-							<string>setQuickLimit:</string>
-							<string>setQuickLimitMode:</string>
-							<string>setQuickRatio:</string>
-							<string>setQuickRatioMode:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-						</object>
+						<string key="NS.key.0">setPriority:</string>
+						<string key="NS.object.0">id</string>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>fActionMenu</string>
-							<string>fContextNoRow</string>
 							<string>fContextRow</string>
 							<string>fController</string>
-							<string>fDownloadMenu</string>
-							<string>fGlobalLimitItem</string>
+							<string>fGroupMenu</string>
 							<string>fPriorityMenu</string>
-							<string>fRatioMenu</string>
-							<string>fUploadMenu</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
-							<string>NSMenu</string>
 							<string>Controller</string>
-							<string>NSMenu</string>
-							<string>NSMenuItem</string>
-							<string>NSMenu</string>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
 						</object>

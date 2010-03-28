@@ -29,6 +29,7 @@
 #import "TorrentGroup.h"
 #import "DownloadsController.h"
 #import "QuickLookController.h"
+#import "GroupsController.h"
 
 #define MAX_GROUP 999999
 
@@ -384,6 +385,16 @@
         fActionPushedRow = -1;
         [self setNeedsDisplayInRect: [self rectOfRow: row]];
     }
+	else if (row != -1 && fMouseGroupRow == row)
+    {
+        fGroupPushedRow = row;
+        [self setNeedsDisplayInRect: [self rectOfRow: row]]; //ensure button is pushed down
+        
+        [self displayGroupMenuForEvent: event];
+        
+        fGroupPushedRow = -1;
+        [self setNeedsDisplayInRect: [self rectOfRow: row]];
+    }
     else if (!pushed && [event clickCount] == 2) //double click
     {
 //        id item = nil;
@@ -505,6 +516,30 @@
 
 - (BOOL) validateMenuItem: (NSMenuItem *) menuItem
 {
+    SEL action = [menuItem action];
+	
+	if (action == @selector(setGroup:))
+    {
+        BOOL checked = NO;
+        
+        NSInteger index = [menuItem tag];
+		
+		NSString *groupName = [[GroupsController groups] nameForIndex:index];
+		
+		if ([fMenuTorrent groupName] == nil)
+		{
+			if (index == -1) //empty group menu item?
+				checked = YES;
+		}
+		else if ([groupName isEqualToString:[fMenuTorrent groupName]])
+		{
+			checked = YES;
+		}
+		else;
+		
+        [menuItem setState: checked ? NSOnState : NSOffState];
+        return YES;
+    }
     return YES;
 }
 
@@ -537,6 +572,28 @@
     fMenuTorrent = nil;
 }
 
+- (void) displayGroupMenuForEvent: (NSEvent *) event
+{
+	const NSInteger row = [self rowAtPoint: [self convertPoint: [event locationInWindow] fromView: nil]];
+    if (row < 0)
+        return;
+    
+    //update file action menu
+    fMenuTorrent = [[self itemAtRow: row] retain];
+    
+    //place menu below button
+    NSRect rect = [fTorrentCell groupButtonRectForBounds: [self rectOfRow: row]];
+    NSPoint location = rect.origin;
+    location.y += rect.size.height;
+    
+	location = [self convertPoint: location toView: self];
+    [fGroupMenu popUpMenuPositioningItem: nil atLocation: location inView: self];
+    
+    [fMenuTorrent release];
+    fMenuTorrent = nil;
+}
+
+
 #pragma mark NSMenuDelegate portion
 
 - (void) menuNeedsUpdate: (NSMenu *) menu
@@ -558,6 +615,24 @@
         item = [menu itemWithTag: ACTION_MENU_PRIORITY_LOW_TAG];
         [item setState: priority == NITorrentPriorityLow ? NSOnState : NSOffState];
     }
+	
+	if (menu == fGroupMenu)
+    {
+        [menu removeAllItems];
+		
+        NSMenu * groupMenu;
+		groupMenu = [[GroupsController groups] groupMenuWithTarget: self action: @selector(setGroup:) isSmall: NO];
+        
+        const NSInteger groupMenuCount = [groupMenu numberOfItems];
+        for (NSInteger i = 0; i < groupMenuCount; i++)
+        {
+            NSMenuItem * item = [[groupMenu itemAtIndex: 0] retain];
+            [groupMenu removeItemAtIndex: 0];
+            [menu addItem: item];
+            [item release];
+        }
+    }
+	
 }
 
 - (void) setPriority: (id) sender
@@ -681,6 +756,11 @@
     return fPiecesBarPercent;
 }
 
+- (void) setGroup:(id)sender
+{
+	NSString *group = [[GroupsController groups] nameForIndex:[sender tag]];
+	[[DownloadsController sharedDownloadsController] setGroup:fMenuTorrent group:group response:nil];
+}
 @end
 
 @implementation TorrentTableView (Private)

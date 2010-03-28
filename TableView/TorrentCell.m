@@ -73,7 +73,6 @@
 - (NSRect) rectForStatusWithStringInBounds: (NSRect) bounds;
 - (NSRect) barRectForBounds: (NSRect) bounds;
 
-- (NSRect) groupButtonRectForBounds: (NSRect) bounds;
 - (NSRect) controlButtonRectForBounds: (NSRect) bounds;
 - (NSRect) revealButtonRectForBounds: (NSRect) bounds;
 - (NSRect) actionButtonRectForBounds: (NSRect) bounds;
@@ -329,36 +328,8 @@
     
     //group coloring
     const NSRect iconRect = [self iconRectForBounds: cellFrame];
-    
-//    const NSInteger groupValue = [torrent groupValue];
-//    if (groupValue != -1)
-//    {
-//        NSRect groupRect = NSInsetRect(iconRect, -1.0, -2.0);
-//        if (!minimal)
-//        {
-//            groupRect.size.height -= 1.0;
-//            groupRect.origin.y -= 1.0;
-//        }
-//        const CGFloat radius = minimal ? 3.0 : 6.0;
-//        
-//        NSColor * groupColor = [[GroupsController groups] colorForIndex: groupValue],
-//                * darkGroupColor = [groupColor blendedColorWithFraction: 0.2 ofColor: [NSColor whiteColor]];
-//        
-//        //border
-//        NSBezierPath * bp = [NSBezierPath bezierPathWithRoundedRect: groupRect xRadius: radius yRadius: radius];
-//        [darkGroupColor set];
-//        [bp setLineWidth: 2.0];
-//        [bp stroke];
-//        
-//        //inside
-//        bp = [NSBezierPath bezierPathWithRoundedRect: groupRect xRadius: radius yRadius: radius];
-//        NSGradient * gradient = [[NSGradient alloc] initWithStartingColor: [groupColor blendedColorWithFraction: 0.7
-//                                    ofColor: [NSColor whiteColor]] endingColor: darkGroupColor];
-//        [gradient drawInBezierPath: bp angle: 90.0];
-//        [gradient release];
-//    }
-    
-    const BOOL error = ([torrent error] != nil);
+	
+	const BOOL error = ([torrent error] != nil);
     
     //icon
     [self drawImage: [torrent icon] inRect: iconRect];
@@ -463,6 +434,21 @@
     [statusString drawInRect: [self rectForStatusWithStringInBounds: cellFrame]];
 }
 
+- (NSRect) groupButtonRectForBounds: (NSRect) bounds
+{
+    NSRect result;
+    result.size.height = NORMAL_BUTTON_WIDTH;
+    result.size.width = NORMAL_BUTTON_WIDTH;
+    result.origin.x = NSMaxX(bounds) - 3.0 * (PADDING_HORIZONTAL + NORMAL_BUTTON_WIDTH);
+    
+    result.origin.y = NSMinY(bounds) + PADDING_ABOVE_TITLE + HEIGHT_TITLE - (NORMAL_BUTTON_WIDTH - BAR_HEIGHT) * 0.5;
+    if ([fDefaults boolForKey: @"SmallView"])
+        result.origin.y += PADDING_BETWEEN_TITLE_AND_BAR_MIN;
+    else
+        result.origin.y += PADDING_BETWEEN_TITLE_AND_PROGRESS + HEIGHT_STATUS + PADDING_BETWEEN_PROGRESS_AND_BAR;
+    
+    return result;
+}
 @end
 
 @implementation TorrentCell (Private)
@@ -649,23 +635,6 @@
     
     return result;
 }
-
-- (NSRect) groupButtonRectForBounds: (NSRect) bounds
-{
-    NSRect result;
-    result.size.height = NORMAL_BUTTON_WIDTH;
-    result.size.width = NORMAL_BUTTON_WIDTH;
-    result.origin.x = NSMaxX(bounds) - 3.0 * (PADDING_HORIZONTAL + NORMAL_BUTTON_WIDTH);
-    
-    result.origin.y = NSMinY(bounds) + PADDING_ABOVE_TITLE + HEIGHT_TITLE - (NORMAL_BUTTON_WIDTH - BAR_HEIGHT) * 0.5;
-    if ([fDefaults boolForKey: @"SmallView"])
-        result.origin.y += PADDING_BETWEEN_TITLE_AND_BAR_MIN;
-    else
-        result.origin.y += PADDING_BETWEEN_TITLE_AND_PROGRESS + HEIGHT_STATUS + PADDING_BETWEEN_PROGRESS_AND_BAR;
-    
-    return result;
-}
-
 
 - (NSRect) controlButtonRectForBounds: (NSRect) bounds
 {

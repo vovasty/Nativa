@@ -35,7 +35,7 @@
 }
 
 - (NSRect) iconRectForBounds: (NSRect) bounds;
-
+- (NSRect) groupButtonRectForBounds: (NSRect) bounds;
 - (void) addTrackingAreasForView: (NSView *) controlView inRect: (NSRect) cellFrame withUserInfo: (NSDictionary *) userInfo
             mouseLocation: (NSPoint) mouseLocation;
 - (void) setControlHover: (BOOL) hover;
