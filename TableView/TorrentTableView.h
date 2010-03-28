@@ -40,13 +40,12 @@
     
     NSMutableIndexSet * fCollapsedGroups;
     
-    IBOutlet NSMenu * fContextRow, * fContextNoRow;
+    IBOutlet NSMenu * fContextRow;
     
     NSInteger fMouseControlRow, fMouseRevealRow, fMouseActionRow, fActionPushedRow;
     NSArray * fSelectedValues;
     
-    IBOutlet NSMenu * fActionMenu, * fUploadMenu, * fDownloadMenu, * fRatioMenu, * fPriorityMenu;
-    IBOutlet NSMenuItem * fGlobalLimitItem;
+    IBOutlet NSMenu * fActionMenu, * fPriorityMenu;
     Torrent * fMenuTorrent;
     
     CGFloat fPiecesBarPercent;
@@ -69,24 +68,12 @@
 
 - (NSRect) iconRectForRow: (NSInteger) row;
 
-- (void) paste: (id) sender;
-
 - (void) toggleControlForTorrent: (Torrent *) torrent;
 
 - (void) displayTorrentMenuForEvent: (NSEvent *) event;
 
-- (void) setQuickLimitMode: (id) sender;
-- (void) setQuickLimit: (id) sender;
-- (void) setGlobalLimit: (id) sender;
-
-- (void) setQuickRatioMode: (id) sender;
-- (void) setQuickRatio: (id) sender;
-
 - (void) setPriority: (id) sender;
 
-- (void) checkFile: (id) sender;
-
-- (void) togglePiecesBar;
 - (CGFloat) piecesBarPercent;
 
 @end

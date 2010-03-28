@@ -461,11 +461,7 @@
             [self selectRowIndexes: [NSIndexSet indexSetWithIndex: row] byExtendingSelection: NO];
         return fContextRow;
     }
-    else
-    {
-        [self deselectAll: self];
-        return fContextNoRow;
-    }
+    return nil;
 }
 
 //make sure that the pause buttons become orange when holding down the option key
@@ -480,9 +476,7 @@
 {
     const unichar firstChar = [[event charactersIgnoringModifiers] characterAtIndex: 0];
     
-    if (firstChar == 'f' && [event modifierFlags] & NSAlternateKeyMask && [event modifierFlags] & NSCommandKeyMask)
-        [fController focusFilterField];
-    else if (firstChar == ' ')
+    if (firstChar == ' ')
 	{
 		[QuickLookController show];
 	}
@@ -495,21 +489,8 @@
     return [fTorrentCell iconRectForBounds: [self rectOfRow: row]];
 }
 
-#warning catch string urls?
-- (void) paste: (id) sender
-{
-    NSURL * url;
-    if ((url = [NSURL URLFromPasteboard: [NSPasteboard generalPasteboard]]))
-        [fController openURL: [url absoluteString]];
-}
-
 - (BOOL) validateMenuItem: (NSMenuItem *) menuItem
 {
-    SEL action = [menuItem action];
-    
-    if (action == @selector(paste:))
-        return [[[NSPasteboard generalPasteboard] types] containsObject: NSURLPboardType];
-    
     return YES;
 }
 
@@ -658,29 +639,6 @@
     [super highlightSelectionInClipRect: clipRect];
 }
 
-- (void) setQuickLimitMode: (id) sender
-{
-    const BOOL limit = [sender tag] == ACTION_MENU_LIMIT_TAG;
-    [fMenuTorrent setUseSpeedLimit: limit upload: [sender menu] == fUploadMenu];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"UpdateOptions" object: nil];
-}
-
-- (void) setQuickLimit: (id) sender
-{
-    const BOOL upload = [sender menu] == fUploadMenu;
-    [fMenuTorrent setUseSpeedLimit: YES upload: upload];
-    [fMenuTorrent setSpeedLimit: [[sender representedObject] intValue] upload: upload];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"UpdateOptions" object: nil];
-}
-
-- (void) setGlobalLimit: (id) sender
-{
-    [fMenuTorrent setUseGlobalSpeedLimit: [sender state] != NSOnState];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName: @"UpdateOptions" object: nil];
-}
 
 - (void) animationDidEnd: (NSAnimation *) animation
 {
