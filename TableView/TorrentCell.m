@@ -678,13 +678,14 @@
 
 - (NSString *) buttonString
 {
-    if (fMouseDownRevealButton || (!fTracking && fHoverReveal))
+    Torrent * torrent = [self representedObject];
+	
+	if (fMouseDownRevealButton || (!fTracking && fHoverReveal))
         return NSLocalizedString(@"Show the data file in Finder", "Torrent cell -> button info");
     else if (fMouseDownGroupButton || (!fTracking && fHoverGroup))
-        return NSLocalizedString(@"Set group", "Torrent cell -> button info");
+        return [NSString stringWithFormat:@"\"%@\"", torrent.groupName];
     else if (fMouseDownControlButton || (!fTracking && fHoverControl))
     {
-        Torrent * torrent = [self representedObject];
         if (torrent.state != NITorrentStateStopped)
             return NSLocalizedString(@"Pause the transfer", "Torrent Table -> tooltip");
         else
