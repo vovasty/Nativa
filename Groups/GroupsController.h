@@ -68,4 +68,6 @@
 - (NSInteger) groupIndexForTorrent: (Torrent *) torrent;
 
 - (NSInteger) groupIndexForName: (NSString *) groupName;
+
+- (NSImage *) hoverImageForIndex: (NSInteger) index;
 @end

@@ -33,6 +33,8 @@
 
 - (NSImage *) imageForGroup: (NSMutableDictionary *) dict;
 
+- (NSImage *) hoverImageForGroup: (NSMutableDictionary *) dict;
+
 - (BOOL) torrent: (Torrent *) torrent doesMatchRulesForGroupAtIndex: (NSInteger) index;
 
 @end
@@ -154,6 +156,14 @@ GroupsController * fGroupsInstance = nil;
     return orderIndex != -1 ? [self imageForGroup: [fGroups objectAtIndex: orderIndex]]
                             : [NSImage imageNamed: @"GroupsNoneTemplate.png"];
 }
+
+- (NSImage *) hoverImageForIndex: (NSInteger) index
+{
+    NSInteger orderIndex = [self rowValueForIndex: index];
+    return orderIndex != -1 ? [self hoverImageForGroup: [fGroups objectAtIndex: orderIndex]]
+	: [NSImage imageNamed: @"GroupsNoneHoverTemplate.png"];
+}
+
 
 - (NSColor *) colorForIndex: (NSInteger) index
 {
@@ -434,6 +444,52 @@ GroupsController * fGroupsInstance = nil;
     [icon release];
     
     return icon;
+}
+
+- (NSImage *) hoverImageForGroup: (NSMutableDictionary *) dict
+{
+    NSImage * image;
+    if ((image = [dict objectForKey: @"HoverIcon"]))
+        return image;
+    
+    NSRect rect = NSMakeRect(0.0, 0.0, ICON_WIDTH, ICON_WIDTH);
+    
+    NSBezierPath * bp = [NSBezierPath bezierPathWithRoundedRect: rect xRadius: 3.0 yRadius: 3.0];
+    NSImage * icon = [[NSImage alloc] initWithSize: rect.size];
+    
+    NSColor * color = [dict objectForKey: @"Color"];
+    
+    [icon lockFocus];
+    
+    //border
+	NSColor *borderColor = [NSColor colorWithCalibratedRed:0.674 green:0.674 blue:0.673 alpha:1.000];
+    NSGradient * gradient = [[NSGradient alloc] initWithStartingColor: borderColor endingColor: borderColor];
+    [gradient drawInBezierPath: bp angle: 270.0];
+    [gradient release];
+
+	//between border and inside
+	NSColor *betweenColor = [NSColor colorWithCalibratedRed:0.797 green:0.798 blue:0.797 alpha:1.000];
+	
+    bp = [NSBezierPath bezierPathWithRoundedRect: NSInsetRect(rect, 1.0, 1.0) xRadius: 3.0 yRadius: 3.0];
+    gradient = [[NSGradient alloc] initWithStartingColor: betweenColor endingColor: betweenColor];
+    [gradient drawInBezierPath: bp angle: 270.0];
+    [gradient release];
+	
+    
+    //inside
+    bp = [NSBezierPath bezierPathWithRoundedRect: NSInsetRect(rect, 3.0, 3.0) xRadius: 3.0 yRadius: 3.0];
+    gradient = [[NSGradient alloc] initWithStartingColor: [color blendedColorWithFraction: 0.75 ofColor: [NSColor whiteColor]]
+											 endingColor: [color blendedColorWithFraction: 0.2 ofColor: [NSColor whiteColor]]];
+    [gradient drawInBezierPath: bp angle: 270.0];
+    [gradient release];
+    
+    [icon unlockFocus];
+    
+    [dict setObject: icon forKey: @"HoverIcon"];
+    [icon release];
+    
+    return icon;
+	
 }
 
 - (BOOL) torrent: (Torrent *) torrent doesMatchRulesForGroupAtIndex: (NSInteger) index

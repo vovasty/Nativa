@@ -384,8 +384,15 @@
     else
         controlImageSuffix = @"Off.png";
 
+	//group button
 	NSInteger groupIndex = [[GroupsController groups] groupIndexForName:[torrent groupName]]; 
-	NSImage *groupImage = [[GroupsController groups] imageForIndex:groupIndex];
+	NSImage *groupImage;
+	
+    if (!fTracking && fHoverGroup)
+        groupImage = [[GroupsController groups] hoverImageForIndex:groupIndex];
+    else
+        groupImage = [[GroupsController groups] imageForIndex:groupIndex];
+	
 	[self drawImage: groupImage inRect: [self groupButtonRectForBounds: cellFrame]];
 	
     NSImage * controlImage;
@@ -396,7 +403,7 @@
     
     [self drawImage: controlImage inRect: [self controlButtonRectForBounds: cellFrame]];
     
-//    //reveal button
+    //reveal button
     NSString * revealImageString;
     if (fMouseDownRevealButton)
         revealImageString = @"RevealOn.png";
