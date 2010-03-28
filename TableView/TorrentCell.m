@@ -68,8 +68,7 @@
 - (void) drawRegularBar: (NSRect) barRect;
 - (void) drawPiecesBar: (NSRect) barRect;
 
-- (NSRect) rectForMinimalStatusWithString: (NSAttributedString *) string inBounds: (NSRect) bounds;
-- (NSRect) rectForTitleWithString: (NSAttributedString *) string basedOnMinimalStatusRect: (NSRect) statusRect inBounds: (NSRect) bounds;
+- (NSRect) rectForTitleWithString: (NSAttributedString *) string inBounds: (NSRect) bounds;
 - (NSRect) rectForProgressWithStringInBounds: (NSRect) bounds;
 - (NSRect) rectForStatusWithStringInBounds: (NSRect) bounds;
 - (NSRect) barRectForBounds: (NSRect) bounds;
@@ -83,7 +82,6 @@
 
 - (NSString *) buttonString;
 - (NSString *) statusString;
-- (NSString *) minimalStatusString;
 - (NSString *) torrentStatusString;
 
 - (void) drawImage: (NSImage *) image inRect: (NSRect) rect; //use until 10.5 dropped
@@ -292,8 +290,6 @@
 {
     Torrent * torrent = [self representedObject];
     
-    const BOOL minimal = NO;//[fDefaults boolForKey: @"SmallView"];
-    
     //group coloring
     const NSRect iconRect = [self iconRectForBounds: cellFrame];
     
@@ -328,14 +324,10 @@
     const BOOL error = ([torrent error] != nil);
     
     //icon
-    if (!minimal || !(!fTracking && fHoverAction)) //don't show in minimal mode when hovered over
-    {
-        NSImage * icon = (minimal && error) ? [NSImage imageNamed: NSImageNameCaution]
-                                            : [torrent icon];
-        [self drawImage: icon inRect: iconRect];
-    }
+    [self drawImage: [torrent icon] inRect: iconRect];
+	
     //error badge
-    if (error && !minimal)
+    if (error)
     {
         NSRect errorRect = NSMakeRect(NSMaxX(iconRect) - ERROR_IMAGE_SIZE, NSMaxY(iconRect) - ERROR_IMAGE_SIZE,
                                         ERROR_IMAGE_SIZE, ERROR_IMAGE_SIZE);
@@ -355,19 +347,9 @@
     [fTitleAttributes setObject: titleColor forKey: NSForegroundColorAttributeName];
     [fStatusAttributes setObject: statusColor forKey: NSForegroundColorAttributeName];
     
-    //minimal status
-    NSRect minimalStatusRect;
-    if (minimal)
-    {
-        NSAttributedString * minimalString = [self attributedStatusString: [self minimalStatusString]];
-        minimalStatusRect = [self rectForMinimalStatusWithString: minimalString inBounds: cellFrame];
-        
-        [minimalString drawInRect: minimalStatusRect];
-    }
-    
     //title
     NSAttributedString * titleString = [self attributedTitle];
-    NSRect titleRect = [self rectForTitleWithString: titleString basedOnMinimalStatusRect: minimalStatusRect inBounds: cellFrame];
+    NSRect titleRect = [self rectForTitleWithString: titleString inBounds: cellFrame];
     [titleString drawInRect: titleRect];
     
     //priority icon
@@ -383,13 +365,10 @@
     }
     
     //progress
-    if (!minimal)
-    {
-		NSAttributedString * progressString = [self attributedStatusString: [self torrentProgressString]];
-        NSRect progressRect = [self rectForProgressWithStringInBounds: cellFrame];
+	NSAttributedString * progressString = [self attributedStatusString: [self torrentProgressString]];
+    NSRect progressRect = [self rectForProgressWithStringInBounds: cellFrame];
         
-        [progressString drawInRect: progressRect];
-    }
+    [progressString drawInRect: progressRect];
     
     //bar
     [self drawBar: [self barRectForBounds: cellFrame]];
@@ -440,11 +419,8 @@
     }
     
     //status
-    if (!minimal)
-    {
-		NSAttributedString * statusString = [self attributedStatusString: [self statusString]];
-        [statusString drawInRect: [self rectForStatusWithStringInBounds: cellFrame]];
-    }
+	NSAttributedString * statusString = [self attributedStatusString: [self statusString]];
+    [statusString drawInRect: [self rectForStatusWithStringInBounds: cellFrame]];
 }
 
 @end
@@ -575,30 +551,16 @@
 //    [bitmap release];
 }
 
-- (NSRect) rectForMinimalStatusWithString: (NSAttributedString *) string inBounds: (NSRect) bounds
+- (NSRect) rectForTitleWithString: (NSAttributedString *) string inBounds: (NSRect) bounds
 {
-    NSRect result;
-    result.size = [string size];
-    
-    result.origin.x = NSMaxX(bounds) - (NSWidth(result) + PADDING_HORIZONTAL);
-    result.origin.y = NSMinY(bounds) + PADDING_ABOVE_MIN_STATUS;
-    
-    return result;
-}
-
-- (NSRect) rectForTitleWithString: (NSAttributedString *) string basedOnMinimalStatusRect: (NSRect) statusRect inBounds: (NSRect) bounds
-{
-    const BOOL minimal = [fDefaults boolForKey: @"SmallView"];
-    
     NSRect result;
     result.origin.y = NSMinY(bounds) + PADDING_ABOVE_TITLE;
     result.origin.x = NSMinX(bounds) + PADDING_HORIZONTAL
-                        + (minimal ? IMAGE_SIZE_MIN : IMAGE_SIZE_REG) + PADDING_BETWEEN_IMAGE_AND_TITLE;
+                        + IMAGE_SIZE_REG + PADDING_BETWEEN_IMAGE_AND_TITLE;
     
     result.size.height = HEIGHT_TITLE;
     result.size.width = NSMaxX(bounds) - NSMinX(result) - PADDING_HORIZONTAL;
-    if (minimal)
-        result.size.width -= PADDING_BETWEEN_TITLE_AND_MIN_STATUS + NSWidth(statusRect);
+
     if ([[self representedObject] priority] != NITorrentPriorityNormal)
     {
         result.size.width -= PRIORITY_ICON_WIDTH + PADDING_BETWEEN_TITLE_AND_PRIORITY;
@@ -635,17 +597,13 @@
 
 - (NSRect) barRectForBounds: (NSRect) bounds
 {
-    const BOOL minimal = [fDefaults boolForKey: @"SmallView"];
-    
     NSRect result;
     result.size.height = BAR_HEIGHT;
-    result.origin.x = NSMinX(bounds) + (minimal ? IMAGE_SIZE_MIN : IMAGE_SIZE_REG) + PADDING_BETWEEN_IMAGE_AND_BAR;
+    result.origin.x = NSMinX(bounds) + IMAGE_SIZE_REG + PADDING_BETWEEN_IMAGE_AND_BAR;
     
     result.origin.y = NSMinY(bounds) + PADDING_ABOVE_TITLE + HEIGHT_TITLE;
-    if (minimal)
-        result.origin.y += PADDING_BETWEEN_TITLE_AND_BAR_MIN;
-    else
-        result.origin.y += PADDING_BETWEEN_TITLE_AND_PROGRESS + HEIGHT_STATUS + PADDING_BETWEEN_PROGRESS_AND_BAR;
+
+	result.origin.y += PADDING_BETWEEN_TITLE_AND_PROGRESS + HEIGHT_STATUS + PADDING_BETWEEN_PROGRESS_AND_BAR;
     
     result.size.width = floor(NSMaxX(bounds) - result.origin.x - PADDING_HORIZONTAL - 2.0 * (PADDING_HORIZONTAL + NORMAL_BUTTON_WIDTH));
     
@@ -734,18 +692,6 @@
         return buttonString;
     else
 		return [self torrentStatusString];
-}
-
-- (NSString *) minimalStatusString
-{
-    NSString * buttonString;
-    if ((buttonString = [self buttonString]))
-        return buttonString;
-    else
-    {
-        Torrent * torrent = [self representedObject];
-        return [fDefaults boolForKey: @"DisplaySmallStatusRegular"] ? [torrent shortStatusString] : [torrent remainingTimeString];
-    }
 }
 
 - (void) drawImage: (NSImage *) image inRect: (NSRect) rect
