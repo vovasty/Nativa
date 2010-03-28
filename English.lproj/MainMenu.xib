@@ -12,8 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="81"/>
 			<integer value="769"/>
+			<integer value="81"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2088,14 +2088,6 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 						<reference key="destination" ref="145770882"/>
 					</object>
 					<int key="connectionID">995</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_fGroupsMenu</string>
-						<reference key="source" ref="145770882"/>
-						<reference key="destination" ref="822963012"/>
-					</object>
-					<int key="connectionID">996</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
