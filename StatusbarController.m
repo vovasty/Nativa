@@ -9,7 +9,7 @@
 #import "StatusbarController.h"
 #import "DownloadsController.h"
 #import "NSDataAdditions.h"
-#import "NSStringAdditions.h"
+#import "NSStringTorrentAdditions.h"
 
 static NSString* GlobalUploadContext = @"GlobalUploadContext";
 

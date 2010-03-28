@@ -24,7 +24,7 @@
 
 #import "TorrentCell.h"
 //#import "GroupsController.h"
-#import "NSStringAdditions.h"
+#import "NSStringTorrentAdditions.h"
 #import "ProgressGradients.h"
 #import "Torrent.h"
 #import "TorrentTableView.h"
