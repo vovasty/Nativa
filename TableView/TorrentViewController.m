@@ -219,38 +219,26 @@ static NSString* FilterTorrents = @"FilterTorrents";
         
         NSInteger index = [menuItem tag];
 		
-		NSString *groupName = [[GroupsController groups] nameForIndex:index];
-		
 		if (_menuTorrent == nil)
 		{
 			for (Torrent * torrent in [_outlineView selectedTorrents])
 			{
-				if ([torrent groupName] == nil)
-				{
-					if (index == -1) //empty group menu item?
-						checked = YES;
-					break;
-				}
-				else if ([groupName isEqualToString:[torrent groupName]])
+				
+				NSInteger torrentGroupIndex = [[GroupsController groups] groupIndexForName: [torrent groupName]];
+				if (index == torrentGroupIndex)
 				{
 					checked = YES;
 					break;
 				}
-				else;
 			}
 		}
 		else
 		{
-			if ([_menuTorrent groupName] == nil)
-			{
-				if (index == -1) //empty group menu item?
-					checked = YES;
-			}
-			else if ([groupName isEqualToString:[_menuTorrent groupName]])
+			NSInteger torrentGroupIndex = [[GroupsController groups] groupIndexForName: [_menuTorrent groupName]];
+			if (index == torrentGroupIndex)
 			{
 				checked = YES;
 			}
-			else;			
 		}
         [menuItem setState: checked ? NSOnState : NSOffState];
 		
