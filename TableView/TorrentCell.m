@@ -683,7 +683,7 @@
 	if (fMouseDownRevealButton || (!fTracking && fHoverReveal))
         return NSLocalizedString(@"Show the data file in Finder", "Torrent cell -> button info");
     else if (fMouseDownGroupButton || (!fTracking && fHoverGroup))
-        return [NSString stringWithFormat:@"\"%@\"", torrent.groupName];
+        return [NSString stringWithFormat:@"\"%@\"", torrent.groupName == nil? NSLocalizedString(@"No Group", "Group table row"):torrent.groupName];
     else if (fMouseDownControlButton || (!fTracking && fHoverControl))
     {
         if (torrent.state != NITorrentStateStopped)
