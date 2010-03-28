@@ -198,6 +198,7 @@ static NSString * ConnectedContext = @"ConnectingContext";
 					   encoded,
 					   nil]
 			 response:r];
+	[encoded release];
 	[r release];
 }
 

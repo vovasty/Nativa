@@ -74,6 +74,7 @@
 										(CFStringRef)groupName,
 										CFSTR(""));
 			r.groupName = decodedGroupName;
+			[decodedGroupName release];
 			[result addObject:r];
 		}
 		[result autorelease];
