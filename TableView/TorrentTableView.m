@@ -23,7 +23,7 @@
  *****************************************************************************/
 
 #import "TorrentTableView.h"
-#import "Controller.h"
+#import "TorrentViewController.h"
 #import "Torrent.h"
 #import "TorrentCell.h"
 #import "TorrentGroup.h"
@@ -516,30 +516,6 @@
 
 - (BOOL) validateMenuItem: (NSMenuItem *) menuItem
 {
-    SEL action = [menuItem action];
-	
-	if (action == @selector(setGroup:))
-    {
-        BOOL checked = NO;
-        
-        NSInteger index = [menuItem tag];
-		
-		NSString *groupName = [[GroupsController groups] nameForIndex:index];
-		
-		if ([fMenuTorrent groupName] == nil)
-		{
-			if (index == -1) //empty group menu item?
-				checked = YES;
-		}
-		else if ([groupName isEqualToString:[fMenuTorrent groupName]])
-		{
-			checked = YES;
-		}
-		else;
-		
-        [menuItem setState: checked ? NSOnState : NSOffState];
-        return YES;
-    }
     return YES;
 }
 
@@ -587,8 +563,7 @@
     location.y += rect.size.height;
     
 	location = [self convertPoint: location toView: self];
-    [fGroupMenu popUpMenuPositioningItem: nil atLocation: location inView: self];
-    
+    [_controller showGroupMenuForTorrent:fMenuTorrent atLocation:location];
     [fMenuTorrent release];
     fMenuTorrent = nil;
 }
@@ -615,24 +590,6 @@
         item = [menu itemWithTag: ACTION_MENU_PRIORITY_LOW_TAG];
         [item setState: priority == NITorrentPriorityLow ? NSOnState : NSOffState];
     }
-	
-	if (menu == fGroupMenu)
-    {
-        [menu removeAllItems];
-		
-        NSMenu * groupMenu;
-		groupMenu = [[GroupsController groups] groupMenuWithTarget: self action: @selector(setGroup:) isSmall: NO];
-        
-        const NSInteger groupMenuCount = [groupMenu numberOfItems];
-        for (NSInteger i = 0; i < groupMenuCount; i++)
-        {
-            NSMenuItem * item = [[groupMenu itemAtIndex: 0] retain];
-            [groupMenu removeItemAtIndex: 0];
-            [menu addItem: item];
-            [item release];
-        }
-    }
-	
 }
 
 - (void) setPriority: (id) sender
@@ -754,12 +711,6 @@
 - (CGFloat) piecesBarPercent
 {
     return fPiecesBarPercent;
-}
-
-- (void) setGroup:(id)sender
-{
-	NSString *group = [[GroupsController groups] nameForIndex:[sender tag]];
-	[[DownloadsController sharedDownloadsController] setGroup:fMenuTorrent group:group response:nil];
 }
 @end
 

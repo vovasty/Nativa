@@ -96,11 +96,29 @@ static NSString* FilterTorrents = @"FilterTorrents";
 - (void) setGroup: (id) sender
 {
 	NSString *group = [[GroupsController groups] nameForIndex:[sender tag]];
-	for (Torrent * torrent in [_outlineView selectedTorrents])
-    {
-		[[DownloadsController sharedDownloadsController] setGroup:torrent group:group response:nil];
-    }
-	[_outlineView deselectAll: nil];
+	NSLog(@"%@", _menuTorrent);
+	if (_menuTorrent == nil)
+	{
+		for (Torrent * torrent in [_outlineView selectedTorrents])
+		{
+			[[DownloadsController sharedDownloadsController] setGroup:torrent group:group response:nil];
+			[_outlineView deselectAll: nil];
+		}
+	}
+	else
+	{
+		[[DownloadsController sharedDownloadsController] setGroup:_menuTorrent group:group response:nil];
+	}
+}
+- (void) showGroupMenuForTorrent:(Torrent *) torrent atLocation:(NSPoint) location
+{
+	_menuTorrent = [torrent retain];
+	
+	[_groupsMenu popUpMenuPositioningItem: nil atLocation: location inView: _outlineView];
+	
+	[_menuTorrent release];
+	
+	_menuTorrent = nil;
 }
 
 #pragma mark -
@@ -203,24 +221,40 @@ static NSString* FilterTorrents = @"FilterTorrents";
 		
 		NSString *groupName = [[GroupsController groups] nameForIndex:index];
 		
-        for (Torrent * torrent in [_outlineView selectedTorrents])
+		if (_menuTorrent == nil)
 		{
-			if ([torrent groupName] == nil)
+			for (Torrent * torrent in [_outlineView selectedTorrents])
+			{
+				if ([torrent groupName] == nil)
+				{
+					if (index == -1) //empty group menu item?
+						checked = YES;
+					break;
+				}
+				else if ([groupName isEqualToString:[torrent groupName]])
+				{
+					checked = YES;
+					break;
+				}
+				else;
+			}
+		}
+		else
+		{
+			if ([_menuTorrent groupName] == nil)
 			{
 				if (index == -1) //empty group menu item?
 					checked = YES;
-				break;
 			}
-			else if ([groupName isEqualToString:[torrent groupName]])
-            {
-                checked = YES;
-                break;
-            }
-			else;
-			
-        }
+			else if ([groupName isEqualToString:[_menuTorrent groupName]])
+			{
+				checked = YES;
+			}
+			else;			
+		}
         [menuItem setState: checked ? NSOnState : NSOffState];
-        return canUseTable && [_outlineView numberOfSelectedRows] > 0;
+		
+        return canUseTable && (_menuTorrent != nil || [_outlineView numberOfSelectedRows] > 0);
     }
     return YES;
 }

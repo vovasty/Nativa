@@ -583,12 +583,6 @@
 					</object>
 				</object>
 			</object>
-			<object class="NSMenu" id="13654245">
-				<string key="NSTitle">StatusMenu</string>
-				<object class="NSMutableArray" key="NSMenuItems">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-				</object>
-			</object>
 			<object class="NSWindowTemplate" id="972006081">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
@@ -2105,19 +2099,11 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">fGroupMenu</string>
+						<string key="label">_controller</string>
 						<reference key="source" ref="995799562"/>
-						<reference key="destination" ref="13654245"/>
+						<reference key="destination" ref="145770882"/>
 					</object>
-					<int key="connectionID">1007</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="13654245"/>
-						<reference key="destination" ref="995799562"/>
-					</object>
-					<int key="connectionID">1009</int>
+					<int key="connectionID">1010</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -2955,15 +2941,6 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 						<reference key="object" ref="822963012"/>
 						<reference key="parent" ref="892732657"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">999</int>
-						<reference key="object" ref="13654245"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-						</object>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">OutlineGroupMenu</string>
-					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -3179,9 +3156,6 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 					<string>992.IBEditorWindowLastContentRect</string>
 					<string>992.IBPluginDependency</string>
 					<string>992.ImportedFromIB2</string>
-					<string>999.IBEditorWindowLastContentRect</string>
-					<string>999.IBPluginDependency</string>
-					<string>999.ImportedFromIB2</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -3394,9 +3368,6 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 					<string>{{860, 429}, {64, 6}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
-					<string>{{411, 316}, {100, 23}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="1"/>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -3415,7 +3386,7 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1009</int>
+			<int key="maxID">1010</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3601,24 +3572,31 @@ cGxlLCBJbmMuLCAyMDEwAA</bytes>
 					<string key="className">TorrentTableView</string>
 					<string key="superclassName">NSOutlineView</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">setPriority:</string>
-						<string key="NS.object.0">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>setGroup:</string>
+							<string>setPriority:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>_controller</string>
 							<string>fActionMenu</string>
 							<string>fContextRow</string>
-							<string>fController</string>
-							<string>fGroupMenu</string>
 							<string>fPriorityMenu</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>TorrentViewController</string>
 							<string>NSMenu</string>
-							<string>NSMenu</string>
-							<string>Controller</string>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
 						</object>

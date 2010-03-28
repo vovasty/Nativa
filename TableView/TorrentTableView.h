@@ -30,9 +30,11 @@
 
 #define GROUP_SEPARATOR_HEIGHT 18.0
 
+@class TorrentViewController;
+
 @interface TorrentTableView : NSOutlineView
 {
-    IBOutlet Controller * fController;
+    IBOutlet TorrentViewController *_controller;
     
     TorrentCell * fTorrentCell;
     
@@ -45,7 +47,7 @@
     NSInteger fMouseControlRow, fMouseRevealRow, fMouseGroupRow, fMouseActionRow, fActionPushedRow, fGroupPushedRow;
     NSArray * fSelectedValues;
     
-    IBOutlet NSMenu * fActionMenu, * fPriorityMenu, * fGroupMenu;
+    IBOutlet NSMenu * fActionMenu, * fPriorityMenu;
     Torrent * fMenuTorrent;
     
     CGFloat fPiecesBarPercent;
@@ -78,6 +80,4 @@
 - (void) setPriority: (id) sender;
 
 - (CGFloat) piecesBarPercent;
-
--(void) setGroup:(id) sender;
 @end

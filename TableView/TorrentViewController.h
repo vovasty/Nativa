@@ -30,6 +30,8 @@
 	IBOutlet NSMenu				*_groupsMenu;
 	NSMutableDictionary			*_allGroups;
 	NSMutableArray				*_orderedGroups;
+	Torrent						*_menuTorrent;
 }
 - (void) setGroup: (id) sender;
+- (void) showGroupMenuForTorrent:(Torrent *) torrent atLocation:(NSPoint) location;
 @end
