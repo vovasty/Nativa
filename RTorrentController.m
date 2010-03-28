@@ -184,10 +184,18 @@ static NSString * ConnectedContext = @"ConnectingContext";
 - (void) setGroup:(Torrent *)torrent group:(NSString *) group response:(VoidResponseBlock) response
 {
 	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	
+	NSString *encoded = group == nil?@"":
+	(NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
+														(CFStringRef)group,
+														NULL,
+														(CFStringRef)@"!*'();:@&=+$,/?%#[]",
+														kCFStringEncodingUTF8 );
+	
 	[self _runCommand:_setGroupCommand
 			arguments:[NSArray arrayWithObjects:
 					   torrent.thash,
-					   group==nil?@"":group,
+					   encoded,
 					   nil]
 			 response:r];
 	[r release];

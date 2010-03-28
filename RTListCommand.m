@@ -68,7 +68,12 @@
 			NSString* errorMessage = [row  objectAtIndex:15];
 			r.error = [errorMessage isEqualToString:@""]?nil:errorMessage;
 			NSString *groupName = [row  objectAtIndex:16];
-			r.groupName = [groupName isEqualToString:@""]?nil:groupName;
+			
+			NSString *decodedGroupName = [groupName isEqualToString:@""]?nil:
+									(NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault,
+										(CFStringRef)groupName,
+										CFSTR(""));
+			r.groupName = decodedGroupName;
 			[result addObject:r];
 		}
 		[result autorelease];
