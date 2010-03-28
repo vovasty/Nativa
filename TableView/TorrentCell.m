@@ -23,7 +23,7 @@
  *****************************************************************************/
 
 #import "TorrentCell.h"
-//#import "GroupsController.h"
+#import "GroupsController.h"
 #import "NSStringTorrentAdditions.h"
 #import "ProgressGradients.h"
 #import "Torrent.h"
@@ -73,6 +73,7 @@
 - (NSRect) rectForStatusWithStringInBounds: (NSRect) bounds;
 - (NSRect) barRectForBounds: (NSRect) bounds;
 
+- (NSRect) groupButtonRectForBounds: (NSRect) bounds;
 - (NSRect) controlButtonRectForBounds: (NSRect) bounds;
 - (NSRect) revealButtonRectForBounds: (NSRect) bounds;
 - (NSRect) actionButtonRectForBounds: (NSRect) bounds;
@@ -131,7 +132,8 @@
     NSPoint point = [controlView convertPoint: [event locationInWindow] fromView: nil];
     
     if (NSMouseInRect(point, [self controlButtonRectForBounds: cellFrame], [controlView isFlipped])
-        || NSMouseInRect(point, [self revealButtonRectForBounds: cellFrame], [controlView isFlipped]))
+        || NSMouseInRect(point, [self revealButtonRectForBounds: cellFrame], [controlView isFlipped]
+		|| NSMouseInRect(point, [self groupButtonRectForBounds: cellFrame], [controlView isFlipped])))
         return NSCellHitContentArea | NSCellHitTrackableArea;
     
     return NSCellHitContentArea;
@@ -155,14 +157,27 @@
     
     const NSRect revealRect = [self revealButtonRectForBounds: cellFrame];
     const BOOL checkReveal = NSMouseInRect(point, revealRect, [controlView isFlipped]);
+	
+	const NSRect groupRect = [self groupButtonRectForBounds: cellFrame];
+    const BOOL checkGroup = NSMouseInRect(point, groupRect, [controlView isFlipped]);
+
 //		for some reason it is not working
 //    [(TorrentTableView *)controlView removeButtonTrackingAreas];
 
     while ([event type] != NSLeftMouseUp)
     {
         point = [controlView convertPoint: [event locationInWindow] fromView: nil];
-        
-        if (checkControl)
+
+        if (checkGroup)
+        {
+            const BOOL inGroupButton = NSMouseInRect(point, groupRect, [controlView isFlipped]);
+            if (fMouseDownGroupButton != inGroupButton)
+            {
+                fMouseDownGroupButton = inGroupButton;
+                [controlView setNeedsDisplayInRect: cellFrame];
+            }
+        }
+        else if (checkControl)
         {
             const BOOL inControlButton = NSMouseInRect(point, controlRect, [controlView isFlipped]);
             if (fMouseDownControlButton != inControlButton)
@@ -231,7 +246,7 @@
     [controlView addTrackingArea: area];
     [controlInfo release];
     [area release];
-    
+
     //reveal button
     NSRect revealButtonRect = [self revealButtonRectForBounds: cellFrame];
     NSTrackingAreaOptions revealOptions = options;
@@ -247,7 +262,24 @@
     [controlView addTrackingArea: area];
     [revealInfo release];
     [area release];
-    
+ 
+	//group button
+	NSRect groupButtonRect = [self groupButtonRectForBounds: cellFrame];
+	NSTrackingAreaOptions groupOptions = options;
+	if (NSMouseInRect(mouseLocation, groupButtonRect, [controlView isFlipped]))
+	{
+		groupOptions |= NSTrackingAssumeInside;
+		[(TorrentTableView *)controlView setGroupButtonHover: [[userInfo objectForKey: @"Row"] integerValue]];
+	}
+	
+	NSMutableDictionary * groupInfo = [userInfo mutableCopy];
+	[groupInfo setObject: @"Group" forKey: @"Type"];
+	area = [[NSTrackingArea alloc] initWithRect: groupButtonRect options: groupOptions owner: controlView userInfo: groupInfo];
+	[controlView addTrackingArea: area];
+	[groupInfo release];
+	[area release];
+	
+	
     //action button
     NSRect actionButtonRect = [self iconRectForBounds: cellFrame]; //use the whole icon
     NSTrackingAreaOptions actionOptions = options;
@@ -269,6 +301,11 @@
 - (void) setControlHover: (BOOL) hover
 {
     fHoverControl = hover;
+}
+
+- (void) setGroupHover: (BOOL) hover
+{
+    fHoverGroup = hover;
 }
 
 - (void) setRevealHover: (BOOL) hover
@@ -382,6 +419,9 @@
     else
         controlImageSuffix = @"Off.png";
 
+	NSInteger groupIndex = [[GroupsController groups] groupIndexForName:[torrent groupName]]; 
+	NSImage *groupImage = [[GroupsController groups] imageForIndex:groupIndex];
+	[self drawImage: groupImage inRect: [self groupButtonRectForBounds: cellFrame]];
 	
     NSImage * controlImage;
     if (torrent.state != NITorrentStateStopped)
@@ -605,10 +645,27 @@
 
 	result.origin.y += PADDING_BETWEEN_TITLE_AND_PROGRESS + HEIGHT_STATUS + PADDING_BETWEEN_PROGRESS_AND_BAR;
     
-    result.size.width = floor(NSMaxX(bounds) - result.origin.x - PADDING_HORIZONTAL - 2.0 * (PADDING_HORIZONTAL + NORMAL_BUTTON_WIDTH));
+    result.size.width = floor(NSMaxX(bounds) - result.origin.x - PADDING_HORIZONTAL - 3.0 * (PADDING_HORIZONTAL + NORMAL_BUTTON_WIDTH));
     
     return result;
 }
+
+- (NSRect) groupButtonRectForBounds: (NSRect) bounds
+{
+    NSRect result;
+    result.size.height = NORMAL_BUTTON_WIDTH;
+    result.size.width = NORMAL_BUTTON_WIDTH;
+    result.origin.x = NSMaxX(bounds) - 3.0 * (PADDING_HORIZONTAL + NORMAL_BUTTON_WIDTH);
+    
+    result.origin.y = NSMinY(bounds) + PADDING_ABOVE_TITLE + HEIGHT_TITLE - (NORMAL_BUTTON_WIDTH - BAR_HEIGHT) * 0.5;
+    if ([fDefaults boolForKey: @"SmallView"])
+        result.origin.y += PADDING_BETWEEN_TITLE_AND_BAR_MIN;
+    else
+        result.origin.y += PADDING_BETWEEN_TITLE_AND_PROGRESS + HEIGHT_STATUS + PADDING_BETWEEN_PROGRESS_AND_BAR;
+    
+    return result;
+}
+
 
 - (NSRect) controlButtonRectForBounds: (NSRect) bounds
 {
@@ -666,6 +723,8 @@
 {
     if (fMouseDownRevealButton || (!fTracking && fHoverReveal))
         return NSLocalizedString(@"Show the data file in Finder", "Torrent cell -> button info");
+    else if (fMouseDownGroupButton || (!fTracking && fHoverGroup))
+        return NSLocalizedString(@"Set group", "Torrent cell -> button info");
     else if (fMouseDownControlButton || (!fTracking && fHoverControl))
     {
         Torrent * torrent = [self representedObject];

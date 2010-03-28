@@ -42,7 +42,7 @@
     
     IBOutlet NSMenu * fContextRow;
     
-    NSInteger fMouseControlRow, fMouseRevealRow, fMouseActionRow, fActionPushedRow;
+    NSInteger fMouseControlRow, fMouseRevealRow, fMouseGroupRow, fMouseActionRow, fActionPushedRow;
     NSArray * fSelectedValues;
     
     IBOutlet NSMenu * fActionMenu, * fPriorityMenu;
@@ -58,6 +58,7 @@
 - (void) saveCollapsedGroups;
 
 - (void) removeButtonTrackingAreas;
+- (void) setGroupButtonHover: (NSInteger) row;
 - (void) setControlButtonHover: (NSInteger) row;
 - (void) setRevealButtonHover: (NSInteger) row;
 - (void) setActionButtonHover: (NSInteger) row;

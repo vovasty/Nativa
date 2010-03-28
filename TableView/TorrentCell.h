@@ -28,8 +28,8 @@
     
     NSMutableDictionary * fTitleAttributes, * fStatusAttributes;
     
-    BOOL fTracking, fMouseDownControlButton, fMouseDownRevealButton, fMouseDownActionButton,
-            fHoverControl, fHoverReveal, fHoverAction;
+    BOOL fTracking, fMouseDownControlButton, fMouseDownRevealButton, fMouseDownActionButton, fMouseDownGroupButton,
+            fHoverControl, fHoverReveal, fHoverAction, fHoverGroup;
     
     NSColor * fBarBorderColor, * fBluePieceColor;
 }
@@ -39,6 +39,7 @@
 - (void) addTrackingAreasForView: (NSView *) controlView inRect: (NSRect) cellFrame withUserInfo: (NSDictionary *) userInfo
             mouseLocation: (NSPoint) mouseLocation;
 - (void) setControlHover: (BOOL) hover;
+- (void) setGroupHover: (BOOL) hover;
 - (void) setRevealHover: (BOOL) hover;
 - (void) setActionHover: (BOOL) hover;
 - (void) setActionPushed: (BOOL) pushed;

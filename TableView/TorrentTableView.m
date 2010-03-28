@@ -66,6 +66,7 @@
         
         fMouseControlRow = -1;
         fMouseRevealRow = -1;
+		fMouseGroupRow = -1;
         fMouseActionRow = -1;
         fActionPushedRow = -1;
         
@@ -152,6 +153,7 @@
         const NSInteger row = [self rowForItem: item];
         [cell setControlHover: row == fMouseControlRow];
         [cell setRevealHover: row == fMouseRevealRow];
+		[cell setGroupHover: row == fMouseGroupRow];
         [cell setActionHover: row == fMouseActionRow];
         [cell setActionPushed: row == fActionPushedRow];
     }
@@ -236,6 +238,7 @@
 {
     fMouseControlRow = -1;
     fMouseRevealRow = -1;
+	fMouseGroupRow = -1;
     fMouseActionRow = -1;
     
     for (NSTrackingArea * area in [self trackingAreas])
@@ -243,6 +246,13 @@
         if ([area owner] == self && [[area userInfo] objectForKey: @"Row"])
             [self removeTrackingArea: area];
     }
+}
+
+- (void) setGroupButtonHover: (NSInteger) row
+{
+    fMouseGroupRow = row;
+    if (row >= 0)
+        [self setNeedsDisplayInRect: [self rectOfRow: row]];
 }
 
 - (void) setControlButtonHover: (NSInteger) row
@@ -279,6 +289,8 @@
             fMouseActionRow = rowVal;
         else if ([type isEqualToString: @"Control"])
             fMouseControlRow = rowVal;
+        else if ([type isEqualToString: @"Group"])
+            fMouseGroupRow = rowVal;
         else
             fMouseRevealRow = rowVal;
         
@@ -298,6 +310,8 @@
             fMouseActionRow = -1;
         else if ([type isEqualToString: @"Control"])
             fMouseControlRow = -1;
+        else if ([type isEqualToString: @"Group"])
+            fMouseGroupRow = -1;
         else
             fMouseRevealRow = -1;
         
@@ -348,7 +362,7 @@
         return;
     }
     
-    const BOOL pushed = row != -1 && (fMouseActionRow == row || fMouseRevealRow == row || fMouseControlRow == row);
+    const BOOL pushed = row != -1 && (fMouseActionRow == row || fMouseRevealRow == row || fMouseGroupRow == row ||fMouseControlRow == row);
     
     //if pushing a button, don't change the selected rows
     if (pushed)
