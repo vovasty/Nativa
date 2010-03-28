@@ -256,10 +256,10 @@ static NSString * ConnectedContext = @"ConnectingContext";
 -(void) setGroupField:(NSUInteger) value
 {
 	[_getGroupCommand release];
-	_getGroupCommand = [NSString stringWithFormat:@"d.get_custom%@",[NSString stringWithFormat:@"%d", _groupField+1]];
+	_getGroupCommand = [NSString stringWithFormat:@"d.get_custom%@",[NSString stringWithFormat:@"%d", value]];
 	[_getGroupCommand retain];
 	[_setGroupCommand release];
-	_setGroupCommand = [NSString stringWithFormat:@"d.set_custom%@",[NSString stringWithFormat:@"%d", _groupField+1]];
+	_setGroupCommand = [NSString stringWithFormat:@"d.set_custom%@",[NSString stringWithFormat:@"%d", value]];
 	[_setGroupCommand retain];
 	_groupField = value;
 }
