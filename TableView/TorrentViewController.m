@@ -252,20 +252,25 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 - (void)updateGroups:(NSNotification*) notification
 {
-	[_orderedGroups removeAllObjects];
-	[_allGroups removeAllObjects];
+	NSMutableArray * arr = [NSMutableArray arrayWithCapacity:[_orderedGroups count]];
+	NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithCapacity:[_allGroups count]];
 	
 	TorrentGroup* noGroup = [[TorrentGroup alloc ] initWithGroup:-1];
-	[_orderedGroups addObject:noGroup];
+	[arr addObject:noGroup];
 
 	for (NSInteger i=0;i<[[GroupsController groups] numberOfGroups];i++)
 	{
 		NSInteger index = [[GroupsController groups] indexForRow:i];
 		TorrentGroup* group = [[TorrentGroup alloc ] initWithGroup:index];
 		NSString *groupName = [[GroupsController groups] nameForIndex:index];
-		[_allGroups setObject:group forKey:groupName];
-		[_orderedGroups addObject:group];
+		[dict setObject:group forKey:groupName];
+		[arr addObject:group];
 	}
+
+	[_orderedGroups removeAllObjects];
+	[_orderedGroups setArray:arr];
+	[_allGroups removeAllObjects];
+	[_allGroups setDictionary:dict];
 	[self updateList:nil];
 }
 
