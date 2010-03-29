@@ -53,18 +53,20 @@ GroupsController * fGroupsInstance = nil;
 {
     if ((self = [super init]))
     {
-        NSData * data;
-        if ((data = [[NSUserDefaults standardUserDefaults] dataForKey: @"GroupDicts"]))
-            fGroups = [[NSKeyedUnarchiver unarchiveObjectWithData: data] retain];
-        else if ((data = [[NSUserDefaults standardUserDefaults] dataForKey: @"Groups"])) //handle old groups
+        NSArray *groups;
+		if ((groups = [[NSUserDefaults standardUserDefaults] arrayForKey: @"GroupDicts"]))
+		{
+			fGroups = [[NSMutableArray alloc] initWithCapacity:[groups count]];
+			for (NSDictionary * dict in groups)
+			{
+				NSMutableDictionary * tempDict = [dict mutableCopy];
+				[tempDict setObject:[NSUnarchiver unarchiveObjectWithData:[tempDict objectForKey:@"Color"]] forKey:@"Color"];
+				[fGroups addObject:tempDict];
+			}
+			
+		}
+		else //default groups
         {
-            fGroups = [[NSUnarchiver unarchiveObjectWithData: data] retain];
-            [[NSUserDefaults standardUserDefaults] removeObjectForKey: @"Groups"];
-            [self saveGroups];
-        }
-        else
-        {
-            //default groups
             NSMutableDictionary * red = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                             [NSColor redColor], @"Color",
                                             NSLocalizedString(@"Red", "Groups -> Name"), @"Name",
@@ -397,17 +399,19 @@ GroupsController * fGroupsInstance = nil;
 
 - (void) saveGroups
 {
-    //don't archive the icon
     NSMutableArray * groups = [NSMutableArray arrayWithCapacity: [fGroups count]];
     for (NSDictionary * dict in fGroups)
     {
         NSMutableDictionary * tempDict = [dict mutableCopy];
+		//don't archive the icon
         [tempDict removeObjectForKey: @"Icon"];
+		//archive color
+		[tempDict setObject:[NSArchiver archivedDataWithRootObject:[tempDict objectForKey:@"Color"]] forKey:@"Color"];
         [groups addObject: tempDict];
         [tempDict release];
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject: [NSKeyedArchiver archivedDataWithRootObject: groups] forKey: @"GroupDicts"];
+    [[NSUserDefaults standardUserDefaults] setObject: groups forKey: @"GroupDicts"];
 }
 
 - (NSImage *) imageForGroup: (NSMutableDictionary *) dict
