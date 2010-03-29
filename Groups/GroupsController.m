@@ -23,6 +23,7 @@
  *****************************************************************************/
 
 #import "GroupsController.h"
+#import "Torrent.h"
 
 #define ICON_WIDTH 16.0
 #define ICON_WIDTH_SMALL 12.0
@@ -34,8 +35,6 @@
 - (NSImage *) imageForGroup: (NSMutableDictionary *) dict;
 
 - (NSImage *) hoverImageForGroup: (NSMutableDictionary *) dict;
-
-- (BOOL) torrent: (Torrent *) torrent doesMatchRulesForGroupAtIndex: (NSInteger) index;
 
 @end
 
@@ -184,82 +183,6 @@ GroupsController * fGroupsInstance = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName: @"UpdateGroups" object: self];
 }
 
-- (BOOL) usesCustomDownloadLocationForIndex: (NSInteger) index
-{
-    if (![self customDownloadLocationForIndex: index])
-        return NO;
-
-    NSInteger orderIndex = [self rowValueForIndex: index];
-    return [[[fGroups objectAtIndex: orderIndex] objectForKey: @"UsesCustomDownloadLocation"] boolValue];
-}
-
-- (void) setUsesCustomDownloadLocation: (BOOL) useCustomLocation forIndex: (NSInteger) index
-{
-    NSMutableDictionary * dict = [fGroups objectAtIndex: [self rowValueForIndex: index]];
-    
-    [dict setObject: [NSNumber numberWithBool: useCustomLocation] forKey: @"UsesCustomDownloadLocation"];
-    
-    [[GroupsController groups] saveGroups];
-}
-
-- (NSString *) customDownloadLocationForIndex: (NSInteger) index
-{
-    NSInteger orderIndex = [self rowValueForIndex: index];
-    return orderIndex != -1 ? [[fGroups objectAtIndex: orderIndex] objectForKey: @"CustomDownloadLocation"] : nil;
-}
-
-- (void) setCustomDownloadLocation: (NSString *) location forIndex: (NSInteger) index
-{
-    NSMutableDictionary * dict = [fGroups objectAtIndex: [self rowValueForIndex: index]];
-    [dict setObject: location forKey: @"CustomDownloadLocation"];
-    
-    [[GroupsController groups] saveGroups];
-}
-
-- (BOOL) usesAutoAssignRulesForIndex: (NSInteger) index
-{
-    NSInteger orderIndex = [self rowValueForIndex: index];
-    if (orderIndex == -1)
-        return NO;
-    
-    NSNumber * assignRules = [[fGroups objectAtIndex: orderIndex] objectForKey: @"UsesAutoGroupRules"];
-    return assignRules && [assignRules boolValue];
-}
-
-- (void) setUsesAutoAssignRules: (BOOL) useAutoAssignRules forIndex: (NSInteger) index
-{
-    NSMutableDictionary * dict = [fGroups objectAtIndex: [self rowValueForIndex: index]];
-    
-    [dict setObject: [NSNumber numberWithBool: useAutoAssignRules] forKey: @"UsesAutoGroupRules"];
-    
-    [[GroupsController groups] saveGroups];
-}
-
-- (NSPredicate *) autoAssignRulesForIndex: (NSInteger) index
-{
-    NSInteger orderIndex = [self rowValueForIndex: index];
-    if (orderIndex == -1)
-		return nil;
-	
-	return [[fGroups objectAtIndex: orderIndex] objectForKey: @"AutoGroupRules"];
-}
-
-- (void) setAutoAssignRules: (NSPredicate *) predicate forIndex: (NSInteger) index
-{
-    NSMutableDictionary * dict = [fGroups objectAtIndex: [self rowValueForIndex: index]];
-    
-    if (predicate)
-    {
-        [dict setObject: predicate forKey: @"AutoGroupRules"];
-        [[GroupsController groups] saveGroups];
-    }
-    else
-    {
-        [dict removeObjectForKey: @"AutoGroupRules"];
-        [self setUsesAutoAssignRules: NO forIndex: index];
-    }
-}
-
 - (void) addNewGroup
 {
     //find the lowest index
@@ -373,23 +296,9 @@ GroupsController * fGroupsInstance = nil;
     for (NSDictionary * group in fGroups)
     {
         NSInteger row = [[group objectForKey: @"Index"] integerValue];
-        if ([self torrent: torrent doesMatchRulesForGroupAtIndex: row])
+		NSString* name = [group objectForKey: @"Name"];
+        if ([torrent.groupName isEqualToString:name])
             return row;
-    }
-    return -1;
-}
-
-- (NSInteger) groupIndexForName: (NSString *) groupName
-{
-	if (groupName != nil)
-    {
-        for (NSInteger i = 0; i < [fGroups count]; i++)
-		{
-            NSDictionary *group=[fGroups objectAtIndex: i];
-			
-			if ([groupName isEqualToString:[group objectForKey: @"Name"]])
-                return [[group objectForKey: @"Index"] integerValue];
-		}
     }
     return -1;
 }
@@ -495,26 +404,4 @@ GroupsController * fGroupsInstance = nil;
     return icon;
 	
 }
-
-- (BOOL) torrent: (Torrent *) torrent doesMatchRulesForGroupAtIndex: (NSInteger) index
-{
-    if (![self usesAutoAssignRulesForIndex: index])
-        return NO;
-	
-    NSPredicate * predicate = [self autoAssignRulesForIndex: index];
-    BOOL eval = NO;
-    @try
-    {
-        eval = [predicate evaluateWithObject: torrent];
-    }
-    @catch (NSException * exception)
-    {
-        NSLog(@"Error when evaluating predicate (%@) - %@", predicate, exception);
-    }
-    @finally
-    {
-        return eval;
-    }
-}
-
 @end

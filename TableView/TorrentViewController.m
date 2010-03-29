@@ -224,7 +224,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 			for (Torrent * torrent in [_outlineView selectedTorrents])
 			{
 				
-				NSInteger torrentGroupIndex = [[GroupsController groups] groupIndexForName: [torrent groupName]];
+				NSInteger torrentGroupIndex = [[GroupsController groups] groupIndexForTorrent: torrent];
 				if (index == torrentGroupIndex)
 				{
 					checked = YES;
@@ -234,7 +234,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 		}
 		else
 		{
-			NSInteger torrentGroupIndex = [[GroupsController groups] groupIndexForName: [_menuTorrent groupName]];
+			NSInteger torrentGroupIndex = [[GroupsController groups] groupIndexForTorrent: _menuTorrent];
 			if (index == torrentGroupIndex)
 			{
 				checked = YES;

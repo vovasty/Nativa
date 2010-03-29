@@ -21,5 +21,7 @@
 -(NSInteger) count;
 -(ProcessDescriptor*) processDescriptorAtIndex:(NSInteger) index;
 -(void) addProcessDescriptor:(ProcessDescriptor*) descriptor;
+//-(void) setName:(NSString *)name forIndex:(NSInteger) index;
+//-(void) setName:(NSString *)name forIndex:(NSInteger) index;
 -(void)saveProcesses;
 @end

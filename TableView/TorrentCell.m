@@ -385,7 +385,7 @@
         controlImageSuffix = @"Off.png";
 
 	//group button
-	NSInteger groupIndex = [[GroupsController groups] groupIndexForName:[torrent groupName]]; 
+	NSInteger groupIndex = [[GroupsController groups] groupIndexForTorrent:torrent]; 
 	NSImage *groupImage;
 	
     if (!fTracking && fHoverGroup)
