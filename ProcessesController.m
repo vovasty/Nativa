@@ -27,13 +27,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 {
     if ((self = [super init]))
     {
-		NSArray *procs;
+		NSArray* procs;
+		
+		_processes = [[NSMutableArray alloc] init];
+		
 		if ((procs = [[NSUserDefaults standardUserDefaults] arrayForKey: @"Processes"]))
-			_processes = [procs mutableCopy];
-		else 
 		{
-			_processes = [[NSMutableArray alloc] init];
-			[_processes retain];
+			for (NSDictionary * dict in procs)
+			{
+				NSMutableDictionary * tempDict = [dict mutableCopy];
+				[_processes addObject:tempDict];
+				[tempDict release];
+			}
 		}
     }
     
