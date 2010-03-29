@@ -61,6 +61,7 @@ GroupsController * fGroupsInstance = nil;
 				NSMutableDictionary * tempDict = [dict mutableCopy];
 				[tempDict setObject:[NSUnarchiver unarchiveObjectWithData:[tempDict objectForKey:@"Color"]] forKey:@"Color"];
 				[fGroups addObject:tempDict];
+				[tempDict release];
 			}
 			
 		}
