@@ -35,7 +35,6 @@
 @interface GroupsPrefsController (Private)
 
 - (void) updateSelectedGroup;
-- (void) refreshCustomLocationWithSingleGroup;
 
 @end
 
@@ -178,131 +177,6 @@
     [self updateSelectedGroup];
 }
 
-- (void) customDownloadLocationSheetShow: (id) sender
-{
-    NSOpenPanel * panel = [NSOpenPanel openPanel];
-
-    [panel setPrompt: NSLocalizedString(@"Select", "Preferences -> Open panel prompt")];
-    [panel setAllowsMultipleSelection: NO];
-    [panel setCanChooseFiles: NO];
-    [panel setCanChooseDirectories: YES];
-    [panel setCanCreateDirectories: YES];
-
-    [panel beginSheetForDirectory: nil file: nil types: nil
-        modalForWindow: [fCustomLocationPopUp window] modalDelegate: self didEndSelector:
-        @selector(customDownloadLocationSheetClosed:returnCode:contextInfo:) contextInfo: nil];
-}
-
-- (IBAction) toggleUseCustomDownloadLocation: (id) sender
-{
-    NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
-    if ([fCustomLocationEnableCheck state] == NSOnState)
-    {
-        if ([[GroupsController groups] customDownloadLocationForIndex: index])
-            [[GroupsController groups] setUsesCustomDownloadLocation: YES forIndex: index];
-        else
-            [self customDownloadLocationSheetShow: nil];
-    }
-    else
-        [[GroupsController groups] setUsesCustomDownloadLocation: NO forIndex: index];
-
-    [fCustomLocationPopUp setEnabled: ([fCustomLocationEnableCheck state] == NSOnState)];
-}
-
-- (void) customDownloadLocationSheetClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info
-{
-    NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
-    if (code == NSOKButton)
-    {
-        NSString * path = [[openPanel filenames] objectAtIndex: 0];
-        [[GroupsController groups] setCustomDownloadLocation: path forIndex: index];
-        [[GroupsController groups] setUsesCustomDownloadLocation: YES forIndex: index];
-    }
-    else
-    {
-        if (![[GroupsController groups] customDownloadLocationForIndex: index])
-            [[GroupsController groups] setUsesCustomDownloadLocation: NO forIndex: index];
-    }
-    
-    [self refreshCustomLocationWithSingleGroup];
-    
-    [fCustomLocationPopUp selectItemAtIndex: 0];
-}
-
-#pragma mark -
-#pragma mark Rule editor
-
-- (IBAction) toggleUseAutoAssignRules: (id) sender;
-{
-    NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
-    if ([fAutoAssignRulesEnableCheck state] == NSOnState)
-    {
-        if ([[GroupsController groups] autoAssignRulesForIndex: index])
-            [[GroupsController groups] setUsesAutoAssignRules: YES forIndex: index];
-        else
-            [self orderFrontRulesSheet: nil];
-    }
-    else
-        [[GroupsController groups] setUsesAutoAssignRules: NO forIndex: index];
-
-    [fAutoAssignRulesEditButton setEnabled: [fAutoAssignRulesEnableCheck state] == NSOnState];
-}
-
-- (IBAction) orderFrontRulesSheet: (id) sender;
-{
-    if (!fGroupRulesSheetWindow)
-        [NSBundle loadNibNamed: @"GroupRules" owner: self];
-
-    NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
-	NSPredicate *predicate = [[GroupsController groups] autoAssignRulesForIndex: index];
-	[fRuleEditor setObjectValue: predicate];
-	
-    if ([fRuleEditor numberOfRows] == 0)
-        [fRuleEditor addRow: nil];
-        
-    [NSApp beginSheet: fGroupRulesSheetWindow modalForWindow: [fTableView window] modalDelegate: nil didEndSelector: NULL
-        contextInfo: NULL];
-}
-
-- (IBAction) cancelRules: (id) sender;
-{
-    [fGroupRulesSheetWindow orderOut: nil];
-    [NSApp endSheet: fGroupRulesSheetWindow];
-    
-    NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
-    if (![[GroupsController groups] autoAssignRulesForIndex: index])
-    {
-        [[GroupsController groups] setUsesAutoAssignRules: NO forIndex: index];
-        [fAutoAssignRulesEnableCheck setState: NO];
-        [fAutoAssignRulesEditButton setEnabled: NO];
-    }
-}
-
-- (IBAction) saveRules: (id) sender;
-{
-    [fGroupRulesSheetWindow orderOut: nil];
-    [NSApp endSheet: fGroupRulesSheetWindow];
-    
-    NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
-    [[GroupsController groups] setUsesAutoAssignRules: YES forIndex: index];
-    
-    NSPredicate * predicate = [fRuleEditor objectValue];
-    [[GroupsController groups] setAutoAssignRules: predicate forIndex: index];
-	
-    [fAutoAssignRulesEnableCheck setState: [[GroupsController groups] usesAutoAssignRulesForIndex: index]];
-    [fAutoAssignRulesEditButton setEnabled: [fAutoAssignRulesEnableCheck state] == NSOnState];
-}
-
-- (void) ruleEditorRowsDidChange: (NSNotification *) notification
-{
-    const CGFloat heightDifference = [fRuleEditor numberOfRows] * [fRuleEditor rowHeight] - [fRuleEditor frame].size.height;
-    NSRect windowFrame = [fRuleEditor window].frame;
-    windowFrame.size.height += heightDifference;
-    windowFrame.origin.y -= heightDifference;
-    
-    [fRuleEditor.window setFrame: windowFrame display: YES animate: YES];
-}
-
 @end
 
 @implementation GroupsPrefsController (Private)
@@ -318,11 +192,6 @@
         [fSelectedColorNameField setStringValue: [[GroupsController groups] nameForIndex: index]];
         [fSelectedColorNameField setEnabled: YES];
         
-        [self refreshCustomLocationWithSingleGroup];
-
-        [fAutoAssignRulesEnableCheck setState: [[GroupsController groups] usesAutoAssignRulesForIndex: index]];
-        [fAutoAssignRulesEnableCheck setEnabled: YES];
-        [fAutoAssignRulesEditButton setEnabled: ([fAutoAssignRulesEnableCheck state] == NSOnState)];
     }
     else
     {
@@ -330,35 +199,6 @@
         [fSelectedColorView setEnabled: NO];
         [fSelectedColorNameField setStringValue: @""];
         [fSelectedColorNameField setEnabled: NO];
-        [fCustomLocationEnableCheck setEnabled: NO];
-        [fCustomLocationPopUp setEnabled: NO];
-        [fAutoAssignRulesEnableCheck setEnabled: NO];
-        [fAutoAssignRulesEditButton setEnabled: NO];
     }
 }
-
-- (void) refreshCustomLocationWithSingleGroup
-{
-    const NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
-    
-    const BOOL hasCustomLocation = [[GroupsController groups] usesCustomDownloadLocationForIndex: index];
-    [fCustomLocationEnableCheck setState: hasCustomLocation];
-    [fCustomLocationEnableCheck setEnabled: YES];
-    [fCustomLocationPopUp setEnabled: hasCustomLocation];
-    
-    NSString * location = [[GroupsController groups] customDownloadLocationForIndex: index];
-    if (location)
-    {
-        ExpandedPathToPathTransformer * pathTransformer = [[[ExpandedPathToPathTransformer alloc] init] autorelease];
-        [[fCustomLocationPopUp itemAtIndex: 0] setTitle: [pathTransformer transformedValue: location]];
-        ExpandedPathToIconTransformer * iconTransformer = [[[ExpandedPathToIconTransformer alloc] init] autorelease];
-        [[fCustomLocationPopUp itemAtIndex: 0] setImage: [iconTransformer transformedValue: location]];
-    }
-    else
-    {
-        [[fCustomLocationPopUp itemAtIndex: 0] setTitle: @""];
-        [[fCustomLocationPopUp itemAtIndex: 0] setImage: nil];
-    }
-}
-
 @end
