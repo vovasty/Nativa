@@ -38,8 +38,6 @@ extern NSString* const NINotifyUpdateDownloads;
 	CGFloat			  _globalDownloadSize;
 	CGFloat			  _globalRatio;
 	NSUserDefaults	* _defaults;
-	int			      openedProcesses;
-	NSString		* lastOpenProcessError;
 }
 @property (assign)	CGFloat globalUploadSpeed;
 @property (assign)	CGFloat globalDownloadSpeed;

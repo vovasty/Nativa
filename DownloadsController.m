@@ -22,7 +22,6 @@
 #import "Torrent.h"
 #import "TorrentController.h"
 #import "ProcessesController.h"
-#import "ProcessDescriptor.h"
 #import "PreferencesController.h"
 #include <Growl/Growl.h>
 
@@ -37,7 +36,7 @@ NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
 - (id<TorrentController>) _controller;
 
-- (ProcessDescriptor *) _descriptor;
+- (NSInteger) _processIndex;
 
 - (VoidResponseBlock) _updateListResponse: (VoidResponseBlock) originalResponse errorFormat:(NSString*) errorFormat;
 
@@ -85,50 +84,41 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	[_updateGlobalsTimer invalidate];
 
 	ProcessesController* pc = [ProcessesController sharedProcessesController];
-	openedProcesses = 0;
-	lastOpenProcessError = nil;
-	__block DownloadsController *blockSelf = self;
-	VoidResponseBlock cummulativeResponse =  [^(NSString* error){
-		if (error)
-			lastOpenProcessError = error;
 
-		openedProcesses++;
-		if (openedProcesses == [pc count])
+	__block DownloadsController *blockSelf = self;
+	VoidResponseBlock openProcessResponse =  [^(NSString* error){
+		if (response)
+			response(error);
+		
+		if (error == nil)
 		{
-			if (response)
-				response(lastOpenProcessError);
-			
 			[blockSelf _updateList];
 			blockSelf->_updateListTimer = [NSTimer scheduledTimerWithTimeInterval:
-											[blockSelf->_defaults integerForKey:NIRefreshRateKey]
-											target:self 
-											selector:@selector(_updateList) 
-											userInfo:nil 
-											repeats:YES];
+										[blockSelf->_defaults integerForKey:NIRefreshRateKey]
+										target:self 
+										selector:@selector(_updateList) 
+										userInfo:nil 
+										repeats:YES];
 			[blockSelf->_updateListTimer retain];
 			[[NSRunLoop currentRunLoop] addTimer:blockSelf->_updateListTimer forMode:NSDefaultRunLoopMode];	
 
 			[blockSelf _updateGlobals];
 			blockSelf->_updateGlobalsTimer = [NSTimer scheduledTimerWithTimeInterval:
-										   [blockSelf->_defaults integerForKey:NIUpdateGlobalsRateKey]
-																		   target:self 
-																		 selector:@selector(_updateGlobals) 
-																		 userInfo:nil 
-																		  repeats:YES];
+										[blockSelf->_defaults integerForKey:NIUpdateGlobalsRateKey]
+																		target:self 
+																		selector:@selector(_updateGlobals) 
+																		userInfo:nil 
+																		repeats:YES];
 			[blockSelf->_updateGlobalsTimer retain];
-			[[NSRunLoop currentRunLoop] addTimer:blockSelf->_updateGlobalsTimer forMode:NSDefaultRunLoopMode];	
-			
-		}	
+			[[NSRunLoop currentRunLoop] addTimer:blockSelf->_updateGlobalsTimer forMode:NSDefaultRunLoopMode];
+		}
 	}copy];
 	
-	
-	for (NSInteger i=0;i<[pc count];i++)
-	{
-		ProcessDescriptor* pd =[pc processDescriptorAtIndex:i];
-		[pd openProcess:cummulativeResponse];
-	}
-	
-	[cummulativeResponse release];
+	NSInteger index =[pc indexForRow:0];
+
+	[pc openProcess:openProcessResponse forIndex:index];
+
+	[openProcessResponse release];
 }
 -(void) stopUpdates;
 {
@@ -139,8 +129,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	
 	for (NSInteger i=0;i<[pc count];i++)
 	{
-		ProcessDescriptor* pd =[pc processDescriptorAtIndex:i];
-		[pd closeProcess];
+		NSInteger index =[pc indexForRow:i];
+		[pc closeProcessForIndex:index];
 	}
 }
 
@@ -291,11 +281,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void) reveal:(Torrent*) torrent
 {
-	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
-	
 	NSString* location = [self findLocation:torrent];
 	if (!location)
-		location =  pd.downloadsFolder;
+		location =  [[ProcessesController sharedProcessesController] localDownloadsFolderForIndex:[self _processIndex]];
 	if (location)
 	{
 		NSURL * file = [NSURL fileURLWithPath: location];
@@ -321,8 +309,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 -(NSString*) findLocation:(Torrent *)torrent
 {
-	ProcessDescriptor *pd = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
-	NSString * location = pd.downloadsFolder;
+	NSString * location = [[ProcessesController sharedProcessesController] localDownloadsFolderForIndex:[self _processIndex]];
 	if (location)
 	{
 		NSMutableString* exactLocation = [NSMutableString stringWithCapacity:[location length]];
@@ -357,16 +344,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 - (id<TorrentController>) _controller
 {
 	
-	return [[self _descriptor] process];
+	return [[ProcessesController sharedProcessesController] processForIndex:[self _processIndex]];
 }
 
-- (ProcessDescriptor *) _descriptor
+- (NSInteger) _processIndex
 {
 	
-	ProcessDescriptor *p = nil;
-	if ([[ProcessesController sharedProcessesController] count]>0)
-		p = [[ProcessesController sharedProcessesController] processDescriptorAtIndex:0];
-	return p;
+	return [[ProcessesController sharedProcessesController] indexForRow:0];
 }
 
 - (void)_updateList
@@ -478,7 +462,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void)_updateGlobals
 {
-	NSString *path = [[self _descriptor] downloadsFolder];
+	NSString *path = [[ProcessesController sharedProcessesController] localDownloadsFolderForIndex:[self _processIndex]];
 	if (path == nil)
 		return;
 	

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		256AC3DA0F4B6AC300CF3369 /* NativaAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 256AC3D90F4B6AC300CF3369 /* NativaAppDelegate.m */; };
-		8100449C1119F17900EFBF71 /* ProcessDescriptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8100449B1119F17900EFBF71 /* ProcessDescriptor.m */; };
 		8102BDA5115FB8F1001D7696 /* YingYangGroupTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 8102BDA4115FB8F1001D7696 /* YingYangGroupTemplate.png */; };
 		8102BE22115FC27F001D7696 /* GroupsNoneHoverTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 8102BE21115FC27F001D7696 /* GroupsNoneHoverTemplate.png */; };
 		8106590C1118DA4700674B45 /* PreferencesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 810659091118DA4700674B45 /* PreferencesController.m */; };
@@ -128,8 +127,6 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
-		8100449A1119F17900EFBF71 /* ProcessDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProcessDescriptor.h; path = Preferences/ProcessDescriptor.h; sourceTree = "<group>"; };
-		8100449B1119F17900EFBF71 /* ProcessDescriptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProcessDescriptor.m; path = Preferences/ProcessDescriptor.m; sourceTree = "<group>"; };
 		8102BDA4115FB8F1001D7696 /* YingYangGroupTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = YingYangGroupTemplate.png; sourceTree = "<group>"; };
 		8102BE21115FC27F001D7696 /* GroupsNoneHoverTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GroupsNoneHoverTemplate.png; sourceTree = "<group>"; };
 		810658F81118D5EF00674B45 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PreferencesWindow.xib; sourceTree = "<group>"; };
@@ -290,8 +287,6 @@
 				811B055A10F6A019000D1DDC /* Network */,
 				811B059D10F6A1B3000D1DDC /* Torrent */,
 				811B056910F6A055000D1DDC /* UI */,
-				8100449A1119F17900EFBF71 /* ProcessDescriptor.h */,
-				8100449B1119F17900EFBF71 /* ProcessDescriptor.m */,
 				256AC3D80F4B6AC300CF3369 /* NativaAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* NativaAppDelegate.m */,
 				819D3BE81110CD5200F7007C /* DownloadsController.h */,
@@ -732,7 +727,6 @@
 				8162160F11152ED30095862B /* TorrentGroup.m in Sources */,
 				8106590C1118DA4700674B45 /* PreferencesController.m in Sources */,
 				8106590D1118DA4700674B45 /* PreferencesWindow.m in Sources */,
-				8100449C1119F17900EFBF71 /* ProcessDescriptor.m in Sources */,
 				8169644C1119F81400246098 /* ProcessPreferencesController.m in Sources */,
 				816964541119F94800246098 /* ProcessesController.m in Sources */,
 				8169685C111B0DF800246098 /* FilterButton.m in Sources */,

@@ -32,11 +32,11 @@
 
 - (void) setGroup:(Torrent *)torrent group:(NSString *) group response:(VoidResponseBlock) response;
 
--(BOOL) connected;
+- (BOOL) connected;
 
--(void) openConnection:(VoidResponseBlock) response;
+- (void) openConnection:(VoidResponseBlock) response;
 
--(void) closeConnection;
+- (void) closeConnection;
 
 @end
 

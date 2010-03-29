@@ -8,35 +8,35 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class ProcessDescriptor;
+@class ProcessesController;
 
 @interface ProcessPreferencesController : NSObject
 {
-	IBOutlet NSTextField *_host;
+	IBOutlet NSTextField	*_host;
 	
-	IBOutlet NSTextField *_port;
+	IBOutlet NSTextField	*_port;
 	
-	IBOutlet NSPopUpButton * _downloadsPathPopUp;
+	IBOutlet NSPopUpButton	*_downloadsPathPopUp;
 	
-	IBOutlet NSWindow *_window;
+	IBOutlet NSWindow		*_window;
 	
-	IBOutlet NSButton * _useSSH;
+	IBOutlet NSButton		*_useSSH;
 	
-	IBOutlet NSTextField * _sshHost;
+	IBOutlet NSTextField	*_sshHost;
 	
-	IBOutlet NSTextField * _sshPort;
+	IBOutlet NSTextField	*_sshPort;
 	
-	IBOutlet NSTextField * _sshUsername;
+	IBOutlet NSTextField	*_sshUsername;
 	
-	IBOutlet NSTextField * _sshPassword;
+	IBOutlet NSTextField	*_sshPassword;
 	
-	IBOutlet NSTextField * _sshLocalPort;
+	IBOutlet NSTextField	*_sshLocalPort;
 	
-	IBOutlet NSTextField * _groupCustomField;
+	IBOutlet NSTextField	*_groupCustomField;
 	
-	BOOL useSSHTunnel;
+	BOOL					useSSHTunnel;
 	
-	ProcessDescriptor* unsavedProcessDescriptor;
+	ProcessesController		*pc;
 }
 
 @property BOOL useSSHTunnel;

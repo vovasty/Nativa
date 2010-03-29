@@ -23,7 +23,6 @@
  *****************************************************************************/
 
 #import "PreferencesController.h"
-#import "ProcessDescriptor.h"
 #import "DownloadsController.h"
 #import "SynthesizeSingleton.h"
 
