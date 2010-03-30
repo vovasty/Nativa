@@ -53,7 +53,7 @@ GroupsController * fGroupsInstance = nil;
     if ((self = [super init]))
     {
         NSArray *groups;
-		if ((groups = [[NSUserDefaults standardUserDefaults] arrayForKey: @"GroupDicts"]))
+		if ((groups = [[NSUserDefaults standardUserDefaults] arrayForKey: @"Groups"]))
 		{
 			fGroups = [[NSMutableArray alloc] initWithCapacity:[groups count]];
 			for (NSDictionary * dict in groups)
@@ -321,7 +321,7 @@ GroupsController * fGroupsInstance = nil;
         [tempDict release];
     }
     
-    [[NSUserDefaults standardUserDefaults] setObject: groups forKey: @"GroupDicts"];
+    [[NSUserDefaults standardUserDefaults] setObject: groups forKey: @"Groups"];
 }
 
 - (NSImage *) imageForGroup: (NSMutableDictionary *) dict
