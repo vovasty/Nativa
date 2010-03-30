@@ -13,6 +13,8 @@
 #import "AMServer.h"
 #import "RTConnection.h"
 #import "RTorrentController.h"
+#import "EMKeychainItem.h"
+
 
 @interface ProcessesController(Private)
 -(NSMutableDictionary *) dictionaryForIndex:(NSInteger) index;
@@ -36,6 +38,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 			for (NSDictionary * dict in procs)
 			{
 				NSMutableDictionary * tempDict = [dict mutableCopy];
+				
+				//retrieve SSH password from keychain
+				if ([[tempDict objectForKey:@"ConnectionType"] isEqualToString:@"SSH"])
+				{
+					EMInternetKeychainItem *keychainItem = [EMInternetKeychainItem internetKeychainItemForServer:[tempDict objectForKey:@"SSHHost"]
+																									withUsername:[tempDict objectForKey:@"SSHUser"]
+																											path:nil
+																											port:[[tempDict objectForKey:@"SSHPort"] integerValue] 
+																										protocol:kSecProtocolTypeSSH];
+				
+					[tempDict setObject:keychainItem.password forKey:@"SSHPassword"];
+				}
+				
 				[_processes addObject:tempDict];
 				[tempDict release];
 			}
@@ -66,12 +81,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 		//don't archive the ProcessObject
         [tempDict removeObjectForKey: @"ProcessObject"];
 
+		
+		//store SSH password in keychain
+		if ([[tempDict objectForKey:@"ConnectionType"] isEqualToString:@"SSH"])
+		{
+			[EMInternetKeychainItem addInternetKeychainItemForServer:[tempDict objectForKey:@"SSHHost"]
+														withUsername:[tempDict objectForKey:@"SSHUser"]
+															password:[tempDict objectForKey:@"SSHPassword"]
+																path:nil
+																port:[[tempDict objectForKey:@"SSHPort"] integerValue]
+															protocol:kSecProtocolTypeSSH];
+		
+			[tempDict removeObjectForKey: @"SSHPassword"];
+		}
         [processes addObject: tempDict];
 		
         [tempDict release];
     }
     
 	[[NSUserDefaults standardUserDefaults] setObject: processes forKey: @"Processes"];
+	
 }
 
 

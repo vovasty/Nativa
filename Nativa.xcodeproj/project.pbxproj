@@ -75,6 +75,7 @@
 		8169685C111B0DF800246098 /* FilterButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8169685B111B0DF800246098 /* FilterButton.m */; };
 		81747F301159153A00192413 /* YingYangTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81747F2F1159153A00192413 /* YingYangTemplate.png */; };
 		817C3D371159851000DC97DA /* DiskSpace.png in Resources */ = {isa = PBXBuildFile; fileRef = 817C3D361159851000DC97DA /* DiskSpace.png */; };
+		8193C64211619206003DC173 /* EMKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8193C64111619206003DC173 /* EMKeychainItem.m */; };
 		819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3BE91110CD5200F7007C /* DownloadsController.m */; };
 		819D3E0C1110EE6E00F7007C /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3E0B1110EE6E00F7007C /* Controller.m */; };
 		81B73ABA1113993800A11521 /* UpArrowTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B73AB91113993800A11521 /* UpArrowTemplate.png */; };
@@ -222,6 +223,8 @@
 		81720931111666BD0018555A /* NativaConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativaConstants.h; sourceTree = "<group>"; };
 		81747F2F1159153A00192413 /* YingYangTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = YingYangTemplate.png; sourceTree = "<group>"; };
 		817C3D361159851000DC97DA /* DiskSpace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DiskSpace.png; sourceTree = "<group>"; };
+		8193C64011619206003DC173 /* EMKeychainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMKeychainItem.h; sourceTree = "<group>"; };
+		8193C64111619206003DC173 /* EMKeychainItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMKeychainItem.m; sourceTree = "<group>"; };
 		819D3BE81110CD5200F7007C /* DownloadsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadsController.h; sourceTree = "<group>"; };
 		819D3BE91110CD5200F7007C /* DownloadsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsController.m; sourceTree = "<group>"; };
 		819D3E0A1110EE6E00F7007C /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
@@ -287,6 +290,8 @@
 				811B055A10F6A019000D1DDC /* Network */,
 				811B059D10F6A1B3000D1DDC /* Torrent */,
 				811B056910F6A055000D1DDC /* UI */,
+				8193C64011619206003DC173 /* EMKeychainItem.h */,
+				8193C64111619206003DC173 /* EMKeychainItem.m */,
 				256AC3D80F4B6AC300CF3369 /* NativaAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* NativaAppDelegate.m */,
 				819D3BE81110CD5200F7007C /* DownloadsController.h */,
@@ -741,6 +746,7 @@
 				8107925D115C1A7300A87CEA /* GroupsPrefsController.m in Sources */,
 				81079342115C2AEF00A87CEA /* ExpandedPathToPathTransformer.m in Sources */,
 				81079343115C2AEF00A87CEA /* ExpandedPathToIconTransformer.m in Sources */,
+				8193C64211619206003DC173 /* EMKeychainItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -175,7 +175,7 @@
 	[_sshHost setStringValue:[self emptyString:[pc sshHostForIndex:index]]];
 		
 	[_sshPort setStringValue:[self zeroInteger:[pc sshPortForIndex:index]]];
-#warning store in keychain
+
 	[_sshUsername setStringValue:[self emptyString:[pc sshUserForIndex:index]]];
 		
 	[_sshPassword setStringValue:[self emptyString:[pc sshPasswordForIndex:index]]];
