@@ -33,14 +33,6 @@
 
 #define MAX_GROUP 999999
 
-#define ACTION_MENU_GLOBAL_TAG 101
-#define ACTION_MENU_UNLIMITED_TAG 102
-#define ACTION_MENU_LIMIT_TAG 103
-
-#define ACTION_MENU_PRIORITY_HIGH_TAG 101
-#define ACTION_MENU_PRIORITY_NORMAL_TAG 102
-#define ACTION_MENU_PRIORITY_LOW_TAG 103
-
 @interface TorrentTableView (Private)
 
 - (BOOL) pointInGroupStatusRect: (NSPoint) point;
@@ -380,7 +372,7 @@
         fActionPushedRow = row;
         [self setNeedsDisplayInRect: [self rectOfRow: row]]; //ensure button is pushed down
         
-        [self displayTorrentMenuForEvent: event];
+//        [self displayTorrentMenuForEvent: event];
         
         fActionPushedRow = -1;
         [self setNeedsDisplayInRect: [self rectOfRow: row]];
@@ -527,27 +519,6 @@
         [[DownloadsController sharedDownloadsController] start:torrent.thash response:nil];
 }
 
-- (void) displayTorrentMenuForEvent: (NSEvent *) event
-{
-	const NSInteger row = [self rowAtPoint: [self convertPoint: [event locationInWindow] fromView: nil]];
-    if (row < 0)
-        return;
-    
-    //update file action menu
-    fMenuTorrent = [[self itemAtRow: row] retain];
-    
-    //place menu below button
-    NSRect rect = [fTorrentCell iconRectForBounds: [self rectOfRow: row]];
-    NSPoint location = rect.origin;
-    location.y += rect.size.height + 5.0;
-    
-	location = [self convertPoint: location toView: self];
-    [fActionMenu popUpMenuPositioningItem: nil atLocation: location inView: self];
-    
-    [fMenuTorrent release];
-    fMenuTorrent = nil;
-}
-
 - (void) displayGroupMenuForEvent: (NSEvent *) event
 {
 	const NSInteger row = [self rowAtPoint: [self convertPoint: [event locationInWindow] fromView: nil]];
@@ -566,51 +537,6 @@
     [_controller showGroupMenuForTorrent:fMenuTorrent atLocation:location];
     [fMenuTorrent release];
     fMenuTorrent = nil;
-}
-
-
-#pragma mark NSMenuDelegate portion
-
-- (void) menuNeedsUpdate: (NSMenu *) menu
-{
-    //this method seems to be called when it shouldn't be
-    if (!fMenuTorrent)
-        return;
-    
-	if (menu == fPriorityMenu)
-    {
-        const TorrentPriority priority = [fMenuTorrent priority];
-        
-        NSMenuItem * item = [menu itemWithTag: ACTION_MENU_PRIORITY_HIGH_TAG];
-        [item setState: priority == NITorrentPriorityHigh ? NSOnState : NSOffState];
-        
-        item = [menu itemWithTag: ACTION_MENU_PRIORITY_NORMAL_TAG];
-        [item setState: priority == NITorrentPriorityNormal ? NSOnState : NSOffState];
-        
-        item = [menu itemWithTag: ACTION_MENU_PRIORITY_LOW_TAG];
-        [item setState: priority == NITorrentPriorityLow ? NSOnState : NSOffState];
-    }
-}
-
-- (void) setPriority: (id) sender
-{
-    TorrentPriority priority;
-    switch ([sender tag])
-    {
-        case ACTION_MENU_PRIORITY_HIGH_TAG:
-            priority = NITorrentPriorityHigh;
-            break;
-        case ACTION_MENU_PRIORITY_NORMAL_TAG:
-            priority = NITorrentPriorityNormal;
-            break;
-        case ACTION_MENU_PRIORITY_LOW_TAG:
-            priority = NITorrentPriorityLow;
-            break;
-        default:
-            NSAssert1(NO, @"Unknown priority: %d", [sender tag]);
-    }
-    
-    [[DownloadsController sharedDownloadsController] setPriority:fMenuTorrent priority:priority response:nil];
 }
 
 

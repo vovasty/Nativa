@@ -20,6 +20,11 @@
 #import "QuickLookController.h"
 #import "GroupsController.h"
 
+#define ACTION_MENU_PRIORITY_HIGH_TAG 101
+#define ACTION_MENU_PRIORITY_NORMAL_TAG 102
+#define ACTION_MENU_PRIORITY_LOW_TAG 103
+
+
 @implementation Controller
 +(void) initialize
 {
@@ -208,6 +213,7 @@
 		[[DownloadsController sharedDownloadsController] setGroup:_menuTorrent group:group response:nil];
 	}
 }
+
 - (void) showGroupMenuForTorrent:(Torrent *) torrent atLocation:(NSPoint) location
 {
 	_menuTorrent = [torrent retain];
@@ -218,9 +224,32 @@
 	
 	_menuTorrent = nil;
 }
+
 - (NSMenu *) contextRowMenu
 {
 	return _contextRowMenu;
+}
+
+- (void) setPriorityForSelectedTorrents: (id) sender
+{
+    TorrentPriority priority;
+    switch ([sender tag])
+    {
+        case ACTION_MENU_PRIORITY_HIGH_TAG:
+            priority = NITorrentPriorityHigh;
+            break;
+        case ACTION_MENU_PRIORITY_NORMAL_TAG:
+            priority = NITorrentPriorityNormal;
+            break;
+        case ACTION_MENU_PRIORITY_LOW_TAG:
+            priority = NITorrentPriorityLow;
+            break;
+        default:
+            NSAssert1(NO, @"Unknown priority: %d", [sender tag]);
+    }
+	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
+	for (Torrent *torrent in torrents)
+		[[DownloadsController sharedDownloadsController] setPriority:torrent priority:priority response:nil];
 }
 
 #pragma mark -
@@ -244,6 +273,53 @@
             [item release];
         }
     }
+	else if (menu == _contextRowMenu)
+    {
+		NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
+		
+		NSInteger hp, np, lp;
+		
+		NSInteger pp = [torrents count]>0?[[torrents objectAtIndex:0] priority]:-1;
+		
+		BOOL allSame = pp != -1;
+		
+		for (Torrent *torrent in torrents)
+		{
+			if (pp != torrent.priority)
+			{
+				allSame = NO;
+				break;
+			}
+		}
+		
+		if (allSame)
+		{
+		
+			const TorrentPriority priority = [[torrents objectAtIndex:0] priority];
+        
+			hp = priority == NITorrentPriorityHigh ? NSOnState : NSOffState;
+        
+			np = priority == NITorrentPriorityNormal ? NSOnState : NSOffState;
+        
+			lp = priority == NITorrentPriorityLow ? NSOnState : NSOffState;
+		}
+		else 
+		{
+			hp = np = lp = NSOffState;
+		}
+		
+		NSMenuItem * item = [menu itemWithTag: ACTION_MENU_PRIORITY_HIGH_TAG];
+		[item setState: hp];
+        
+		item = [menu itemWithTag: ACTION_MENU_PRIORITY_NORMAL_TAG];
+		[item setState: np];
+        
+		item = [menu itemWithTag: ACTION_MENU_PRIORITY_LOW_TAG];
+		[item setState: lp];
+		
+
+    }
+	
     else;
 }
 

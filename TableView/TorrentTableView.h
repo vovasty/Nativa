@@ -45,7 +45,6 @@
     NSInteger fMouseControlRow, fMouseRevealRow, fMouseGroupRow, fMouseActionRow, fActionPushedRow, fGroupPushedRow;
     NSArray * fSelectedValues;
     
-    IBOutlet NSMenu * fActionMenu, * fPriorityMenu;
     Torrent * fMenuTorrent;
     
     CGFloat fPiecesBarPercent;
@@ -71,11 +70,7 @@
 
 - (void) toggleControlForTorrent: (Torrent *) torrent;
 
-- (void) displayTorrentMenuForEvent: (NSEvent *) event;
-
 - (void) displayGroupMenuForEvent: (NSEvent *) event;
-
-- (void) setPriority: (id) sender;
 
 - (CGFloat) piecesBarPercent;
 @end
