@@ -18,23 +18,14 @@
  * limitations under the License.
  *****************************************************************************/
 
-#import "SCGI.h"
+#import "NSStringSCGIAdditions.h"
 
-NSData* SCGIcreateRequest (NSString * input)
+@implementation NSString (NSStringSCGIAdditions)
+- (NSData *) encodeSCGI
 {
-	//	String res = "CONTENT_LENGTH\0" + (body != null ? body.length() : 0)
-	//	+ "\0SCGI\0" + "1\0";
-	//	if (header != null) {
-	//		for (Map.Entry<String, String> entry : header.entrySet())
-	//			res += entry.getKey() + '\0' + entry.getValue() + '\0';
-	//	}
-	//	String size = new Integer(res.getBytes().length) + ":";
-	//	res += "," + body;
-	//	return size + res;
+	NSString* header = [[NSString alloc] initWithFormat:@"CONTENT_LENGTH\0%d\0SCGI\01\0", [self length]];
 	
-	NSString* header = [[NSString alloc] initWithFormat:@"CONTENT_LENGTH\0%d\0SCGI\01\0",(input == NULL ?0 : [input length])];
-	
-	NSString* data = [[NSString alloc] initWithFormat:@"%i:%@,%@", [header length], header, input];
+	NSString* data = [[NSString alloc] initWithFormat:@"%i:%@,%@", [header length], header, self];
 	
 	NSData* result = [data dataUsingEncoding: NSUTF8StringEncoding];
 	
@@ -43,4 +34,6 @@ NSData* SCGIcreateRequest (NSString * input)
 	[data release];
 	
 	return result;
+	
 }
+@end

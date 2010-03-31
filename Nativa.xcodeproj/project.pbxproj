@@ -35,7 +35,7 @@
 		810E7A8F1115F74900FC4640 /* RevealHover.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E7A8C1115F74900FC4640 /* RevealHover.png */; };
 		810E7A901115F74900FC4640 /* RevealOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E7A8D1115F74900FC4640 /* RevealOff.png */; };
 		810E7A911115F74900FC4640 /* RevealOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E7A8E1115F74900FC4640 /* RevealOn.png */; };
-		811B056810F6A030000D1DDC /* SCGI.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B056710F6A030000D1DDC /* SCGI.m */; };
+		811B056810F6A030000D1DDC /* NSStringSCGIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B056710F6A030000D1DDC /* NSStringSCGIAdditions.m */; };
 		811B05A210F6A1C7000D1DDC /* Torrent.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B05A110F6A1C7000D1DDC /* Torrent.m */; };
 		811B4B7611275B14008A23C3 /* AMServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B4B7111275B14008A23C3 /* AMServer.m */; };
 		811B4B7811275B14008A23C3 /* AMSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B4B7511275B14008A23C3 /* AMSession.m */; };
@@ -167,8 +167,8 @@
 		810E7A8C1115F74900FC4640 /* RevealHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RevealHover.png; sourceTree = "<group>"; };
 		810E7A8D1115F74900FC4640 /* RevealOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RevealOff.png; sourceTree = "<group>"; };
 		810E7A8E1115F74900FC4640 /* RevealOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RevealOn.png; sourceTree = "<group>"; };
-		811B056610F6A030000D1DDC /* SCGI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCGI.h; sourceTree = "<group>"; };
-		811B056710F6A030000D1DDC /* SCGI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCGI.m; sourceTree = "<group>"; };
+		811B056610F6A030000D1DDC /* NSStringSCGIAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringSCGIAdditions.h; sourceTree = "<group>"; };
+		811B056710F6A030000D1DDC /* NSStringSCGIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringSCGIAdditions.m; sourceTree = "<group>"; };
 		811B05A010F6A1C7000D1DDC /* Torrent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Torrent.h; sourceTree = "<group>"; };
 		811B05A110F6A1C7000D1DDC /* Torrent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Torrent.m; sourceTree = "<group>"; };
 		811B4B7011275B14008A23C3 /* AMServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AMServer.h; sourceTree = "<group>"; };
@@ -443,8 +443,8 @@
 			children = (
 				811B4B6F11275B14008A23C3 /* SSH */,
 				814FF9671100AB7100335707 /* XMLRPC */,
-				811B056610F6A030000D1DDC /* SCGI.h */,
-				811B056710F6A030000D1DDC /* SCGI.m */,
+				811B056610F6A030000D1DDC /* NSStringSCGIAdditions.h */,
+				811B056710F6A030000D1DDC /* NSStringSCGIAdditions.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -704,7 +704,7 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				256AC3DA0F4B6AC300CF3369 /* NativaAppDelegate.m in Sources */,
-				811B056810F6A030000D1DDC /* SCGI.m in Sources */,
+				811B056810F6A030000D1DDC /* NSStringSCGIAdditions.m in Sources */,
 				811B05A210F6A1C7000D1DDC /* Torrent.m in Sources */,
 				810CD80D10FBCF0600963D10 /* TorrentDropView.m in Sources */,
 				812A725010FD0A0300795D8B /* RTConnection.m in Sources */,

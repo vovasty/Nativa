@@ -22,7 +22,7 @@
 #import "RTConnection.h"
 #import "XMLRPCEncoder.h"
 #import "XMLRPCTreeBasedParser.h"
-#import "SCGI.h"
+#import "NSStringSCGIAdditions.h"
 
 @interface RTSCGIOperation ()
 - (void) requestDidSent;
@@ -85,7 +85,7 @@
 	
 	[xmlrpc_request release];
 	_writtenBytesCounter = 0;
-	_requestData = SCGIcreateRequest(scgi_req);
+	_requestData = [scgi_req encodeSCGI];
 	[_requestData retain];
 	
 	

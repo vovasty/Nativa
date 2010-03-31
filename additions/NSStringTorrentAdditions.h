@@ -24,7 +24,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface NSString (NSStringAdditions)
+@interface NSString (NSStringTorrentAdditions)
 
 + (NSString *) ellipsis;
 - (NSString *) stringByAppendingEllipsis;

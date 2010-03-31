@@ -20,4 +20,6 @@
 
 #import <Foundation/Foundation.h>
 
-NSData* SCGIcreateRequest (NSString * input);
+@interface NSString (NSStringSCGIAdditions)
+- (NSData *) encodeSCGI;
+@end

@@ -35,7 +35,7 @@ tr_truncd( double x, int decimal_places )
 }
 
 
-@implementation NSString (NSStringAdditions)
+@implementation NSString (NSStringTorrentAdditions)
 
 + (NSString *) ellipsis
 {
