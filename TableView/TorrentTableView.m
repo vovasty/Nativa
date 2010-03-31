@@ -60,8 +60,6 @@
         fMouseControlRow = -1;
         fMouseRevealRow = -1;
 		fMouseGroupRow = -1;
-        fMouseActionRow = -1;
-        fActionPushedRow = -1;
         
         [self setDelegate: self];
         
@@ -147,8 +145,6 @@
         [cell setControlHover: row == fMouseControlRow];
         [cell setRevealHover: row == fMouseRevealRow];
 		[cell setGroupHover: row == fMouseGroupRow];
-        [cell setActionHover: row == fMouseActionRow];
-        [cell setActionPushed: row == fActionPushedRow];
     }
     else
     {
@@ -232,7 +228,6 @@
     fMouseControlRow = -1;
     fMouseRevealRow = -1;
 	fMouseGroupRow = -1;
-    fMouseActionRow = -1;
     
     for (NSTrackingArea * area in [self trackingAreas])
     {
@@ -262,13 +257,6 @@
         [self setNeedsDisplayInRect: [self rectOfRow: row]];
 }
 
-- (void) setActionButtonHover: (NSInteger) row
-{
-    fMouseActionRow = row;
-    if (row >= 0)
-        [self setNeedsDisplayInRect: [self rectOfRow: row]];
-}
-
 - (void) mouseEntered: (NSEvent *) event
 {
     NSDictionary * dict = (NSDictionary *)[event userData];
@@ -278,9 +266,7 @@
     {
         NSInteger rowVal = [row integerValue];
         NSString * type = [dict objectForKey: @"Type"];
-        if ([type isEqualToString: @"Action"])
-            fMouseActionRow = rowVal;
-        else if ([type isEqualToString: @"Control"])
+        if ([type isEqualToString: @"Control"])
             fMouseControlRow = rowVal;
         else if ([type isEqualToString: @"Group"])
             fMouseGroupRow = rowVal;
@@ -299,9 +285,7 @@
     if ((row = [dict objectForKey: @"Row"]))
     {
         NSString * type = [dict objectForKey: @"Type"];
-        if ([type isEqualToString: @"Action"])
-            fMouseActionRow = -1;
-        else if ([type isEqualToString: @"Control"])
+        if ([type isEqualToString: @"Control"])
             fMouseControlRow = -1;
         else if ([type isEqualToString: @"Group"])
             fMouseGroupRow = -1;
@@ -355,7 +339,7 @@
         return;
     }
     
-    const BOOL pushed = row != -1 && (fMouseActionRow == row || fMouseRevealRow == row || fMouseGroupRow == row ||fMouseControlRow == row);
+    const BOOL pushed = row != -1 && (fMouseRevealRow == row || fMouseGroupRow == row ||fMouseControlRow == row);
     
     //if pushing a button, don't change the selected rows
     if (pushed)
@@ -366,18 +350,7 @@
     [fSelectedValues release];
     fSelectedValues = nil;
     
-    //avoid weird behavior when showing menu by doing this after mouse down
-    if (row != -1 && fMouseActionRow == row)
-    {
-        fActionPushedRow = row;
-        [self setNeedsDisplayInRect: [self rectOfRow: row]]; //ensure button is pushed down
-        
-//        [self displayTorrentMenuForEvent: event];
-        
-        fActionPushedRow = -1;
-        [self setNeedsDisplayInRect: [self rectOfRow: row]];
-    }
-	else if (row != -1 && fMouseGroupRow == row)
+	if (row != -1 && fMouseGroupRow == row)
     {
         fGroupPushedRow = row;
         [self setNeedsDisplayInRect: [self rectOfRow: row]]; //ensure button is pushed down

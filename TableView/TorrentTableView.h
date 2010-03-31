@@ -42,7 +42,7 @@
     
     NSMutableIndexSet * fCollapsedGroups;
     
-    NSInteger fMouseControlRow, fMouseRevealRow, fMouseGroupRow, fMouseActionRow, fActionPushedRow, fGroupPushedRow;
+    NSInteger fMouseControlRow, fMouseRevealRow, fMouseGroupRow, fGroupPushedRow;
     NSArray * fSelectedValues;
     
     Torrent * fMenuTorrent;
@@ -60,7 +60,6 @@
 - (void) setGroupButtonHover: (NSInteger) row;
 - (void) setControlButtonHover: (NSInteger) row;
 - (void) setRevealButtonHover: (NSInteger) row;
-- (void) setActionButtonHover: (NSInteger) row;
 
 - (void) selectValues: (NSArray *) values;
 - (NSArray *) selectedValues;

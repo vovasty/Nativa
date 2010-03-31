@@ -36,7 +36,6 @@
 #define ERROR_IMAGE_SIZE 20.0
 
 #define NORMAL_BUTTON_WIDTH 14.0
-#define ACTION_BUTTON_WIDTH 16.0
 
 #define PRIORITY_ICON_WIDTH 14.0
 #define PRIORITY_ICON_HEIGHT 14.0
@@ -71,7 +70,6 @@
 
 - (NSRect) controlButtonRectForBounds: (NSRect) bounds;
 - (NSRect) revealButtonRectForBounds: (NSRect) bounds;
-- (NSRect) actionButtonRectForBounds: (NSRect) bounds;
 
 - (NSAttributedString *) attributedTitle;
 - (NSAttributedString *) attributedStatusString: (NSString *) string;
@@ -271,24 +269,6 @@
 	[controlView addTrackingArea: area];
 	[groupInfo release];
 	[area release];
-	
-	
-    //action button
-    NSRect actionButtonRect = [self iconRectForBounds: cellFrame]; //use the whole icon
-    NSTrackingAreaOptions actionOptions = options;
-    if (NSMouseInRect(mouseLocation, actionButtonRect, [controlView isFlipped]))
-    {
-        actionOptions |= NSTrackingAssumeInside;
-        [(TorrentTableView *)controlView setActionButtonHover: [[userInfo objectForKey: @"Row"] integerValue]];
-    }
-    
-    NSMutableDictionary * actionInfo = [userInfo mutableCopy];
-    [actionInfo setObject: @"Action" forKey: @"Type"];
-    area = [[NSTrackingArea alloc] initWithRect: actionButtonRect options: actionOptions owner: controlView userInfo: actionInfo];
-    [controlView addTrackingArea: area];
-    [actionInfo release];
-    [area release];
-
 }
 
 - (void) setControlHover: (BOOL) hover
@@ -304,16 +284,6 @@
 - (void) setRevealHover: (BOOL) hover
 {
     fHoverReveal = hover;
-}
-
-- (void) setActionHover: (BOOL) hover
-{
-    fHoverAction = hover;
-}
-
-- (void) setActionPushed: (BOOL) pushed
-{
-    fMouseDownActionButton = pushed;
 }
 
 - (void) drawInteriorWithFrame: (NSRect) cellFrame inView: (NSView *) controlView
@@ -414,21 +384,6 @@
     
     NSImage * revealImage = [NSImage imageNamed: revealImageString];
     [self drawImage: revealImage inRect: [self revealButtonRectForBounds: cellFrame]];
-    
-    //action button
-    NSString * actionImageString;
-    if (fMouseDownActionButton)
-        actionImageString = @"ActionOn.png";
-    else if (!fTracking && fHoverAction)
-        actionImageString = @"ActionHover.png";
-    else
-        actionImageString = nil;
-    
-    if (actionImageString)
-    {
-        NSImage * actionImage = [NSImage imageNamed: actionImageString];
-        [self drawImage: actionImage inRect: [self actionButtonRectForBounds: cellFrame]];
-    }
     
     //status
 	NSAttributedString * statusString = [self attributedStatusString: [self statusString]];
@@ -663,15 +618,6 @@
     return result;
 }
 
-- (NSRect) actionButtonRectForBounds: (NSRect) bounds
-{
-    const NSRect iconRect = [self iconRectForBounds: bounds];
-    
-    //in minimal view the rect will be the icon rect, but avoid the extra defaults lookup with some cheap math
-    return NSMakeRect(NSMidX(iconRect) - ACTION_BUTTON_WIDTH * 0.5, NSMidY(iconRect) - ACTION_BUTTON_WIDTH * 0.5,
-                        ACTION_BUTTON_WIDTH, ACTION_BUTTON_WIDTH);
-}
-
 - (NSAttributedString *) attributedTitle
 {
     NSString * title = [[self representedObject] name];
@@ -703,8 +649,6 @@
                 return NSLocalizedString(@"Resume the transfer", "Torrent cell -> button info");
         }
     }
-    else if (!fTracking && fHoverAction)
-        return NSLocalizedString(@"Change transfer settings", "Torrent Table -> tooltip");
     else
 		return nil;
 }
