@@ -426,12 +426,12 @@
 				<string key="NSTitle">Menu</string>
 				<object class="NSMutableArray" key="NSMenuItems">
 					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSMenuItem" id="485637654">
+					<object class="NSMenuItem" id="338514481">
 						<reference key="NSMenu" ref="34268020"/>
 						<string key="NSTitle">High</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
-						<object class="NSCustomResource" key="NSImage" id="755980353">
+						<object class="NSCustomResource" key="NSImage">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">PriorityHigh</string>
 						</object>
@@ -439,12 +439,12 @@
 						<reference key="NSMixedImage" ref="502551668"/>
 						<int key="NSTag">101</int>
 					</object>
-					<object class="NSMenuItem" id="950766171">
+					<object class="NSMenuItem" id="443441398">
 						<reference key="NSMenu" ref="34268020"/>
 						<string key="NSTitle">Normal</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
-						<object class="NSCustomResource" key="NSImage" id="674584342">
+						<object class="NSCustomResource" key="NSImage">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">PriorityNormal</string>
 						</object>
@@ -452,12 +452,12 @@
 						<reference key="NSMixedImage" ref="502551668"/>
 						<int key="NSTag">102</int>
 					</object>
-					<object class="NSMenuItem" id="321806199">
+					<object class="NSMenuItem" id="232004841">
 						<reference key="NSMenu" ref="34268020"/>
 						<string key="NSTitle">Low</string>
 						<string key="NSKeyEquiv"/>
 						<int key="NSMnemonicLoc">2147483647</int>
-						<object class="NSCustomResource" key="NSImage" id="1070419778">
+						<object class="NSCustomResource" key="NSImage">
 							<string key="NSClassName">NSImage</string>
 							<string key="NSResourceName">PriorityLow</string>
 						</object>
@@ -465,7 +465,7 @@
 						<reference key="NSMixedImage" ref="502551668"/>
 						<int key="NSTag">103</int>
 					</object>
-					<object class="NSMenuItem" id="724483906">
+					<object class="NSMenuItem" id="227598928">
 						<reference key="NSMenu" ref="34268020"/>
 						<bool key="NSIsDisabled">YES</bool>
 						<bool key="NSIsSeparator">YES</bool>
@@ -1585,44 +1585,6 @@ AAAAAAAAA</bytes>
 			<object class="NSCustomObject" id="1038676492">
 				<string key="NSClassName">SUUpdater</string>
 			</object>
-			<object class="NSMenu" id="214903991">
-				<string key="NSTitle">Menu</string>
-				<object class="NSMutableArray" key="NSMenuItems">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSMenuItem" id="782405260">
-						<reference key="NSMenu" ref="214903991"/>
-						<string key="NSTitle">High</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSImage" ref="755980353"/>
-						<reference key="NSOnImage" ref="35465992"/>
-						<reference key="NSMixedImage" ref="502551668"/>
-						<int key="NSTag">101</int>
-					</object>
-					<object class="NSMenuItem" id="216793459">
-						<reference key="NSMenu" ref="214903991"/>
-						<string key="NSTitle">Normal</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSImage" ref="674584342"/>
-						<reference key="NSOnImage" ref="35465992"/>
-						<reference key="NSMixedImage" ref="502551668"/>
-						<int key="NSTag">102</int>
-					</object>
-					<object class="NSMenuItem" id="645904013">
-						<reference key="NSMenu" ref="214903991"/>
-						<string key="NSTitle">Low</string>
-						<string key="NSKeyEquiv"/>
-						<int key="NSMnemonicLoc">2147483647</int>
-						<reference key="NSImage" ref="1070419778"/>
-						<reference key="NSOnImage" ref="35465992"/>
-						<reference key="NSMixedImage" ref="502551668"/>
-						<int key="NSTag">103</int>
-					</object>
-				</object>
-				<string key="NSName"/>
-				<bool key="NSNoAutoenable">YES</bool>
-			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -1916,54 +1878,6 @@ AAAAAAAAA</bytes>
 					<int key="connectionID">882</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="214903991"/>
-						<reference key="destination" ref="995799562"/>
-					</object>
-					<int key="connectionID">911</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">fActionMenu</string>
-						<reference key="source" ref="995799562"/>
-						<reference key="destination" ref="214903991"/>
-					</object>
-					<int key="connectionID">914</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">setPriority:</string>
-						<reference key="source" ref="995799562"/>
-						<reference key="destination" ref="782405260"/>
-					</object>
-					<int key="connectionID">915</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">setPriority:</string>
-						<reference key="source" ref="995799562"/>
-						<reference key="destination" ref="216793459"/>
-					</object>
-					<int key="connectionID">916</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">setPriority:</string>
-						<reference key="source" ref="995799562"/>
-						<reference key="destination" ref="645904013"/>
-					</object>
-					<int key="connectionID">917</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">fPriorityMenu</string>
-						<reference key="source" ref="995799562"/>
-						<reference key="destination" ref="214903991"/>
-					</object>
-					<int key="connectionID">918</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">openShowSheet:</string>
 						<reference key="source" ref="753007583"/>
@@ -2119,7 +2033,7 @@ AAAAAAAAA</bytes>
 					<object class="IBActionConnection" key="connection">
 						<string key="label">setPriorityForSelectedTorrents:</string>
 						<reference key="source" ref="753007583"/>
-						<reference key="destination" ref="321806199"/>
+						<reference key="destination" ref="232004841"/>
 					</object>
 					<int key="connectionID">1027</int>
 				</object>
@@ -2127,7 +2041,7 @@ AAAAAAAAA</bytes>
 					<object class="IBActionConnection" key="connection">
 						<string key="label">setPriorityForSelectedTorrents:</string>
 						<reference key="source" ref="753007583"/>
-						<reference key="destination" ref="485637654"/>
+						<reference key="destination" ref="338514481"/>
 					</object>
 					<int key="connectionID">1028</int>
 				</object>
@@ -2135,7 +2049,7 @@ AAAAAAAAA</bytes>
 					<object class="IBActionConnection" key="connection">
 						<string key="label">setPriorityForSelectedTorrents:</string>
 						<reference key="source" ref="753007583"/>
-						<reference key="destination" ref="950766171"/>
+						<reference key="destination" ref="443441398"/>
 					</object>
 					<int key="connectionID">1029</int>
 				</object>
@@ -2798,18 +2712,6 @@ AAAAAAAAA</bytes>
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">883</int>
-						<reference key="object" ref="214903991"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="645904013"/>
-							<reference ref="216793459"/>
-							<reference ref="782405260"/>
-						</object>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">TorrentActionMenu</string>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">926</int>
 						<reference key="object" ref="28069550"/>
 						<reference key="parent" ref="720053764"/>
@@ -2910,10 +2812,10 @@ AAAAAAAAA</bytes>
 							<reference ref="341805681"/>
 							<reference ref="220271779"/>
 							<reference ref="949282482"/>
-							<reference ref="724483906"/>
-							<reference ref="950766171"/>
-							<reference ref="485637654"/>
-							<reference ref="321806199"/>
+							<reference ref="227598928"/>
+							<reference ref="443441398"/>
+							<reference ref="338514481"/>
+							<reference ref="232004841"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">ContextRowMenu</string>
@@ -2974,37 +2876,22 @@ AAAAAAAAA</bytes>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1020</int>
-						<reference key="object" ref="724483906"/>
+						<reference key="object" ref="227598928"/>
 						<reference key="parent" ref="34268020"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">906</int>
-						<reference key="object" ref="645904013"/>
-						<reference key="parent" ref="214903991"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">907</int>
-						<reference key="object" ref="216793459"/>
-						<reference key="parent" ref="214903991"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">908</int>
-						<reference key="object" ref="782405260"/>
-						<reference key="parent" ref="214903991"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">1021</int>
-						<reference key="object" ref="321806199"/>
+						<reference key="object" ref="232004841"/>
 						<reference key="parent" ref="34268020"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1022</int>
-						<reference key="object" ref="485637654"/>
+						<reference key="object" ref="338514481"/>
 						<reference key="parent" ref="34268020"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1023</int>
-						<reference key="object" ref="950766171"/>
+						<reference key="object" ref="443441398"/>
 						<reference key="parent" ref="34268020"/>
 					</object>
 				</object>
@@ -3168,13 +3055,6 @@ AAAAAAAAA</bytes>
 					<string>859.IBPluginDependency</string>
 					<string>860.IBPluginDependency</string>
 					<string>861.IBPluginDependency</string>
-					<string>883.IBEditorWindowLastContentRect</string>
-					<string>883.IBPluginDependency</string>
-					<string>883.ImportedFromIB2</string>
-					<string>883.editorWindowContentRectSynchronizationRect</string>
-					<string>906.IBPluginDependency</string>
-					<string>907.IBPluginDependency</string>
-					<string>908.IBPluginDependency</string>
 					<string>92.IBPluginDependency</string>
 					<string>92.ImportedFromIB2</string>
 					<string>926.IBPluginDependency</string>
@@ -3382,13 +3262,6 @@ AAAAAAAAA</bytes>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{411, 463}, {234, 393}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="1"/>
-					<string>{{381, 469}, {214, 113}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -3652,24 +3525,9 @@ AAAAAAAAA</bytes>
 				<object class="IBPartialClassDescription">
 					<string key="className">TorrentTableView</string>
 					<string key="superclassName">NSOutlineView</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">setPriority:</string>
-						<string key="NS.object.0">id</string>
-					</object>
 					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>_controller</string>
-							<string>fActionMenu</string>
-							<string>fPriorityMenu</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>Controller</string>
-							<string>NSMenu</string>
-							<string>NSMenu</string>
-						</object>
+						<string key="NS.key.0">_controller</string>
+						<string key="NS.object.0">Controller</string>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -3683,13 +3541,11 @@ AAAAAAAAA</bytes>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>_groupsMenu</string>
 							<string>_outlineView</string>
 							<string>_window</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSMenu</string>
 							<string>TorrentTableView</string>
 							<string>NSWindow</string>
 						</object>
