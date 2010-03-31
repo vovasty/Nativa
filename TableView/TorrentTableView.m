@@ -23,7 +23,7 @@
  *****************************************************************************/
 
 #import "TorrentTableView.h"
-#import "TorrentViewController.h"
+#import "Controller.h"
 #import "Torrent.h"
 #import "TorrentCell.h"
 #import "TorrentGroup.h"
@@ -484,7 +484,7 @@
     {
         if (![self isRowSelected: row])
             [self selectRowIndexes: [NSIndexSet indexSetWithIndex: row] byExtendingSelection: NO];
-        return fContextRow;
+        return [_controller contextRowMenu];
     }
     return nil;
 }

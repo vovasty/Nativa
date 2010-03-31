@@ -18,6 +18,7 @@
 #import "DragOverlayWindow.h"
 #import "ToolbarControllerAdditions.h"
 #import "QuickLookController.h"
+#import "GroupsController.h"
 
 @implementation Controller
 +(void) initialize
@@ -189,8 +190,63 @@
 		[[DownloadsController sharedDownloadsController] reveal:torrent];
 	
 }
+
+- (void) setGroup: (id) sender
+{
+	NSString *group = [[GroupsController groups] nameForIndex:[sender tag]];
+
+	if (_menuTorrent == nil)
+	{
+		for (Torrent * torrent in [_downloadsView selectedTorrents])
+		{
+			[[DownloadsController sharedDownloadsController] setGroup:torrent group:group response:nil];
+			[_downloadsView deselectAll: nil];
+		}
+	}
+	else
+	{
+		[[DownloadsController sharedDownloadsController] setGroup:_menuTorrent group:group response:nil];
+	}
+}
+- (void) showGroupMenuForTorrent:(Torrent *) torrent atLocation:(NSPoint) location
+{
+	_menuTorrent = [torrent retain];
+	
+	[_groupMenu popUpMenuPositioningItem: nil atLocation: location inView: _downloadsView];
+	
+	[_menuTorrent release];
+	
+	_menuTorrent = nil;
+}
+- (NSMenu *) contextRowMenu
+{
+	return _contextRowMenu;
+}
+
 #pragma mark -
 #pragma mark NSMenuDelegate stuff
+
+- (void) menuNeedsUpdate: (NSMenu *) menu
+{
+    if (menu == _groupMenu)
+    {
+        [menu removeAllItems];
+		
+        NSMenu * groupMenu;
+		groupMenu = [[GroupsController groups] groupMenuWithTarget: self action: @selector(setGroup:) isSmall: NO];
+        
+        const NSInteger groupMenuCount = [groupMenu numberOfItems];
+        for (NSInteger i = 0; i < groupMenuCount; i++)
+        {
+            NSMenuItem * item = [[groupMenu itemAtIndex: 0] retain];
+            [groupMenu removeItemAtIndex: 0];
+            [menu addItem: item];
+            [item release];
+        }
+    }
+    else;
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem 
 {
 	SEL action = [menuItem action];
@@ -239,6 +295,37 @@
         return canUseTable && [_downloadsView numberOfSelectedRows] > 0;
     }
 	
+	if (action == @selector(setGroup:))
+    {
+        BOOL checked = NO;
+        
+        NSInteger index = [menuItem tag];
+		
+		if (_menuTorrent == nil)
+		{
+			for (Torrent * torrent in [_downloadsView selectedTorrents])
+			{
+				
+				NSInteger torrentGroupIndex = [[GroupsController groups] groupIndexForTorrent: torrent];
+				if (index == torrentGroupIndex)
+				{
+					checked = YES;
+					break;
+				}
+			}
+		}
+		else
+		{
+			NSInteger torrentGroupIndex = [[GroupsController groups] groupIndexForTorrent: _menuTorrent];
+			if (index == torrentGroupIndex)
+			{
+				checked = YES;
+			}
+		}
+        [menuItem setState: checked ? NSOnState : NSOffState];
+		
+        return canUseTable && (_menuTorrent != nil || [_downloadsView numberOfSelectedRows] > 0);
+    }
 	
 	return YES;
 }

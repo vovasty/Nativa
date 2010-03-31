@@ -93,34 +93,6 @@ static NSString* FilterTorrents = @"FilterTorrents";
     }
 }
 
-- (void) setGroup: (id) sender
-{
-	NSString *group = [[GroupsController groups] nameForIndex:[sender tag]];
-	NSLog(@"%@", _menuTorrent);
-	if (_menuTorrent == nil)
-	{
-		for (Torrent * torrent in [_outlineView selectedTorrents])
-		{
-			[[DownloadsController sharedDownloadsController] setGroup:torrent group:group response:nil];
-			[_outlineView deselectAll: nil];
-		}
-	}
-	else
-	{
-		[[DownloadsController sharedDownloadsController] setGroup:_menuTorrent group:group response:nil];
-	}
-}
-- (void) showGroupMenuForTorrent:(Torrent *) torrent atLocation:(NSPoint) location
-{
-	_menuTorrent = [torrent retain];
-	
-	[_groupsMenu popUpMenuPositioningItem: nil atLocation: location inView: _outlineView];
-	
-	[_menuTorrent release];
-	
-	_menuTorrent = nil;
-}
-
 #pragma mark -
 #pragma mark NSTableViewDelegate & NSTableViewDataSource
 
@@ -181,70 +153,6 @@ static NSString* FilterTorrents = @"FilterTorrents";
             }
         }
 	}
-}
-
-#pragma mark -
-#pragma mark NSMenuDelegate
-
-- (void) menuNeedsUpdate: (NSMenu *) menu
-{
-    if (menu == _groupsMenu)
-    {
-        [menu removeAllItems];
-		
-        NSMenu * groupMenu;
-            groupMenu = [[GroupsController groups] groupMenuWithTarget: self action: @selector(setGroup:) isSmall: NO];
-        
-        const NSInteger groupMenuCount = [groupMenu numberOfItems];
-        for (NSInteger i = 0; i < groupMenuCount; i++)
-        {
-            NSMenuItem * item = [[groupMenu itemAtIndex: 0] retain];
-            [groupMenu removeItemAtIndex: 0];
-            [menu addItem: item];
-            [item release];
-        }
-    }
-    else;
-}
-
-- (BOOL) validateMenuItem: (NSMenuItem *) menuItem
-{
-    SEL action = [menuItem action];
-	
-    BOOL canUseTable = [_window isKeyWindow] || [[menuItem menu] supermenu] != [NSApp mainMenu];
-	
-    if (action == @selector(setGroup:))
-    {
-        BOOL checked = NO;
-        
-        NSInteger index = [menuItem tag];
-		
-		if (_menuTorrent == nil)
-		{
-			for (Torrent * torrent in [_outlineView selectedTorrents])
-			{
-				
-				NSInteger torrentGroupIndex = [[GroupsController groups] groupIndexForTorrent: torrent];
-				if (index == torrentGroupIndex)
-				{
-					checked = YES;
-					break;
-				}
-			}
-		}
-		else
-		{
-			NSInteger torrentGroupIndex = [[GroupsController groups] groupIndexForTorrent: _menuTorrent];
-			if (index == torrentGroupIndex)
-			{
-				checked = YES;
-			}
-		}
-        [menuItem setState: checked ? NSOnState : NSOffState];
-		
-        return canUseTable && (_menuTorrent != nil || [_outlineView numberOfSelectedRows] > 0);
-    }
-    return YES;
 }
 @end
 

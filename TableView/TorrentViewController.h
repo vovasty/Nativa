@@ -19,9 +19,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class Torrent, TorrentTableView;
+@class TorrentTableView;
 
-@interface TorrentViewController : NSObject <NSTableViewDelegate, NSTableViewDataSource, NSMenuDelegate> {
+@interface TorrentViewController : NSObject <NSTableViewDelegate, NSTableViewDataSource> {
 @private
     NSMutableArray				*_tableContents;
     IBOutlet TorrentTableView	*_outlineView;
@@ -30,8 +30,5 @@
 	IBOutlet NSMenu				*_groupsMenu;
 	NSMutableDictionary			*_allGroups;
 	NSMutableArray				*_orderedGroups;
-	Torrent						*_menuTorrent;
 }
-- (void) setGroup: (id) sender;
-- (void) showGroupMenuForTorrent:(Torrent *) torrent atLocation:(NSPoint) location;
 @end

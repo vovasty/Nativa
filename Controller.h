@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TorrentDropView, PreferencesController, StatusBarView, TorrentTableView, DragOverlayWindow;
+@class TorrentDropView, PreferencesController, StatusBarView, TorrentTableView, DragOverlayWindow, Torrent;
 
 @interface Controller : NSObject<NSMenuDelegate> {
 	IBOutlet NSWindow			*_window;
@@ -17,6 +17,9 @@
 	NSUserDefaults				*_defaults;
 	PreferencesController		*_preferencesController;
 	DragOverlayWindow			*_overlayWindow;
+	IBOutlet NSMenu				*_contextRowMenu;
+	IBOutlet NSMenu				*_groupMenu;
+	Torrent						*_menuTorrent;
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
@@ -30,4 +33,7 @@
 - (void) openShowSheet: (id) sender;
 - (IBAction) toggleQuickLook:(id)sender;
 - (IBAction) revealSelectedTorrents:(id)sender;
+- (void) setGroup: (id) sender;
+- (void) showGroupMenuForTorrent:(Torrent *) torrent atLocation:(NSPoint) location;
+- (NSMenu *) contextRowMenu;
 @end

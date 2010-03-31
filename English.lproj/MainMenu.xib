@@ -2003,38 +2003,6 @@ AAAAAAAAA</bytes>
 					<int key="connectionID">971</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">fContextRow</string>
-						<reference key="source" ref="995799562"/>
-						<reference key="destination" ref="34268020"/>
-					</object>
-					<int key="connectionID">994</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="822963012"/>
-						<reference key="destination" ref="145770882"/>
-					</object>
-					<int key="connectionID">995</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_groupsMenu</string>
-						<reference key="source" ref="145770882"/>
-						<reference key="destination" ref="822963012"/>
-					</object>
-					<int key="connectionID">997</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_controller</string>
-						<reference key="source" ref="995799562"/>
-						<reference key="destination" ref="145770882"/>
-					</object>
-					<int key="connectionID">1010</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">stopSelectedTorrents:</string>
 						<reference key="source" ref="753007583"/>
@@ -2073,6 +2041,38 @@ AAAAAAAAA</bytes>
 						<reference key="destination" ref="349770111"/>
 					</object>
 					<int key="connectionID">1015</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_contextRowMenu</string>
+						<reference key="source" ref="753007583"/>
+						<reference key="destination" ref="34268020"/>
+					</object>
+					<int key="connectionID">1016</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="822963012"/>
+						<reference key="destination" ref="753007583"/>
+					</object>
+					<int key="connectionID">1017</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_groupMenu</string>
+						<reference key="source" ref="753007583"/>
+						<reference key="destination" ref="822963012"/>
+					</object>
+					<int key="connectionID">1018</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_controller</string>
+						<reference key="source" ref="995799562"/>
+						<reference key="destination" ref="753007583"/>
+					</object>
+					<int key="connectionID">1019</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3355,7 +3355,7 @@ AAAAAAAAA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1015</int>
+			<int key="maxID">1019</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3394,13 +3394,17 @@ AAAAAAAAA</bytes>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>_contextRowMenu</string>
 							<string>_downloadsView</string>
+							<string>_groupMenu</string>
 							<string>_turtleButton</string>
 							<string>_window</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSMenu</string>
 							<string>TorrentTableView</string>
+							<string>NSMenu</string>
 							<string>NSButton</string>
 							<string>NSWindow</string>
 						</object>
@@ -3552,7 +3556,7 @@ AAAAAAAAA</bytes>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>TorrentViewController</string>
+							<string>Controller</string>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
