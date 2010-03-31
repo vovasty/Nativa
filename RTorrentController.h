@@ -1,5 +1,6 @@
-/*
+/******************************************************************************
  * Nativa - MacOS X UI for rtorrent
+ * http://www.aramzamzam.net
  *
  * Copyright Solomenchuk V. 2010.
  * Solomenchuk Vladimir <vovasty@aramzamzam.net>
@@ -15,7 +16,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
+ *****************************************************************************/
 
 #import <Cocoa/Cocoa.h>
 #import "TorrentController.h"
