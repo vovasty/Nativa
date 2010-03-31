@@ -10,21 +10,24 @@
 
 @class TorrentDropView, PreferencesController, StatusBarView, TorrentTableView, DragOverlayWindow;
 
-@interface Controller : NSObject {
-	IBOutlet NSWindow* _window;
-	IBOutlet TorrentTableView* _downloadsView;
-	IBOutlet NSButton* _turtleButton;
-	NSUserDefaults* _defaults;
-	PreferencesController* _preferencesController;
-	DragOverlayWindow* _overlayWindow;
+@interface Controller : NSObject<NSMenuDelegate> {
+	IBOutlet NSWindow			*_window;
+	IBOutlet TorrentTableView	*_downloadsView;
+	IBOutlet NSButton			*_turtleButton;
+	NSUserDefaults				*_defaults;
+	PreferencesController		*_preferencesController;
+	DragOverlayWindow			*_overlayWindow;
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
 -(IBAction)toggleTurtleSpeed:(id)sender;
 -(IBAction)removeNoDeleteSelectedTorrents:(id)sender;
+-(IBAction)removeDeleteSelectedTorrents:(id)sender;
 -(IBAction)stopSelectedTorrents:(id)sender;
 -(IBAction)resumeSelectedTorrents:(id)sender;
 
 - (void) openSheetClosed: (NSOpenPanel *) panel returnCode: (NSInteger) code contextInfo: (NSNumber *) useOptions;
 - (void) openShowSheet: (id) sender;
+- (IBAction) toggleQuickLook:(id)sender;
+- (IBAction) revealSelectedTorrents:(id)sender;
 @end

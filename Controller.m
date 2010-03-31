@@ -10,14 +10,14 @@
 #import "DownloadsController.h"
 #import "PreferencesController.h"
 #import "PreferencesController.h"
-#include "TorrentViewController.h"
-#include "Torrent.h"
-#include "TorrentTableView.h"
-#include "ProcessesController.h"
-#include <Growl/Growl.h>
-#include "DragOverlayWindow.h"
+#import "TorrentViewController.h"
+#import "Torrent.h"
+#import "TorrentTableView.h"
+#import "ProcessesController.h"
+#import <Growl/Growl.h>
+#import "DragOverlayWindow.h"
 #import "ToolbarControllerAdditions.h"
-
+#import "QuickLookController.h"
 
 @implementation Controller
 +(void) initialize
@@ -136,6 +136,14 @@
 		[[DownloadsController sharedDownloadsController] erase:t withData:NO response:nil];
 	[_downloadsView deselectAll: nil];
 }
+
+-(IBAction)removeDeleteSelectedTorrents:(id)sender
+{
+	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
+	for (Torrent *t in torrents)
+		[[DownloadsController sharedDownloadsController] erase:t withData:YES response:nil];
+	[_downloadsView deselectAll: nil];
+}
 -(IBAction)stopSelectedTorrents:(id)sender
 {
 	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
@@ -167,5 +175,71 @@
 {
     if (code == NSOKButton)
 		[[DownloadsController sharedDownloadsController] add:[panel filenames]];
+}
+
+- (IBAction) toggleQuickLook:(id)sender
+{
+	[QuickLookController show];
+}
+
+- (IBAction) revealSelectedTorrents:(id)sender
+{
+	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
+	for (Torrent *torrent in torrents)
+		[[DownloadsController sharedDownloadsController] reveal:torrent];
+	
+}
+#pragma mark -
+#pragma mark NSMenuDelegate stuff
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem 
+{
+	SEL action = [menuItem action];
+	
+	BOOL canUseTable = [_window isKeyWindow] || [[menuItem menu] supermenu] != [NSApp mainMenu];
+	
+    if (action == @selector(toggleQuickLook:))
+    {
+        //text consistent with Finder
+        NSString * title = [[QuickLookController sharedQuickLookController] isVisible] ?
+		NSLocalizedString(@"Close Quick Look", "View menu -> Quick Look")
+		:NSLocalizedString(@"Quick Look", "View menu -> Quick Look");
+        [menuItem setTitle: title];
+        
+        return YES;
+    }
+	
+	//enable pause item
+    if (action == @selector(stopSelectedTorrents:))
+    {
+        if (!canUseTable)
+            return NO;
+		
+        for (Torrent * torrent in [_downloadsView selectedTorrents])
+            if (torrent.active)
+                return YES;
+        return NO;
+    }
+
+	//enable pause item
+    if (action == @selector(resumeSelectedTorrents:))
+    {
+        if (!canUseTable)
+            return NO;
+		
+        for (Torrent * torrent in [_downloadsView selectedTorrents])
+            if (!torrent.active)
+                return YES;
+        return NO;
+    }
+	
+	if (action == @selector(removeNoDeleteSelectedTorrents:) 
+		|| action == @selector(removeDeleteSelectedTorrents:)
+		|| action == @selector(revealSelectedTorrents:))
+    {
+        return canUseTable && [_downloadsView numberOfSelectedRows] > 0;
+    }
+	
+	
+	return YES;
 }
 @end

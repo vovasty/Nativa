@@ -214,27 +214,4 @@ typedef enum
 	
     return YES;
 }
-
-- (void) toggleQuickLook:(id)sender
-{
-	[QuickLookController show];
-}
-
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem 
-{
-	SEL action = [menuItem action];
-	
-    if (action == @selector(toggleQuickLook:))
-    {
-        //text consistent with Finder
-        NSString * title = [[QuickLookController sharedQuickLookController] isVisible] ?
-		 NSLocalizedString(@"Close Quick Look", "View menu -> Quick Look")
-		:NSLocalizedString(@"Quick Look", "View menu -> Quick Look");
-        [menuItem setTitle: title];
-        
-        return YES;
-    }
-	
-	return YES;
-}
 @end
