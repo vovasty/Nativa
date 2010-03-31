@@ -95,6 +95,8 @@ typedef enum
 
 @property (retain) NSString* groupName;
 
+@property (readonly) BOOL active;
+
 - (void) update: (Torrent *) anotherItem;
 - (double) progress;
 - (NSImage*) icon;

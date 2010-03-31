@@ -396,7 +396,7 @@
 	[self drawImage: groupImage inRect: [self groupButtonRectForBounds: cellFrame]];
 	
     NSImage * controlImage;
-    if (torrent.state != NITorrentStateStopped)
+    if (torrent.active)
         controlImage = [NSImage imageNamed: [@"Pause" stringByAppendingString: controlImageSuffix]];
     else
 		controlImage = [NSImage imageNamed: [@"Resume" stringByAppendingString: controlImageSuffix]];
@@ -484,7 +484,7 @@
     
     if (!NSIsEmptyRect(haveRect))
     {
-        if (torrent.state != NITorrentStateStopped)
+        if (torrent.active)
         {
 //            if ([torrent isChecking])
 //                [[ProgressGradients progressYellowGradient] drawInRect: haveRect angle: 90];
@@ -693,7 +693,7 @@
         return [NSString stringWithFormat:@"\"%@\"", torrent.groupName == nil? NSLocalizedString(@"No Group", "Group table row"):torrent.groupName];
     else if (fMouseDownControlButton || (!fTracking && fHoverControl))
     {
-        if (torrent.state != NITorrentStateStopped)
+        if (torrent.active)
             return NSLocalizedString(@"Pause the transfer", "Torrent Table -> tooltip");
         else
         {

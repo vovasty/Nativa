@@ -13,6 +13,8 @@
 
 @synthesize name, size, thash, state, speedDownload, speedUpload, dataLocation, uploadRate, downloadRate, totalPeersSeed, totalPeersLeech, totalPeersDisconnected, priority, isFolder, error, groupName;
 
+@dynamic active;
+
 - (void)dealloc
 {
 	[self setName:nil];
@@ -73,5 +75,9 @@
 		return NI_RATIO_NA;
 	else
 		return (CGFloat)uploadRate/(CGFloat)downloadRate;
+}
+- (BOOL) active
+{
+	return state != NITorrentStateStopped;
 }
 @end
