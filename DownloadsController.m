@@ -195,7 +195,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	}
 }
 
-- (void) erase:(Torrent *) torrent response:(VoidResponseBlock) response
+- (void) erase:(Torrent *) torrent withData:(BOOL) removeData response:(VoidResponseBlock) response
 {
 	__block DownloadsController *blockSelf = self;
 	VoidResponseBlock r = [^(NSString* error){
@@ -208,7 +208,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 			return;
 		}
 		
-		if ([_defaults boolForKey:NIDeleteTransferDataKey])
+		if (removeData)
 		{
 			NSString* dataLocation = [blockSelf findLocation:torrent];
 			if (dataLocation)

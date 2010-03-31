@@ -61,7 +61,7 @@ extern NSString* const NINotifyUpdateDownloads;
 
 - (void) add:(NSArray *) filesNames;
 
-- (void) erase:(Torrent *) torrent response:(VoidResponseBlock) response;
+- (void) erase:(Torrent *) torrent withData:(BOOL) removeData response:(VoidResponseBlock) response;
 
 - (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 

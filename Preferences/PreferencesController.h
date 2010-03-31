@@ -30,7 +30,6 @@ extern NSString* const NITrashDownloadDescriptorsKey;
 extern NSString* const NIStartTransferWhenAddedKey;
 extern NSString* const NIProcessListKey;
 extern NSString* const NIFilterKey;
-extern NSString* const NIDeleteTransferDataKey;
 extern NSString* const NIRefreshRateKey;
 extern NSString* const NIUpdateGlobalsRateKey;
 

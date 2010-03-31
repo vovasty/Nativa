@@ -42,8 +42,6 @@ NSString* const NIProcessListKey				= @"ProcessList";
 
 NSString* const NIFilterKey						= @"Filter";
 
-NSString* const NIDeleteTransferDataKey			= @"DeleteTransferData";
-
 NSString* const NIRefreshRateKey				= @"RefreshRateKey";
 
 NSString* const NIUpdateGlobalsRateKey			= @"UpdateGlobalsRateKey";
