@@ -100,12 +100,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 			NSString *password = [tempDict objectForKey:@"SSHPassword"];
 			if (password !=nil && ![password isEqualToString:@""])
 			{
-				[EMInternetKeychainItem addInternetKeychainItemForServer:password
+				EMInternetKeychainItem *keychainItem = [EMInternetKeychainItem addInternetKeychainItemForServer:[tempDict objectForKey:@"SSHHost"]
 														withUsername:[tempDict objectForKey:@"SSHUser"]
-															password:[tempDict objectForKey:@"SSHPassword"]
+															password:password
 																path:nil
 																port:[[tempDict objectForKey:@"SSHPort"] integerValue]
 															protocol:kSecProtocolTypeSSH];
+				if (keychainItem == nil)
+				{
+					keychainItem = [EMInternetKeychainItem internetKeychainItemForServer:[tempDict objectForKey:@"SSHHost"]
+																			withUsername:[tempDict objectForKey:@"SSHUser"]
+																					path:nil
+																					port:[[tempDict objectForKey:@"SSHPort"] integerValue] 
+																				protocol:kSecProtocolTypeSSH];
+					keychainItem.password = password;
+				}
 			}
 			[tempDict removeObjectForKey: @"SSHPassword"];
 		}
