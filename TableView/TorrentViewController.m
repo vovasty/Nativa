@@ -166,7 +166,8 @@ static NSString* FilterTorrents = @"FilterTorrents";
 	
 	TorrentGroup* noGroup = [[TorrentGroup alloc ] initWithGroup:-1];
 	[arr addObject:noGroup];
-
+	[noGroup release];
+	
 	for (NSInteger i=0;i<[[GroupsController groups] numberOfGroups];i++)
 	{
 		NSInteger index = [[GroupsController groups] indexForRow:i];
@@ -174,12 +175,14 @@ static NSString* FilterTorrents = @"FilterTorrents";
 		NSString *groupName = [[GroupsController groups] nameForIndex:index];
 		[dict setObject:group forKey:groupName];
 		[arr addObject:group];
+		[group release];
 	}
 
 	[_orderedGroups removeAllObjects];
-	[_orderedGroups setArray:arr];
 	[_allGroups removeAllObjects];
+	[_orderedGroups setArray:arr];
 	[_allGroups setDictionary:dict];
+
 	[self updateList:nil];
 }
 
