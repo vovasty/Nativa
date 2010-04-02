@@ -306,18 +306,22 @@
 }
 -(void)killTimeoutedTask
 {
+	if (_connected || ![sshTask isRunning])
+		return;
+	
 	[self setError: @"SSH: Process timeout."];
-	if (!_connected)
-		[self terminateTask];
+	[self terminateTask];
 }
 -(void)terminateTask
 {
 	if ([sshTask isRunning])
 	{
 		[sshTask terminate];
+		//wait a bit
+		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
 		if ([sshTask isRunning]) 
 		{
-			NSLog(@"cannot terminate task gracefully, kill -9");
+			NSLog(@"SSH: cannot terminate task gracefully, kill -9");
 			int pid = [sshTask processIdentifier];
 			kill(pid, 9);
 		}

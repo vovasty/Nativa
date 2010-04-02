@@ -52,7 +52,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 				NSMutableDictionary * tempDict = [dict mutableCopy];
 				
 				//retrieve SSH password from keychain
-				if ([[tempDict objectForKey:@"ConnectionType"] isEqualToString:@"SSH"])
+				if ([[tempDict objectForKey:@"ConnectionType"] isEqualToString:@"SSH"] && ![[tempDict objectForKey:@"SSHUseKeyLogin"] boolValue])
 				{
 					EMInternetKeychainItem *keychainItem = [EMInternetKeychainItem internetKeychainItemForServer:[tempDict objectForKey:@"SSHHost"]
 																									withUsername:[tempDict objectForKey:@"SSHUser"]
@@ -95,15 +95,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 
 		
 		//store SSH password in keychain
-		if ([[tempDict objectForKey:@"ConnectionType"] isEqualToString:@"SSH"])
+		if ([[tempDict objectForKey:@"ConnectionType"] isEqualToString:@"SSH"] && ![[tempDict objectForKey:@"SSHUseKeyLogin"] boolValue])
 		{
-			[EMInternetKeychainItem addInternetKeychainItemForServer:[tempDict objectForKey:@"SSHHost"]
+			NSString *password = [tempDict objectForKey:@"SSHPassword"];
+			if (password !=nil && ![password isEqualToString:@""])
+			{
+				[EMInternetKeychainItem addInternetKeychainItemForServer:password
 														withUsername:[tempDict objectForKey:@"SSHUser"]
 															password:[tempDict objectForKey:@"SSHPassword"]
 																path:nil
 																port:[[tempDict objectForKey:@"SSHPort"] integerValue]
 															protocol:kSecProtocolTypeSSH];
-		
+			}
 			[tempDict removeObjectForKey: @"SSHPassword"];
 		}
         [processes addObject: tempDict];
@@ -221,7 +224,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 }
 -(NSString *) sshPasswordForIndex:(NSInteger) index
 {
-	return [self object:@"SSHPassword" forIndex:index];
+	return [self sshUseKeyLoginForIndex:index]?@"":[self object:@"SSHPassword" forIndex:index];
 }
 
 -(void) setMaxReconnects:(NSInteger)maxReconnects forIndex:(NSInteger) index
@@ -243,6 +246,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 {
 	return [[self object:@"GroupsField" forIndex:index] intValue];
 }
+
+-(void) setSshUseKeyLogin:(BOOL)sshUseKeyLogin forIndex:(NSInteger) index;
+{
+	[self setObject:[NSNumber numberWithBool:sshUseKeyLogin] forKey:@"SSHUseKeyLogin" forIndex:index];
+}
+-(BOOL) sshUseKeyLoginForIndex:(NSInteger) index
+{
+	return [[self object:@"SSHUseKeyLogin" forIndex:index] boolValue];
+}
+
 
 - (NSInteger) addProcess
 {

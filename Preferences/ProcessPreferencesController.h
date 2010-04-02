@@ -46,16 +46,24 @@
 	
 	IBOutlet NSTextField	*_groupCustomField;
 	
+	IBOutlet NSButton		*_useSSHKeyLogin;
+	
 	BOOL					useSSHTunnel;
 	
 	ProcessesController		*pc;
+	
+	BOOL					useSSHKeyLogin;
 }
 
 @property BOOL useSSHTunnel;
 
+@property BOOL useSSHKeyLogin;
+
 - (void) downloadsPathShow: (id) sender;
 
 - (void) toggleSSH: (id) sender;
+
+- (void) toggleSSHUseKeyLogin: (id) sender;
 
 - (void) saveProcess: (id) sender;
 @end

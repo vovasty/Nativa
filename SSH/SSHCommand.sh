@@ -31,8 +31,8 @@ eval spawn $arguments
 
 match_max 100000
 
-set timeout 15
 if {$password eq ""} {
+	set timeout 5
 	expect {
 		"?sh: Error*" {puts "CONNECTION_ERROR"; exit};
 		"*yes/no*" {send "yes\r"; exp_continue};
@@ -43,6 +43,7 @@ if {$password eq ""} {
 	}
 
 } else {
+	set timeout 15
 	expect {
 		"?sh: Error*" {puts "CONNECTION_ERROR"; exit};
 		"*yes/no*" {send "yes\r"; exp_continue};

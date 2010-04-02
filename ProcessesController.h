@@ -71,6 +71,9 @@
 -(void) setGroupsField:(NSUInteger)groupsField forIndex:(NSInteger) index;
 -(NSUInteger) groupsFieldForIndex:(NSInteger) index;
 
+-(void) setSshUseKeyLogin:(BOOL)sshUseKeyLogin forIndex:(NSInteger) index;
+-(BOOL) sshUseKeyLoginForIndex:(NSInteger) index;
+
 - (NSInteger) indexForRow: (NSInteger) row;
 
 -(NSInteger) addProcess;

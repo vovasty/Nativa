@@ -38,6 +38,7 @@
 @implementation ProcessPreferencesController
 
 @synthesize useSSHTunnel;
+@synthesize useSSHKeyLogin;
 
 - (void) awakeFromNib
 {
@@ -93,6 +94,14 @@
 	[pc setConnectionType:[_useSSH state]==NSOnState?@"SSH":@"Local" forIndex:index];
 
 	[self setUseSSHTunnel:[_useSSH state] == NSOnState];
+}
+
+- (void) toggleSSHUseKeyLogin: (id) sender;
+{
+	NSInteger index = [self currentProcess];
+	[pc setSshUseKeyLogin:[_useSSHKeyLogin state]==NSOnState forIndex:index];
+
+	[self setUseSSHKeyLogin:[_useSSHKeyLogin state]];
 }
 
 //show folder doalog for downloads path
@@ -193,9 +202,13 @@
 	[_sshPassword setStringValue:[self emptyString:[pc sshPasswordForIndex:index]]];
 	
 	[_sshLocalPort setStringValue:[self zeroInteger:[pc sshLocalPortForIndex:index]]];
+	
+	[_useSSHKeyLogin setState:[pc sshUseKeyLoginForIndex:index]?NSOnState:NSOffState];
 
-		//for some reason I need trigger event manually
+	//for some reason I need trigger event manually
 	[self toggleSSH:_useSSH];
+	[self toggleSSHUseKeyLogin:_useSSH];
+	
 }
 
 - (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info
