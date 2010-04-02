@@ -88,8 +88,6 @@
 	_requestData = [scgi_req encodeSCGI];
 	[_requestData retain];
 	
-	[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
-	
 	if ([_connection openStreams:&iStream oStream:&oStream delegate:self])
 	{
 		[iStream retain];
