@@ -24,12 +24,15 @@
 @implementation SaveProgressController
 SYNTHESIZE_SINGLETON_FOR_CLASS(SaveProgressController);
 
-- (IBAction) open: (NSWindow*) window message:(NSString*) message;
+@synthesize handler;
+
+- (IBAction) open: (NSWindow*) window message:(NSString*) message handler:(SaveProgressHandler)h;
 {
 	if (!_sheet)
 		//Check the _progressSheet instance variable to make sure the custom sheet does not already exist.
         [NSBundle loadNibNamed: @"SaveProgress" owner: self];
 
+	[self setHandler:h];
 	[self message:message];
 	[self start];
     [NSApp beginSheet: _sheet
@@ -37,12 +40,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SaveProgressController);
 		modalDelegate: self
 	   didEndSelector: @selector(sheetDidEnd:returnCode:contextInfo:)
 		  contextInfo: nil];
+	[_closeButton setTitle:NSLocalizedString(@"Stop", @"SaveProgress->stopButton")];
+}
+
+- (void) dealloc
+{
+	[self setHandler:nil];
+	[super dealloc];
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo
 {
 	[_progressIndicator stopAnimation:nil];
-	[sheet orderOut:self];	
+	[sheet orderOut:self];
+	if (handler)
+		handler();
 }
 
 - (IBAction)close: (id)sender
@@ -58,13 +70,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SaveProgressController);
 - (void)start
 {
 	[_progressIndicator startAnimation:nil];
-	[_closeButton setHidden:YES];
+	[_closeButton setTitle:NSLocalizedString(@"Stop", @"SaveProgress->stopButton")];
 }
 
 - (void)stop
 {
 	[_progressIndicator stopAnimation:nil];
-	[_closeButton setHidden:NO];
-
+	[_closeButton setTitle:NSLocalizedString(@"I will check", @"SaveProgress->stopButton")];
 }
 @end

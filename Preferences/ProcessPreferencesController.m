@@ -124,10 +124,12 @@
 - (void) saveProcess: (id) sender
 {
 	[_window makeFirstResponder: nil];
-	
-	[[SaveProgressController sharedSaveProgressController] open: _window message:NSLocalizedString(@"Checking configuration...", "Preferences -> Save process")];
 
 	NSInteger index = [self currentProcess];
+	
+	[[SaveProgressController sharedSaveProgressController] open: _window 
+														message:NSLocalizedString(@"Checking configuration...", "Preferences -> Save process")
+														handler:^{[pc closeProcessForIndex:index];}];
 
 	//test connection with only one reconnect
 	int maxReconnects = ([pc maxReconnectsForIndex:index] == 0?10:[pc maxReconnectsForIndex:index]);
@@ -152,7 +154,6 @@
 			//set default number of reconnects
 			[[ProcessesController sharedProcessesController] saveProcesses];
 		}
-		[pc closeProcessForIndex:index];
 	} copy];
 	[[pc processForIndex:index] list:response];
 	[response release];

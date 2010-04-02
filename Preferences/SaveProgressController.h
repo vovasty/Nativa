@@ -20,6 +20,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+typedef void (^SaveProgressHandler)(void);
 
 @interface SaveProgressController : NSObject 
 {
@@ -30,12 +31,16 @@
 	IBOutlet NSTextField* _message;
 	
 	IBOutlet NSButton* _closeButton;
+	
+	SaveProgressHandler handler;
 }
 
 + (SaveProgressController *)sharedSaveProgressController;
 
+@property (copy) SaveProgressHandler handler;
+
 - (IBAction) close: (id) sender;
-- (IBAction) open: (NSWindow*) window message:(NSString*) message;
+- (IBAction) open: (NSWindow*) window message:(NSString*) message handler:(SaveProgressHandler)handler;
 - (void) message: (NSString*) message;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo;
 - (void)start;
