@@ -60,7 +60,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 																											port:[[tempDict objectForKey:@"SSHPort"] integerValue] 
 																										protocol:kSecProtocolTypeSSH];
 				
-					[tempDict setObject:keychainItem.password forKey:@"SSHPassword"];
+					[tempDict setObject:keychainItem.password==nil?@"":keychainItem.password forKey:@"SSHPassword"];
 				}
 				
 				[_processes addObject:tempDict];

@@ -16,9 +16,12 @@
 
 #import "AMSession.h"
 #import "AMServer.h"
+#include <signal.h>
 
 @interface AMSession(Private)
 -(void) analyzeOutput:(NSData*) data;
+-(void)killTimeoutedTask;
+-(void)terminateTask;
 @end
 
 @implementation AMSession
@@ -57,8 +60,7 @@
 	[sessionName release];
 	[remoteHost release];
 	
-	if ([sshTask isRunning] == YES)
-		[sshTask terminate];
+	[self terminateTask];
 	
 	[sshTask  release];
 	[outputContent release];
@@ -112,6 +114,7 @@
 	[self setError: nil];
 	
 	NSPipe *stdOut			= [NSPipe pipe];
+	NSPipe *stdIn			= [NSPipe pipe];
 	
 	
 	[sshTask release];
@@ -122,7 +125,7 @@
 	
 	argumentsString = [self prepareSSHCommand];
 	
-	args			= [NSArray arrayWithObjects:argumentsString, [currentServer password], nil];
+	args			= [NSArray arrayWithObjects:argumentsString, nil];
 
 	[outputContent setString:@""];
 
@@ -131,8 +134,11 @@
 	[sshTask setArguments:args];
 
 	[sshTask setStandardOutput:stdOut];
+	[sshTask setStandardInput:stdIn];
 	
 	outputHandle = [[sshTask standardOutput] fileHandleForReading];
+
+	inputHandle = [[sshTask standardInput] fileHandleForWriting];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self 
 											 selector:@selector(handleProcessusExecution:)
@@ -151,7 +157,18 @@
 	
 	[sshTask launch];
 
+	[inputHandle writeData:[[[currentServer password] stringByAppendingString:@"\n"] dataUsingEncoding: NSASCIIStringEncoding]];
+
 	NSLog(@"Session %@ is now launched.", [self sessionName]);
+	[killTimer invalidate];
+	killTimer = [NSTimer scheduledTimerWithTimeInterval:30
+														target:self 
+														selector:@selector(killTimeoutedTask) 
+														userInfo:nil 
+														repeats:NO];
+	[killTimer retain];
+	[[NSRunLoop currentRunLoop] addTimer:killTimer forMode:NSDefaultRunLoopMode];
+	
 }
 
 - (void) closeTunnel
@@ -161,10 +178,7 @@
 	tryReconnect = NO;
 
 	NSLog(@"Session %@ is now closed.", [self sessionName]);
-	if ([sshTask isRunning])
-		[sshTask terminate];
-	[sshTask release];
-	sshTask = nil;
+	[self terminateTask];
 	autoReconnectTimes = 0;
 }
 
@@ -193,6 +207,7 @@
 	}
 	else 
 	{
+		NSLog(@"unable to connect");
 		autoReconnectTimes = 0;
 		if (error == nil)
 			[self setError:@"SSH: unknown error"];
@@ -244,33 +259,33 @@
 		if ([checkError evaluateWithObject:outputContent] == YES)
 		{
 			[self setError: @"SSH: Unknown error as occured while connecting."];
-			[sshTask terminate];
+			[self terminateTask];
 			
 		}
 		else if ([checkWrongPass evaluateWithObject:outputContent] == YES)
 		{
 			[self setError: @"SSH: The password or username set for the server are wrong"];
-			[sshTask terminate];
+			[self terminateTask];
 		}
 		else if ([checkRefused evaluateWithObject:outputContent] == YES)
 		{
 			[self setError: @"SSH: Connection has been rejected by the server."];
-			[sshTask terminate];
+			[self terminateTask];
 		}		
 		else if ([checkWrongHostname evaluateWithObject:outputContent] == YES)
 		{
 			[self setError: @"SSH: Wrong hostname."];
-			[sshTask terminate];
+			[self terminateTask];
 		}		
 		else if ([checkTimeout evaluateWithObject:outputContent] == YES)
 		{
 			[self setError: @"SSH: Connection timeout."];
-			[sshTask terminate];
+			[self terminateTask];
 		}		
 		else if ([checkPort evaluateWithObject:outputContent] == YES)
 		{
 			[self setError: @"SSH: The port is already used on server."];
-			[sshTask terminate];
+			[self terminateTask];
 		}
 		else if ([checkConnected evaluateWithObject:outputContent] == YES)
 		{
@@ -288,5 +303,27 @@
 		else
 			[outputHandle readInBackgroundAndNotify];
 	}
+}
+-(void)killTimeoutedTask
+{
+	[self setError: @"SSH: Process timeout."];
+	if (!_connected)
+		[self terminateTask];
+}
+-(void)terminateTask
+{
+	if ([sshTask isRunning])
+	{
+		[sshTask terminate];
+		if ([sshTask isRunning]) 
+		{
+			NSLog(@"cannot terminate task gracefully, kill -9");
+			int pid = [sshTask processIdentifier];
+			kill(pid, 9);
+		}
+		[sshTask release];
+		sshTask = nil;
+	}
+	
 }
 @end

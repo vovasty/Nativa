@@ -361,10 +361,10 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				811B4C0711276542008A23C3 /* SSHCommand.sh */,
 				810A08521152E7230011E46A /* KillTunnel.sh */,
 				81CCDE17113FF81B00893CCC /* Credits.rtf */,
 				810DBC3F11343E63000411D8 /* drag to trash.aif */,
-				811B4C0711276542008A23C3 /* SSHCommand.sh */,
 				811EA5D11111FAD1001D16D0 /* images */,
 				8D1107310486CEB800E47090 /* Nativa-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,

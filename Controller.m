@@ -125,6 +125,7 @@
 
 -(IBAction)showPreferencePanel:(id)sender;
 {
+	[_overlayWindow fadeOut];
 	[[PreferencesController sharedPreferencesController] openPreferences:NIPReferencesViewDefault];
 }
 

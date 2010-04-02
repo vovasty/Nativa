@@ -39,9 +39,11 @@ extern	NSString const *AMNewErrorMessage;
 	NSString 		*sessionName;
 	NSTask			*sshTask;
 	NSString		*error;
-	NSFileHandle* outputHandle;
+	NSFileHandle	*outputHandle;
+	NSFileHandle	*inputHandle;
 	
 	SFAuthorization *auth;
+	NSTimer			*killTimer;
 
 
 }

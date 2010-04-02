@@ -17,8 +17,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
+expect_user -re "(.*)\n"
+
+set password $expect_out(1,string)
+
 set arguments [lindex $argv 0]
-set password [lindex $argv 1]
 set path $argv0
 
 #kill previous command
@@ -28,11 +31,19 @@ eval spawn $arguments
 
 match_max 100000
 
-set timeout 1
-#expect  "*yes/no*" {send "yes\r"; exp_continue};
+set timeout 15
+if {$password eq ""} {
+	expect {
+		"?sh: Error*" {puts "CONNECTION_ERROR"; exit};
+		"*yes/no*" {send "yes\r"; exp_continue};
+		"*Connection refused*" {puts "CONNECTION_REFUSED"; exit};
+		"*Could not resolve hostname*" {puts "WRONG_HOSTNAME"; exit};
+		"*Operation timed out*" {puts "CONNECTION_TIMEOUT"; exit};
+		"*?assword:*" {puts "WRONG_PASSWORD"; exit;}
+	}
 
-set timeout -1
-expect {
+} else {
+	expect {
 		"?sh: Error*" {puts "CONNECTION_ERROR"; exit};
 		"*yes/no*" {send "yes\r"; exp_continue};
 		"*Connection refused*" {puts "CONNECTION_REFUSED"; exit};
@@ -41,7 +52,9 @@ expect {
 		"*?assword:*" {	send "$password\r"; set timeout 4;
 						expect "*?assword:*" {puts "WRONG_PASSWORD"; exit;}
 					  };
-		default {puts "CONNECTION_ERROR"; exit;}
+		-re . {exp_continue}
+		timeout {puts "CONNECTION_TIMEOUT"; exit}
+	}
 }
 
 puts "CONNECTED";
