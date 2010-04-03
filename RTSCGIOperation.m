@@ -85,6 +85,7 @@
 	
 	[xmlrpc_request release];
 	_writtenBytesCounter = 0;
+//	NSLog(@"request: %@", scgi_req);
 	_requestData = [scgi_req encodeSCGI];
 	[_requestData retain];
 	
