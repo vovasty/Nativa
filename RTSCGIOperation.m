@@ -179,15 +179,21 @@
         }
 		case NSStreamEventHasBytesAvailable:
         {
+			if ([_responseData length]>65536)
+			{
+				[self setError:@"Response too large to fit into memory"];
+				return;
+			}
+			
 			if(!_responseData)
                 _responseData = [[NSMutableData data] retain];
             
 			uint8_t buf[1024];
             NSInteger len = 0;
-            
+			
 			len = [(NSInputStream *)stream read:buf maxLength:1024];
 			
-			if (len)
+			if (len>0)
 				[_responseData appendBytes:buf length:len];
 
 			break;
