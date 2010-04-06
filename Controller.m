@@ -121,6 +121,13 @@
 		[[DownloadsController sharedDownloadsController] startUpdates:response];
 		[response release];
 	}
+	
+	//window min height
+    NSSize contentMinSize = [_window contentMinSize];
+    contentMinSize.height = [[_window contentView] frame].size.height - [[_downloadsView enclosingScrollView] frame].size.height
+	+ [_downloadsView rowHeight] + [_downloadsView intercellSpacing].height;
+    [_window setContentMinSize: contentMinSize];
+    [_window setContentBorderThickness: NSMinY([[_downloadsView enclosingScrollView] frame]) forEdge: NSMinYEdge];
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
