@@ -215,9 +215,11 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 		[[DownloadsController sharedDownloadsController] start:t.thash response:nil];
 }
 
--(IBAction)verifySelectedTorrents:(id)sender
+-(IBAction)checkSelectedTorrents:(id)sender
 {
-
+	for (Torrent *torrent in [_downloadsView selectedTorrents])
+		[[DownloadsController sharedDownloadsController] check:torrent response:nil];
+	
 }
 //opens window for selecting torrent
 - (void) openShowSheet: (id) sender
@@ -422,7 +424,7 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 	
 	if (action == @selector(removeNoDeleteSelectedTorrents:) 
 		|| action == @selector(removeDeleteSelectedTorrents:)
-		|| action == @selector(verifySelectedTorrents:))
+		|| action == @selector(checkSelectedTorrents:))
     {
         return canUseTable && [_downloadsView numberOfSelectedRows] > 0;
     }

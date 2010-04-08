@@ -50,5 +50,7 @@
 
 - (void) closeConnection;
 
+- (void) check:(Torrent *)torrent response:(VoidResponseBlock) response;
+
 @end
 

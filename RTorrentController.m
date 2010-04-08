@@ -203,6 +203,17 @@ static NSString * ConnectedContext = @"ConnectingContext";
 	[r release];
 }
 
+- (void) check:(Torrent *)torrent response:(VoidResponseBlock) response
+{
+	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	[self _runCommand:@"d.check_hash"
+			arguments:[NSArray arrayWithObjects:
+					   [torrent thash], 
+					   nil]
+			 response:r];
+	[r release];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change

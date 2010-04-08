@@ -77,5 +77,7 @@ extern NSString* const NINotifyUpdateDownloads;
 - (void) setGroup:(Torrent *)torrent group:(NSString *) group response:(VoidResponseBlock) response;
 
 -(NSString*) findLocation:(Torrent *)torrent;
+
+- (void) check:(Torrent*) torrent response:(VoidResponseBlock) response;
 @end
 

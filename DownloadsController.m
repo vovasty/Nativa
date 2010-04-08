@@ -339,6 +339,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	}
 	return nil;
 }
+
+- (void) check:(Torrent*) torrent response:(VoidResponseBlock) response
+{
+	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to check hash for torrent: %@"];
+	[[self _controller] check:torrent response:r];
+	[r release];
+}
 @end
 
 @implementation DownloadsController(Private)
