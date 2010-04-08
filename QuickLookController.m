@@ -81,6 +81,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(QuickLookController);
 
 -(void) beginPanel:(QLPreviewPanel*) panel window:(NSWindow*)window view:(TorrentTableView*) view
 {
+	if (_torrents == nil)
+	{
+		_torrents = [[NSMutableArray alloc] init];
+		[_torrents retain];
+	}
+	
+	[_torrents removeAllObjects];
+
+	for (Torrent * torrent in [_view selectedTorrents])
+	{
+		if ([[DownloadsController sharedDownloadsController] findLocation:torrent] != nil)
+			[_torrents addObject:torrent];
+	}
+	
 	self.isVisible = YES;
 	_panel = [panel retain];
 	_panel.delegate = self;
@@ -112,12 +126,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(QuickLookController);
 
 - (NSInteger)numberOfPreviewItemsInPreviewPanel:(QLPreviewPanel *)panel
 {
-	return [[_view selectedTorrents] count];
+	return [_torrents count];
 }
 
 - (id <QLPreviewItem>)previewPanel:(QLPreviewPanel *)panel previewItemAtIndex:(NSInteger)index
 {
-    return [[_view selectedTorrents] objectAtIndex:index];
+    return [_torrents objectAtIndex:index];
 }
 
 // Quick Look panel delegate

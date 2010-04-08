@@ -468,7 +468,15 @@
     
     if (firstChar == ' ')
 	{
-		[QuickLookController show];
+		//check location
+		for (Torrent * torrent in [self selectedTorrents])
+		{
+			if ([[DownloadsController sharedDownloadsController] findLocation:torrent] != nil)
+			{
+				[QuickLookController show];
+				break;
+			}
+		}
 	}
 	else
         [super keyDown: event];

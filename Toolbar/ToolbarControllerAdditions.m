@@ -25,6 +25,7 @@
 #import "TorrentTableView.h"
 #import "Torrent.h"
 #import "QuickLookController.h"
+#import "DownloadsController.h"
 
 #define TOOLBAR_REMOVE                  @"Toolbar Remove"
 #define TOOLBAR_PAUSE_RESUME_SELECTED   @"Toolbar Pause / Resume Selected"
@@ -219,8 +220,11 @@ typedef enum
 
 	if ([ident isEqualToString: TOOLBAR_QUICKLOOK])
     {
-		[(NSButton *)[toolbarItem view] setState: [[QuickLookController sharedQuickLookController] isVisible]];
-        return YES;
+        for (Torrent * torrent in [_downloadsView selectedTorrents])
+            if ([[DownloadsController sharedDownloadsController] findLocation:torrent] != nil)
+                return YES;
+		
+        return NO;
     }
 	
 	

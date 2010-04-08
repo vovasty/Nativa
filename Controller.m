@@ -416,10 +416,21 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
     }
 	
 	if (action == @selector(removeNoDeleteSelectedTorrents:) 
-		|| action == @selector(removeDeleteSelectedTorrents:)
-		|| action == @selector(revealSelectedTorrents:))
+		|| action == @selector(removeDeleteSelectedTorrents:))
     {
         return canUseTable && [_downloadsView numberOfSelectedRows] > 0;
+    }
+
+	if (action == @selector(revealSelectedTorrents:))
+    {
+        if(! (canUseTable && [_downloadsView numberOfSelectedRows] > 0))
+			return NO;
+
+        for (Torrent * torrent in [_downloadsView selectedTorrents])
+            if ([[DownloadsController sharedDownloadsController] findLocation:torrent] != nil)
+                return YES;
+		
+		return NO;
     }
 	
 	if (action == @selector(setGroup:))

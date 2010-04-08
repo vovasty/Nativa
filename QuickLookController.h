@@ -24,10 +24,11 @@
 
 @interface QuickLookController : NSObject<QLPreviewPanelDataSource, QLPreviewPanelDelegate> 
 {
-	QLPreviewPanel* _panel;
-	TorrentTableView* _view;
-	NSWindow* _window;
-	BOOL _isVisible;
+	QLPreviewPanel		*_panel;
+	TorrentTableView	*_view;
+	NSWindow			*_window;
+	BOOL				_isVisible;
+	NSMutableArray		*_torrents;
 }
 @property BOOL isVisible;
 +(QuickLookController*) sharedQuickLookController;
