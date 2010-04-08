@@ -185,7 +185,6 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 	[responseDownload release];
 }
 
-
 -(IBAction)removeNoDeleteSelectedTorrents:(id)sender
 {
 	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
@@ -201,12 +200,14 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 		[[DownloadsController sharedDownloadsController] erase:t withData:YES response:nil];
 	[_downloadsView deselectAll: nil];
 }
+
 -(IBAction)stopSelectedTorrents:(id)sender
 {
 	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
 	for (Torrent *t in torrents)
 		[[DownloadsController sharedDownloadsController] stop:t.thash response:nil];
 }
+
 -(IBAction)resumeSelectedTorrents:(id)sender
 {
 	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
@@ -214,6 +215,10 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 		[[DownloadsController sharedDownloadsController] start:t.thash response:nil];
 }
 
+-(IBAction)verifySelectedTorrents:(id)sender
+{
+
+}
 //opens window for selecting torrent
 - (void) openShowSheet: (id) sender
 {
@@ -308,7 +313,7 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 
 - (void) menuNeedsUpdate: (NSMenu *) menu
 {
-    if (menu == _groupMenu)
+    if (menu == _groupMenu || menu == _groupMainMenu)
     {
         [menu removeAllItems];
 		
@@ -324,7 +329,7 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
             [item release];
         }
     }
-	else if (menu == _contextRowMenu)
+	else if (menu == _contextRowMenu || menu == _priorityMainMenu)
     {
 		NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
 		
@@ -416,7 +421,8 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
     }
 	
 	if (action == @selector(removeNoDeleteSelectedTorrents:) 
-		|| action == @selector(removeDeleteSelectedTorrents:))
+		|| action == @selector(removeDeleteSelectedTorrents:)
+		|| action == @selector(verifySelectedTorrents:))
     {
         return canUseTable && [_downloadsView numberOfSelectedRows] > 0;
     }
