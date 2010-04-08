@@ -23,7 +23,7 @@
 
 @interface RTListCommand(Private)
 
-- (TorrentState) defineTorrentState:(NSNumber*) state opened:(NSNumber*) opened done:(float) done;
+- (TorrentState) defineTorrentState:(NSNumber*) state checking:(NSNumber*)checking opened:(NSNumber*) opened done:(float) done;
 
 - (TorrentPriority) defineTorrentPriority:(NSNumber*) priority;
 
@@ -61,7 +61,6 @@
 			r.downloadRate = [completed integerValue];
 			NSNumber* state = [row  objectAtIndex:4];
 			NSNumber* opened = [row  objectAtIndex:5];
-			r.state = [self defineTorrentState:state opened:opened done:[r progress]];
 			NSNumber*  speedDownload = [row  objectAtIndex:6];
 			r.speedDownload = [speedDownload floatValue];
 			NSNumber*  speedUpload = [row  objectAtIndex:7];
@@ -87,6 +86,11 @@
 										CFSTR(""));
 			r.groupName = decodedGroupName;
 			[decodedGroupName release];
+			
+			NSNumber*  checking = [row  objectAtIndex:17];
+			
+			r.state = [self defineTorrentState:state checking:checking opened:opened done:[r progress]];
+			
 			[result addObject:r];
 		}
 		[result autorelease];
@@ -120,6 +124,7 @@
 			@"d.get_directory=",
 			@"d.get_message=",
 			[_groupCommand stringByAppendingString:@"="],
+			@"d.is_hash_checking=",
 			nil];
 }
 
@@ -133,8 +138,11 @@
 
 @implementation RTListCommand(Private)
 
-- (TorrentState) defineTorrentState:(NSNumber*) state opened:(NSNumber*) opened done:(float) done
+- (TorrentState) defineTorrentState:(NSNumber*) state checking:(NSNumber*)checking opened:(NSNumber*) opened done:(float) done
 {
+	if ([checking boolValue]) 
+		return NITorrentStateChecking;
+
 	switch ([state intValue]) {
 		case 1: //started
 			if (opened==0)

@@ -441,15 +441,17 @@
     {
         if (torrent.active)
         {
-//            if ([torrent isChecking])
-//                [[ProgressGradients progressYellowGradient] drawInRect: haveRect angle: 90];
-//            else if ([torrent isSeeding])
-			if (torrent.state == NITorrentStateSeeding)
-            {
-                [[ProgressGradients progressGreenGradient] drawInRect: haveRect angle: 90];
-            }
-            else
-                [[ProgressGradients progressBlueGradient] drawInRect: haveRect angle: 90];
+            switch (torrent.state) {
+				case NITorrentStateChecking:
+					[[ProgressGradients progressYellowGradient] drawInRect: haveRect angle: 90];
+					break;
+				case NITorrentStateSeeding:
+					[[ProgressGradients progressGreenGradient] drawInRect: haveRect angle: 90];
+					break;
+				default:
+					[[ProgressGradients progressBlueGradient] drawInRect: haveRect angle: 90];
+					break;
+			}
         }
         else
         {
@@ -701,6 +703,12 @@
 					string = [NSString stringWithFormat: NSLocalizedString(@"Seeding to %d of 1 peer", "Torrent -> status string"),
 							  torrent.totalPeersLeech];
 				break;
+			case NITorrentStateChecking:
+				string = NSLocalizedString(@"Checking", "Torrent -> status string");
+				break;
+			default:
+				NSAssert1(NO, @"Unknown state: %d", torrent.state);
+				break;
 		}
 	}    
     //append even if error
@@ -715,6 +723,12 @@
             string = [string stringByAppendingFormat: @" - %@: %@",
 					  NSLocalizedString(@"UL", "Torrent -> status string"), [NSString stringForSpeed: torrent.speedUpload]];
 			break;
+	case NITorrentStateChecking:
+            string = [string stringByAppendingFormat: @" (%.2f%%)", 100*torrent.progress];
+			break;
+	default:
+			NSAssert1(NO, @"Unknown state: %d", torrent.state);
+		break;
 	}
 	
     return string;
@@ -725,16 +739,23 @@
 {
     Torrent *torrent = [self representedObject];
     
-    NSString * string;
+    NSString * string = nil;
     
     if (torrent.size != torrent.downloadRate)
     {
-        CGFloat progress;
-		string = [NSString stringWithFormat: NSLocalizedString(@"%@ of %@", "Torrent -> progress string"),
+		if (torrent.state == NITorrentStateChecking)
+			string = [NSString stringWithFormat:@"%@", [NSString stringForFileSize: torrent.size]];
+		else
+		{
+			string = [NSString stringWithFormat: NSLocalizedString(@"%@ of %@", "Torrent -> progress string"),
 					  [NSString stringForFileSize: torrent.downloadRate], [NSString stringForFileSize: torrent.size]];
-		progress = 100.0 * [torrent progress];
+		
+			CGFloat progress;
+			
+			progress = 100.0 * [torrent progress];
         
-        string = [NSString localizedStringWithFormat: @"%@ (%.2f%%)", string, progress];
+			string = [NSString localizedStringWithFormat: @"%@ (%.2f%%)", string, progress];
+		}
     }
     else
     {
