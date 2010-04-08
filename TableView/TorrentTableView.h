@@ -32,7 +32,7 @@
 
 @class Controller;
 
-@interface TorrentTableView : NSOutlineView
+@interface TorrentTableView : NSOutlineView<NSOutlineViewDelegate>
 {
     IBOutlet Controller *_controller;
     
