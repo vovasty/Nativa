@@ -19,19 +19,20 @@
  *****************************************************************************/
 
 #import <Cocoa/Cocoa.h>
+ 
+@class TorrentDropView, PreferencesController, StatusBarView, TorrentTableView, DragOverlayWindow, Torrent, TorrentViewController;
 
-@class TorrentDropView, PreferencesController, StatusBarView, TorrentTableView, DragOverlayWindow, Torrent;
-
-@interface Controller : NSObject<NSMenuDelegate> {
-	IBOutlet NSWindow			*_window;
-	IBOutlet TorrentTableView	*_downloadsView;
-	IBOutlet NSButton			*_turtleButton;
-	NSUserDefaults				*_defaults;
-	PreferencesController		*_preferencesController;
-	DragOverlayWindow			*_overlayWindow;
-	IBOutlet NSMenu				*_contextRowMenu;
-	IBOutlet NSMenu				*_groupMenu;
-	Torrent						*_menuTorrent;
+@interface Controller : NSObject<NSMenuDelegate, NSWindowDelegate> {
+	IBOutlet NSWindow				*_window;
+	IBOutlet TorrentTableView		*_downloadsView;
+	IBOutlet NSButton				*_turtleButton;
+	NSUserDefaults					*_defaults;
+	PreferencesController			*_preferencesController;
+	DragOverlayWindow				*_overlayWindow;
+	IBOutlet NSMenu					*_contextRowMenu;
+	IBOutlet NSMenu					*_groupMenu;
+	Torrent							*_menuTorrent;
+	IBOutlet TorrentViewController	*_viewController;
 }
 
 -(IBAction)showPreferencePanel:(id)sender;

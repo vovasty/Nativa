@@ -22,7 +22,8 @@
 
 @class TorrentTableView;
 
-@interface TorrentViewController : NSObject <NSTableViewDelegate, NSTableViewDataSource> {
+@interface TorrentViewController : NSObject <NSTableViewDelegate, NSTableViewDataSource> 
+{
 @private
     NSMutableArray				*_tableContents;
     IBOutlet TorrentTableView	*_outlineView;
@@ -30,5 +31,9 @@
 	NSUserDefaults				*_defaults;
 	NSMutableDictionary			*_allGroups;
 	NSMutableArray				*_orderedGroups;
+	NSInteger					numberOfRowsInView;
 }
+@property NSInteger numberOfRowsInView;
+
+-(NSInteger) countGroups;
 @end

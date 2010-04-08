@@ -32,6 +32,7 @@ extern NSString* const NIProcessListKey;
 extern NSString* const NIFilterKey;
 extern NSString* const NIRefreshRateKey;
 extern NSString* const NIUpdateGlobalsRateKey;
+extern NSString* const NIAutoSizeKey;
 
 typedef enum 
 { 
@@ -46,5 +47,6 @@ typedef enum
 	NSUserDefaults* _defaults;
 }
 + (PreferencesController *)sharedPreferencesController;
--(void) openPreferences:(NIPReferencesView) view;
+- (void) openPreferences:(NIPReferencesView) view;
+- (void) setAutoSize: (id) sender;
 @end

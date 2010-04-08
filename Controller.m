@@ -31,11 +31,22 @@
 #import "ToolbarControllerAdditions.h"
 #import "QuickLookController.h"
 #import "GroupsController.h"
+#import "TorrentViewController.h"
 
 #define ACTION_MENU_PRIORITY_HIGH_TAG 101
 #define ACTION_MENU_PRIORITY_NORMAL_TAG 102
 #define ACTION_MENU_PRIORITY_LOW_TAG 103
 
+#define WINDOW_REGULAR_WIDTH    468.0
+#define	MENU_BAR_HEIGHT 21
+
+static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
+
+@interface Controller(Private)
+- (NSRect) sizedWindowFrame;
+- (NSRect) windowFrameByAddingHeight: (CGFloat) height checkLimits: (BOOL) check;
+- (void) updateForExpandCollape;
+@end
 
 @implementation Controller
 +(void) initialize
@@ -58,7 +69,10 @@
 
 	[defaultValues setObject:[NSNumber numberWithInteger:300]
 					  forKey:NIUpdateGlobalsRateKey];
-	
+
+	[defaultValues setObject:[NSNumber numberWithBool:YES]
+					  forKey:NIAutoSizeKey];
+
 	//Register the dictionary of defaults
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
 
@@ -100,9 +114,6 @@
 	//for QuickLook functionality
 	[_window makeFirstResponder:_downloadsView];
 	
-	//bottom bar for window
-	//http://iloveco.de/bottom-bars-in-cocoa/
-	[_window setContentBorderThickness:24.0 forEdge:NSMinYEdge];
 	_overlayWindow = [[DragOverlayWindow alloc] initWithWindow: _window];
 	
 	if ([[ProcessesController sharedProcessesController] count]>0)
@@ -127,7 +138,27 @@
     contentMinSize.height = [[_window contentView] frame].size.height - [[_downloadsView enclosingScrollView] frame].size.height
 	+ [_downloadsView rowHeight] + [_downloadsView intercellSpacing].height;
     [_window setContentMinSize: contentMinSize];
-    [_window setContentBorderThickness: NSMinY([[_downloadsView enclosingScrollView] frame]) forEdge: NSMinYEdge];
+    //[_window setContentBorderThickness: NSMinY([[_downloadsView enclosingScrollView] frame]) forEdge: NSMinYEdge];
+	
+	//bottom bar for window
+	//http://iloveco.de/bottom-bars-in-cocoa/
+	[_window setContentBorderThickness:24.0 forEdge:NSMinYEdge];
+
+    //observe notifications
+    NSNotificationCenter * nc = [NSNotificationCenter defaultCenter];
+	
+	[nc addObserver: self selector: @selector(updateForExpandCollape)
+			   name: @"OutlineExpandCollapse" object: nil];
+
+    [nc addObserver: self selector: @selector(setWindowSizeToFit)
+			   name: @"AutoSizeSettingChange" object: nil];
+	
+	[_viewController addObserver:self
+			 forKeyPath:@"numberOfRowsInView"
+				options:0
+				context:&DownloadsViewChangedContext];
+	
+
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
@@ -424,5 +455,109 @@
     }
 	
 	return YES;
+}
+
+#pragma mark -
+#pragma mark NSWindowDelegate
+
+- (NSRect) windowWillUseStandardFrame: (NSWindow *) window defaultFrame: (NSRect) defaultFrame
+{
+    //if auto size is enabled, the current frame shouldn't need to change
+    NSRect frame = [_defaults boolForKey: NIAutoSizeKey] ? [window frame] : [self sizedWindowFrame];
+    
+    frame.size.width = WINDOW_REGULAR_WIDTH;
+    return frame;
+}
+
+@end
+
+@implementation Controller(Private)
+
+- (void) setWindowSizeToFit
+{
+    if ([_defaults boolForKey: NIAutoSizeKey])
+    {
+        NSScrollView * scrollView = [_downloadsView enclosingScrollView];
+        
+        [scrollView setHasVerticalScroller: NO];
+        [_window setFrame: [self sizedWindowFrame] display: YES animate: YES];
+        [scrollView setHasVerticalScroller: YES];
+    }
+}
+
+- (NSRect) sizedWindowFrame
+{
+    NSInteger groups = [_viewController countGroups];
+    
+    CGFloat heightChange = (GROUP_SEPARATOR_HEIGHT + [_downloadsView intercellSpacing].height) * groups
+	+ ([_downloadsView rowHeight] + [_downloadsView intercellSpacing].height) * ([_downloadsView numberOfRows] - groups)
+	- [[_downloadsView enclosingScrollView] frame].size.height;
+    
+    return [self windowFrameByAddingHeight: heightChange checkLimits: YES];
+}
+
+- (NSRect) windowFrameByAddingHeight: (CGFloat) height checkLimits: (BOOL) check
+{
+    NSScrollView * scrollView = [_downloadsView enclosingScrollView];
+    
+    //convert pixels to points
+    NSRect windowFrame = [_window frame];
+    NSSize windowSize = [scrollView convertSize: windowFrame.size fromView: nil];
+
+    windowSize.height += height;
+    
+    if (check)
+    {
+        NSSize minSize = [scrollView convertSize: [_window minSize] fromView: nil];
+        
+        if (windowSize.height < minSize.height)
+            windowSize.height = minSize.height;
+        else
+        {
+            NSSize maxSize = [scrollView convertSize: [[_window screen] visibleFrame].size fromView: nil];
+
+			CGFloat dockHeight = [[_window screen] frame].size.height - maxSize.height;
+			CGFloat maxDelta = (windowFrame.origin.y>0?(windowFrame.origin.y-dockHeight+MENU_BAR_HEIGHT):0);
+			CGFloat maxHeight = windowFrame.size.height+(maxDelta>0?maxDelta:0);
+			
+			if (maxSize.height > maxHeight)
+				maxSize.height = maxHeight;
+			
+            if (windowSize.height > maxSize.height)
+                windowSize.height = maxSize.height;
+			
+        }
+    }
+	
+    //convert points to pixels
+    windowSize = [scrollView convertSize: windowSize toView: nil];
+	
+    windowFrame.origin.y -= (windowSize.height - windowFrame.size.height);
+    windowFrame.size.height = windowSize.height;
+	
+    return windowFrame;
+}
+
+- (void) updateForExpandCollape
+{
+    [self setWindowSizeToFit];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == &DownloadsViewChangedContext)
+    {
+		[self setWindowSizeToFit];
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
 }
 @end

@@ -45,6 +45,9 @@ NSString* const NIFilterKey						= @"Filter";
 NSString* const NIRefreshRateKey				= @"RefreshRateKey";
 
 NSString* const NIUpdateGlobalsRateKey			= @"UpdateGlobalsRateKey";
+
+NSString* const NIAutoSizeKey					= @"AutoSize";
+
 @interface PreferencesController (Private)
 
 - (void) setPrefView: (id) sender;
@@ -145,6 +148,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PreferencesController);
 		[[NSUserDefaults standardUserDefaults] setObject: TOOLBAR_PROCESSES forKey: @"SelectedPrefView"];
 		[self setPrefView: nil];
 	}
+}
+
+- (void) setAutoSize: (id) sender
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"AutoSizeSettingChange" object: self];
 }
 @end
 

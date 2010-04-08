@@ -1496,6 +1496,7 @@ AAAAAAAAA</bytes>
 											</object>
 											<string key="NSFrameSize">{485, 106}</string>
 											<reference key="NSSuperview" ref="604903586"/>
+											<reference key="NSNextKeyView" ref="995799562"/>
 											<reference key="NSDocView" ref="995799562"/>
 											<reference key="NSBGColor" ref="970908652"/>
 											<int key="NScvFlags">2</int>
@@ -1522,6 +1523,7 @@ AAAAAAAAA</bytes>
 									</object>
 									<string key="NSFrameSize">{485, 106}</string>
 									<reference key="NSSuperview" ref="564668520"/>
+									<reference key="NSNextKeyView" ref="764606058"/>
 									<int key="NSsFlags">528</int>
 									<reference key="NSVScroller" ref="900967808"/>
 									<reference key="NSHScroller" ref="333065809"/>
@@ -2060,6 +2062,22 @@ AAAAAAAAA</bytes>
 						<reference key="destination" ref="753007583"/>
 					</object>
 					<int key="connectionID">1030</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">delegate</string>
+						<reference key="source" ref="972006081"/>
+						<reference key="destination" ref="753007583"/>
+					</object>
+					<int key="connectionID">1033</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_viewController</string>
+						<reference key="source" ref="753007583"/>
+						<reference key="destination" ref="145770882"/>
+					</object>
+					<int key="connectionID">1034</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3335,7 +3353,7 @@ AAAAAAAAA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1030</int>
+			<int key="maxID">1036</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3382,6 +3400,7 @@ AAAAAAAAA</bytes>
 							<string>_downloadsView</string>
 							<string>_groupMenu</string>
 							<string>_turtleButton</string>
+							<string>_viewController</string>
 							<string>_window</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -3390,6 +3409,7 @@ AAAAAAAAA</bytes>
 							<string>TorrentTableView</string>
 							<string>NSMenu</string>
 							<string>NSButton</string>
+							<string>TorrentViewController</string>
 							<string>NSWindow</string>
 						</object>
 					</object>

@@ -41,6 +41,8 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 @implementation TorrentViewController
 
+@synthesize numberOfRowsInView;
+
 - (void)dealloc 
 {
     [_tableContents release];
@@ -51,6 +53,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 }
 
 - (void)awakeFromNib {
+	
 	_defaults = [NSUserDefaults standardUserDefaults];
 
 	_allGroups = [[NSMutableDictionary alloc] init];
@@ -92,6 +95,11 @@ static NSString* FilterTorrents = @"FilterTorrents";
                                change:change
                               context:context];
     }
+}
+
+-(NSInteger) countGroups
+{
+	return [_tableContents count];
 }
 
 #pragma mark -
@@ -243,6 +251,9 @@ static NSString* FilterTorrents = @"FilterTorrents";
 		}
 		
 	}
+	
+	if (numberOfRowsInView != [_outlineView numberOfRows])
+		[self setNumberOfRowsInView:[_outlineView numberOfRows]];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
