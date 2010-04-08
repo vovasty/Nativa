@@ -726,9 +726,6 @@
 	case NITorrentStateChecking:
             string = [string stringByAppendingFormat: @" (%.2f%%)", 100*torrent.progress];
 			break;
-	default:
-			NSAssert1(NO, @"Unknown state: %d", torrent.state);
-		break;
 	}
 	
     return string;

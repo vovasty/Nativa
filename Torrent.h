@@ -22,11 +22,11 @@
 
 typedef enum 
 { 
-	NITorrentStateStopped = 0,
+	NITorrentStateUnknown = 0,
 	NITorrentStateSeeding = 1,
 	NITorrentStateLeeching = 2,
 	NITorrentStateChecking = 3,
-	NITorrentStateUnknown = 4
+	NITorrentStateStopped = 4
 } TorrentState;
 
 typedef enum 
