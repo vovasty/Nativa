@@ -29,8 +29,8 @@ static NSString * ConnectedContext = @"ConnectingContext";
 
 @interface RTorrentController(Private)
 -(void)_runOperation:(id<RTorrentCommand>) operation;
--(void)_runCommand:(NSString*) command arguments:(NSArray*)arguments response:(SCGIOperationResponseBlock) response;
--(SCGIOperationResponseBlock)_voidResponse:(VoidResponseBlock) response;
+-(void)_runCommand:(NSString*) command arguments:(NSArray*)arguments handler:(void(^)(id data, NSString* error)) h;
+-(void(^)(id data, NSString* error))_voidHandler:(VoidResponseBlock) handler;
 @end
 
 @implementation RTorrentController
@@ -82,24 +82,24 @@ static NSString * ConnectedContext = @"ConnectingContext";
 
 - (void) start:(NSString *)hash response:(VoidResponseBlock) response;
 {
-	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	id r = [self _voidHandler:response];
 	[self _runCommand:@"d.start"
 			 arguments:[NSArray arrayWithObjects:
 						hash, 
 						nil]
-			  response:r];
+			  handler:r];
 	[r release];
 }
 
 - (void) stop:(NSString *)hash response:(VoidResponseBlock) response;
 {
 	
-	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	id r = [self _voidHandler:response];
 	[self _runCommand:@"d.stop"
 			 arguments:[NSArray arrayWithObjects:
 						hash, 
 						nil]
-			  response:r];
+			  handler:r];
 	[r release];
 }
 
@@ -112,47 +112,45 @@ static NSString * ConnectedContext = @"ConnectingContext";
 
 - (void) erase:(NSString *)hash response:(VoidResponseBlock) response;
 {
-	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	id r = [self _voidHandler:response];
 	[self _runCommand:@"d.erase"
 			arguments:[NSArray arrayWithObjects:
 					   hash, 
 					   nil]
-			 response:r];
+			 handler:r];
 	[r release];
 }
 
 - (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 {
-	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	id r = [self _voidHandler:response];
 	[self _runCommand:@"set_download_rate"
 			arguments:[NSArray arrayWithObjects:
 					   [NSNumber numberWithInt:speed],
 					   nil]
-			 response:r];
+			 handler:r];
 	[r release];
 }
 
 - (void) setGlobalUploadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 {
-	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	id r = [self _voidHandler:response];
 	[self _runCommand:@"set_upload_rate"
 			arguments:[NSArray arrayWithObjects:
 					   [NSNumber numberWithInt:speed],
 					   nil]
-			 response:r];
+			 handler:r];
 	[r release];
 }
 
 - (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response
 {
-	SCGIOperationResponseBlock r = [^(id data, NSString* error){
-		if (response)
-			response(data, error);
-	}copy];
 	[self _runCommand:@"get_download_rate"
 			arguments:nil
-			 response:r];
-	[r release];
+			  handler:^(id data, NSString* error){
+				  if (response)
+					  response(data, error);
+			  }];
 }
 
 - (void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response
@@ -172,19 +170,19 @@ static NSString * ConnectedContext = @"ConnectingContext";
 			NSAssert1(NO, @"Unknown priority: %d", priority);
 	}
 	
-	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	id r = [self _voidHandler:response];
 	[self _runCommand:@"d.set_priority"
 			arguments:[NSArray arrayWithObjects:
 					   [torrent thash],
 					   [NSNumber numberWithInteger:pr], 
 					   nil]
-			 response:r];
+			 handler:r];
 	[r release];
 }
 
 - (void) setGroup:(Torrent *)torrent group:(NSString *) group response:(VoidResponseBlock) response
 {
-	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	id r = [self _voidHandler:response];
 	
 	NSString *encoded = group == nil?@"":
 	(NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
@@ -198,19 +196,19 @@ static NSString * ConnectedContext = @"ConnectingContext";
 					   torrent.thash,
 					   encoded,
 					   nil]
-			 response:r];
+			 handler:r];
 	[encoded release];
 	[r release];
 }
 
 - (void) check:(Torrent *)torrent response:(VoidResponseBlock) response
 {
-	SCGIOperationResponseBlock r = [self _voidResponse:response];
+	id r = [self _voidHandler:response];
 	[self _runCommand:@"d.check_hash"
 			arguments:[NSArray arrayWithObjects:
 					   [torrent thash], 
 					   nil]
-			 response:r];
+			 handler:r];
 	[r release];
 }
 
@@ -285,18 +283,18 @@ static NSString * ConnectedContext = @"ConnectingContext";
 	[scgiOperation release];
 }
 
--(void)_runCommand:(NSString*) command arguments:(NSArray*)arguments response:(SCGIOperationResponseBlock) response
+-(void)_runCommand:(NSString*) command arguments:(NSArray*)arguments handler:(void(^)(id data, NSString* error)) h
 {
-	RTSCGIOperation* scgiOperation = [[RTSCGIOperation alloc] initWithCommand:_connection command:command arguments:arguments response:response];
+	RTSCGIOperation* scgiOperation = [[RTSCGIOperation alloc] initWithCommand:_connection command:command arguments:arguments handler:h];
 	[_queue addOperation:scgiOperation];
 	[scgiOperation release];
 }
 
--(SCGIOperationResponseBlock)_voidResponse:(VoidResponseBlock) response
+-(void(^)(id data, NSString* error))_voidHandler:(VoidResponseBlock) handler;
 {
 	return [^(id data, NSString* error){
-		if (response)
-			response(error);
+		if (handler)
+			handler(error);
 	}copy];
 }
 @end

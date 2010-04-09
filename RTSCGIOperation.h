@@ -21,8 +21,6 @@
 #import <Cocoa/Cocoa.h>
 #import "RTorrentCommand.h"
 
-typedef void(^SCGIOperationResponseBlock)(id data, NSString* error);
-
 @class RTConnection;
 
 @interface RTSCGIOperation : NSOperation<NSStreamDelegate> 
@@ -39,7 +37,7 @@ typedef void(^SCGIOperationResponseBlock)(id data, NSString* error);
 	
 	NSArray						*_arguments;
 	
-	SCGIOperationResponseBlock	_response;
+	void (^handler)(id data, NSString* error);
 	
     BOOL						_isExecuting;
 	
@@ -51,8 +49,9 @@ typedef void(^SCGIOperationResponseBlock)(id data, NSString* error);
 
 	NSInteger					_writtenBytesCounter;
 }
+@property (copy) void (^handler)(id data, NSString* error);
 
-- (id)initWithCommand:(RTConnection *) conn command:(NSString*)command arguments:(NSArray*)arguments response:(SCGIOperationResponseBlock) response;
+- (id)initWithCommand:(RTConnection *) conn command:(NSString*)command arguments:(NSArray*)arguments handler:(void(^)(id data, NSString* error)) h;
 
 - (id)initWithOperation:(RTConnection *) conn operation:(id<RTorrentCommand>) operation;
 

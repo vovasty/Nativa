@@ -45,16 +45,16 @@
 
 @implementation RTSCGIOperation
 
-@synthesize pool;
+@synthesize pool, handler;
 
-- (id)initWithCommand:(RTConnection *) conn command:(NSString*)command arguments:(NSArray*)arguments response:(SCGIOperationResponseBlock) response
+- (id)initWithCommand:(RTConnection *) conn command:(NSString*)command arguments:(NSArray*)arguments handler:(void(^)(id data, NSString* error)) h;
 {
 	if (self = [super init])
 	{
 		_connection = [conn retain];
 		   _command = [command retain];
 		 _arguments = [arguments retain];
-		  _response = [response retain];
+		[self setHandler:h];
 	}
 	return self;
 	
@@ -118,7 +118,7 @@
 	[_responseData release];
 	[_command release];
 	[_arguments release];
-	[_response release];
+	[self setHandler: nil];
 	[_connection release];
 	[_operation release];
 	[_requestData release];
@@ -205,12 +205,13 @@
 			NSInteger len = [_responseData length];
 			NSInteger start = 0;
 			uint8_t *buf = (uint8_t *)[_responseData bytes];
-			BOOL carriageReturnFound = NO;
 			BOOL headerDividerFound = NO;
 
 			//look for \n\n or \r\n\r\n
 			if (len)
 			{
+				BOOL carriageReturnFound = NO;
+
 				for (int i=0;i<len;i++)
 				{
 					if (buf[i]=='\r') //skip single \r's
@@ -220,7 +221,6 @@
 					{
 						if (carriageReturnFound)
 							{
-								carriageReturnFound = YES;
 								headerDividerFound = YES;
 								start = i+1;
 								break;
@@ -279,8 +279,8 @@
 
 - (void) runResponse:(NSData*) data error:(NSString*) error
 {
-	if (_operation == nil && _response)
-		_response(data, error);
+	if (_operation == nil && handler)
+		handler(data, error);
 	else
 		[_operation processResponse:data error:error];
 }
