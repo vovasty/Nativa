@@ -245,6 +245,8 @@
 //			NSLog(@"%@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
 			
 			id result = [xmlrpcResponse parse];
+			BOOL fault = [xmlrpcResponse isFault];
+			[xmlrpcResponse release];
 			
 			if (result == nil)//empty response, occured with bad xml. network error?
 			{
@@ -252,11 +254,11 @@
 				return;
 			}
 			
-			if ([xmlrpcResponse isFault])
+			if (fault)
 				[self setError:result];
 			else
 				[self runResponse:result error:nil];
-			[xmlrpcResponse release];
+			
 			[self finish];
             break;
         }
