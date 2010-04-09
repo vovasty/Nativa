@@ -92,6 +92,7 @@
 			r.state = [self defineTorrentState:state checking:checking opened:opened done:[r progress]];
 			
 			[result addObject:r];
+			[r release];
 		}
 		[result autorelease];
 	}
