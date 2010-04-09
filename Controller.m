@@ -337,9 +337,9 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 		
 		NSInteger hp, np, lp;
 		
-		NSInteger pp = [torrents count]>0?[[torrents objectAtIndex:0] priority]:-1;
+		TorrentPriority pp = [torrents count]>0?[[torrents objectAtIndex:0] priority]:-1;
 		
-		BOOL allSame = pp != -1;
+		BOOL allSame = (pp != -1);
 		
 		for (Torrent *torrent in torrents)
 		{
@@ -350,7 +350,7 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 			}
 		}
 		
-		if (allSame)
+		if (allSame && [torrents count]>0)
 		{
 		
 			const TorrentPriority priority = [[torrents objectAtIndex:0] priority];
@@ -424,7 +424,8 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 	
 	if (action == @selector(removeNoDeleteSelectedTorrents:) 
 		|| action == @selector(removeDeleteSelectedTorrents:)
-		|| action == @selector(checkSelectedTorrents:))
+		|| action == @selector(checkSelectedTorrents:)
+		|| action == @selector(setPriorityForSelectedTorrents:))
     {
         return canUseTable && [_downloadsView numberOfSelectedRows] > 0;
     }
