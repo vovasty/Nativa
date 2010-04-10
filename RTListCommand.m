@@ -75,7 +75,7 @@
 			r.totalPeersSeed = [compl integerValue];
 			r.totalPeersDisconnected = [notConn integerValue];
 			r.priority = [self defineTorrentPriority:[row objectAtIndex:13]];
-			r.isFolder = [[row  objectAtIndex:14] isEqualToString:r.dataLocation];
+			r.isFolder = [[row  objectAtIndex:14] boolValue];
 			NSString* errorMessage = [row  objectAtIndex:15];
 			r.error = [errorMessage isEqualToString:@""]?nil:errorMessage;
 			NSString *groupName = [row  objectAtIndex:16];
@@ -122,7 +122,7 @@
 			@"d.get_peers_not_connected=",
 			@"d.get_peers_complete=",
 			@"d.get_priority=",
-			@"d.get_directory=",
+			@"d.is_multi_file=",
 			@"d.get_message=",
 			[_groupCommand stringByAppendingString:@"="],
 			@"d.is_hash_checking=",
