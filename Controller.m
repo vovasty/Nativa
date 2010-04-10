@@ -389,13 +389,18 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 	
     if (action == @selector(toggleQuickLook:))
     {
-        //text consistent with Finder
-        NSString * title = [[QuickLookController sharedQuickLookController] isVisible] ?
-		NSLocalizedString(@"Close Quick Look", "View menu -> Quick Look")
-		:NSLocalizedString(@"Quick Look", "View menu -> Quick Look");
-        [menuItem setTitle: title];
-        
-        return YES;
+        for (Torrent * torrent in [_downloadsView selectedTorrents])
+            if ([[DownloadsController sharedDownloadsController] findLocation:torrent] != nil)
+			{
+				//text consistent with Finder
+				NSString * title = [[QuickLookController sharedQuickLookController] isVisible] ?
+				NSLocalizedString(@"Close Quick Look", "View menu -> Quick Look")
+				:NSLocalizedString(@"Quick Look", "View menu -> Quick Look");
+				[menuItem setTitle: title];
+
+                return YES;
+			}
+        return NO;
     }
 	
 	//enable pause item
@@ -423,14 +428,14 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
     }
 	
 	if (action == @selector(removeNoDeleteSelectedTorrents:) 
-		|| action == @selector(removeDeleteSelectedTorrents:)
 		|| action == @selector(checkSelectedTorrents:)
 		|| action == @selector(setPriorityForSelectedTorrents:))
     {
         return canUseTable && [_downloadsView numberOfSelectedRows] > 0;
     }
 
-	if (action == @selector(revealSelectedTorrents:))
+	if (action == @selector(revealSelectedTorrents:)
+		|| action == @selector(removeDeleteSelectedTorrents:))
     {
         if(! (canUseTable && [_downloadsView numberOfSelectedRows] > 0))
 			return NO;
