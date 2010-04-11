@@ -22,7 +22,7 @@
 #import "TorrentCell.h"
 #import "TorrentTableView.h"
 #import "TorrentGroup.h"
-#import "Torrent.h";
+#import "Torrent.h"
 #import "DownloadsController.h"
 #import "FilterbarController.h"
 #import "NSStringTorrentAdditions.h"

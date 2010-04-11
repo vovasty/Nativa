@@ -495,9 +495,9 @@
 - (void) toggleControlForTorrent: (Torrent *) torrent
 {
     if ( torrent.state != NITorrentStateStopped )
-        [[DownloadsController sharedDownloadsController] stop:torrent.thash response:nil];
+        [[DownloadsController sharedDownloadsController] stop:torrent force:NO handler:nil];
     else
-        [[DownloadsController sharedDownloadsController] start:torrent.thash response:nil];
+        [[DownloadsController sharedDownloadsController] start:torrent handler:nil];
 }
 
 - (void) displayGroupMenuForEvent: (NSEvent *) event

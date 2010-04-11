@@ -80,26 +80,53 @@ static NSString * ConnectedContext = @"ConnectingContext";
 	[command release];
 }
 
-- (void) start:(NSString *)hash response:(VoidResponseBlock) response;
+- (void) start:(Torrent *)torrent handler:(VoidResponseBlock) handler
 {
-	id r = [self _voidHandler:response];
-	[self _runCommand:@"d.start"
+    __block RTorrentController *blockSelf = self;
+    void(^r)(id data, NSString* error);
+    r = [self _voidHandler:handler];
+	[self _runCommand:@"d.open"
 			 arguments:[NSArray arrayWithObjects:
-						hash, 
+						torrent.thash, 
 						nil]
-			  handler:r];
+			  handler:^(id data, NSString* error){
+                  if (error != nil)
+                  {
+                      r(data, error);
+                      return;
+                  }
+                  [blockSelf _runCommand:@"d.start"
+                          arguments:[NSArray arrayWithObjects:
+                                     torrent.thash, 
+                                     nil]
+                            handler:r];
+                  
+              }];
 	[r release];
 }
 
-- (void) stop:(NSString *)hash response:(VoidResponseBlock) response;
+- (void) stop:(Torrent *)torrent handler:(VoidResponseBlock) handler
 {
-	
-	id r = [self _voidHandler:response];
+    __block RTorrentController *blockSelf = self;
+    void(^r)(id data, NSString* error);
+    r = [self _voidHandler:handler];
 	[self _runCommand:@"d.stop"
-			 arguments:[NSArray arrayWithObjects:
-						hash, 
-						nil]
-			  handler:r];
+            arguments:[NSArray arrayWithObjects:
+                       torrent.thash, 
+                       nil]
+			  handler:^(id data, NSString* error){
+                  if (error != nil)
+                  {
+                      r(data, error);
+                      return;
+                  }
+                  [blockSelf _runCommand:@"d.close"
+                          arguments:[NSArray arrayWithObjects:
+                                     torrent.thash, 
+                                     nil]
+                            handler:r];
+                  
+              }];
 	[r release];
 }
 
@@ -212,6 +239,16 @@ static NSString * ConnectedContext = @"ConnectingContext";
 	[r release];
 }
 
+- (void) pause:(Torrent *) torrent handler:(VoidResponseBlock) handler
+{
+	id r = [self _voidHandler:handler];
+	[self _runCommand:@"d.stop"
+            arguments:[NSArray arrayWithObjects:
+                       torrent.thash, 
+                       nil]
+			  handler:r];
+	[r release];
+}
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change

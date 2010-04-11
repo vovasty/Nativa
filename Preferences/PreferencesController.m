@@ -48,6 +48,8 @@ NSString* const NIUpdateGlobalsRateKey			= @"UpdateGlobalsRateKey";
 
 NSString* const NIAutoSizeKey					= @"AutoSize";
 
+NSString* const NIForceStopKey                    = @"ForceStop";
+
 @interface PreferencesController (Private)
 
 - (void) setPrefView: (id) sender;
