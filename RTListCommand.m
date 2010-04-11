@@ -23,7 +23,7 @@
 
 @interface RTListCommand(Private)
 
-- (TorrentState) defineTorrentState:(NSNumber*) state checking:(NSNumber*)checking opened:(NSNumber*) opened done:(float) done;
+- (TorrentState) defineTorrentState:(NSNumber*) state checking:(NSNumber*)checking opened:(NSNumber*) opened complete:(NSNumber *) complete;
 
 - (TorrentPriority) defineTorrentPriority:(NSNumber*) priority;
 
@@ -88,8 +88,10 @@
 			[decodedGroupName release];
 			
 			NSNumber*  checking = [row  objectAtIndex:17];
+            
+            NSNumber*  complete = [row  objectAtIndex:18];
 			
-			r.state = [self defineTorrentState:state checking:checking opened:opened done:[r progress]];
+			r.state = [self defineTorrentState:state checking:checking opened:opened complete:complete];
 			
 			[result addObject:r];
 			[r release];
@@ -126,6 +128,7 @@
 			@"d.get_message=",
 			[_groupCommand stringByAppendingString:@"="],
 			@"d.is_hash_checking=",
+            @"d.get_complete=",
 			nil];
 }
 
@@ -139,18 +142,18 @@
 
 @implementation RTListCommand(Private)
 
-- (TorrentState) defineTorrentState:(NSNumber*) state checking:(NSNumber*)checking opened:(NSNumber*) opened done:(float) done
+- (TorrentState) defineTorrentState:(NSNumber*) state checking:(NSNumber*)checking opened:(NSNumber*) opened complete:(NSNumber *) complete
 {
 	if ([checking boolValue]) 
 		return NITorrentStateChecking;
 
 	switch ([state intValue]) {
 		case 1: //started
-			if (opened==0)
+			if ([opened intValue]==0)
 				return NITorrentStateStopped;
 			else
 			{
-				if (done>=1)
+				if ([complete boolValue])
 					return NITorrentStateSeeding;
 				else
 					return NITorrentStateLeeching;
