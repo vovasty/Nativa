@@ -26,6 +26,7 @@
 #import "Torrent.h"
 #import "QuickLookController.h"
 #import "DownloadsController.h"
+#import "PreferencesController.h"
 
 #define TOOLBAR_REMOVE                      @"Toolbar Remove"
 #define TOOLBAR_PAUSE_RESUME_SELECTED       @"Toolbar Pause / Resume Selected"
@@ -39,7 +40,8 @@ typedef enum
 {
     TOOLBAR_PAUSE_TAG = 0,
     TOOLBAR_RESUME_TAG = 1,
-    TOOLBAR_STOP_TAG = 2
+    TOOLBAR_FORCE_STOP_TAG = 2,
+    TOOLBAR_STOP_TAG = 3
 } toolbarGroupTag;
 
 @implementation Controller(ToolbarControllerAdditions)
@@ -79,10 +81,13 @@ typedef enum
 	? [(NSSegmentedCell *)[sender cell] tagForSegment: [sender selectedSegment]] : [sender tag];
     switch (tagValue)
     {
-        case TOOLBAR_PAUSE_TAG:
+        case TOOLBAR_STOP_TAG:
             [self stopSelectedTorrents: sender];
             break;
-        case TOOLBAR_STOP_TAG:
+        case TOOLBAR_PAUSE_TAG:
+            [self forcePauseSelectedTorrents: sender];
+            break;
+        case TOOLBAR_FORCE_STOP_TAG:
             [self forceStopSelectedTorrents: sender];
             break;
         case TOOLBAR_RESUME_TAG:
@@ -113,8 +118,6 @@ typedef enum
             TOOLBAR_PAUSE_RESUME_SELECTED, NSToolbarFlexibleSpaceItemIdentifier,
             TOOLBAR_QUICKLOOK, nil];
 }
-
-
 
 - (NSToolbarItem *) toolbar: (NSToolbar *) toolbar itemForItemIdentifier: (NSString *) ident willBeInsertedIntoToolbar: (BOOL) flag
 {
@@ -154,10 +157,20 @@ typedef enum
         
         [groupItem setIdentifiers: [NSArray arrayWithObjects: TOOLBAR_PAUSE_SELECTED, TOOLBAR_RESUME_SELECTED, nil]];
         
-        [segmentedCell setTag: TOOLBAR_PAUSE_TAG forSegment: 0];
-        [segmentedControl setImage: [NSImage imageNamed: @"ToolbarPauseSelectedTemplate.png"] forSegment: 0];
-        [segmentedCell setToolTip: NSLocalizedString(@"Pause selected transfers",
+        if ([_defaults boolForKey:NIForceStopKey])
+        {
+            [segmentedCell setTag: TOOLBAR_STOP_TAG forSegment: 0];
+            [segmentedControl setImage: [NSImage imageNamed: @"ToolbarStopSelectedTemplate.png"] forSegment: 0];
+            [segmentedCell setToolTip: NSLocalizedString(@"Stop selected transfers",
+                                                         "Selected toolbar item -> tooltip") forSegment: 0];
+        }
+        else
+        {
+            [segmentedCell setTag: TOOLBAR_STOP_TAG forSegment: 0];
+            [segmentedControl setImage: [NSImage imageNamed: @"ToolbarPauseSelectedTemplate.png"] forSegment: 0];
+            [segmentedCell setToolTip: NSLocalizedString(@"Pause selected transfers",
 													 "Selected toolbar item -> tooltip") forSegment: 0];
+        }
         
         [segmentedCell setTag: TOOLBAR_RESUME_TAG forSegment: 1];
         [segmentedControl setImage: [NSImage imageNamed: @"ToolbarResumeSelectedTemplate.png"] forSegment: 1];
@@ -198,7 +211,7 @@ typedef enum
         [segmentedCell setToolTip: NSLocalizedString(@"Pause selected transfers",
 													 "Selected toolbar item -> tooltip") forSegment: 0];
 
-        [segmentedCell setTag: TOOLBAR_STOP_TAG forSegment: 1];
+        [segmentedCell setTag: TOOLBAR_FORCE_STOP_TAG forSegment: 1];
         [segmentedControl setImage: [NSImage imageNamed: @"ToolbarStopSelectedTemplate.png"] forSegment: 1];
         [segmentedCell setToolTip: NSLocalizedString(@"Stop selected transfers",
 													 "Selected toolbar item -> tooltip") forSegment: 1];

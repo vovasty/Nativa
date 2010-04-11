@@ -153,7 +153,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 - (void) stop:(Torrent *) torrent force:(BOOL)force handler:(VoidResponseBlock) handler
 {
 	VoidResponseBlock r = [self _updateListResponse:handler errorFormat:@"Unable to stop torrent: %@"];
-    if (force || [_defaults boolForKey:NIForceStopKey])
+    if (force)
         [[self _controller] stop:torrent handler:r];
     else
         [[self _controller] pause:torrent handler:r];
