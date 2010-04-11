@@ -93,7 +93,7 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 {
 	//check speed limit
 	__block Controller *blockSelf = self;
-	NumberResponseBlock response = [^(NSNumber* speed, NSString* error) {
+	[[DownloadsController sharedDownloadsController] getGlobalDownloadSpeedLimit:^(NSNumber* speed, NSString* error) {
 		if (error == nil)
 		{
 			if ([speed intValue]>0)
@@ -101,9 +101,7 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 			else 
 				[blockSelf->_turtleButton setState: NSOffState];
 		}
-	} copy];
-	[[DownloadsController sharedDownloadsController] getGlobalDownloadSpeedLimit:response];
-	[response release];
+	}];
 }
 
 
@@ -120,7 +118,7 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 	{
 		[_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.gif"] mainMessage:@"Connecting ..." message:nil];
 		__block Controller *blockSelf = self;
-		VoidResponseBlock response = [^(NSString* error){
+		[[DownloadsController sharedDownloadsController] startUpdates:^(NSString* error){
 			if (error)
 				[blockSelf->_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Error" message:error];
 			else 
@@ -128,9 +126,7 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 				[self checkSpeedLimit];
 				[blockSelf->_overlayWindow fadeOut];
 			}
-		}copy];
-		[[DownloadsController sharedDownloadsController] startUpdates:response];
-		[response release];
+		}];
 	}
 	
 	//window min height
@@ -170,19 +166,24 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 -(IBAction)toggleTurtleSpeed:(id)sender
 {
 	__block Controller *blockSelf = self;
-	VoidResponseBlock responseDownload = [^(NSString* error)
-	{
-		VoidResponseBlock responseUpload = [^(NSString* error)
-		{
-			[blockSelf checkSpeedLimit];
-		}copy];
-		int speedUpload = [blockSelf->_turtleButton state] == NSOnState?[blockSelf->_defaults integerForKey:NISpeedLimitUpload]*1024:0;
-		[[DownloadsController sharedDownloadsController] setGlobalUploadSpeedLimit:speedUpload response:responseUpload];
-		[responseUpload release];
-	}copy];
 	int speedDownload = [_turtleButton state] == NSOnState?[_defaults integerForKey:NISpeedLimitDownload]*1024:0;
-	[[DownloadsController sharedDownloadsController] setGlobalDownloadSpeedLimit:speedDownload response:responseDownload];
-	[responseDownload release];
+	[[DownloadsController sharedDownloadsController] 
+	 setGlobalDownloadSpeedLimit:speedDownload
+						response:^(NSString* error)
+						{
+							if (error != nil)
+							{
+								_turtleButton.state=!_turtleButton.state;
+								return;
+							}
+							int speedUpload = [blockSelf->_turtleButton state] == NSOnState?[blockSelf->_defaults integerForKey:NISpeedLimitUpload]*1024:0;
+							[[DownloadsController sharedDownloadsController] 
+								setGlobalUploadSpeedLimit:speedUpload
+												 response:^(NSString* error)
+												 {
+													 [blockSelf checkSpeedLimit];
+												 }];
+						}];
 }
 
 -(IBAction)removeNoDeleteSelectedTorrents:(id)sender
