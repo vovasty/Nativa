@@ -33,6 +33,7 @@ extern NSString* const NIFilterKey;
 extern NSString* const NIRefreshRateKey;
 extern NSString* const NIUpdateGlobalsRateKey;
 extern NSString* const NIAutoSizeKey;
+extern NSString* const NIForceStopKey;
 
 typedef enum 
 { 

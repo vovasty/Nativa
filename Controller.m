@@ -73,6 +73,9 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 	[defaultValues setObject:[NSNumber numberWithBool:YES]
 					  forKey:NIAutoSizeKey];
 
+    [defaultValues setObject:[NSNumber numberWithBool:YES]
+					  forKey:NIForceStopKey];
+
 	//Register the dictionary of defaults
 	[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
 
@@ -206,14 +209,28 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 {
 	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
 	for (Torrent *t in torrents)
-		[[DownloadsController sharedDownloadsController] stop:t.thash response:nil];
+		[[DownloadsController sharedDownloadsController] stop:t force:[_defaults boolForKey:NIForceStopKey] handler:nil];
+}
+
+-(IBAction)forceStopSelectedTorrents:(id)sender
+{
+	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
+	for (Torrent *t in torrents)
+		[[DownloadsController sharedDownloadsController] stop:t force:YES handler:nil];
+}
+
+-(IBAction)forcePauseSelectedTorrents:(id)sender
+{
+	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
+	for (Torrent *t in torrents)
+		[[DownloadsController sharedDownloadsController] stop:t force:NO handler:nil];
 }
 
 -(IBAction)resumeSelectedTorrents:(id)sender
 {
 	NSArray * torrents = [(TorrentTableView *)_downloadsView selectedTorrents];
 	for (Torrent *t in torrents)
-		[[DownloadsController sharedDownloadsController] start:t.thash response:nil];
+		[[DownloadsController sharedDownloadsController] start:t handler:nil];
 }
 
 -(IBAction)checkSelectedTorrents:(id)sender
@@ -407,6 +424,11 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 	//enable pause item
     if (action == @selector(stopSelectedTorrents:))
     {
+        if ([_defaults boolForKey:NIForceStopKey])
+            [menuItem setTitle:NSLocalizedString(@"Stop selected", "View menu -> Quick Look")];
+        else 
+            [menuItem setTitle:@"Pause selected"];
+
         if (!canUseTable)
             return NO;
 		
@@ -419,6 +441,11 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 	//enable pause item
     if (action == @selector(resumeSelectedTorrents:))
     {
+        if ([_defaults boolForKey:NIForceStopKey])
+            [menuItem setTitle:NSLocalizedString(@"Start selected", "View menu -> Quick Look")];
+        else 
+            [menuItem setTitle:@"Resume selected"];
+        
         if (!canUseTable)
             return NO;
 		

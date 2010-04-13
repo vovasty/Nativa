@@ -22,6 +22,7 @@
 		810792E6115C239300A87CEA /* GroupsNoneTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 810792E5115C239300A87CEA /* GroupsNoneTemplate.png */; };
 		81079342115C2AEF00A87CEA /* ExpandedPathToPathTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107933E115C2AEF00A87CEA /* ExpandedPathToPathTransformer.m */; };
 		81079343115C2AEF00A87CEA /* ExpandedPathToIconTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 81079340115C2AEF00A87CEA /* ExpandedPathToIconTransformer.m */; };
+		8107F28611722B3F00A11E91 /* ToolbarStopSelectedTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 8107F28511722B3F00A11E91 /* ToolbarStopSelectedTemplate.png */; };
 		810A08531152E7230011E46A /* KillTunnel.sh in Resources */ = {isa = PBXBuildFile; fileRef = 810A08521152E7230011E46A /* KillTunnel.sh */; };
 		810AEEFD11132FE400933772 /* ToolbarRemoveTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */; };
 		810AEF331113353200933772 /* ButtonToolbarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 810AEF301113353200933772 /* ButtonToolbarItem.m */; };
@@ -149,6 +150,7 @@
 		8107933F115C2AEF00A87CEA /* ExpandedPathToPathTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandedPathToPathTransformer.h; sourceTree = "<group>"; };
 		81079340115C2AEF00A87CEA /* ExpandedPathToIconTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandedPathToIconTransformer.m; sourceTree = "<group>"; };
 		81079341115C2AEF00A87CEA /* ExpandedPathToIconTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExpandedPathToIconTransformer.h; sourceTree = "<group>"; };
+		8107F28511722B3F00A11E91 /* ToolbarStopSelectedTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarStopSelectedTemplate.png; sourceTree = "<group>"; };
 		810A08521152E7230011E46A /* KillTunnel.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = KillTunnel.sh; path = SSH/KillTunnel.sh; sourceTree = "<group>"; };
 		810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ToolbarRemoveTemplate.png; sourceTree = "<group>"; };
 		810AEF2F1113353200933772 /* ButtonToolbarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ButtonToolbarItem.h; sourceTree = "<group>"; };
@@ -499,6 +501,7 @@
 		811EA5D11111FAD1001D16D0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				8107F28511722B3F00A11E91 /* ToolbarStopSelectedTemplate.png */,
 				8102BE21115FC27F001D7696 /* GroupsNoneHoverTemplate.png */,
 				8102BDA4115FB8F1001D7696 /* YingYangGroupTemplate.png */,
 				810792E5115C239300A87CEA /* GroupsNoneTemplate.png */,
@@ -692,6 +695,7 @@
 				810792E6115C239300A87CEA /* GroupsNoneTemplate.png in Resources */,
 				8102BDA5115FB8F1001D7696 /* YingYangGroupTemplate.png in Resources */,
 				8102BE22115FC27F001D7696 /* GroupsNoneHoverTemplate.png in Resources */,
+				8107F28611722B3F00A11E91 /* ToolbarStopSelectedTemplate.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

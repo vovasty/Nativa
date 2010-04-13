@@ -56,9 +56,9 @@ extern NSString* const NINotifyUpdateDownloads;
 
 -(NSArray*) downloads;
 
-- (void) start:(NSString *) hash response:(VoidResponseBlock) response;
+- (void) start:(Torrent *) torrent handler:(VoidResponseBlock) handler;
 
-- (void) stop:(NSString *) hash response:(VoidResponseBlock) response;
+- (void) stop:(Torrent *) torrent force:(BOOL)force handler:(VoidResponseBlock) handler;
 
 - (void) add:(NSArray *) filesNames;
 

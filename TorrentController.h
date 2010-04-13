@@ -26,9 +26,9 @@
 
 - (void) list:(ArrayResponseBlock) response;
 
-- (void) start:(NSString *) hash response:(VoidResponseBlock) response;
+- (void) start:(Torrent *)torrent handler:(VoidResponseBlock) handler;
 
-- (void) stop:(NSString *) hash response:(VoidResponseBlock) response;
+- (void) stop:(Torrent *)torrent handler:(VoidResponseBlock) handler;
 
 - (void) add:(NSURL *) torrentUrl start:(BOOL) start response:(VoidResponseBlock) response;
 
@@ -52,5 +52,6 @@
 
 - (void) check:(Torrent *)torrent response:(VoidResponseBlock) response;
 
+- (void) pause:(Torrent *) hash handler:(VoidResponseBlock) handler;
 @end
 

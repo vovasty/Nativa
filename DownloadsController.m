@@ -143,17 +143,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 #pragma mark -
 #pragma mark concrete torrent methods
 
-- (void) start:(NSString *) hash response:(VoidResponseBlock) response
+- (void) start:(Torrent *) torrent handler:(VoidResponseBlock) handler
 {
-	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to start torrent: %@"];
-	[[self _controller] start:hash response:r];
+	VoidResponseBlock r = [self _updateListResponse:handler errorFormat:@"Unable to start torrent: %@"];
+	[[self _controller] start:torrent handler:r];
 	[r release];
 }
 
-- (void) stop:(NSString *) hash response:(VoidResponseBlock) response
+- (void) stop:(Torrent *) torrent force:(BOOL)force handler:(VoidResponseBlock) handler
 {
-	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to stop torrent: %@"];
-	[[self _controller] stop:hash response:r];
+	VoidResponseBlock r = [self _updateListResponse:handler errorFormat:@"Unable to stop torrent: %@"];
+    if (force)
+        [[self _controller] stop:torrent handler:r];
+    else
+        [[self _controller] pause:torrent handler:r];
 	[r release];
 }
 
