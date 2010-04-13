@@ -33,8 +33,6 @@ NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
 - (void)_updateList;
 
-- (void)_updateGlobals;
-
 - (id<TorrentController>) _controller;
 
 - (NSInteger) _processIndex;
@@ -51,12 +49,13 @@ NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
-@synthesize	globalUploadSpeed = _globalUploadSpeed;
-@synthesize globalDownloadSpeed = _globalDownloadSpeed;
-@synthesize spaceLeft = _spaceLeft;
-@synthesize globalDownloadSize = _globalDownloadSize;
-@synthesize globalUploadSize = _globalUploadSize;
-@synthesize globalRatio = _globalRatio;
+@synthesize globalUploadSpeed           = _globalUploadSpeed;
+@synthesize globalDownloadSpeed         = _globalDownloadSpeed;
+@synthesize spaceLeft                   = _spaceLeft;
+@synthesize globalDownloadSize          = _globalDownloadSize;
+@synthesize globalUploadSize            = _globalUploadSize;
+@synthesize globalRatio                 = _globalRatio;
+@synthesize globalDownloadSpeedLimit    = _globalDownloadSpeedLimit;
 
 
 -(id)init;
@@ -103,11 +102,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 			[blockSelf->_updateListTimer retain];
 			[[NSRunLoop currentRunLoop] addTimer:blockSelf->_updateListTimer forMode:NSDefaultRunLoopMode];	
 
-			[blockSelf _updateGlobals];
+			[blockSelf updateGlobals];
 			blockSelf->_updateGlobalsTimer = [NSTimer scheduledTimerWithTimeInterval:
 										[blockSelf->_defaults integerForKey:NIUpdateGlobalsRateKey]
 																		target:self 
-																		selector:@selector(_updateGlobals) 
+																		selector:@selector(updateGlobals) 
 																		userInfo:nil 
 																		repeats:YES];
 			[blockSelf->_updateGlobalsTimer retain];
@@ -192,7 +191,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 			}
 			
 			[blockSelf _updateList];
-			[blockSelf _updateGlobals];
+			[blockSelf updateGlobals];
 		} copy];
 		[[self _controller] add:url start:[_defaults boolForKey:NIStartTransferWhenAddedKey] response:response];
 		[response release];
@@ -254,7 +253,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		}
 		
 		[blockSelf _updateList];
-		[blockSelf _updateGlobals];
+		[blockSelf updateGlobals];
 	}copy];
 	
 	[[self _controller] erase:[torrent thash] response:r];
@@ -269,11 +268,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to set global speed limit: %@"];
 	[[self _controller] setGlobalDownloadSpeedLimit:speed response:r];
 	[r release];
-}
-
-- (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response
-{
-	[[self _controller] getGlobalDownloadSpeedLimit:response];
 }
 
 - (void) setGlobalUploadSpeedLimit:(int) speed response:(VoidResponseBlock) response
@@ -348,6 +342,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to check hash for torrent: %@"];
 	[[self _controller] check:torrent response:r];
 	[r release];
+}
+
+- (void) updateGlobals
+{
+	NSString *path = [[ProcessesController sharedProcessesController] localDownloadsFolderForIndex:[self _processIndex]];
+	if (path == nil)
+		return;
+	
+	NSError* error = nil;
+	NSDictionary *attr = [[NSFileManager defaultManager] attributesOfFileSystemForPath:path error:&error];
+	if (error == nil)
+		[self setSpaceLeft:[[attr objectForKey:NSFileSystemFreeSize] doubleValue]];
+
+    __block DownloadsController *blockSelf = self;
+    [[self _controller] getGlobalDownloadSpeedLimit:^(NSNumber *number, NSString* error){
+        if (error != nil)
+        {
+            [blockSelf setError:@"Unable to get global download speed limit: %@" error:error];
+            return;
+        }
+        
+        [blockSelf willChangeValueForKey:@"globalDownloadSpeedLimit"];
+		_globalDownloadSpeedLimit = [number floatValue];
+		[blockSelf didChangeValueForKey:@"globalDownloadSpeedLimit"];
+    }];
 }
 @end
 
@@ -465,17 +484,5 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	NSSound *deleteSound;
 	deleteSound  = [NSSound soundNamed: @"drag to trash"];
 	[deleteSound play];
-}
-
-- (void)_updateGlobals
-{
-	NSString *path = [[ProcessesController sharedProcessesController] localDownloadsFolderForIndex:[self _processIndex]];
-	if (path == nil)
-		return;
-	
-	NSError* error = nil;
-	NSDictionary *attr = [[NSFileManager defaultManager] attributesOfFileSystemForPath:path error:&error];
-	if (error == nil)
-		[self setSpaceLeft:[[attr objectForKey:NSFileSystemFreeSize] doubleValue]];
 }
 @end

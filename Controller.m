@@ -40,7 +40,8 @@
 #define WINDOW_REGULAR_WIDTH    468.0
 #define	MENU_BAR_HEIGHT 21
 
-static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
+static NSString* DownloadsViewChangedContext            = @"DownloadsViewChangedContext";
+static NSString* GlobalDownloadSpeedLimitChangedContext = @"GlobalDownloadSpeedLimitChangedContext";
 
 @interface Controller(Private)
 - (NSRect) sizedWindowFrame;
@@ -92,22 +93,6 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
     return self;
 }
 
--(void)checkSpeedLimit
-{
-	//check speed limit
-	__block Controller *blockSelf = self;
-	[[DownloadsController sharedDownloadsController] getGlobalDownloadSpeedLimit:^(NSNumber* speed, NSString* error) {
-		if (error == nil)
-		{
-			if ([speed intValue]>0)
-				[blockSelf->_turtleButton setState: NSOnState];
-			else 
-				[blockSelf->_turtleButton setState: NSOffState];
-		}
-	}];
-}
-
-
 - (void)awakeFromNib
 {
 	[self setupToolbar];
@@ -126,7 +111,7 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 				[blockSelf->_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Error" message:error];
 			else 
 			{
-				[self checkSpeedLimit];
+				[[DownloadsController sharedDownloadsController] updateGlobals];
 				[blockSelf->_overlayWindow fadeOut];
 			}
 		}];
@@ -156,7 +141,12 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 			 forKeyPath:@"numberOfRowsInView"
 				options:0
 				context:&DownloadsViewChangedContext];
-	
+
+    [[DownloadsController sharedDownloadsController] addObserver:self
+                      forKeyPath:@"globalDownloadSpeedLimit"
+                         options:0
+                         context:&GlobalDownloadSpeedLimitChangedContext];
+    
 
 }
 
@@ -184,7 +174,7 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
 								setGlobalUploadSpeedLimit:speedUpload
 												 response:^(NSString* error)
 												 {
-													 [blockSelf checkSpeedLimit];
+													 [[DownloadsController sharedDownloadsController] updateGlobals];
 												 }];
 						}];
 }
@@ -604,6 +594,10 @@ static NSString* DownloadsViewChangedContext = @"DownloadsViewChangedContext";
     if (context == &DownloadsViewChangedContext)
     {
 		[self setWindowSizeToFit];
+    }
+    else if (context == &GlobalDownloadSpeedLimitChangedContext)
+    {
+        [_turtleButton setState: [DownloadsController sharedDownloadsController].globalDownloadSpeedLimit>0?NSOnState:NSOffState];
     }
     else
     {

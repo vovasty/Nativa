@@ -38,6 +38,8 @@ extern NSString* const NINotifyUpdateDownloads;
 	CGFloat			  _globalUploadSize;
 	CGFloat			  _globalDownloadSize;
 	CGFloat			  _globalRatio;
+    CGFloat			  _globalUploadSpeedLimit;
+    CGFloat			  _globalDownloadSpeedLimit;    
 	NSUserDefaults	* _defaults;
 }
 @property (assign)	CGFloat globalUploadSpeed;
@@ -46,6 +48,7 @@ extern NSString* const NINotifyUpdateDownloads;
 @property (assign)	CGFloat globalDownloadSize;
 @property (assign)	CGFloat globalUploadSize;
 @property (assign)	CGFloat globalRatio;
+@property (assign)	CGFloat globalDownloadSpeedLimit;
 
 
 + (DownloadsController *)sharedDownloadsController;
@@ -66,8 +69,6 @@ extern NSString* const NINotifyUpdateDownloads;
 
 - (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 
-- (void) getGlobalDownloadSpeedLimit:(NumberResponseBlock) response;
-
 - (void) setGlobalUploadSpeedLimit:(int) speed response:(VoidResponseBlock) response;
 
 - (void) reveal:(Torrent*) torrent;
@@ -79,5 +80,7 @@ extern NSString* const NINotifyUpdateDownloads;
 -(NSString*) findLocation:(Torrent *)torrent;
 
 - (void) check:(Torrent*) torrent response:(VoidResponseBlock) response;
+
+- (void) updateGlobals;
 @end
 
