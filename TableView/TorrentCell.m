@@ -675,10 +675,7 @@
 	NSString * string;
 	
 	if (torrent.error != nil)
-	{
-		string = NSLocalizedString(@"Error", "Torrent -> status string");
-		string = [string stringByAppendingFormat: @": %@", torrent.error];
-	}
+		string = NSLocalizedString(torrent.error, "Torrent -> status string");
 	else
 	{
 		switch (torrent.state)
