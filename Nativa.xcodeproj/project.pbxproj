@@ -36,6 +36,7 @@
 		810E7A8F1115F74900FC4640 /* RevealHover.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E7A8C1115F74900FC4640 /* RevealHover.png */; };
 		810E7A901115F74900FC4640 /* RevealOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E7A8D1115F74900FC4640 /* RevealOff.png */; };
 		810E7A911115F74900FC4640 /* RevealOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E7A8E1115F74900FC4640 /* RevealOn.png */; };
+		8119F710117542A0005776B1 /* Torrent.icns in Resources */ = {isa = PBXBuildFile; fileRef = 8119F70F117542A0005776B1 /* Torrent.icns */; };
 		811B056810F6A030000D1DDC /* NSStringSCGIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B056710F6A030000D1DDC /* NSStringSCGIAdditions.m */; };
 		811B05A210F6A1C7000D1DDC /* Torrent.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B05A110F6A1C7000D1DDC /* Torrent.m */; };
 		811B4B7611275B14008A23C3 /* AMServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B4B7111275B14008A23C3 /* AMServer.m */; };
@@ -169,6 +170,7 @@
 		810E7A8C1115F74900FC4640 /* RevealHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RevealHover.png; sourceTree = "<group>"; };
 		810E7A8D1115F74900FC4640 /* RevealOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RevealOff.png; sourceTree = "<group>"; };
 		810E7A8E1115F74900FC4640 /* RevealOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RevealOn.png; sourceTree = "<group>"; };
+		8119F70F117542A0005776B1 /* Torrent.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Torrent.icns; sourceTree = "<group>"; };
 		811B056610F6A030000D1DDC /* NSStringSCGIAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringSCGIAdditions.h; sourceTree = "<group>"; };
 		811B056710F6A030000D1DDC /* NSStringSCGIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringSCGIAdditions.m; sourceTree = "<group>"; };
 		811B05A010F6A1C7000D1DDC /* Torrent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Torrent.h; sourceTree = "<group>"; };
@@ -501,6 +503,7 @@
 		811EA5D11111FAD1001D16D0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				8119F70F117542A0005776B1 /* Torrent.icns */,
 				8107F28511722B3F00A11E91 /* ToolbarStopSelectedTemplate.png */,
 				8102BE21115FC27F001D7696 /* GroupsNoneHoverTemplate.png */,
 				8102BDA4115FB8F1001D7696 /* YingYangGroupTemplate.png */,
@@ -696,6 +699,7 @@
 				8102BDA5115FB8F1001D7696 /* YingYangGroupTemplate.png in Resources */,
 				8102BE22115FC27F001D7696 /* GroupsNoneHoverTemplate.png in Resources */,
 				8107F28611722B3F00A11E91 /* ToolbarStopSelectedTemplate.png in Resources */,
+				8119F710117542A0005776B1 /* Torrent.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
