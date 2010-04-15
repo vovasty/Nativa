@@ -41,7 +41,7 @@
 #define	MENU_BAR_HEIGHT 21
 
 static NSString* DownloadsViewChangedContext            = @"DownloadsViewChangedContext";
-static NSString* GlobalDownloadSpeedLimitChangedContext = @"GlobalDownloadSpeedLimitChangedContext";
+static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedContext";
 
 @interface Controller(Private)
 - (NSRect) sizedWindowFrame;
@@ -145,9 +145,12 @@ static NSString* GlobalDownloadSpeedLimitChangedContext = @"GlobalDownloadSpeedL
     [[DownloadsController sharedDownloadsController] addObserver:self
                       forKeyPath:@"globalDownloadSpeedLimit"
                          options:0
-                         context:&GlobalDownloadSpeedLimitChangedContext];
-    
+                         context:&GlobalSpeedLimitChangedContext];
 
+    [[DownloadsController sharedDownloadsController] addObserver:self
+                     forKeyPath:@"globalUploadSpeedLimit"
+                        options:0
+                        context:&GlobalSpeedLimitChangedContext];
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
@@ -172,10 +175,7 @@ static NSString* GlobalDownloadSpeedLimitChangedContext = @"GlobalDownloadSpeedL
 							int speedUpload = [blockSelf->_turtleButton state] == NSOnState?[blockSelf->_defaults integerForKey:NISpeedLimitUpload]*1024:0;
 							[[DownloadsController sharedDownloadsController] 
 								setGlobalUploadSpeedLimit:speedUpload
-												 response:^(NSString* error)
-												 {
-													 [[DownloadsController sharedDownloadsController] updateGlobals];
-												 }];
+												 response:nil];
 						}];
 }
 
@@ -318,6 +318,41 @@ static NSString* GlobalDownloadSpeedLimitChangedContext = @"GlobalDownloadSpeedL
 		[[DownloadsController sharedDownloadsController] setPriority:torrent priority:priority response:nil];
 }
 
+- (void) setSpeedLimitGlobal: (id) sender
+{
+    BOOL upload = [sender menu] == _globalUploadSpeedLimitMenu;
+        //    [fDefaults setInteger: [[sender representedObject] intValue] forKey: upload ? @"UploadLimit" : @"DownloadLimit"];
+    NSInteger limit = [[sender representedObject] intValue]*1024;
+	__block Controller *blockSelf = self;
+    if (upload)
+        [[DownloadsController sharedDownloadsController] 
+         setGlobalUploadSpeedLimit:limit
+         response:nil];
+    else
+        [[DownloadsController sharedDownloadsController] 
+         setGlobalDownloadSpeedLimit:limit
+         response:nil];
+}
+
+-(void) unsetSpeedLimitGlobal: (id) sender
+{
+    BOOL upload = [sender menu] == _globalUploadSpeedLimitMenu;
+    CGFloat speed = 0;
+    
+    if (sender == _globalDownloadSpeedLimitMenuItem || sender == _globalUploadSpeedLimitMenuItem)
+        speed = sender == _globalUploadSpeedLimitMenuItem?_savedGlobalUploadSpeedLimit:_savedGlobalDownloadSpeedLimit;
+
+    if (upload)
+        [[DownloadsController sharedDownloadsController] 
+         setGlobalUploadSpeedLimit:speed
+         response:nil];
+    else
+        [[DownloadsController sharedDownloadsController] 
+         setGlobalDownloadSpeedLimit:speed
+         response:nil];
+}
+
+
 #pragma mark -
 #pragma mark NSMenuDelegate stuff
 
@@ -338,6 +373,36 @@ static NSString* GlobalDownloadSpeedLimitChangedContext = @"GlobalDownloadSpeedL
             [menu addItem: item];
             [item release];
         }
+    }
+    else if (menu == _globalUploadSpeedLimitMenu || menu == _globalDownloadSpeedLimitMenu)
+    {
+        if ([menu numberOfItems] > 3)
+            return;
+        
+        const NSInteger speedLimitActionValue[] = { 5, 10, 20, 30, 40, 50, 75, 100, 150, 200, 250, 500, 750, 1000, 1500, 2000, -1 };
+        
+        NSMenuItem * item;
+        for (NSInteger i = 0; speedLimitActionValue[i] != -1; i++)
+        {
+            item = [[NSMenuItem alloc] initWithTitle: [NSString stringWithFormat: NSLocalizedString(@"%d KB/s",
+                                                                                                    "Action menu -> upload/download limit"), speedLimitActionValue[i]] action: @selector(setSpeedLimitGlobal:)
+                                       keyEquivalent: @""];
+            [item setTarget: self];
+            [item setRepresentedObject: [NSNumber numberWithInt: speedLimitActionValue[i]]];
+            [menu addItem: item];
+            [item release];
+        }
+        
+        _savedGlobalDownloadSpeedLimit = _savedGlobalUploadSpeedLimit = speedLimitActionValue[0]*1024;
+        
+        [_globalDownloadSpeedLimitMenuItem setTitle: [NSString stringWithFormat: NSLocalizedString(@"Limit (%d KB/s)",
+                                                                                                   "Action menu -> upload/download limit"),
+                                                      (NSInteger)_savedGlobalDownloadSpeedLimit/1024]];
+
+        [_globalUploadSpeedLimitMenuItem setTitle: [NSString stringWithFormat: NSLocalizedString(@"Limit (%d KB/s)",
+                                                                                                 "Action menu -> upload/download limit"),
+                                                    (NSInteger)_savedGlobalUploadSpeedLimit/1024]];
+        
     }
 	else if (menu == _contextRowMenu || menu == _priorityMainMenu)
     {
@@ -595,9 +660,31 @@ static NSString* GlobalDownloadSpeedLimitChangedContext = @"GlobalDownloadSpeedL
     {
 		[self setWindowSizeToFit];
     }
-    else if (context == &GlobalDownloadSpeedLimitChangedContext)
+    else if (context == &GlobalSpeedLimitChangedContext)
     {
-        [_turtleButton setState: [DownloadsController sharedDownloadsController].globalDownloadSpeedLimit>0?NSOnState:NSOffState];
+        BOOL isDownloadSpeedLimitSet = [DownloadsController sharedDownloadsController].globalDownloadSpeedLimit>0;
+        BOOL isUploadSpeedLimitSet = [DownloadsController sharedDownloadsController].globalUploadSpeedLimit>0;
+        [_turtleButton setState: (isDownloadSpeedLimitSet || isUploadSpeedLimitSet)?NSOnState:NSOffState];
+        [_globalUploadSpeedNoLimitMenuItem setState:!isUploadSpeedLimitSet?NSOnState:NSOffState];
+        [_globalUploadSpeedLimitMenuItem setState:isUploadSpeedLimitSet?NSOnState:NSOffState];
+        [_globalDownloadSpeedNoLimitMenuItem setState:!isDownloadSpeedLimitSet?NSOnState:NSOffState];
+        [_globalDownloadSpeedLimitMenuItem setState:isDownloadSpeedLimitSet?NSOnState:NSOffState];
+        
+        if (isDownloadSpeedLimitSet)
+        {
+            _savedGlobalDownloadSpeedLimit = [DownloadsController sharedDownloadsController].globalDownloadSpeedLimit;
+            [_globalDownloadSpeedLimitMenuItem setTitle: [NSString stringWithFormat: NSLocalizedString(@"Limit (%d KB/s)",
+                                                                              "Action menu -> upload/download limit"),
+                                 (NSInteger)_savedGlobalDownloadSpeedLimit/1024]];
+        }
+        
+        if (isUploadSpeedLimitSet)
+        {
+            _savedGlobalUploadSpeedLimit = [DownloadsController sharedDownloadsController].globalUploadSpeedLimit;
+            [_globalUploadSpeedLimitMenuItem setTitle: [NSString stringWithFormat: NSLocalizedString(@"Limit (%d KB/s)",
+                                                                                                   "Action menu -> upload/download limit"),
+                                                      (NSInteger)_savedGlobalUploadSpeedLimit/1024]];
+        }
     }
     else
     {

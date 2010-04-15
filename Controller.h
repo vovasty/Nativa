@@ -23,18 +23,26 @@
 @class TorrentDropView, PreferencesController, StatusBarView, TorrentTableView, DragOverlayWindow, Torrent, TorrentViewController;
 
 @interface Controller : NSObject<NSMenuDelegate, NSWindowDelegate> {
-	IBOutlet NSWindow				*_window;
-	IBOutlet TorrentTableView		*_downloadsView;
-	IBOutlet NSButton				*_turtleButton;
-	NSUserDefaults					*_defaults;
-	PreferencesController			*_preferencesController;
-	DragOverlayWindow				*_overlayWindow;
-	IBOutlet NSMenu					*_contextRowMenu;
-	IBOutlet NSMenu					*_groupMenu;
-	IBOutlet NSMenu					*_groupMainMenu;
-	IBOutlet NSMenu					*_priorityMainMenu;
-	Torrent							*_menuTorrent;
+	IBOutlet NSWindow               *_window;
+	IBOutlet TorrentTableView       *_downloadsView;
+	IBOutlet NSButton               *_turtleButton;
+	NSUserDefaults                  *_defaults;
+	PreferencesController           *_preferencesController;
+	DragOverlayWindow               *_overlayWindow;
+	IBOutlet NSMenu                 *_contextRowMenu;
+	IBOutlet NSMenu                 *_groupMenu;
+	IBOutlet NSMenu                 *_groupMainMenu;
+	IBOutlet NSMenu                 *_priorityMainMenu;
+	IBOutlet NSMenu                 *_globalUploadSpeedLimitMenu;
+	IBOutlet NSMenu                 *_globalDownloadSpeedLimitMenu;
+    IBOutlet NSMenuItem             *_globalUploadSpeedNoLimitMenuItem;
+    IBOutlet NSMenuItem             *_globalUploadSpeedLimitMenuItem;
+    IBOutlet NSMenuItem             *_globalDownloadSpeedNoLimitMenuItem;
+    IBOutlet NSMenuItem             *_globalDownloadSpeedLimitMenuItem;
+	Torrent                         *_menuTorrent;
 	IBOutlet TorrentViewController	*_viewController;
+    CGFloat                         _savedGlobalDownloadSpeedLimit;
+    CGFloat                         _savedGlobalUploadSpeedLimit;    
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
@@ -46,6 +54,8 @@
 -(IBAction)forceStopSelectedTorrents:(id)sender;
 -(IBAction)resumeSelectedTorrents:(id)sender;
 -(IBAction)checkSelectedTorrents:(id)sender;
+-(void) setSpeedLimitGlobal: (id) sender;
+-(void) unsetSpeedLimitGlobal: (id) sender;
 
 - (void) openSheetClosed: (NSOpenPanel *) panel returnCode: (NSInteger) code contextInfo: (NSNumber *) useOptions;
 - (void) openShowSheet: (id) sender;

@@ -56,7 +56,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 @synthesize globalUploadSize            = _globalUploadSize;
 @synthesize globalRatio                 = _globalRatio;
 @synthesize globalDownloadSpeedLimit    = _globalDownloadSpeedLimit;
-
+@synthesize globalUploadSpeedLimit      = _globalUploadSpeedLimit;
 
 -(id)init;
 {
@@ -263,18 +263,40 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 #pragma mark -
 #pragma mark global state methods
 
-- (void) setGlobalDownloadSpeedLimit:(int) speed response:(VoidResponseBlock) response
+- (void) setGlobalDownloadSpeedLimit:(NSInteger) speed response:(VoidResponseBlock) response
 {
-	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to set global speed limit: %@"];
-	[[self _controller] setGlobalDownloadSpeedLimit:speed response:r];
-	[r release];
+	__block DownloadsController *blockSelf = self;
+	[[self _controller] setGlobalDownloadSpeedLimit:speed response:^(NSString* error){
+		if (response)
+			response(error);
+		
+		if (error)
+        {
+			[blockSelf setError:@"Unable to set global download speed limit: %@" error:error];
+            return;
+		}
+        [blockSelf willChangeValueForKey:@"globalDownloadSpeedLimit"];
+		_globalDownloadSpeedLimit = speed;
+		[blockSelf didChangeValueForKey:@"globalDownloadSpeedLimit"];
+	}];
 }
 
-- (void) setGlobalUploadSpeedLimit:(int) speed response:(VoidResponseBlock) response
+- (void) setGlobalUploadSpeedLimit:(NSInteger) speed response:(VoidResponseBlock) response
 {
-	VoidResponseBlock r = [self _updateListResponse:response errorFormat:@"Unable to set global speed limit: %@"];
-	[[self _controller] setGlobalUploadSpeedLimit:speed response:r];
-	[r release];
+	__block DownloadsController *blockSelf = self;
+	[[self _controller] setGlobalUploadSpeedLimit:speed response:^(NSString* error){
+		if (response)
+			response(error);
+		
+		if (error)
+        {
+			[blockSelf setError:@"Unable to set global upload speed limit: %@" error:error];
+            return;
+		}
+        [blockSelf willChangeValueForKey:@"globalUploadSpeedLimit"];
+		_globalUploadSpeedLimit = speed;
+		[blockSelf didChangeValueForKey:@"globalUploadSpeedLimit"];
+	}];
 }
 
 - (void) reveal:(Torrent*) torrent
@@ -367,6 +389,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		_globalDownloadSpeedLimit = [number floatValue];
 		[blockSelf didChangeValueForKey:@"globalDownloadSpeedLimit"];
     }];
+
+    [[self _controller] getGlobalUploadSpeedLimit:^(NSNumber *number, NSString* error){
+        if (error != nil)
+        {
+            [blockSelf setError:@"Unable to get global upload speed limit: %@" error:error];
+            return;
+        }
+        
+        [blockSelf willChangeValueForKey:@"globalUploadSpeedLimit"];
+		_globalUploadSpeedLimit = [number floatValue];
+		[blockSelf didChangeValueForKey:@"globalUploadSpeedLimit"];
+    }];
+    
 }
 @end
 

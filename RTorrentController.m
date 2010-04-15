@@ -180,6 +180,16 @@ static NSString * ConnectedContext = @"ConnectingContext";
 			  }];
 }
 
+- (void) getGlobalUploadSpeedLimit:(NumberResponseBlock) response
+{
+	[self _runCommand:@"get_upload_rate"
+			arguments:nil
+			  handler:^(id data, NSString* error){
+				  if (response)
+					  response(data, error);
+			  }];
+}
+
 - (void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response
 {
 	NSInteger pr;
