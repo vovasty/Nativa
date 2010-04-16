@@ -317,12 +317,20 @@
 	if ([sshTask isRunning])
 	{
 		[sshTask terminate];
-		//wait a bit
-		[NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:1]];
+
+        //wait a bit for termination
+        for (int i=0;i<10;i++)
+        {
+            if (![sshTask isRunning])
+                break;
+            [NSThread sleepUntilDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
+        }
+        
+        // aggressively terminate if still running
 		if ([sshTask isRunning]) 
 		{
-			NSLog(@"SSH: cannot terminate task gracefully, kill -9");
 			int pid = [sshTask processIdentifier];
+            NSLog(@"SSH: cannot terminate task gracefully, kill -9 %d", pid);
 			kill(pid, 9);
 		}
 		[sshTask release];
