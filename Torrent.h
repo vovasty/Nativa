@@ -115,4 +115,5 @@ typedef enum
 - (CGFloat) ratio;
 - (NSUInteger)hash;
 - (BOOL)isEqual:(id)anObject;
++ (id)torrentWithData:(NSData *) data;
 @end

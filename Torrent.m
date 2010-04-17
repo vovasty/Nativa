@@ -20,12 +20,39 @@
 
 #import "Torrent.h"
 #import "NativaConstants.h"
+#import "BEncoding.h"
 
 @implementation Torrent
 
 @synthesize name, size, thash, state, speedDownload, speedUpload, dataLocation, uploadRate, downloadRate, totalPeersSeed, totalPeersLeech, totalPeersDisconnected, priority, isFolder, error, groupName;
 
 @dynamic active;
+
++ (id)torrentWithData:(NSData *) encodedData
+{
+    Torrent *result = [[Torrent alloc] init];
+    
+    id decodedData = [BEncoding objectFromEncodedData:encodedData withTypeAdvisor:(GEBEncodedTypeAdvisor)^(NSArray *keyStack) {
+		if ([[keyStack lastObject] isEqualToString:@"pieces"])
+			return GEBEncodedDataType;
+        else if ([[keyStack lastObject] isEqualToString:@"info"])
+                return GEBEncodedDataType;
+		else {
+			return GEBEncodedStringType;
+		}
+	}];
+
+    NSLog(@"%@", decodedData);
+    
+    NSData *info = [decodedData valueForKey:@"info"];
+    
+    result.name = [info valueForKey:@"name"];
+    
+    result.size = [[info valueForKey:@"length"] integerValue];
+    
+
+    return [result autorelease];
+}
 
 - (void)dealloc
 {
