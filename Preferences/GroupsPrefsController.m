@@ -1,5 +1,5 @@
 /******************************************************************************
- * $Id: GroupsPrefsController.m 9844 2010-01-01 21:12:04Z livings124 $
+ * $Id: GroupsPrefsController.m 10461 2010-04-10 15:48:09Z livings124 $
  *
  * Copyright (c) 2007-2010 Transmission authors and contributors
  *
@@ -35,6 +35,7 @@
 @interface GroupsPrefsController (Private)
 
 - (void) updateSelectedGroup;
+- (void) refreshCustomLocationWithSingleGroup;
 
 @end
 
@@ -75,9 +76,9 @@
 {
     if (object == fSelectedColorView && [fTableView numberOfSelectedRows] == 1)
     {
-       NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
-       [[GroupsController groups] setColor: [fSelectedColorView color] forIndex: index];
-       [fTableView setNeedsDisplay: YES];
+        NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
+        [[GroupsController groups] setColor: [fSelectedColorView color] forIndex: index];
+        [fTableView setNeedsDisplay: YES];
     }
 }
 
@@ -85,10 +86,16 @@
 {
     if ([notification object] == fSelectedColorNameField)
     {
-       NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
-       [[GroupsController groups] setName: [fSelectedColorNameField stringValue] forIndex: index];
-       [fTableView setNeedsDisplay: YES];
+        NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
+        [[GroupsController groups] setName: [fSelectedColorNameField stringValue] forIndex: index];
+        [fTableView setNeedsDisplay: YES];
     }
+    else if ([notification object] == fCustomLocationField)
+    {
+        NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
+        [[GroupsController groups] setCustomDownloadLocation:[fCustomLocationField stringValue] forIndex: index];
+    }
+    
 }
 
 - (BOOL) tableView: (NSTableView *) tableView writeRowsWithIndexes: (NSIndexSet *) rowIndexes toPasteboard: (NSPasteboard *) pboard
@@ -99,7 +106,7 @@
 }
 
 - (NSDragOperation) tableView: (NSTableView *) tableView validateDrop: (id <NSDraggingInfo>) info
-    proposedRow: (NSInteger) row proposedDropOperation: (NSTableViewDropOperation) operation
+                  proposedRow: (NSInteger) row proposedDropOperation: (NSTableViewDropOperation) operation
 {
     NSPasteboard * pasteboard = [info draggingPasteboard];
     if ([[pasteboard types] containsObject: GROUP_TABLE_VIEW_DATA_TYPE])
@@ -112,7 +119,7 @@
 }
 
 - (BOOL) tableView: (NSTableView *) tableView acceptDrop: (id <NSDraggingInfo>) info row: (NSInteger) newRow
-    dropOperation: (NSTableViewDropOperation) operation
+     dropOperation: (NSTableViewDropOperation) operation
 {
     NSPasteboard * pasteboard = [info draggingPasteboard];
     if ([[pasteboard types] containsObject: GROUP_TABLE_VIEW_DATA_TYPE])
@@ -143,7 +150,7 @@
 - (void) addRemoveGroup: (id) sender
 {
     [[NSColorPanel sharedColorPanel] close];
-
+    
     NSInteger row;
     
     switch ([[sender cell] tagForSegment: [sender selectedSegment]])
@@ -160,21 +167,118 @@
             [[fSelectedColorNameField window] makeFirstResponder: fSelectedColorNameField];
             
             break;
-        
+            
         case REMOVE_TAG:
             row = [fTableView selectedRow];
             [[GroupsController groups] removeGroupWithRowIndex: row];            
-                        
+            
             [fTableView reloadData];
             
-            NSInteger selectedRow = [fTableView selectedRow];
-            if (selectedRow != -1)
-                [fTableView scrollRowToVisible: selectedRow];
+            if ([fTableView numberOfRows] > 0)
+            {
+                if (row == [fTableView numberOfRows])
+                {
+                    --row;
+                    [fTableView selectRowIndexes: [NSIndexSet indexSetWithIndex: row] byExtendingSelection: NO];
+                }
+                
+                [fTableView scrollRowToVisible: row];
+            }
             
             break;
     }
     
     [self updateSelectedGroup];
+}
+
+
+
+- (IBAction) toggleUseCustomDownloadLocation: (id) sender
+{
+    NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
+    if ([fCustomLocationEnableCheck state] == NSOnState)
+    {
+        if ([[GroupsController groups] customDownloadLocationForIndex: index])
+            [[GroupsController groups] setUsesCustomDownloadLocation: YES forIndex: index];
+    }
+    else
+        [[GroupsController groups] setUsesCustomDownloadLocation: NO forIndex: index];
+    
+    [fCustomLocationField setEnabled: ([fCustomLocationEnableCheck state] == NSOnState)];
+}
+
+#pragma mark -
+#pragma mark Rule editor
+
+- (IBAction) toggleUseAutoAssignRules: (id) sender;
+{
+    NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
+    if ([fAutoAssignRulesEnableCheck state] == NSOnState)
+    {
+        if ([[GroupsController groups] autoAssignRulesForIndex: index])
+            [[GroupsController groups] setUsesAutoAssignRules: YES forIndex: index];
+        else
+            [self orderFrontRulesSheet: nil];
+    }
+    else
+        [[GroupsController groups] setUsesAutoAssignRules: NO forIndex: index];
+    
+    [fAutoAssignRulesEditButton setEnabled: [fAutoAssignRulesEnableCheck state] == NSOnState];
+}
+
+- (IBAction) orderFrontRulesSheet: (id) sender;
+{
+    if (!fGroupRulesSheetWindow)
+        [NSBundle loadNibNamed: @"GroupRules" owner: self];
+    
+    NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
+	NSPredicate *predicate = [[GroupsController groups] autoAssignRulesForIndex: index];
+	[fRuleEditor setObjectValue: predicate];
+	
+    if ([fRuleEditor numberOfRows] == 0)
+        [fRuleEditor addRow: nil];
+    
+    [NSApp beginSheet: fGroupRulesSheetWindow modalForWindow: [fTableView window] modalDelegate: nil didEndSelector: NULL
+          contextInfo: NULL];
+}
+
+- (IBAction) cancelRules: (id) sender;
+{
+    [fGroupRulesSheetWindow orderOut: nil];
+    [NSApp endSheet: fGroupRulesSheetWindow];
+    
+    NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
+    if (![[GroupsController groups] autoAssignRulesForIndex: index])
+    {
+        [[GroupsController groups] setUsesAutoAssignRules: NO forIndex: index];
+        [fAutoAssignRulesEnableCheck setState: NO];
+        [fAutoAssignRulesEditButton setEnabled: NO];
+    }
+}
+
+- (IBAction) saveRules: (id) sender;
+{
+    [fGroupRulesSheetWindow orderOut: nil];
+    [NSApp endSheet: fGroupRulesSheetWindow];
+    
+    NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
+    [[GroupsController groups] setUsesAutoAssignRules: YES forIndex: index];
+    
+    NSPredicate * predicate = [fRuleEditor objectValue];
+    [[GroupsController groups] setAutoAssignRules: predicate forIndex: index];
+	
+    [fAutoAssignRulesEnableCheck setState: [[GroupsController groups] usesAutoAssignRulesForIndex: index]];
+    [fAutoAssignRulesEditButton setEnabled: [fAutoAssignRulesEnableCheck state] == NSOnState];
+}
+
+- (void) ruleEditorRowsDidChange: (NSNotification *) notification
+{
+    const CGFloat heightDifference = [fRuleEditor numberOfRows] * [fRuleEditor rowHeight] - [fRuleEditor frame].size.height;
+    NSRect windowFrame = [fRuleEditor window].frame;
+    windowFrame.size.height += heightDifference;
+    windowFrame.origin.y -= heightDifference;
+    
+    [fRuleEditor.window setFrame: windowFrame display: YES animate: YES];
 }
 
 @end
@@ -192,6 +296,11 @@
         [fSelectedColorNameField setStringValue: [[GroupsController groups] nameForIndex: index]];
         [fSelectedColorNameField setEnabled: YES];
         
+        [self refreshCustomLocationWithSingleGroup];
+        
+        [fAutoAssignRulesEnableCheck setState: [[GroupsController groups] usesAutoAssignRulesForIndex: index]];
+        [fAutoAssignRulesEnableCheck setEnabled: YES];
+        [fAutoAssignRulesEditButton setEnabled: ([fAutoAssignRulesEnableCheck state] == NSOnState)];
     }
     else
     {
@@ -199,6 +308,28 @@
         [fSelectedColorView setEnabled: NO];
         [fSelectedColorNameField setStringValue: @""];
         [fSelectedColorNameField setEnabled: NO];
+        [fCustomLocationEnableCheck setEnabled: NO];
+        [fCustomLocationField setEnabled: NO];
+        [fAutoAssignRulesEnableCheck setEnabled: NO];
+        [fAutoAssignRulesEditButton setEnabled: NO];
     }
 }
+
+- (void) refreshCustomLocationWithSingleGroup
+{
+    const NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
+    
+    const BOOL hasCustomLocation = [[GroupsController groups] usesCustomDownloadLocationForIndex: index];
+    [fCustomLocationEnableCheck setState: hasCustomLocation];
+    [fCustomLocationEnableCheck setEnabled: YES];
+    [fCustomLocationField setEnabled: hasCustomLocation];
+    
+    NSString * location = [[GroupsController groups] customDownloadLocationForIndex: index];
+    if (location)
+        [fCustomLocationField setStringValue:location];
+    else 
+        [fCustomLocationField setStringValue:@""];
+
+}
+
 @end

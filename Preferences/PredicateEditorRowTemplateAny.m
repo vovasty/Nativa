@@ -1,7 +1,7 @@
 /******************************************************************************
- * $Id: GroupsPrefsController.h 9844 2010-01-01 21:12:04Z livings124 $
+ * $Id: PredicateEditorRowTemplateAny.m 9844 2010-01-01 21:12:04Z livings124 $
  *
- * Copyright (c) 2007-2010 Transmission authors and contributors
+ * Copyright (c) 2009-2010 Transmission authors and contributors
  *
  * Permission is hereby granted, free of charge, to any person obtaining a
  * copy of this software and associated documentation files (the "Software"),
@@ -22,16 +22,21 @@
  * DEALINGS IN THE SOFTWARE.
  *****************************************************************************/
 
-#import <Cocoa/Cocoa.h>
+#import "PredicateEditorRowTemplateAny.h"
 
-@interface GroupsPrefsController : NSObject
+@implementation PredicateEditorRowTemplateAny
+
+- (NSPredicate *) predicateWithSubpredicates: (NSArray *) subpredicates
 {
-    IBOutlet NSTableView * fTableView;
-    IBOutlet NSSegmentedControl * fAddRemoveControl;
+    //we only make NSComparisonPredicates
+    NSComparisonPredicate * predicate = (NSComparisonPredicate *)[super predicateWithSubpredicates: subpredicates];
     
-    IBOutlet NSColorWell * fSelectedColorView;
-    IBOutlet NSTextField * fSelectedColorNameField;
+    //construct a near-identical predicate
+    return [NSComparisonPredicate predicateWithLeftExpression: [predicate leftExpression]
+											  rightExpression: [predicate rightExpression]
+													 modifier: NSAnyPredicateModifier
+														 type: [predicate predicateOperatorType]
+													  options: [predicate options]];
 }
 
-- (void) addRemoveGroup: (id) sender;
 @end

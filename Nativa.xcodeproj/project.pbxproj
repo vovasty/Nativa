@@ -17,7 +17,6 @@
 		81079202115C0CFA00A87CEA /* DownArrowGroupTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81079200115C0CFA00A87CEA /* DownArrowGroupTemplate.png */; };
 		81079203115C0CFA00A87CEA /* UpArrowGroupTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81079201115C0CFA00A87CEA /* UpArrowGroupTemplate.png */; };
 		8107925C115C1A7300A87CEA /* GroupsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81079257115C1A7300A87CEA /* GroupsController.m */; };
-		8107925D115C1A7300A87CEA /* GroupsPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81079259115C1A7300A87CEA /* GroupsPrefsController.m */; };
 		81079290115C1E8900A87CEA /* Groups.png in Resources */ = {isa = PBXBuildFile; fileRef = 8107928F115C1E8900A87CEA /* Groups.png */; };
 		810792E6115C239300A87CEA /* GroupsNoneTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 810792E5115C239300A87CEA /* GroupsNoneTemplate.png */; };
 		81079342115C2AEF00A87CEA /* ExpandedPathToPathTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8107933E115C2AEF00A87CEA /* ExpandedPathToPathTransformer.m */; };
@@ -73,6 +72,7 @@
 		81747F301159153A00192413 /* YingYangTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81747F2F1159153A00192413 /* YingYangTemplate.png */; };
 		817C3D371159851000DC97DA /* DiskSpace.png in Resources */ = {isa = PBXBuildFile; fileRef = 817C3D361159851000DC97DA /* DiskSpace.png */; };
 		8193C64211619206003DC173 /* EMKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8193C64111619206003DC173 /* EMKeychainItem.m */; };
+		81941F58117A158D00B55647 /* GroupRules.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81941F57117A158D00B55647 /* GroupRules.xib */; };
 		819D3BEA1110CD5200F7007C /* DownloadsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3BE91110CD5200F7007C /* DownloadsController.m */; };
 		819D3E0C1110EE6E00F7007C /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 819D3E0B1110EE6E00F7007C /* Controller.m */; };
 		81B73ABA1113993800A11521 /* UpArrowTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B73AB91113993800A11521 /* UpArrowTemplate.png */; };
@@ -89,6 +89,9 @@
 		81DF15D6110FADA100AFCE02 /* TorrentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CC110FADA100AFCE02 /* TorrentTableView.m */; };
 		81DF15D7110FADA100AFCE02 /* TorrentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CE110FADA100AFCE02 /* TorrentCell.m */; };
 		81DF15D9110FADA100AFCE02 /* ProgressGradients.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15D2110FADA100AFCE02 /* ProgressGradients.m */; };
+		81E00C03117A191D00B3F87D /* GroupsPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E00C02117A191D00B3F87D /* GroupsPrefsController.m */; };
+		81E00C70117A233D00B3F87D /* PredicateEditorRowTemplateAny.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E00C6F117A233D00B3F87D /* PredicateEditorRowTemplateAny.m */; };
+		81E00CAB117A298200B3F87D /* FileListNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E00CAA117A298200B3F87D /* FileListNode.m */; };
 		81E6BD3D10FE87FB0083856D /* RTAddCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BD3C10FE87FB0083856D /* RTAddCommand.m */; };
 		81E76DF41141BDAD000C37D6 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81E76DF31141BDAD000C37D6 /* Quartz.framework */; };
 		81E76E761141CB89000C37D6 /* QuickLookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E76E751141CB89000C37D6 /* QuickLookController.m */; };
@@ -144,8 +147,6 @@
 		81079201115C0CFA00A87CEA /* UpArrowGroupTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpArrowGroupTemplate.png; sourceTree = "<group>"; };
 		81079256115C1A7300A87CEA /* GroupsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsController.h; sourceTree = "<group>"; };
 		81079257115C1A7300A87CEA /* GroupsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsController.m; sourceTree = "<group>"; };
-		81079258115C1A7300A87CEA /* GroupsPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsPrefsController.h; sourceTree = "<group>"; };
-		81079259115C1A7300A87CEA /* GroupsPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsPrefsController.m; sourceTree = "<group>"; };
 		8107928F115C1E8900A87CEA /* Groups.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Groups.png; sourceTree = "<group>"; };
 		810792E5115C239300A87CEA /* GroupsNoneTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GroupsNoneTemplate.png; sourceTree = "<group>"; };
 		8107933E115C2AEF00A87CEA /* ExpandedPathToPathTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExpandedPathToPathTransformer.m; sourceTree = "<group>"; };
@@ -225,6 +226,7 @@
 		817C3D361159851000DC97DA /* DiskSpace.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DiskSpace.png; sourceTree = "<group>"; };
 		8193C64011619206003DC173 /* EMKeychainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EMKeychainItem.h; sourceTree = "<group>"; };
 		8193C64111619206003DC173 /* EMKeychainItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EMKeychainItem.m; sourceTree = "<group>"; };
+		81941F55117A157700B55647 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GroupRules.xib; sourceTree = "<group>"; };
 		819D3BE81110CD5200F7007C /* DownloadsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadsController.h; sourceTree = "<group>"; };
 		819D3BE91110CD5200F7007C /* DownloadsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadsController.m; sourceTree = "<group>"; };
 		819D3E0A1110EE6E00F7007C /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
@@ -252,6 +254,12 @@
 		81DF15CE110FADA100AFCE02 /* TorrentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentCell.m; sourceTree = "<group>"; };
 		81DF15D1110FADA100AFCE02 /* ProgressGradients.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProgressGradients.h; sourceTree = "<group>"; };
 		81DF15D2110FADA100AFCE02 /* ProgressGradients.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProgressGradients.m; sourceTree = "<group>"; };
+		81E00C01117A191D00B3F87D /* GroupsPrefsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupsPrefsController.h; sourceTree = "<group>"; };
+		81E00C02117A191D00B3F87D /* GroupsPrefsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupsPrefsController.m; sourceTree = "<group>"; };
+		81E00C6E117A233D00B3F87D /* PredicateEditorRowTemplateAny.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PredicateEditorRowTemplateAny.h; sourceTree = "<group>"; };
+		81E00C6F117A233D00B3F87D /* PredicateEditorRowTemplateAny.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PredicateEditorRowTemplateAny.m; sourceTree = "<group>"; };
+		81E00CA9117A298200B3F87D /* FileListNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileListNode.h; sourceTree = "<group>"; };
+		81E00CAA117A298200B3F87D /* FileListNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileListNode.m; sourceTree = "<group>"; };
 		81E6BD3B10FE87FB0083856D /* RTAddCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAddCommand.h; sourceTree = "<group>"; };
 		81E6BD3C10FE87FB0083856D /* RTAddCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTAddCommand.m; sourceTree = "<group>"; };
 		81E76DF31141BDAD000C37D6 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
@@ -384,6 +392,7 @@
 				816967F8111A3F4900246098 /* dsa_pub.pem */,
 				81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */,
 				81CE376C113AF37600C9F344 /* SaveProgress.xib */,
+				81941F57117A158D00B55647 /* GroupRules.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -400,6 +409,10 @@
 		810659071118DA4700674B45 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				81E00C6E117A233D00B3F87D /* PredicateEditorRowTemplateAny.h */,
+				81E00C6F117A233D00B3F87D /* PredicateEditorRowTemplateAny.m */,
+				81E00C01117A191D00B3F87D /* GroupsPrefsController.h */,
+				81E00C02117A191D00B3F87D /* GroupsPrefsController.m */,
 				810659081118DA4700674B45 /* PreferencesController.h */,
 				810659091118DA4700674B45 /* PreferencesController.m */,
 				8106590A1118DA4700674B45 /* PreferencesWindow.h */,
@@ -428,8 +441,6 @@
 			children = (
 				81079256115C1A7300A87CEA /* GroupsController.h */,
 				81079257115C1A7300A87CEA /* GroupsController.m */,
-				81079258115C1A7300A87CEA /* GroupsPrefsController.h */,
-				81079259115C1A7300A87CEA /* GroupsPrefsController.m */,
 			);
 			path = Groups;
 			sourceTree = "<group>";
@@ -488,6 +499,8 @@
 		811B059D10F6A1B3000D1DDC /* Torrent */ = {
 			isa = PBXGroup;
 			children = (
+				81E00CA9117A298200B3F87D /* FileListNode.h */,
+				81E00CAA117A298200B3F87D /* FileListNode.m */,
 				812A724410FD099800795D8B /* RTorrent */,
 				811B05A010F6A1C7000D1DDC /* Torrent.h */,
 				811B05A110F6A1C7000D1DDC /* Torrent.m */,
@@ -714,6 +727,7 @@
 				8102BE22115FC27F001D7696 /* GroupsNoneHoverTemplate.png in Resources */,
 				8107F28611722B3F00A11E91 /* ToolbarStopSelectedTemplate.png in Resources */,
 				8119F710117542A0005776B1 /* Torrent.icns in Resources */,
+				81941F58117A158D00B55647 /* GroupRules.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -764,13 +778,15 @@
 				81E76E761141CB89000C37D6 /* QuickLookController.m in Sources */,
 				81E774081142DBC4000C37D6 /* RTListCommand.m in Sources */,
 				8107925C115C1A7300A87CEA /* GroupsController.m in Sources */,
-				8107925D115C1A7300A87CEA /* GroupsPrefsController.m in Sources */,
 				81079342115C2AEF00A87CEA /* ExpandedPathToPathTransformer.m in Sources */,
 				81079343115C2AEF00A87CEA /* ExpandedPathToIconTransformer.m in Sources */,
 				8193C64211619206003DC173 /* EMKeychainItem.m in Sources */,
 				81F07D6A11791DAE008A297A /* BEncoding.m in Sources */,
 				81F07D6B11791DAE008A297A /* OrderedDictionary.m in Sources */,
 				81F07DA5117922E7008A297A /* NSStringSCGIAdditions.m in Sources */,
+				81E00C03117A191D00B3F87D /* GroupsPrefsController.m in Sources */,
+				81E00C70117A233D00B3F87D /* PredicateEditorRowTemplateAny.m in Sources */,
+				81E00CAB117A298200B3F87D /* FileListNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -799,6 +815,14 @@
 				810658F81118D5EF00674B45 /* English */,
 			);
 			name = PreferencesWindow.xib;
+			sourceTree = "<group>";
+		};
+		81941F57117A158D00B55647 /* GroupRules.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				81941F55117A157700B55647 /* English */,
+			);
+			name = GroupRules.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
