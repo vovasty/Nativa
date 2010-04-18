@@ -36,6 +36,8 @@
 
 - (NSImage *) hoverImageForGroup: (NSMutableDictionary *) dict;
 
+- (BOOL) torrent: (Torrent *) torrent doesMatchRulesForGroupAtIndex: (NSInteger) index;
+
 @end
 
 @implementation GroupsController
@@ -382,6 +384,18 @@ GroupsController * fGroupsInstance = nil;
         [self setUsesAutoAssignRules: NO forIndex: index];
     }
 }
+
+- (NSInteger) groupIndexForTorrentByRules: (Torrent *) torrent
+{
+    for (NSDictionary * group in fGroups)
+    {
+        NSInteger row = [[group objectForKey: @"Index"] integerValue];
+        if ([self torrent: torrent doesMatchRulesForGroupAtIndex: row])
+            return row;
+    }
+    return -1;
+    
+}
 @end
 
 @implementation GroupsController (Private)
@@ -486,5 +500,26 @@ GroupsController * fGroupsInstance = nil;
     
     return icon;
 	
+}
+
+- (BOOL) torrent: (Torrent *) torrent doesMatchRulesForGroupAtIndex: (NSInteger) index
+{
+    if (![self usesAutoAssignRulesForIndex: index])
+        return NO;
+	
+    NSPredicate * predicate = [self autoAssignRulesForIndex: index];
+    BOOL eval = NO;
+    @try
+    {
+        eval = [predicate evaluateWithObject: torrent];
+    }
+    @catch (NSException * exception)
+    {
+        NSLog(@"Error when evaluating predicate (%@) - %@", predicate, exception);
+    }
+    @finally
+    {
+        return eval;
+    }
 }
 @end

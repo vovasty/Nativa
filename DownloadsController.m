@@ -24,6 +24,7 @@
 #import "TorrentController.h"
 #import "ProcessesController.h"
 #import "PreferencesController.h"
+#import "GroupsController.h"
 #include <Growl/Growl.h>
 
 
@@ -165,36 +166,51 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	{
 		NSURL* url = [NSURL fileURLWithPath:file];
 		NSArray* urls = [NSArray arrayWithObjects:url, nil];
+        
+        NSURLRequest* request = [NSURLRequest requestWithURL:url];
+		NSURLResponse *returningResponse = nil;
+		NSError* connError = nil;
+		NSData *rawTorrent = [NSURLConnection sendSynchronousRequest:request returningResponse:&returningResponse error:&connError];
+        Torrent *constructed = [Torrent torrentWithData:rawTorrent];
+        NSInteger index = [[GroupsController groups] groupIndexForTorrentByRules:constructed];
+        NSString *groupName = [[GroupsController groups] nameForIndex:index];
+        NSString *folderName = [[GroupsController groups] usesCustomDownloadLocationForIndex:index]?
+                                [[GroupsController groups] customDownloadLocationForIndex:index]:
+                                nil;
+        
 		__block DownloadsController *blockSelf = self;
-		VoidResponseBlock response = [^(NSString* error){ 
+        [[self _controller] add:rawTorrent 
+                          start:[_defaults boolForKey:NIStartTransferWhenAddedKey] 
+                          group:groupName
+                         folder:folderName
+                       response:^(NSString* error){ 
 #warning memory leak here (recycleURLs)
-			if (error)
-			{
-				[blockSelf setError:@"unable to add torrent" error:error];
-				return;
-			}
-				
-			if ([_defaults boolForKey:NITrashDownloadDescriptorsKey])
-			{
-				//play "trash" sound
-				id resp = [^(NSDictionary *newURLs, NSError *error){
-					if (!error)
-					{
-						NSSound *deleteSound;
-						deleteSound  = [NSSound soundNamed: @"drag to trash"];
-						[deleteSound play];
-					}
-				}copy];
-				[[NSWorkspace sharedWorkspace] recycleURLs: urls
-										 completionHandler:resp];
-				[resp release];
-			}
-			
-			[blockSelf _updateList];
-			[blockSelf updateGlobals];
-		} copy];
-		[[self _controller] add:url start:[_defaults boolForKey:NIStartTransferWhenAddedKey] response:response];
-		[response release];
+                           if (error)
+                           {
+                               [blockSelf setError:@"unable to add torrent" error:error];
+                               return;
+                           }
+                           
+                           if ([_defaults boolForKey:NITrashDownloadDescriptorsKey])
+                           {
+                                   //play "trash" sound
+                               id resp = [^(NSDictionary *newURLs, NSError *error){
+                                   if (!error)
+                                   {
+                                       NSSound *deleteSound;
+                                       deleteSound  = [NSSound soundNamed: @"drag to trash"];
+                                       [deleteSound play];
+                                   }
+                               }copy];
+                               [[NSWorkspace sharedWorkspace] recycleURLs: urls
+                                                        completionHandler:resp];
+                               [resp release];
+                           }
+                           
+                           [blockSelf _updateList];
+                           [blockSelf updateGlobals];
+                       }];
+        
 	}
 }
 

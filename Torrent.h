@@ -37,77 +37,89 @@ typedef enum
 	NITorrentPriorityHigh = 3,
 } TorrentPriority;
 
-
+@class FileListNode;
 
 @interface Torrent : NSObject 
 {
-	NSString* name;
+	NSString        *name;
 	
-	NSString* thash;
+	NSString        *thash;
 	
-	uint64_t size;
+	uint64_t        size;
 
-	TorrentState state;
+	TorrentState    state;
 	
-	NSImage* _icon;
+	NSImage*        _icon;
 	
-	CGFloat speedDownload;
+	CGFloat         speedDownload;
 	
-	CGFloat speedUpload;
+	CGFloat         speedUpload;
 	
-	uint64_t downloadRate;
+	uint64_t        downloadRate;
 	
-	uint64_t uploadRate;
+	uint64_t        uploadRate;
 	
-	NSInteger totalPeersSeed;
+	NSInteger       totalPeersSeed;
 	
-	NSInteger totalPeersLeech;
+	NSInteger       totalPeersLeech;
 	
-	NSInteger totalPeersDisconnected;
+	NSInteger       totalPeersDisconnected;
 	
-	NSString* dataLocation;
+	NSString        *dataLocation;
 	
 	TorrentPriority priority;
 	
-	NSString* error;
+	NSString        *error;
 	
-	BOOL isFolder;
+	BOOL            isFolder;
 	
-	NSString *groupName;
+	NSString        *groupName;
+    
+    NSArray         *trackers;
+    
+    FileListNode    *file;
+    
+    NSArray         *flatFileList;
 }
-@property (readwrite, retain) NSString* name;
+@property (readwrite, retain) NSString  *name;
 
-@property (readwrite, retain) NSString* thash;
+@property (readwrite, retain) NSString  *thash;
 
-@property uint64_t size;
+@property uint64_t                      size;
 
-@property TorrentState state;
+@property TorrentState                  state;
 
-@property CGFloat speedDownload;
+@property CGFloat                       speedDownload;
 
-@property CGFloat speedUpload;
+@property CGFloat                       speedUpload;
 
-@property (retain) NSString* dataLocation;
+@property (retain) NSString             *dataLocation;
 
-@property uint64_t downloadRate;
+@property uint64_t                      downloadRate;
 
-@property uint64_t uploadRate;
+@property uint64_t                      uploadRate;
 
-@property NSInteger totalPeersSeed;
+@property NSInteger                     totalPeersSeed;
 
-@property NSInteger totalPeersLeech;
+@property NSInteger                     totalPeersLeech;
 
-@property NSInteger totalPeersDisconnected;
+@property NSInteger                     totalPeersDisconnected;
 
-@property TorrentPriority priority;
+@property TorrentPriority               priority;
 
-@property BOOL isFolder;
+@property BOOL                          isFolder;
 
-@property (retain) NSString* error;
+@property (retain) NSString             *error;
 
-@property (retain) NSString* groupName;
+@property (retain) NSString             *groupName;
 
-@property (readonly) BOOL active;
+@property (readonly) BOOL               active;
+
+@property (retain) FileListNode         *file;
+
+@property (retain) NSArray              *trackers;
+
+@property (retain) NSArray              *flatFileList;
 
 - (void) update: (Torrent *) anotherItem;
 - (double) progress;

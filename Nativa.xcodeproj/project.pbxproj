@@ -92,7 +92,6 @@
 		81E00C03117A191D00B3F87D /* GroupsPrefsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E00C02117A191D00B3F87D /* GroupsPrefsController.m */; };
 		81E00C70117A233D00B3F87D /* PredicateEditorRowTemplateAny.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E00C6F117A233D00B3F87D /* PredicateEditorRowTemplateAny.m */; };
 		81E00CAB117A298200B3F87D /* FileListNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E00CAA117A298200B3F87D /* FileListNode.m */; };
-		81E6BD3D10FE87FB0083856D /* RTAddCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E6BD3C10FE87FB0083856D /* RTAddCommand.m */; };
 		81E76DF41141BDAD000C37D6 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81E76DF31141BDAD000C37D6 /* Quartz.framework */; };
 		81E76E761141CB89000C37D6 /* QuickLookController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E76E751141CB89000C37D6 /* QuickLookController.m */; };
 		81E774081142DBC4000C37D6 /* RTListCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E774051142DBC4000C37D6 /* RTListCommand.m */; };
@@ -260,8 +259,6 @@
 		81E00C6F117A233D00B3F87D /* PredicateEditorRowTemplateAny.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PredicateEditorRowTemplateAny.m; sourceTree = "<group>"; };
 		81E00CA9117A298200B3F87D /* FileListNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileListNode.h; sourceTree = "<group>"; };
 		81E00CAA117A298200B3F87D /* FileListNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileListNode.m; sourceTree = "<group>"; };
-		81E6BD3B10FE87FB0083856D /* RTAddCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTAddCommand.h; sourceTree = "<group>"; };
-		81E6BD3C10FE87FB0083856D /* RTAddCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTAddCommand.m; sourceTree = "<group>"; };
 		81E76DF31141BDAD000C37D6 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		81E76E741141CB89000C37D6 /* QuickLookController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuickLookController.h; sourceTree = "<group>"; };
 		81E76E751141CB89000C37D6 /* QuickLookController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickLookController.m; sourceTree = "<group>"; };
@@ -499,11 +496,11 @@
 		811B059D10F6A1B3000D1DDC /* Torrent */ = {
 			isa = PBXGroup;
 			children = (
-				81E00CA9117A298200B3F87D /* FileListNode.h */,
-				81E00CAA117A298200B3F87D /* FileListNode.m */,
 				812A724410FD099800795D8B /* RTorrent */,
 				811B05A010F6A1C7000D1DDC /* Torrent.h */,
 				811B05A110F6A1C7000D1DDC /* Torrent.m */,
+				81E00CA9117A298200B3F87D /* FileListNode.h */,
+				81E00CAA117A298200B3F87D /* FileListNode.m */,
 				812A710710FCFB1600795D8B /* TorrentController.h */,
 			);
 			name = Torrent;
@@ -570,8 +567,6 @@
 				812A726C10FD0D3D00795D8B /* RTSCGIOperation.m */,
 				81E774041142DBC4000C37D6 /* RTListCommand.h */,
 				81E774051142DBC4000C37D6 /* RTListCommand.m */,
-				81E6BD3B10FE87FB0083856D /* RTAddCommand.h */,
-				81E6BD3C10FE87FB0083856D /* RTAddCommand.m */,
 			);
 			name = RTorrent;
 			sourceTree = "<group>";
@@ -744,7 +739,6 @@
 				810CD80D10FBCF0600963D10 /* TorrentDropView.m in Sources */,
 				812A725010FD0A0300795D8B /* RTConnection.m in Sources */,
 				812A726D10FD0D3D00795D8B /* RTSCGIOperation.m in Sources */,
-				81E6BD3D10FE87FB0083856D /* RTAddCommand.m in Sources */,
 				8107590B10FFDF4F003FF9A6 /* FilterbarController.m in Sources */,
 				814FF9761100AB7100335707 /* NSDataAdditions.m in Sources */,
 				814FF9771100AB7100335707 /* NSStringAdditions.m in Sources */,

@@ -30,7 +30,7 @@
 
 - (void) stop:(Torrent *)torrent handler:(VoidResponseBlock) handler;
 
-- (void) add:(NSURL *) torrentUrl start:(BOOL) start response:(VoidResponseBlock) response;
+- (void) add:(NSData *)rawTorrent start:(BOOL) start group:(NSString*) group folder:(NSString*) folder response:(VoidResponseBlock) response;
 
 - (void) erase:(NSString *) hash response:(VoidResponseBlock) response;
 

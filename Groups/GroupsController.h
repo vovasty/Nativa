@@ -68,4 +68,6 @@
 
 - (NSPredicate *) autoAssignRulesForIndex: (NSInteger) index;
 - (void) setAutoAssignRules: (NSPredicate *) predicate forIndex: (NSInteger) index;
+
+- (NSInteger) groupIndexForTorrentByRules: (Torrent *) torrent;
 @end
