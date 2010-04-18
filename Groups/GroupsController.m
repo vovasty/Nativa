@@ -62,7 +62,11 @@ GroupsController * fGroupsInstance = nil;
 			{
 				NSMutableDictionary * tempDict = [dict mutableCopy];
 				[tempDict setObject:[NSUnarchiver unarchiveObjectWithData:[tempDict objectForKey:@"Color"]] forKey:@"Color"];
-                id autoGroupRules = [NSKeyedUnarchiver unarchiveObjectWithData:[tempDict objectForKey:@"AutoGroupRules"]];
+                id autoGroupRules = [tempDict objectForKey:@"AutoGroupRules"];
+                
+                if (autoGroupRules != nil)
+                    autoGroupRules = [NSKeyedUnarchiver unarchiveObjectWithData:autoGroupRules];
+                    
                 if (autoGroupRules != nil)
                 [   tempDict setObject:autoGroupRules forKey:@"AutoGroupRules"];
 				[fGroups addObject:tempDict];
