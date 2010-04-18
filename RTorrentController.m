@@ -144,7 +144,7 @@ static NSString * ConnectedContext = @"ConnectingContext";
         [args addObject:[NSString stringWithFormat:@"%@=%@",@"d.set_directory",folder ]];
 
     id r = [self _voidHandler:response];
-    NSLog(@"%@",args);
+
 	[self _runCommand:command
 			arguments:args
               handler:r];
