@@ -93,7 +93,9 @@
     else if ([notification object] == fCustomLocationField)
     {
         NSInteger index = [[GroupsController groups] indexForRow: [fTableView selectedRow]];
-        [[GroupsController groups] setCustomDownloadLocation:[fCustomLocationField stringValue] forIndex: index];
+        NSString *value = [fCustomLocationField stringValue];
+        [[GroupsController groups] setCustomDownloadLocation:value forIndex: index];
+        [[GroupsController groups] setUsesCustomDownloadLocation: ![value isEqualToString:@""] forIndex: index];
     }
     
 }
@@ -228,6 +230,8 @@
 
 - (IBAction) orderFrontRulesSheet: (id) sender;
 {
+    [[fTableView window] makeFirstResponder: nil];
+
     if (!fGroupRulesSheetWindow)
         [NSBundle loadNibNamed: @"GroupRules" owner: self];
     
@@ -237,7 +241,7 @@
 	
     if ([fRuleEditor numberOfRows] == 0)
         [fRuleEditor addRow: nil];
-    
+
     [NSApp beginSheet: fGroupRulesSheetWindow modalForWindow: [fTableView window] modalDelegate: nil didEndSelector: NULL
           contextInfo: NULL];
 }
