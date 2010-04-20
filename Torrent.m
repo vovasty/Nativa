@@ -125,10 +125,21 @@
     result.flatFileList = flatFiles;
     [root release];
     NSString *trackerUrl = [decodedData valueForKey:@"announce"];
+    NSMutableArray *trackersList;
     if (trackerUrl != nil)
-        result.trackers = [NSArray arrayWithObjects:
+        trackersList = [NSMutableArray arrayWithObjects:
                            trackerUrl,
                            nil];
+    NSArray *trackerUrls = [decodedData valueForKey:@"announce-list"];
+    if (trackerUrls != nil)
+    {
+        if (trackersList == nil)
+            trackersList = [NSMutableArray arrayWithArray:trackerUrls];
+        else
+            [trackersList addObjectsFromArray:trackerUrls];
+    }
+
+    result.trackers = trackersList;
     return [result autorelease];
 }
 
