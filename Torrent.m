@@ -158,6 +158,7 @@
     [self setTrackers:nil];
     [self setFile:nil];
     [self setFlatFileList:nil];
+    [self setComment:nil];
 	[super dealloc];
 }
 
