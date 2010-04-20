@@ -43,7 +43,8 @@
             groupName,
             file,
             trackers,
-            flatFileList;
+            flatFileList,
+            comment;
 
 @dynamic active;
 
@@ -76,7 +77,7 @@
     if (fileNames != nil)
     {
         NSMutableDictionary *folders = [NSMutableDictionary dictionary];
-        root = [[FileListNode alloc] initWithFolderName:@"/" path:@"/"];
+        root = [[FileListNode alloc] initWithFolderName:result.name path:result.name];
         int fileIndex = 0;
         for (NSDictionary *f in fileNames)
         {
@@ -140,6 +141,9 @@
     }
 
     result.trackers = trackersList;
+    
+    result.comment = [decodedData valueForKey:@"comment"];
+
     return [result autorelease];
 }
 

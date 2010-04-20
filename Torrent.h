@@ -80,6 +80,8 @@ typedef enum
     FileListNode    *file;
     
     NSArray         *flatFileList;
+    
+	NSString        *comment;
 }
 @property (readwrite, retain) NSString  *name;
 
@@ -120,6 +122,8 @@ typedef enum
 @property (retain) NSArray              *trackers;
 
 @property (retain) NSArray              *flatFileList;
+
+@property (retain) NSString             *comment;
 
 - (void) update: (Torrent *) anotherItem;
 - (double) progress;
