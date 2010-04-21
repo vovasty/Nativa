@@ -138,7 +138,7 @@ static NSString * ConnectedContext = @"ConnectingContext";
     [args addObject:rawTorrent];
     
     if (group != nil)
-        [args addObject:[NSString stringWithFormat:@"%@=%@",_setGroupCommand,group]];
+        [args addObject:[NSString stringWithFormat:@"%@=%@",_setGroupCommand,[self encodeGroupName:group]]];
 
     if (folder != nil)
         [args addObject:[NSString stringWithFormat:@"%@=%@",@"d.set_directory",folder ]];
