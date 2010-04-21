@@ -393,15 +393,24 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
             [item release];
         }
         
-        _savedGlobalDownloadSpeedLimit = _savedGlobalUploadSpeedLimit = speedLimitActionValue[0]*1024;
-        
-        [_globalDownloadSpeedLimitMenuItem setTitle: [NSString stringWithFormat: NSLocalizedString(@"Limit (%d KB/s)",
-                                                                                                   "Action menu -> upload/download limit"),
-                                                      (NSInteger)_savedGlobalDownloadSpeedLimit/1024]];
+        if (_savedGlobalDownloadSpeedLimit == 0)
+        {
+            _savedGlobalDownloadSpeedLimit = speedLimitActionValue[0]*1024;
+            
 
-        [_globalUploadSpeedLimitMenuItem setTitle: [NSString stringWithFormat: NSLocalizedString(@"Limit (%d KB/s)",
-                                                                                                 "Action menu -> upload/download limit"),
+            [_globalDownloadSpeedLimitMenuItem setTitle: [NSString stringWithFormat: NSLocalizedString(@"Limit (%d KB/s)",
+                                                                                    "Action menu -> upload/download limit"),
+                                                      (NSInteger)_savedGlobalDownloadSpeedLimit/1024]];
+        }
+        
+        if (_savedGlobalUploadSpeedLimit==0.0)
+        {
+            _savedGlobalUploadSpeedLimit = speedLimitActionValue[0]*1024;
+            
+            [_globalUploadSpeedLimitMenuItem setTitle: [NSString stringWithFormat: NSLocalizedString(@"Limit (%d KB/s)",
+                                                                                    "Action menu -> upload/download limit"),
                                                     (NSInteger)_savedGlobalUploadSpeedLimit/1024]];
+        }
         
     }
 	else if (menu == _contextRowMenu || menu == _priorityMainMenu)
