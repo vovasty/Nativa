@@ -370,7 +370,7 @@
     if (torrent.state == NITorrentStatePaused || torrent.state == NITorrentStateStopped)
         controlImage = [NSImage imageNamed: [@"Resume" stringByAppendingString: controlImageSuffix]];
     else
-		controlImage = [NSImage imageNamed: [@"Pause" stringByAppendingString: controlImageSuffix]];
+		controlImage = [NSImage imageNamed: [[[NSUserDefaults standardUserDefaults] boolForKey:NIForceStopKey]?@"Stop":@"Pause" stringByAppendingString: controlImageSuffix]];
     
     [self drawImage: controlImage inRect: [self controlButtonRectForBounds: cellFrame]];
     

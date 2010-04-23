@@ -85,6 +85,9 @@
 		81CCDE18113FF81B00893CCC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 81CCDE17113FF81B00893CCC /* Credits.rtf */; };
 		81CE376D113AF37600C9F344 /* SaveProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81CE376C113AF37600C9F344 /* SaveProgress.xib */; };
 		81CE3805113B016000C9F344 /* SaveProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CE3804113B016000C9F344 /* SaveProgressController.m */; };
+		81CF0FE7118150B200B44A0E /* StopHover.png in Resources */ = {isa = PBXBuildFile; fileRef = 81CF0FE4118150B200B44A0E /* StopHover.png */; };
+		81CF0FE8118150B200B44A0E /* StopOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 81CF0FE5118150B200B44A0E /* StopOff.png */; };
+		81CF0FE9118150B200B44A0E /* StopOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 81CF0FE6118150B200B44A0E /* StopOn.png */; };
 		81DF15D4110FADA100AFCE02 /* TorrentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15C8110FADA100AFCE02 /* TorrentViewController.m */; };
 		81DF15D6110FADA100AFCE02 /* TorrentTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CC110FADA100AFCE02 /* TorrentTableView.m */; };
 		81DF15D7110FADA100AFCE02 /* TorrentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DF15CE110FADA100AFCE02 /* TorrentCell.m */; };
@@ -244,6 +247,9 @@
 		81CE376C113AF37600C9F344 /* SaveProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaveProgress.xib; sourceTree = "<group>"; };
 		81CE3803113B016000C9F344 /* SaveProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveProgressController.h; sourceTree = "<group>"; };
 		81CE3804113B016000C9F344 /* SaveProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveProgressController.m; sourceTree = "<group>"; };
+		81CF0FE4118150B200B44A0E /* StopHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StopHover.png; sourceTree = "<group>"; };
+		81CF0FE5118150B200B44A0E /* StopOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StopOff.png; sourceTree = "<group>"; };
+		81CF0FE6118150B200B44A0E /* StopOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StopOn.png; sourceTree = "<group>"; };
 		81D1B9051106834700C8A69A /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		81DF15C7110FADA100AFCE02 /* TorrentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentViewController.h; sourceTree = "<group>"; };
 		81DF15C8110FADA100AFCE02 /* TorrentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TorrentViewController.m; sourceTree = "<group>"; };
@@ -520,6 +526,9 @@
 		811EA5D11111FAD1001D16D0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81CF0FE4118150B200B44A0E /* StopHover.png */,
+				81CF0FE5118150B200B44A0E /* StopOff.png */,
+				81CF0FE6118150B200B44A0E /* StopOn.png */,
 				8119F70F117542A0005776B1 /* Torrent.icns */,
 				8107F28511722B3F00A11E91 /* ToolbarStopSelectedTemplate.png */,
 				8102BE21115FC27F001D7696 /* GroupsNoneHoverTemplate.png */,
@@ -723,6 +732,9 @@
 				8107F28611722B3F00A11E91 /* ToolbarStopSelectedTemplate.png in Resources */,
 				8119F710117542A0005776B1 /* Torrent.icns in Resources */,
 				81941F58117A158D00B55647 /* GroupRules.xib in Resources */,
+				81CF0FE7118150B200B44A0E /* StopHover.png in Resources */,
+				81CF0FE8118150B200B44A0E /* StopOff.png in Resources */,
+				81CF0FE9118150B200B44A0E /* StopOn.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
