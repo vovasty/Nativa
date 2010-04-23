@@ -50,10 +50,13 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 }
 
 
-- (BOOL) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate;
+- (BOOL) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate error:(NSString **) error
 {
 	if (!_connected)
-		return NO;
+    {
+		*error = [NSString stringWithString:@"Not connected"];
+        return NO;
+    }
 	NSHost *host = [NSHost hostWithAddress:hostName];
 	if (host != nil)
 	{
@@ -74,6 +77,7 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 		[(*iStream) open];
 		return YES;
 	}
+    *error = [NSString stringWithFormat:@"Unable to resolve host: %@",hostName];
 	return NO;
 }
 

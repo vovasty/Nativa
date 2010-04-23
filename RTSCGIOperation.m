@@ -89,7 +89,9 @@
 	_requestData = [scgi_req encodeSCGI];
 	[_requestData retain];
 	
-	if ([_connection openStreams:&iStream oStream:&oStream delegate:self])
+    NSString *error;
+    
+	if ([_connection openStreams:&iStream oStream:&oStream delegate:self error:&error])
 	{
 		[iStream retain];
 		[oStream retain];
@@ -106,7 +108,7 @@
 	
 	}
 	else
-		[self setError:[_connection error]];
+		[self setError:error];
 
 	[pool release];
     self.pool = nil;	

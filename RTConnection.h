@@ -32,7 +32,7 @@
 }
 - (id)initWithHostPort:(NSString *)initHost port:(int)initPort proxy:(AMSession*) proxy;
 
-- (BOOL) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate;
+- (BOOL) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate error:(NSString **) error;
 
 -(void) closeConnection;
 

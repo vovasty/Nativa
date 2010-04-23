@@ -187,7 +187,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 #warning memory leak here (recycleURLs)
                            if (error)
                            {
-                               [blockSelf setError:@"unable to add torrent" error:error];
+                               [blockSelf setError:@"unable to add torrent: %@" error:error];
                                return;
                            }
                            
