@@ -29,6 +29,7 @@
 #import "Torrent.h"
 #import "TorrentTableView.h"
 #import "DownloadsController.h"
+#import "PreferencesController.h"
 
 #define BAR_HEIGHT 12.0
 
@@ -366,10 +367,10 @@
 	[self drawImage: groupImage inRect: [self groupButtonRectForBounds: cellFrame]];
 	
     NSImage * controlImage;
-    if (torrent.active)
-        controlImage = [NSImage imageNamed: [@"Pause" stringByAppendingString: controlImageSuffix]];
+    if (torrent.state == NITorrentStatePaused || torrent.state == NITorrentStateStopped)
+        controlImage = [NSImage imageNamed: [@"Resume" stringByAppendingString: controlImageSuffix]];
     else
-		controlImage = [NSImage imageNamed: [@"Resume" stringByAppendingString: controlImageSuffix]];
+		controlImage = [NSImage imageNamed: [@"Pause" stringByAppendingString: controlImageSuffix]];
     
     [self drawImage: controlImage inRect: [self controlButtonRectForBounds: cellFrame]];
     
@@ -439,23 +440,21 @@
     
     if (!NSIsEmptyRect(haveRect))
     {
-        if (torrent.active)
+        switch (torrent.state) 
         {
-            switch (torrent.state) {
-				case NITorrentStateChecking:
-					[[ProgressGradients progressYellowGradient] drawInRect: haveRect angle: 90];
-					break;
-				case NITorrentStateSeeding:
-					[[ProgressGradients progressGreenGradient] drawInRect: haveRect angle: 90];
-					break;
-				default:
-					[[ProgressGradients progressBlueGradient] drawInRect: haveRect angle: 90];
-					break;
-			}
-        }
-        else
-        {
-			[[ProgressGradients progressGrayGradient] drawInRect: haveRect angle: 90];
+            case NITorrentStateChecking:
+                [[ProgressGradients progressYellowGradient] drawInRect: haveRect angle: 90];
+                break;
+            case NITorrentStateSeeding:
+                [[ProgressGradients progressGreenGradient] drawInRect: haveRect angle: 90];
+                break;
+            case NITorrentStatePaused:
+            case NITorrentStateStopped:
+                [[ProgressGradients progressGrayGradient] drawInRect: haveRect angle: 90];
+                break;
+            default:
+                [[ProgressGradients progressBlueGradient] drawInRect: haveRect angle: 90];
+                break;
         }
     }
     
@@ -641,15 +640,15 @@
         return [NSString stringWithFormat:@"\"%@\"", torrent.groupName == nil? NSLocalizedString(@"No Group", "Group table row"):torrent.groupName];
     else if (fMouseDownControlButton || (!fTracking && fHoverControl))
     {
-        if (torrent.active)
-            return NSLocalizedString(@"Pause the transfer", "Torrent Table -> tooltip");
-        else
+        if (torrent.state == NITorrentStatePaused || torrent.state == NITorrentStateStopped)
         {
             if ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)
                 return NSLocalizedString(@"Resume the transfer right away", "Torrent cell -> button info");
             else
                 return NSLocalizedString(@"Resume the transfer", "Torrent cell -> button info");
         }
+        else
+            return NSLocalizedString([[NSUserDefaults standardUserDefaults] boolForKey:NIForceStopKey]?@"Stop the transfer":@"Pause the transfer", "Torrent Table -> tooltip");
     }
     else
 		return nil;
@@ -681,6 +680,10 @@
 		switch (torrent.state)
 		{
 			case NITorrentStateStopped:
+				string = NSLocalizedString(@"Stopped", "Torrent -> status string");
+				break;
+
+			case NITorrentStatePaused:
 				string = NSLocalizedString(@"Paused", "Torrent -> status string");
 				break;
 				

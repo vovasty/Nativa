@@ -103,7 +103,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(FilterbarController);
 	NSString* filter;
 	
     if ([currentFilterName isEqualToString: FILTER_STOP])
-        filter = [NSString stringWithFormat: @"SELF.state == %d",NITorrentStateStopped];
+        filter = [NSString stringWithFormat: @"SELF.state == %d || SELF.state == %d",NITorrentStateStopped,NITorrentStatePaused];
     else if ([currentFilterName isEqualToString: FILTER_UPLOAD])
         filter = [NSString stringWithFormat: @"SELF.state == %d",NITorrentStateSeeding];
     else if ([currentFilterName isEqualToString: FILTER_DOWNLOAD])

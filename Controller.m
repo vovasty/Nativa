@@ -497,7 +497,7 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
             return NO;
 		
         for (Torrent * torrent in [_downloadsView selectedTorrents])
-            if (torrent.active)
+            if (!(torrent.state == NITorrentStatePaused || torrent.state == NITorrentStateStopped))
                 return YES;
         return NO;
     }
@@ -514,7 +514,7 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
             return NO;
 		
         for (Torrent * torrent in [_downloadsView selectedTorrents])
-            if (!torrent.active)
+            if (torrent.state == NITorrentStatePaused || torrent.state == NITorrentStateStopped)
                 return YES;
         return NO;
     }

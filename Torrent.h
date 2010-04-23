@@ -26,7 +26,8 @@ typedef enum
 	NITorrentStateSeeding = 1,
 	NITorrentStateLeeching = 2,
 	NITorrentStateChecking = 3,
-	NITorrentStateStopped = 4
+	NITorrentStateStopped = 4,
+    NITorrentStatePaused = 5
 } TorrentState;
 
 typedef enum 
@@ -114,8 +115,6 @@ typedef enum
 @property (retain) NSString             *error;
 
 @property (retain) NSString             *groupName;
-
-@property (readonly) BOOL               active;
 
 @property (retain) FileListNode         *file;
 

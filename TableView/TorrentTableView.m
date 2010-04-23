@@ -495,7 +495,7 @@
 
 - (void) toggleControlForTorrent: (Torrent *) torrent
 {
-    if ( torrent.state != NITorrentStateStopped )
+    if ( !(torrent.state == NITorrentStateStopped || torrent.state == NITorrentStatePaused) )
         [[DownloadsController sharedDownloadsController] stop:torrent force:[[NSUserDefaults standardUserDefaults] boolForKey:NIForceStopKey] handler:nil];
     else
         [[DownloadsController sharedDownloadsController] start:torrent handler:nil];

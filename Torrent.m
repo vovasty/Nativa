@@ -46,8 +46,6 @@
             flatFileList,
             comment;
 
-@dynamic active;
-
 + (id)torrentWithData:(NSData *) encodedData
 {
     Torrent *result = [[Torrent alloc] init];
@@ -211,9 +209,5 @@
 		return NI_RATIO_NA;
 	else
 		return (CGFloat)uploadRate/(CGFloat)downloadRate;
-}
-- (BOOL) active
-{
-	return state != NITorrentStateStopped;
 }
 @end

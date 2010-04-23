@@ -273,7 +273,7 @@ typedef enum
     if ([ident isEqualToString: TOOLBAR_RESUME_SELECTED])
     {
         for (Torrent * torrent in [_downloadsView selectedTorrents])
-            if (torrent.state == NITorrentStateStopped)
+            if (torrent.state == NITorrentStateStopped || torrent.state == NITorrentStatePaused)
                 return YES;
         return NO;
     }

@@ -23,7 +23,7 @@
 
 @interface RTListCommand(Private)
 
-- (TorrentState) defineTorrentState:(NSNumber*) state checking:(NSNumber*)checking opened:(NSNumber*) opened complete:(NSNumber *) complete;
+- (TorrentState) defineTorrentState:(NSNumber*) state checking:(NSNumber*)checking opened:(NSNumber*) opened complete:(NSNumber *) complete active:(NSNumber *) active;
 
 - (TorrentPriority) defineTorrentPriority:(NSNumber*) priority;
 
@@ -90,8 +90,10 @@
 			NSNumber*  checking = [row  objectAtIndex:17];
             
             NSNumber*  complete = [row  objectAtIndex:18];
+            
+            NSNumber*  active = [row  objectAtIndex:19];
 			
-			r.state = [self defineTorrentState:state checking:checking opened:opened complete:complete];
+			r.state = [self defineTorrentState:state checking:checking opened:opened complete:complete active:active];
 			
 			[result addObject:r];
 			[r release];
@@ -129,6 +131,7 @@
 			[_groupCommand stringByAppendingString:@"="],
 			@"d.is_hash_checking=",
             @"d.get_complete=",
+            @"d.is_active=",
 			nil];
 }
 
@@ -142,11 +145,14 @@
 
 @implementation RTListCommand(Private)
 
-- (TorrentState) defineTorrentState:(NSNumber*) state checking:(NSNumber*)checking opened:(NSNumber*) opened complete:(NSNumber *) complete
+- (TorrentState) defineTorrentState:(NSNumber*) state checking:(NSNumber*)checking opened:(NSNumber*) opened complete:(NSNumber *) complete active:(NSNumber *) active
 {
 	if ([checking boolValue]) 
 		return NITorrentStateChecking;
 
+    if (![active boolValue])
+        return [opened boolValue]?NITorrentStatePaused:NITorrentStateStopped;
+    
 	switch ([state intValue]) {
 		case 1: //started
 			if ([opened intValue]==0)
