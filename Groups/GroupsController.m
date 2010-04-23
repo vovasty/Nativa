@@ -36,6 +36,8 @@
 
 - (NSImage *) hoverImageForGroup: (NSMutableDictionary *) dict;
 
+- (BOOL) torrent: (Torrent *) torrent doesMatchRulesForGroupAtIndex: (NSInteger) index;
+
 @end
 
 @implementation GroupsController
@@ -60,6 +62,13 @@ GroupsController * fGroupsInstance = nil;
 			{
 				NSMutableDictionary * tempDict = [dict mutableCopy];
 				[tempDict setObject:[NSUnarchiver unarchiveObjectWithData:[tempDict objectForKey:@"Color"]] forKey:@"Color"];
+                id autoGroupRules = [tempDict objectForKey:@"AutoGroupRules"];
+                
+                if (autoGroupRules != nil)
+                    autoGroupRules = [NSKeyedUnarchiver unarchiveObjectWithData:autoGroupRules];
+                    
+                if (autoGroupRules != nil)
+                [   tempDict setObject:autoGroupRules forKey:@"AutoGroupRules"];
 				[fGroups addObject:tempDict];
 				[tempDict release];
 			}
@@ -303,6 +312,94 @@ GroupsController * fGroupsInstance = nil;
     }
     return -1;
 }
+
+- (BOOL) usesCustomDownloadLocationForIndex: (NSInteger) index
+{
+    if (![self customDownloadLocationForIndex: index])
+        return NO;
+    
+    NSInteger orderIndex = [self rowValueForIndex: index];
+    return [[[fGroups objectAtIndex: orderIndex] objectForKey: @"UsesCustomDownloadLocation"] boolValue];
+}
+
+- (void) setUsesCustomDownloadLocation: (BOOL) useCustomLocation forIndex: (NSInteger) index
+{
+    NSMutableDictionary * dict = [fGroups objectAtIndex: [self rowValueForIndex: index]];
+    
+    [dict setObject: [NSNumber numberWithBool: useCustomLocation] forKey: @"UsesCustomDownloadLocation"];
+    
+    [[GroupsController groups] saveGroups];
+}
+
+- (NSString *) customDownloadLocationForIndex: (NSInteger) index
+{
+    NSInteger orderIndex = [self rowValueForIndex: index];
+    return orderIndex != -1 ? [[fGroups objectAtIndex: orderIndex] objectForKey: @"CustomDownloadLocation"] : nil;
+}
+
+- (void) setCustomDownloadLocation: (NSString *) location forIndex: (NSInteger) index
+{
+    NSMutableDictionary * dict = [fGroups objectAtIndex: [self rowValueForIndex: index]];
+    [dict setObject: location forKey: @"CustomDownloadLocation"];
+    
+    [[GroupsController groups] saveGroups];
+}
+
+- (BOOL) usesAutoAssignRulesForIndex: (NSInteger) index
+{
+    NSInteger orderIndex = [self rowValueForIndex: index];
+    if (orderIndex == -1)
+        return NO;
+    
+    NSNumber * assignRules = [[fGroups objectAtIndex: orderIndex] objectForKey: @"UsesAutoGroupRules"];
+    return assignRules && [assignRules boolValue];
+}
+
+- (void) setUsesAutoAssignRules: (BOOL) useAutoAssignRules forIndex: (NSInteger) index
+{
+    NSMutableDictionary * dict = [fGroups objectAtIndex: [self rowValueForIndex: index]];
+    
+    [dict setObject: [NSNumber numberWithBool: useAutoAssignRules] forKey: @"UsesAutoGroupRules"];
+    
+    [[GroupsController groups] saveGroups];
+}
+
+- (NSPredicate *) autoAssignRulesForIndex: (NSInteger) index
+{
+    NSInteger orderIndex = [self rowValueForIndex: index];
+    if (orderIndex == -1)
+		return nil;
+	
+	return [[fGroups objectAtIndex: orderIndex] objectForKey: @"AutoGroupRules"];
+}
+
+- (void) setAutoAssignRules: (NSPredicate *) predicate forIndex: (NSInteger) index
+{
+    NSMutableDictionary * dict = [fGroups objectAtIndex: [self rowValueForIndex: index]];
+    
+    if (predicate)
+    {
+        [dict setObject: predicate forKey: @"AutoGroupRules"];
+        [[GroupsController groups] saveGroups];
+    }
+    else
+    {
+        [dict removeObjectForKey: @"AutoGroupRules"];
+        [self setUsesAutoAssignRules: NO forIndex: index];
+    }
+}
+
+- (NSInteger) groupIndexForTorrentByRules: (Torrent *) torrent
+{
+    for (NSDictionary * group in fGroups)
+    {
+        NSInteger row = [[group objectForKey: @"Index"] integerValue];
+        if ([self torrent: torrent doesMatchRulesForGroupAtIndex: row])
+            return row;
+    }
+    return -1;
+    
+}
 @end
 
 @implementation GroupsController (Private)
@@ -317,6 +414,9 @@ GroupsController * fGroupsInstance = nil;
         [tempDict removeObjectForKey: @"Icon"];
 		//archive color
 		[tempDict setObject:[NSArchiver archivedDataWithRootObject:[tempDict objectForKey:@"Color"]] forKey:@"Color"];
+        id autoGroupRules = [tempDict objectForKey:@"AutoGroupRules"];
+        if (autoGroupRules != nil)
+            [tempDict setObject:[NSKeyedArchiver archivedDataWithRootObject:[tempDict objectForKey:@"AutoGroupRules"]] forKey:@"AutoGroupRules"];
         [groups addObject: tempDict];
         [tempDict release];
     }
@@ -404,5 +504,26 @@ GroupsController * fGroupsInstance = nil;
     
     return icon;
 	
+}
+
+- (BOOL) torrent: (Torrent *) torrent doesMatchRulesForGroupAtIndex: (NSInteger) index
+{
+    if (![self usesAutoAssignRulesForIndex: index])
+        return NO;
+	
+    NSPredicate * predicate = [self autoAssignRulesForIndex: index];
+    BOOL eval = NO;
+    @try
+    {
+        eval = [predicate evaluateWithObject: torrent];
+    }
+    @catch (NSException * exception)
+    {
+        NSLog(@"Error when evaluating predicate (%@) - %@", predicate, exception);
+    }
+    @finally
+    {
+        return eval;
+    }
 }
 @end

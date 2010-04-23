@@ -56,4 +56,18 @@
 - (NSInteger) groupIndexForTorrent: (Torrent *) torrent;
 
 - (NSImage *) hoverImageForIndex: (NSInteger) index;
+
+- (BOOL) usesCustomDownloadLocationForIndex: (NSInteger) index;
+- (void) setUsesCustomDownloadLocation: (BOOL) useCustomLocation forIndex: (NSInteger) index;
+
+- (NSString *) customDownloadLocationForIndex: (NSInteger) index;
+- (void) setCustomDownloadLocation: (NSString *) location forIndex: (NSInteger) index;
+
+- (BOOL) usesAutoAssignRulesForIndex: (NSInteger) index;
+- (void) setUsesAutoAssignRules: (BOOL) useAutoAssignRules forIndex: (NSInteger) index;
+
+- (NSPredicate *) autoAssignRulesForIndex: (NSInteger) index;
+- (void) setAutoAssignRules: (NSPredicate *) predicate forIndex: (NSInteger) index;
+
+- (NSInteger) groupIndexForTorrentByRules: (Torrent *) torrent;
 @end

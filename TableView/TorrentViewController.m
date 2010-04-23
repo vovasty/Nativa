@@ -36,6 +36,7 @@ static NSString* FilterTorrents = @"FilterTorrents";
 
 - (void)updateGroups:(NSNotification*) notification;
 
+- (void)updateView;
 @end
 
 
@@ -236,12 +237,25 @@ static NSString* FilterTorrents = @"FilterTorrents";
 			[_tableContents addObject:group];
 		}
 	}
-	
+	[self updateView];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification
+{
+	[_outlineView saveCollapsedGroups];
+}
+
+- (void)updateView
+{
+    if (![NSThread isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(updateView) withObject:nil waitUntilDone:NO];
+        return;
+    }
 	@synchronized(self)
 	{
-		[_outlineView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
-
-		//expand groups
+        [_outlineView reloadData];
+            //expand groups
 		for (TorrentGroup * group in _tableContents)
 		{
 			if ([_outlineView isGroupCollapsed: [group groupIndex]])
@@ -250,15 +264,8 @@ static NSString* FilterTorrents = @"FilterTorrents";
 				[_outlineView expandItem: group];
 		}
 		
+        if (numberOfRowsInView != [_outlineView numberOfRows])
+            [self setNumberOfRowsInView:[_outlineView numberOfRows]];
 	}
-	
-	if (numberOfRowsInView != [_outlineView numberOfRows])
-		[self setNumberOfRowsInView:[_outlineView numberOfRows]];
 }
-
-- (void)applicationWillTerminate:(NSNotification *)aNotification
-{
-	[_outlineView saveCollapsedGroups];
-}
-
 @end

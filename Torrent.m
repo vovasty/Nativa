@@ -20,12 +20,132 @@
 
 #import "Torrent.h"
 #import "NativaConstants.h"
+#import "BEncoding.h"
+#import "FileListNode.h"
 
 @implementation Torrent
 
-@synthesize name, size, thash, state, speedDownload, speedUpload, dataLocation, uploadRate, downloadRate, totalPeersSeed, totalPeersLeech, totalPeersDisconnected, priority, isFolder, error, groupName;
+@synthesize name, 
+            size, 
+            thash, 
+            state, 
+            speedDownload,
+            speedUpload,
+            dataLocation,
+            uploadRate,
+            downloadRate,
+            totalPeersSeed,
+            totalPeersLeech,
+            totalPeersDisconnected,
+            priority,
+            isFolder,
+            error,
+            groupName,
+            file,
+            trackers,
+            flatFileList,
+            comment;
 
 @dynamic active;
+
++ (id)torrentWithData:(NSData *) encodedData
+{
+    Torrent *result = [[Torrent alloc] init];
+    
+    id decodedData = [BEncoding objectFromEncodedData:encodedData withTypeAdvisor:(GEBEncodedTypeAdvisor)^(NSArray *keyStack) {
+		if ([[keyStack lastObject] isEqualToString:@"pieces"])
+			return GEBEncodedDataType;
+        else if ([[keyStack lastObject] isEqualToString:@"info"])
+                return GEBEncodedDataType;
+		else {
+			return GEBEncodedStringType;
+		}
+	}];
+
+    NSData *info = [decodedData valueForKey:@"info"];
+    
+    result.name = [info valueForKey:@"name"];
+    
+    result.size = [[info valueForKey:@"length"] integerValue];
+    
+    NSArray* fileNames = [info valueForKey:@"files"];
+    
+    FileListNode *root;
+    
+    NSMutableArray* flatFiles = [NSMutableArray arrayWithCapacity:[fileNames count]];
+    
+    if (fileNames != nil)
+    {
+        NSMutableDictionary *folders = [NSMutableDictionary dictionary];
+        root = [[FileListNode alloc] initWithFolderName:result.name path:result.name];
+        int fileIndex = 0;
+        for (NSDictionary *f in fileNames)
+        {
+            FileListNode *parent = root;
+            NSArray *fileList = [f valueForKey:@"path"];
+            NSString *fileName = [fileList lastObject];
+            uint64_t fileSize = [[f valueForKey:@"length"] unsignedLongLongValue];
+            for (NSString *pe in fileList)
+            {
+                NSString *path = [NSString stringWithFormat:@"%@/%@", [parent path], pe];
+                if (pe == fileName)
+                {
+                    FileListNode *file = [[FileListNode alloc] initWithFileName:fileName 
+                                                                           path: path
+                                                                           size: fileSize
+                                                                          index: fileIndex];
+                    [parent insertChild:file];
+                    [flatFiles addObject:file];
+                    [file release];
+                }
+                else
+                {
+                    FileListNode *folder = [folders objectForKey:path];
+                    if (folder == nil)
+                    {
+                        folder = [[FileListNode alloc] initWithFolderName:pe path:path];
+                        [parent insertChild:folder];
+                        parent = folder;
+                        [folders setObject:folder forKey:path];
+                        [folder release];
+                    }
+                }
+            }
+            fileIndex++;
+        }
+    }
+    else
+    {
+        root = [[FileListNode alloc] initWithFileName:result.name 
+                                                 path: result.name
+                                                 size: result.size
+                                                index: 0];
+        [flatFiles addObject:root];
+    }
+    result.file = root;
+    result.flatFileList = flatFiles;
+    [root release];
+    NSString *trackerUrl = [decodedData valueForKey:@"announce"];
+    NSMutableArray *trackersList;
+    if (trackerUrl != nil)
+        trackersList = [NSMutableArray arrayWithObjects:
+                           trackerUrl,
+                           nil];
+    NSArray *trackerUrls = [decodedData valueForKey:@"announce-list"];
+    if (trackerUrls != nil)
+    {
+        if (trackersList == nil)
+            trackersList = [NSMutableArray arrayWithArray:trackerUrls];
+        else
+            [trackersList addObjectsFromArray:trackerUrls];
+    }
+
+    result.trackers = trackersList;
+    
+    result.comment = [decodedData valueForKey:@"comment"];
+
+    return [result autorelease];
+}
 
 - (void)dealloc
 {
@@ -35,6 +155,10 @@
 	[self setDataLocation:nil];
 	[self setError:nil];
 	[self setGroupName:nil];
+    [self setTrackers:nil];
+    [self setFile:nil];
+    [self setFlatFileList:nil];
+    [self setComment:nil];
 	[super dealloc];
 }
 
