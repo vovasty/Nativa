@@ -492,7 +492,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		_globalUploadSpeed = globalUploadRate;
 		_globalUploadSize = upload;
 		_globalDownloadSize = download;
-		_globalRatio = upload/download;
+		_globalRatio = download==0?0:upload/download;
 		[blockSelf didChangeValueForKey:@"globalDownloadSpeed"];
 		[blockSelf didChangeValueForKey:@"globalUploadSpeed"];
 		[blockSelf didChangeValueForKey:@"globalDownloadSize"];
