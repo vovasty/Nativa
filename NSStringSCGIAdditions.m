@@ -19,21 +19,33 @@
  *****************************************************************************/
 
 #import "NSStringSCGIAdditions.h"
+NSString* const CONTENT_LENGTH = @"CONTENT_LENGTH";
+NSString* const SCGI = @"SCGI";
+NSString* const ONE = @"1";
+char const zero[1] = {'\0'};
+char const comma[1] = {','};
 
 @implementation NSString (NSStringSCGIAdditions)
 - (NSData *) encodeSCGI
 {
-	NSString* header = [[NSString alloc] initWithFormat:@"CONTENT_LENGTH\0%d\0SCGI\01\0", [self length]];
-	
-	NSString* data = [[NSString alloc] initWithFormat:@"%i:%@,%@", [header length], header, self];
-	
-	NSData* result = [data dataUsingEncoding: NSUTF8StringEncoding];
-	
-	[header release];
-	
-	[data release];
-	
+    NSString *selfLength = [NSString stringWithFormat:@"%d", [self length]];
+    
+    int headerLength = 23+[selfLength length]; //23 = 14(CONTENT_LENGTH)+4(\0)+4(SCGI)+1(1)
+    
+    NSMutableData *result=[NSMutableData data];
+    
+    [result appendData:[[NSString stringWithFormat:@"%d:", headerLength] dataUsingEncoding: NSASCIIStringEncoding]];
+    [result appendData:[CONTENT_LENGTH dataUsingEncoding: NSASCIIStringEncoding]];
+    [result appendBytes:zero length:1]; // \0
+    [result appendData:[selfLength dataUsingEncoding: NSASCIIStringEncoding]];
+    [result appendBytes:zero length:1]; // \0
+    [result appendData:[SCGI dataUsingEncoding: NSASCIIStringEncoding]];
+    [result appendBytes:zero length:1]; // \0
+    [result appendData:[ONE dataUsingEncoding: NSASCIIStringEncoding]];
+    [result appendBytes:zero length:1]; // \0
+    [result appendBytes:comma length:1]; // ,
+    [result appendData:[self dataUsingEncoding: NSUTF8StringEncoding]];
+
 	return result;
-	
 }
 @end
