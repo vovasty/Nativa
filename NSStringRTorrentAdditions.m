@@ -10,6 +10,11 @@
 
 
 @implementation  NSString (NSStringRTorrentAdditions)
+- (NSString *) pathEncode
+{
+	return [self stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
+}
+
 - (NSString *) urlEncode
 {
 	return (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,

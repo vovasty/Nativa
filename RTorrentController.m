@@ -141,7 +141,7 @@ static NSString * ConnectedContext = @"ConnectingContext";
         [args addObject:[NSString stringWithFormat:@"%@=%@",_setGroupCommand,[group urlEncode]]];
 
     if (folder != nil)
-        [args addObject:[NSString stringWithFormat:@"%@=%@",@"d.set_directory",folder ]];
+        [args addObject:[NSString stringWithFormat:@"%@=%@",@"d.set_directory",[folder pathEncode] ]];
 
     id r = [self _voidHandler:response];
 
