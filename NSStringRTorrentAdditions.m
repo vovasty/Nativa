@@ -17,11 +17,12 @@
 
 - (NSString *) urlEncode
 {
-	return (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
-														(CFStringRef)self,
-														NULL,
-														(CFStringRef)@"!*'();:@&=+$,/?%#[]",
-														kCFStringEncodingUTF8 );
+    NSString *result = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
+                                                                           (CFStringRef)self,
+                                                                           NULL,
+                                                                           (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                           kCFStringEncodingUTF8 );
+	return [result autorelease];
 }
 - (NSString *) urlDecode
 {
