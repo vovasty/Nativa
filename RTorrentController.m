@@ -22,6 +22,7 @@
 #import "RTConnection.h"
 #import "RTSCGIOperation.h"
 #import "RTListCommand.h"
+#import "NSStringRTorrentAdditions.h"
 
 static NSString * ConnectingContext = @"ConnectingContext";
 static NSString * ConnectedContext = @"ConnectingContext";
@@ -30,7 +31,6 @@ static NSString * ConnectedContext = @"ConnectingContext";
 -(void)_runOperation:(id<RTorrentCommand>) operation;
 -(void)_runCommand:(NSString*) command arguments:(NSArray*)arguments handler:(void(^)(id data, NSString* error)) h;
 -(void(^)(id data, NSString* error))_voidHandler:(VoidResponseBlock) handler;
--(NSString *) encodeGroupName:(NSString*) groupName;
 @end
 
 @implementation RTorrentController
@@ -138,7 +138,7 @@ static NSString * ConnectedContext = @"ConnectingContext";
     [args addObject:rawTorrent];
     
     if (group != nil)
-        [args addObject:[NSString stringWithFormat:@"%@=%@",_setGroupCommand,[self encodeGroupName:group]]];
+        [args addObject:[NSString stringWithFormat:@"%@=%@",_setGroupCommand,[group urlEncode]]];
 
     if (folder != nil)
         [args addObject:[NSString stringWithFormat:@"%@=%@",@"d.set_directory",folder ]];
@@ -238,7 +238,7 @@ static NSString * ConnectedContext = @"ConnectingContext";
 	[self _runCommand:_setGroupCommand
 			arguments:[NSArray arrayWithObjects:
 					   torrent.thash,
-					   [self encodeGroupName:group],
+					   [group urlEncode],
 					   nil]
 			 handler:r];
 	[r release];
@@ -349,15 +349,5 @@ static NSString * ConnectedContext = @"ConnectingContext";
 		if (handler)
 			handler(error);
 	}copy];
-}
--(NSString *) encodeGroupName:(NSString*) groupName
-{
-    NSString *encoded = groupName == nil?@"":
-	(NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
-														(CFStringRef)groupName,
-														NULL,
-														(CFStringRef)@"!*'();:@&=+$,/?%#[]",
-														kCFStringEncodingUTF8 );
-    return [encoded autorelease];
 }
 @end

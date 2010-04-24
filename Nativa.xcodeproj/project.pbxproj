@@ -105,6 +105,7 @@
 		81F07D6A11791DAE008A297A /* BEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F07D6711791DAE008A297A /* BEncoding.m */; };
 		81F07D6B11791DAE008A297A /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F07D6911791DAE008A297A /* OrderedDictionary.m */; };
 		81F07DA5117922E7008A297A /* NSStringSCGIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F07DA4117922E7008A297A /* NSStringSCGIAdditions.m */; };
+		81F2107211826FA6006DE1FD /* NSStringRTorrentAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F2107111826FA6006DE1FD /* NSStringRTorrentAdditions.m */; };
 		81FA9EFB113DA51900FDF920 /* DragOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FA9EF7113DA51900FDF920 /* DragOverlayWindow.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -278,6 +279,8 @@
 		81F07D6911791DAE008A297A /* OrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderedDictionary.m; sourceTree = "<group>"; };
 		81F07DA3117922E7008A297A /* NSStringSCGIAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringSCGIAdditions.h; sourceTree = "<group>"; };
 		81F07DA4117922E7008A297A /* NSStringSCGIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringSCGIAdditions.m; sourceTree = "<group>"; };
+		81F2107011826FA6006DE1FD /* NSStringRTorrentAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringRTorrentAdditions.h; sourceTree = "<group>"; };
+		81F2107111826FA6006DE1FD /* NSStringRTorrentAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringRTorrentAdditions.m; sourceTree = "<group>"; };
 		81FA9EF7113DA51900FDF920 /* DragOverlayWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragOverlayWindow.m; sourceTree = "<group>"; };
 		81FA9EF8113DA51900FDF920 /* DragOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragOverlayView.h; sourceTree = "<group>"; };
 		81FA9EF9113DA51900FDF920 /* DragOverlayWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragOverlayWindow.h; sourceTree = "<group>"; };
@@ -508,6 +511,8 @@
 				81E00CA9117A298200B3F87D /* FileListNode.h */,
 				81E00CAA117A298200B3F87D /* FileListNode.m */,
 				812A710710FCFB1600795D8B /* TorrentController.h */,
+				81F2107011826FA6006DE1FD /* NSStringRTorrentAdditions.h */,
+				81F2107111826FA6006DE1FD /* NSStringRTorrentAdditions.m */,
 			);
 			name = Torrent;
 			sourceTree = "<group>";
@@ -793,6 +798,7 @@
 				81E00C03117A191D00B3F87D /* GroupsPrefsController.m in Sources */,
 				81E00C70117A233D00B3F87D /* PredicateEditorRowTemplateAny.m in Sources */,
 				81E00CAB117A298200B3F87D /* FileListNode.m in Sources */,
+				81F2107211826FA6006DE1FD /* NSStringRTorrentAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

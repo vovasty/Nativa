@@ -20,6 +20,7 @@
 
 #import "RTListCommand.h"
 #import "Torrent.h"
+#import "NSStringRTorrentAdditions.h"
 
 @interface RTListCommand(Private)
 
@@ -80,10 +81,7 @@
 			r.error = [errorMessage isEqualToString:@""]?nil:errorMessage;
 			NSString *groupName = [row  objectAtIndex:16];
 			
-			NSString *decodedGroupName = [groupName isEqualToString:@""]?nil:
-									(NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault,
-										(CFStringRef)groupName,
-										CFSTR(""));
+			NSString *decodedGroupName = [groupName isEqualToString:@""]?nil:[groupName urlDecode];
 			r.groupName = decodedGroupName;
 			[decodedGroupName release];
 			
