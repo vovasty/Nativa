@@ -302,7 +302,7 @@ static NSString * ConnectedContext = @"ConnectingContext";
 {
 	if (_connectionResponse != response)
 		[_connectionResponse release];
-	_connectionResponse = [response retain];
+	_connectionResponse = [response copy];
 	[_connection openConnection];
 }
 
