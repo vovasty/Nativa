@@ -87,7 +87,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	ProcessesController* pc = [ProcessesController sharedProcessesController];
 
 	__block DownloadsController *blockSelf = self;
-	VoidResponseBlock openProcessResponse =  [^(NSString* error){
+	NSInteger index =[pc indexForRow:0];
+
+	[pc openProcessForIndex:index handler:^(NSString* error){
 		if (response)
 			response(error);
 		
@@ -95,31 +97,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		{
 			[blockSelf _updateList];
 			blockSelf->_updateListTimer = [NSTimer scheduledTimerWithTimeInterval:
-										[blockSelf->_defaults integerForKey:NIRefreshRateKey]
-										target:self 
-										selector:@selector(_updateList) 
-										userInfo:nil 
-										repeats:YES];
+                                           [blockSelf->_defaults integerForKey:NIRefreshRateKey]
+                                                                           target:self 
+                                                                         selector:@selector(_updateList) 
+                                                                         userInfo:nil 
+                                                                          repeats:YES];
 			[blockSelf->_updateListTimer retain];
 			[[NSRunLoop currentRunLoop] addTimer:blockSelf->_updateListTimer forMode:NSDefaultRunLoopMode];	
-
+            
 			[blockSelf updateGlobals];
 			blockSelf->_updateGlobalsTimer = [NSTimer scheduledTimerWithTimeInterval:
-										[blockSelf->_defaults integerForKey:NIUpdateGlobalsRateKey]
-																		target:self 
-																		selector:@selector(updateGlobals) 
-																		userInfo:nil 
-																		repeats:YES];
+                                              [blockSelf->_defaults integerForKey:NIUpdateGlobalsRateKey]
+                                                                              target:self 
+                                                                            selector:@selector(updateGlobals) 
+                                                                            userInfo:nil 
+                                                                             repeats:YES];
 			[blockSelf->_updateGlobalsTimer retain];
 			[[NSRunLoop currentRunLoop] addTimer:blockSelf->_updateGlobalsTimer forMode:NSDefaultRunLoopMode];
 		}
-	}copy];
-	
-	NSInteger index =[pc indexForRow:0];
-
-	[pc openProcess:openProcessResponse forIndex:index];
-
-	[openProcessResponse release];
+	}];
 }
 -(void) stopUpdates;
 {
@@ -385,14 +381,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 - (void) updateGlobals
 {
 	NSString *path = [[ProcessesController sharedProcessesController] localDownloadsFolderForIndex:[self _processIndex]];
-	if (path == nil)
-		return;
-	
-	NSError* error = nil;
-	NSDictionary *attr = [[NSFileManager defaultManager] attributesOfFileSystemForPath:path error:&error];
-	if (error == nil)
-		[self setSpaceLeft:[[attr objectForKey:NSFileSystemFreeSize] doubleValue]];
-
+	if (path != nil)
+    {
+        NSError* error = nil;
+        NSDictionary *attr = [[NSFileManager defaultManager] attributesOfFileSystemForPath:path error:&error];
+        if (error == nil)
+            [self setSpaceLeft:[[attr objectForKey:NSFileSystemFreeSize] doubleValue]];
+    }
     __block DownloadsController *blockSelf = self;
     [[self _controller] getGlobalDownloadSpeedLimit:^(NSNumber *number, NSString* error){
         if (error != nil)
@@ -424,13 +419,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 @implementation DownloadsController(Private)
 - (id<TorrentController>) _controller
 {
-	
 	return [[ProcessesController sharedProcessesController] processForIndex:[self _processIndex]];
 }
 
 - (NSInteger) _processIndex
 {
-	
 	return [[ProcessesController sharedProcessesController] indexForRow:0];
 }
 

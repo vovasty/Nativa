@@ -80,7 +80,7 @@
 
 -(void)saveProcesses;
 
--(void) openProcess:(void (^)(NSString *error)) handler forIndex:(NSInteger) index;
+-(void) openProcessForIndex:(NSInteger) index handler:(void (^)(NSString *error)) handler;
 
 -(void) closeProcessForIndex:(NSInteger) index;
 

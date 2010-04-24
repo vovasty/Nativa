@@ -102,21 +102,6 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
 	
 	_overlayWindow = [[DragOverlayWindow alloc] initWithWindow: _window];
 	
-	if ([[ProcessesController sharedProcessesController] count]>0)
-	{
-		[_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.gif"] mainMessage:@"Connecting ..." message:nil];
-		__block Controller *blockSelf = self;
-		[[DownloadsController sharedDownloadsController] startUpdates:^(NSString* error){
-			if (error)
-				[blockSelf->_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Error" message:error];
-			else 
-			{
-				[[DownloadsController sharedDownloadsController] updateGlobals];
-				[blockSelf->_overlayWindow fadeOut];
-			}
-		}];
-	}
-	
 	//window min height
     NSSize contentMinSize = [_window contentMinSize];
     contentMinSize.height = [[_window contentView] frame].size.height - [[_downloadsView enclosingScrollView] frame].size.height
@@ -151,6 +136,18 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
                      forKeyPath:@"globalUploadSpeedLimit"
                         options:0
                         context:&GlobalSpeedLimitChangedContext];
+
+	if ([[ProcessesController sharedProcessesController] count]>0)
+	{
+		[_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.gif"] mainMessage:@"Connecting ..." message:nil];
+		__block Controller *blockSelf = self;
+		[[DownloadsController sharedDownloadsController] startUpdates:^(NSString* error){
+			if (error)
+				[blockSelf->_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Error" message:error];
+			else 
+				[blockSelf->_overlayWindow fadeOut];
+		}];
+	}
 }
 
 -(IBAction)showPreferencePanel:(id)sender;

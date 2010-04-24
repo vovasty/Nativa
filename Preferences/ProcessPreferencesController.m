@@ -136,7 +136,7 @@
 
 	[pc setMaxReconnects:0 forIndex:index];
 
-	[pc openProcess:nil forIndex:index];
+	[pc openProcessForIndex:nil handler:nil];
 
 	ArrayResponseBlock response = [^(NSArray *array, NSString* error) {
 		if (error != nil)

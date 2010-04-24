@@ -293,7 +293,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
     return [[[_processes objectAtIndex: row] objectForKey: @"Index"] integerValue];
 }
 
--(void) openProcess:(void (^)(NSString *error)) handler forIndex:(NSInteger) index;
+-(void) openProcessForIndex:(NSInteger) index handler:(void (^)(NSString *error)) handler
 {
 	AMSession* proxy = nil;
 	if ([[self connectionTypeForIndex:index] isEqualToString: @"SSH"])
@@ -319,11 +319,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 	
 	RTorrentController *process = [[RTorrentController alloc] initWithConnection:connection];
 
-	[process openConnection: handler];
-
 	[process setGroupField: [self groupsFieldForIndex:index]];
 	
 	[self setObject:process forKey:@"ProcessObject" forIndex:index];
+    
+	[process openConnection: handler];
 	
 	[process release];
 	[connection release];
