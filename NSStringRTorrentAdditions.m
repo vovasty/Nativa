@@ -12,7 +12,7 @@
 @implementation  NSString (NSStringRTorrentAdditions)
 - (NSString *) pathEncode
 {
-	return [self stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
+    return [NSString stringWithFormat:@"\"%@\"",self];
 }
 
 - (NSString *) urlEncode
