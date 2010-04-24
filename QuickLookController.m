@@ -81,6 +81,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(QuickLookController);
 
 -(void) beginPanel:(QLPreviewPanel*) panel window:(NSWindow*)window view:(TorrentTableView*) view
 {
+	_window = window;
+	_view = view;
+
 	if (_torrents == nil)
 	{
 		_torrents = [[NSMutableArray alloc] init];
@@ -99,9 +102,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(QuickLookController);
 	_panel = [panel retain];
 	_panel.delegate = self;
 	_panel.dataSource = self;
-	
-	_window = window;
-	_view = view;
 }
 
 -(void) endPanel;
