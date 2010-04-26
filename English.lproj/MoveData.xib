@@ -104,7 +104,7 @@
 								<string key="NSContents">Move to:</string>
 								<reference key="NSSupport" ref="1000621630"/>
 								<reference key="NSControlView" ref="3236509"/>
-								<object class="NSColor" key="NSBackgroundColor">
+								<object class="NSColor" key="NSBackgroundColor" id="660857321">
 									<int key="NSColorSpace">6</int>
 									<string key="NSCatalogName">System</string>
 									<string key="NSColorName">controlColor</string>
@@ -170,6 +170,34 @@
 							<int key="NSpiFlags">16392</int>
 							<double key="NSMaxValue">100</double>
 						</object>
+						<object class="NSTextField" id="344870003">
+							<reference key="NSNextResponder" ref="430449584"/>
+							<int key="NSvFlags">256</int>
+							<string key="NSFrame">{{78, 48}, {342, 28}}</string>
+							<reference key="NSSuperview" ref="430449584"/>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSTextFieldCell" key="NSCell" id="688005204">
+								<int key="NSCellFlags">67239424</int>
+								<int key="NSCellFlags2">272760832</int>
+								<string key="NSContents">This location is local to rtorrent. Currently, existing data are not moved to new location.</string>
+								<object class="NSFont" key="NSSupport">
+									<string key="NSName">LucidaGrande</string>
+									<double key="NSSize">11</double>
+									<int key="NSfFlags">3100</int>
+								</object>
+								<reference key="NSControlView" ref="344870003"/>
+								<reference key="NSBackgroundColor" ref="660857321"/>
+								<object class="NSColor" key="NSTextColor">
+									<int key="NSColorSpace">6</int>
+									<string key="NSCatalogName">System</string>
+									<string key="NSColorName">disabledControlTextColor</string>
+									<object class="NSColor" key="NSColor">
+										<int key="NSColorSpace">3</int>
+										<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
+									</object>
+								</object>
+							</object>
+						</object>
 					</object>
 					<string key="NSFrameSize">{437, 126}</string>
 					<reference key="NSSuperview"/>
@@ -219,7 +247,7 @@
 						<string key="label">maxValue: max</string>
 						<reference key="source" ref="1006978368"/>
 						<reference key="destination" ref="1001"/>
-						<object class="NSNibBindingConnector" key="connector" id="32575235">
+						<object class="NSNibBindingConnector" key="connector" id="994621892">
 							<reference key="NSSource" ref="1006978368"/>
 							<reference key="NSDestination" ref="1001"/>
 							<string key="NSLabel">maxValue: max</string>
@@ -241,7 +269,7 @@
 							<string key="NSLabel">value: current</string>
 							<string key="NSBinding">value</string>
 							<string key="NSKeyPath">current</string>
-							<reference key="NSPreviousConnector" ref="32575235"/>
+							<reference key="NSPreviousConnector" ref="994621892"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
@@ -283,6 +311,22 @@
 						</object>
 					</object>
 					<int key="connectionID">52</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">hidden: isWorking</string>
+						<reference key="source" ref="344870003"/>
+						<reference key="destination" ref="1001"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="344870003"/>
+							<reference key="NSDestination" ref="1001"/>
+							<string key="NSLabel">hidden: isWorking</string>
+							<string key="NSBinding">hidden</string>
+							<string key="NSKeyPath">isWorking</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">55</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -332,6 +376,7 @@
 							<reference ref="1006978368"/>
 							<reference ref="302694440"/>
 							<reference ref="477717040"/>
+							<reference ref="344870003"/>
 						</object>
 						<reference key="parent" ref="352151898"/>
 					</object>
@@ -396,6 +441,20 @@
 						<reference key="object" ref="1006978368"/>
 						<reference key="parent" ref="430449584"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">53</int>
+						<reference key="object" ref="344870003"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="688005204"/>
+						</object>
+						<reference key="parent" ref="430449584"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">54</int>
+						<reference key="object" ref="688005204"/>
+						<reference key="parent" ref="344870003"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -418,6 +477,9 @@
 					<string>39.IBPluginDependency</string>
 					<string>4.IBPluginDependency</string>
 					<string>5.IBPluginDependency</string>
+					<string>53.IBPluginDependency</string>
+					<string>53.ImportedFromIB2</string>
+					<string>54.IBPluginDependency</string>
 					<string>6.IBPluginDependency</string>
 					<string>7.IBPluginDependency</string>
 				</object>
@@ -440,6 +502,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<real value="1"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
 			</object>
@@ -459,7 +524,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">52</int>
+			<int key="maxID">55</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

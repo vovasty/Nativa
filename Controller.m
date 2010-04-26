@@ -523,7 +523,8 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
 	
 	if (action == @selector(removeNoDeleteSelectedTorrents:) 
 		|| action == @selector(checkSelectedTorrents:)
-		|| action == @selector(setPriorityForSelectedTorrents:))
+		|| action == @selector(setPriorityForSelectedTorrents:)
+        || action == @selector(moveSelectedTorrentsData:))
     {
         return canUseTable && [_downloadsView numberOfSelectedRows] > 0;
     }

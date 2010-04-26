@@ -13,7 +13,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="371"/>
-			<integer value="1242"/>
+			<integer value="1038"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -531,25 +531,6 @@
 									<reference key="NSMixedImage" ref="502551668"/>
 									<int key="NSTag">4</int>
 								</object>
-								<object class="NSMenuItem" id="943353541">
-									<reference key="NSMenu" ref="442213912"/>
-									<bool key="NSIsDisabled">YES</bool>
-									<bool key="NSIsSeparator">YES</bool>
-									<string key="NSTitle"/>
-									<string key="NSKeyEquiv"/>
-									<int key="NSKeyEquivModMask">1048576</int>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="35465992"/>
-									<reference key="NSMixedImage" ref="502551668"/>
-								</object>
-								<object class="NSMenuItem" id="559558591">
-									<reference key="NSMenu" ref="442213912"/>
-									<string key="NSTitle">Move Data File To ...</string>
-									<string key="NSKeyEquiv"/>
-									<int key="NSMnemonicLoc">2147483647</int>
-									<reference key="NSOnImage" ref="35465992"/>
-									<reference key="NSMixedImage" ref="502551668"/>
-								</object>
 								<object class="NSMenuItem" id="43796082">
 									<reference key="NSMenu" ref="442213912"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -598,6 +579,25 @@
 									</object>
 								</object>
 								<object class="NSMenuItem" id="547902959">
+									<reference key="NSMenu" ref="442213912"/>
+									<bool key="NSIsDisabled">YES</bool>
+									<bool key="NSIsSeparator">YES</bool>
+									<string key="NSTitle"/>
+									<string key="NSKeyEquiv"/>
+									<int key="NSKeyEquivModMask">1048576</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="559558591">
+									<reference key="NSMenu" ref="442213912"/>
+									<string key="NSTitle">Move Data File To ...</string>
+									<string key="NSKeyEquiv"/>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="35465992"/>
+									<reference key="NSMixedImage" ref="502551668"/>
+								</object>
+								<object class="NSMenuItem" id="943353541">
 									<reference key="NSMenu" ref="442213912"/>
 									<bool key="NSIsDisabled">YES</bool>
 									<bool key="NSIsSeparator">YES</bool>
@@ -3612,10 +3612,8 @@ AAAAAAAAA</bytes>
 							<reference ref="967353790"/>
 							<reference ref="774549700"/>
 							<reference ref="1053508246"/>
-							<reference ref="943353541"/>
 							<reference ref="1017972715"/>
 							<reference ref="110857215"/>
-							<reference ref="546055850"/>
 							<reference ref="916589863"/>
 							<reference ref="254704795"/>
 							<reference ref="1011153267"/>
@@ -3624,6 +3622,8 @@ AAAAAAAAA</bytes>
 							<reference ref="547902959"/>
 							<reference ref="43796082"/>
 							<reference ref="559558591"/>
+							<reference ref="546055850"/>
+							<reference ref="943353541"/>
 						</object>
 						<reference key="parent" ref="225112353"/>
 					</object>
@@ -3690,11 +3690,6 @@ AAAAAAAAA</bytes>
 					<object class="IBObjectRecord">
 						<int key="objectID">1066</int>
 						<reference key="object" ref="254704795"/>
-						<reference key="parent" ref="442213912"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">1067</int>
-						<reference key="object" ref="943353541"/>
 						<reference key="parent" ref="442213912"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3935,6 +3930,11 @@ AAAAAAAAA</bytes>
 					<object class="IBObjectRecord">
 						<int key="objectID">1318</int>
 						<reference key="object" ref="559558591"/>
+						<reference key="parent" ref="442213912"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1067</int>
+						<reference key="object" ref="943353541"/>
 						<reference key="parent" ref="442213912"/>
 					</object>
 				</object>
@@ -4244,7 +4244,7 @@ AAAAAAAAA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{623, 623}, {201, 213}}</string>
+					<string>{{623, 593}, {219, 243}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{475, 832}, {234, 43}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
