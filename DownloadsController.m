@@ -464,10 +464,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 				stored_obj = [blockSelf->_downloads objectAtIndex:idx];
 				[stored_obj update:obj];
 			}
-			globalUploadRate += [obj speedUpload];
-			globalDownloadRate += [obj speedDownload];
-			download+=obj.downloadRate;
-			upload+=obj.uploadRate;
+            if (obj.state != NITorrentStateChecking)
+            {
+                globalUploadRate += [obj speedUpload];
+                globalDownloadRate += [obj speedDownload];
+                download+=obj.downloadRate;
+                upload+=obj.uploadRate;
+            }
 		}
 		
 		//find removed torrents
