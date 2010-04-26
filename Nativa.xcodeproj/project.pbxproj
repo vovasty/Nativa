@@ -80,6 +80,8 @@
 		81B73ABF111399DC00A11521 /* StatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73ABE111399DC00A11521 /* StatusBarView.m */; };
 		81B73AFC1113B34000A11521 /* StatusbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73AFB1113B34000A11521 /* StatusbarController.m */; };
 		81B73C061113C50200A11521 /* NSStringTorrentAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73C051113C50200A11521 /* NSStringTorrentAdditions.m */; };
+		81C7E0191184B55000987846 /* MoveData.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81C7E0181184B55000987846 /* MoveData.xib */; };
+		81C7E0941184B9DE00987846 /* MoveDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C7E0931184B9DE00987846 /* MoveDataController.m */; };
 		81CB5A841128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */; };
 		81CB5A8E1128E70C00A9D5D3 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81CB5A8D1128E70C00A9D5D3 /* Growl.framework */; };
 		81CCDE18113FF81B00893CCC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 81CCDE17113FF81B00893CCC /* Credits.rtf */; };
@@ -242,6 +244,9 @@
 		81B73AFB1113B34000A11521 /* StatusbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusbarController.m; sourceTree = "<group>"; };
 		81B73C041113C50200A11521 /* NSStringTorrentAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringTorrentAdditions.h; sourceTree = "<group>"; };
 		81B73C051113C50200A11521 /* NSStringTorrentAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringTorrentAdditions.m; sourceTree = "<group>"; };
+		81C7E0161184B54600987846 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MoveData.xib; sourceTree = "<group>"; };
+		81C7E0921184B9DE00987846 /* MoveDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveDataController.h; sourceTree = "<group>"; };
+		81C7E0931184B9DE00987846 /* MoveDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoveDataController.m; sourceTree = "<group>"; };
 		81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		81CB5A8D1128E70C00A9D5D3 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = frameworks/Growl.framework; sourceTree = "<group>"; };
 		81CCDE17113FF81B00893CCC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
@@ -399,6 +404,7 @@
 				81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */,
 				81CE376C113AF37600C9F344 /* SaveProgress.xib */,
 				81941F57117A158D00B55647 /* GroupRules.xib */,
+				81C7E0181184B55000987846 /* MoveData.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -498,6 +504,8 @@
 				81B73ABE111399DC00A11521 /* StatusBarView.m */,
 				81E76E741141CB89000C37D6 /* QuickLookController.h */,
 				81E76E751141CB89000C37D6 /* QuickLookController.m */,
+				81C7E0921184B9DE00987846 /* MoveDataController.h */,
+				81C7E0931184B9DE00987846 /* MoveDataController.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -740,6 +748,7 @@
 				81CF0FE7118150B200B44A0E /* StopHover.png in Resources */,
 				81CF0FE8118150B200B44A0E /* StopOff.png in Resources */,
 				81CF0FE9118150B200B44A0E /* StopOn.png in Resources */,
+				81C7E0191184B55000987846 /* MoveData.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -799,6 +808,7 @@
 				81E00C70117A233D00B3F87D /* PredicateEditorRowTemplateAny.m in Sources */,
 				81E00CAB117A298200B3F87D /* FileListNode.m in Sources */,
 				81F2107211826FA6006DE1FD /* NSStringRTorrentAdditions.m in Sources */,
+				81C7E0941184B9DE00987846 /* MoveDataController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -835,6 +845,14 @@
 				81941F55117A157700B55647 /* English */,
 			);
 			name = GroupRules.xib;
+			sourceTree = "<group>";
+		};
+		81C7E0181184B55000987846 /* MoveData.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				81C7E0161184B54600987846 /* English */,
+			);
+			name = MoveData.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

@@ -65,4 +65,5 @@
 - (void) showGroupMenuForTorrent:(Torrent *) torrent atLocation:(NSPoint) location;
 - (NSMenu *) contextRowMenu;
 - (void) setPriorityForSelectedTorrents: (id) sender;
+-(IBAction)moveSelectedTorrentsData:(id)sender;
 @end

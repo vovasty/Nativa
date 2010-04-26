@@ -414,6 +414,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
     }];
     
 }
+
+- (void) moveData:(Torrent *) torrent location:(NSString *) location handler:(VoidResponseBlock) handler
+{
+	VoidResponseBlock r = [self _updateListResponse:handler errorFormat:@"Unable to set location for torrent: %@"];
+	[[self _controller] moveData:torrent location:location handler:r];
+	[r release];
+}
 @end
 
 @implementation DownloadsController(Private)

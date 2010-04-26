@@ -83,5 +83,7 @@ extern NSString* const NINotifyUpdateDownloads;
 - (void) check:(Torrent*) torrent response:(VoidResponseBlock) response;
 
 - (void) updateGlobals;
+
+- (void) moveData:(Torrent *) torrent location:(NSString *) location handler:(VoidResponseBlock) handler;
 @end
 

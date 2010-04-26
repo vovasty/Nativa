@@ -265,6 +265,19 @@ static NSString * ConnectedContext = @"ConnectingContext";
 			  handler:r];
 	[r release];
 }
+
+- (void) moveData:(Torrent *) torrent location:(NSString *) location handler:(VoidResponseBlock) handler
+{
+	id r = [self _voidHandler:handler];
+	[self _runCommand:@"d.set_directory"
+            arguments:[NSArray arrayWithObjects:
+                       torrent.thash,
+                       location,
+                       nil]
+			  handler:r];
+	[r release];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath
                       ofObject:(id)object
                         change:(NSDictionary *)change

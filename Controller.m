@@ -32,6 +32,7 @@
 #import "QuickLookController.h"
 #import "GroupsController.h"
 #import "TorrentViewController.h"
+#import "MoveDataController.h"
 
 #define ACTION_MENU_PRIORITY_HIGH_TAG 101
 #define ACTION_MENU_PRIORITY_NORMAL_TAG 102
@@ -349,6 +350,10 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
          response:nil];
 }
 
+-(IBAction)moveSelectedTorrentsData:(id)sender
+{
+    [[MoveDataController sharedMoveDataController] openMoveDataWindow:_window torrents:[_downloadsView selectedTorrents]];
+}
 
 #pragma mark -
 #pragma mark NSMenuDelegate stuff
