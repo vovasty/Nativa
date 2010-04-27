@@ -21,13 +21,14 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface MoveDataController : NSWindowController<NSTableViewDataSource>
+@interface MoveDataController : NSWindowController<NSComboBoxDataSource>
 {
-    IBOutlet NSTextField            *_locationField;
+    IBOutlet NSComboBox             *_locationField;
     NSArray                         *_torrents;
     NSInteger                       max;
     NSInteger                       current;
     BOOL                            isWorking;
+    NSMutableArray                  *mruList;
 }
 @property (retain) NSArray  *torrents;
 @property NSInteger         max;

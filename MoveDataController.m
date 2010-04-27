@@ -22,12 +22,21 @@
 #import "SynthesizeSingleton.h"
 #import "Torrent.h"
 #import "DownloadsController.h"
-
+#import "GroupsController.h"
 
 @implementation MoveDataController
 SYNTHESIZE_SINGLETON_FOR_CLASS(MoveDataController);
 @synthesize torrents=_torrents;
 @synthesize max, current, isWorking;
+
+- (id) init
+{
+    if (self = [super init]) 
+	{
+		mruList = [[[NSMutableArray alloc] init] retain];
+    }
+    return self;
+}
 
 - (void) openMoveDataWindow: (NSWindow*) window torrents:(NSArray*) torrents;
 {
@@ -36,6 +45,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MoveDataController);
     [self setMax:[_torrents count]];
     [self setCurrent:0];
     [self setIsWorking:NO];
+    
+    [mruList removeAllObjects];
+    for (NSInteger i=0;i<[[GroupsController groups] numberOfGroups];i++)
+    {
+        NSInteger index = [[GroupsController groups] indexForRow:i];
+        NSString *path = [[GroupsController groups] customDownloadLocationForIndex:index];
+        if (path != nil && ![path isEqualToString:@""])
+            [mruList addObject:path];
+    }
     
 	if ([self window] == nil)
             //Check the _progressSheet instance variable to make sure the custom sheet does not already exist.
@@ -49,6 +67,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MoveDataController);
 - (void) dealloc
 {
     [self setTorrents:nil];
+    [mruList dealloc];
     [super dealloc];
 }
 
@@ -82,5 +101,18 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MoveDataController);
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode  contextInfo:(void  *)contextInfo
 {
     [sheet orderOut:self];
+}
+
+#pragma mark -
+#pragma mark NSComboBoxDataSource
+
+- (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox
+{
+    return [mruList count];
+}
+
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index
+{
+    return [mruList objectAtIndex:index];
 }
 @end
