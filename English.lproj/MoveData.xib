@@ -179,7 +179,7 @@
 							<object class="NSTextFieldCell" key="NSCell" id="688005204">
 								<int key="NSCellFlags">67239424</int>
 								<int key="NSCellFlags2">272760832</int>
-								<string key="NSContents">This location is local to rtorrent. Currently, existing data are not moved to new location.</string>
+								<string key="NSContents">This location is local to rtorrent. Currently, existing data are not moved to the new location.</string>
 								<object class="NSFont" key="NSSupport">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">11</double>
