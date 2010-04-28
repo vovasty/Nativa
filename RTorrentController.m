@@ -235,10 +235,11 @@ static NSString * ConnectedContext = @"ConnectingContext";
 - (void) setGroup:(Torrent *)torrent group:(NSString *) group response:(VoidResponseBlock) response
 {
 	id r = [self _voidHandler:response];
+    NSString *gn = [group urlEncode];
 	[self _runCommand:_setGroupCommand
 			arguments:[NSArray arrayWithObjects:
 					   torrent.thash,
-					   [group urlEncode],
+					   gn==nil?@"":gn,
 					   nil]
 			 handler:r];
 	[r release];
