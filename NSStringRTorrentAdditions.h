@@ -22,7 +22,6 @@
 
 
 @interface  NSString (NSStringRTorrentAdditions)
-- (NSString *) pathEncode;
 - (NSString *) urlEncode;
 - (NSString *) urlDecode;
 @end

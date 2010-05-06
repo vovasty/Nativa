@@ -22,11 +22,6 @@
 
 
 @implementation  NSString (NSStringRTorrentAdditions)
-- (NSString *) pathEncode
-{
-    return [NSString stringWithFormat:@"\"%@\"",self];
-}
-
 - (NSString *) urlEncode
 {
     NSString *result = (NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,

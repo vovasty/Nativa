@@ -79,7 +79,7 @@
 #pragma mark -
 
 - (NSString *)encode {
-    NSMutableString *buffer = [NSMutableString stringWithString: @"<?xml version=\"1.0\"?><methodCall>"];
+    NSMutableString *buffer = [NSMutableString stringWithString: @"<?xml version=\"1.0\" encoding=\"UTF-8\"?><methodCall>"];
     
     [buffer appendFormat: @"<methodName>%@</methodName>", myMethod];
     
