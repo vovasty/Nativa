@@ -248,7 +248,13 @@
 }
 
 - (NSString *)encodeString: (NSString *)string {
-    return [self valueTag: @"string" value: string];
+    NSMutableString *encodedString;
+    
+    encodedString = [NSMutableString stringWithString:string];
+    CFRange range = CFRangeMake(0, [encodedString length]);
+    CFStringTransform((CFMutableStringRef)encodedString, &range, kCFStringTransformToXMLHex, NO);
+
+    return [self valueTag: @"string" value: encodedString];
 }
 
 - (NSString *)encodeDate: (NSDate *)date {
