@@ -248,12 +248,24 @@
 }
 
 - (NSString *)encodeString: (NSString *)string {
+        //encode non-latin to \udddd and & and < to entities
+    
     NSMutableString *encodedString;
     
     encodedString = [NSMutableString stringWithString:string];
     CFRange range = CFRangeMake(0, [encodedString length]);
     CFStringTransform((CFMutableStringRef)encodedString, &range, kCFStringTransformToXMLHex, NO);
+    
+    [encodedString replaceOccurrencesOfString:@"&"
+                          withString:@"&amp;"
+                             options:0
+                               range:NSMakeRange(0, [encodedString length])];
 
+    [encodedString replaceOccurrencesOfString:@"<"
+                          withString:@"&lt;"
+                             options:0
+                               range:NSMakeRange(0, [encodedString length])];
+    
     return [self valueTag: @"string" value: encodedString];
 }
 
