@@ -253,19 +253,21 @@
     NSMutableString *encodedString;
     
     encodedString = [NSMutableString stringWithString:string];
+
+    [encodedString replaceOccurrencesOfString:@"&"
+                                   withString:@"&amp;"
+                                      options:0
+                                        range:NSMakeRange(0, [encodedString length])];
+    
+    [encodedString replaceOccurrencesOfString:@"<"
+                                   withString:@"&lt;"
+                                      options:0
+                                        range:NSMakeRange(0, [encodedString length])];
+    
     CFRange range = CFRangeMake(0, [encodedString length]);
     CFStringTransform((CFMutableStringRef)encodedString, &range, kCFStringTransformToXMLHex, NO);
     
-    [encodedString replaceOccurrencesOfString:@"&"
-                          withString:@"&amp;"
-                             options:0
-                               range:NSMakeRange(0, [encodedString length])];
-
-    [encodedString replaceOccurrencesOfString:@"<"
-                          withString:@"&lt;"
-                             options:0
-                               range:NSMakeRange(0, [encodedString length])];
-    
+    NSLog(@"%@",encodedString);
     return [self valueTag: @"string" value: encodedString];
 }
 
