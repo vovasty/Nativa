@@ -58,6 +58,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(MoveDataController);
 	if ([self window] == nil)
             //Check the _progressSheet instance variable to make sure the custom sheet does not already exist.
         [NSBundle loadNibNamed: @"MoveData" owner: self];
+    
+    if ([torrents count] == 1)
+    {
+        Torrent *torrent = [torrents objectAtIndex:0];
+        NSLog(@"%@",torrent.dataLocation);
+        [_locationField setStringValue:torrent.dataLocation];
+    }
+    
     [NSApp beginSheet: [self window]
 	   modalForWindow: window
 		modalDelegate: self
