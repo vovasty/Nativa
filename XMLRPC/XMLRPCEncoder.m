@@ -267,7 +267,6 @@
     CFRange range = CFRangeMake(0, [encodedString length]);
     CFStringTransform((CFMutableStringRef)encodedString, &range, kCFStringTransformToXMLHex, NO);
     
-    NSLog(@"%@",encodedString);
     return [self valueTag: @"string" value: encodedString];
 }
 
