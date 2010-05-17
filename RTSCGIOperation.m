@@ -24,6 +24,8 @@
 #import "XMLRPCTreeBasedParser.h"
 #import "NSStringSCGIAdditions.h"
 
+#define MAX_RESPONSE_SIZE 524288
+
 @interface RTSCGIOperation ()
 - (void) requestDidSent;
 
@@ -181,7 +183,7 @@
         }
 		case NSStreamEventHasBytesAvailable:
         {
-			if ([_responseData length]>65536)
+			if ([_responseData length]>MAX_RESPONSE_SIZE)
 			{
 				[self setError:@"Response too large to fit into memory"];
 				return;
