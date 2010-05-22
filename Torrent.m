@@ -72,6 +72,8 @@
     
     NSMutableArray* flatFiles = [NSMutableArray arrayWithCapacity:[fileNames count]];
     
+    uint64_t torrentSize = 0;
+    
     if (fileNames != nil)
     {
         NSMutableDictionary *folders = [NSMutableDictionary dictionary];
@@ -83,6 +85,7 @@
             NSArray *fileList = [f valueForKey:@"path"];
             NSString *fileName = [fileList lastObject];
             uint64_t fileSize = [[f valueForKey:@"length"] unsignedLongLongValue];
+            torrentSize += fileSize;
             for (NSString *pe in fileList)
             {
                 NSString *path = [NSString stringWithFormat:@"%@/%@", [parent path], pe];
@@ -120,6 +123,7 @@
                                                 index: 0];
         [flatFiles addObject:root];
     }
+    result.size = torrentSize;
     result.file = root;
     result.flatFileList = flatFiles;
     [root release];

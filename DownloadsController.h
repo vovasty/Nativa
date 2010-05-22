@@ -41,6 +41,7 @@ extern NSString* const NINotifyUpdateDownloads;
     CGFloat			  _globalUploadSpeedLimit;
     CGFloat			  _globalDownloadSpeedLimit;
 	NSUserDefaults	* _defaults;
+    NSOperationQueue	*_queue;
 }
 @property (assign)	CGFloat globalUploadSpeed;
 @property (assign)	CGFloat globalDownloadSpeed;

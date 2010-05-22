@@ -26,7 +26,7 @@
 #import "PreferencesController.h"
 #import "GroupsController.h"
 #include <Growl/Growl.h>
-
+#import "NSStringTorrentAdditions.h"
 
 NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
@@ -66,6 +66,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		return nil;
 	_downloads = [[[NSMutableArray alloc] init] retain];
 	_defaults = [NSUserDefaults standardUserDefaults];
+    _queue = [[NSOperationQueue alloc] init];
 	return self;
 }
 
@@ -158,56 +159,68 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 - (void) add:(NSArray *) filesNames
 {
-	for(NSString *file in filesNames)
-	{
-		NSURL* url = [NSURL fileURLWithPath:file];
-		NSArray* urls = [NSArray arrayWithObjects:url, nil];
-        
-        NSURLRequest* request = [NSURLRequest requestWithURL:url];
-		NSURLResponse *returningResponse = nil;
-		NSError* connError = nil;
-		NSData *rawTorrent = [NSURLConnection sendSynchronousRequest:request returningResponse:&returningResponse error:&connError];
-        Torrent *constructed = [Torrent torrentWithData:rawTorrent];
-        NSInteger index = [[GroupsController groups] groupIndexForTorrentByRules:constructed];
-        NSString *groupName = [[GroupsController groups] nameForIndex:index];
-        NSString *folderName = [[GroupsController groups] usesCustomDownloadLocationForIndex:index]?
-                                [[GroupsController groups] customDownloadLocationForIndex:index]:
-                                nil;
-        
-		__block DownloadsController *blockSelf = self;
-        [[self _controller] add:rawTorrent 
-                          start:[_defaults boolForKey:NIStartTransferWhenAddedKey] 
-                          group:groupName
-                         folder:folderName
-                       response:^(NSString* error){ 
+    __block DownloadsController *blockSelf = self;
+    [_queue addOperationWithBlock:^{
+        for(NSString *file in filesNames)
+        {
+            NSURL* url = [NSURL fileURLWithPath:file];
+            NSArray* urls = [NSArray arrayWithObjects:url, nil];
+            
+            NSURLRequest* request = [NSURLRequest requestWithURL:url];
+            NSURLResponse *returningResponse = nil;
+            NSError* connError = nil;
+            NSData *rawTorrent = [NSURLConnection sendSynchronousRequest:request returningResponse:&returningResponse error:&connError];
+            Torrent *constructed = [Torrent torrentWithData:rawTorrent];
+            NSInteger index = [[GroupsController groups] groupIndexForTorrentByRules:constructed];
+            NSString *groupName = [[GroupsController groups] nameForIndex:index];
+            NSString *folderName = [[GroupsController groups] usesCustomDownloadLocationForIndex:index]?
+            [[GroupsController groups] customDownloadLocationForIndex:index]:
+            nil;
+            
+            [[blockSelf _controller] add:rawTorrent 
+                              start:[_defaults boolForKey:NIStartTransferWhenAddedKey] 
+                              group:groupName
+                             folder:folderName
+                           response:^(NSString* error){ 
 #warning memory leak here (recycleURLs)
-                           if (error)
-                           {
-                               [blockSelf setError:@"unable to add torrent: %@" error:error];
-                               return;
-                           }
-                           
-                           if ([_defaults boolForKey:NITrashDownloadDescriptorsKey])
-                           {
-                                   //play "trash" sound
-                               id resp = [^(NSDictionary *newURLs, NSError *error){
-                                   if (!error)
-                                   {
-                                       NSSound *deleteSound;
-                                       deleteSound  = [NSSound soundNamed: @"drag to trash"];
-                                       [deleteSound play];
-                                   }
-                               }copy];
-                               [[NSWorkspace sharedWorkspace] recycleURLs: urls
-                                                        completionHandler:resp];
-                               [resp release];
-                           }
-                           
-                           [blockSelf _updateList];
-                           [blockSelf updateGlobals];
-                       }];
+                               if (error)
+                               {
+                                   [blockSelf setError:@"unable to add torrent: %@" error:error];
+                                   return;
+                               }
+                               
+                               if ([_defaults boolForKey:NITrashDownloadDescriptorsKey])
+                               {
+                                       //play "trash" sound
+                                   id resp = [^(NSDictionary *newURLs, NSError *error){
+                                       if (!error)
+                                       {
+                                           NSSound *deleteSound;
+                                           deleteSound  = [NSSound soundNamed: @"drag to trash"];
+                                           [deleteSound play];
+                                       }
+                                   }copy];
+                                   [[NSWorkspace sharedWorkspace] recycleURLs: urls
+                                                            completionHandler:resp];
+                                   [resp release];
+                               }
+                               
+                               [blockSelf _updateList];
+                               [blockSelf updateGlobals];
+                               [GrowlApplicationBridge
+                                notifyWithTitle:@"Torrent added"
+                                description:[NSString stringWithFormat:@"Torrent \"%@\", size %@, succesfully added", constructed.name, [NSString stringForFileSize:constructed.size]]
+                                notificationName:@"INFO"
+                                iconData:nil
+                                priority:0
+                                isSticky:NO
+                                clickContext:nil];
+                               
+                           }];
+            
+        }
         
-	}
+    }];
 }
 
 - (void) erase:(Torrent *) torrent withData:(BOOL) removeData response:(VoidResponseBlock) response
