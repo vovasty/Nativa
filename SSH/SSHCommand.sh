@@ -21,7 +21,7 @@ expect_user -re "(.*)\n"
 
 set password $expect_out(1,string)
 
-set arguments [lindex $argv 0]
+set arguments "[lindex $argv 0] -v"
 set path $argv0
 
 #kill previous command
@@ -32,7 +32,7 @@ eval spawn $arguments
 match_max 100000
 
 if {$password eq ""} {
-	set timeout 5
+	set timeout 60
 	expect {
 		"?sh: Error*" {puts "CONNECTION_ERROR"; exit};
 		"*yes/no*" {send "yes\r"; exp_continue};
@@ -40,25 +40,26 @@ if {$password eq ""} {
 		"*Could not resolve hostname*" {puts "WRONG_HOSTNAME"; exit};
 		"*Operation timed out*" {puts "CONNECTION_TIMEOUT"; exit};
 		"*?assword:*" {puts "WRONG_PASSWORD"; exit;}
+        "*Entering interactive session*" {puts "CONNECTED"; set timeout 0};
 	}
 
 } else {
-	set timeout 15
+	set timeout 60
 	expect {
 		"?sh: Error*" {puts "CONNECTION_ERROR"; exit};
 		"*yes/no*" {send "yes\r"; exp_continue};
 		"*Connection refused*" {puts "CONNECTION_REFUSED"; exit};
 		"*Could not resolve hostname*" {puts "WRONG_HOSTNAME"; exit};
 		"*Operation timed out*" {puts "CONNECTION_TIMEOUT"; exit};
-		"*?assword:*" {	send "$password\r"; set timeout 4;
+		"*?assword:*" {	send "$password\r"; set timeout 10;
 						expect "*?assword:*" {puts "WRONG_PASSWORD"; exit;}
 					  };
+        "*Entering interactive session*" {puts "CONNECTED"; set timeout 0};
 		-re . {exp_continue}
 		timeout {puts "CONNECTION_TIMEOUT"; exit}
 	}
 }
 
-puts "CONNECTED";
 set timeout -1
 expect eof;
 
