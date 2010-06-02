@@ -29,9 +29,9 @@ exec $path/../KillTunnel.sh $arguments
 
 eval spawn $arguments
 
-match_max 100000
+match_max 1000000
 
-set timeout 60
+set timeout 30
 
 if {$password eq ""} {
 	expect {
@@ -51,11 +51,12 @@ if {$password eq ""} {
 		"*Connection refused*" {puts "CONNECTION_REFUSED"; exit};
 		"*Could not resolve hostname*" {puts "WRONG_HOSTNAME"; exit};
 		"*Operation timed out*" {puts "CONNECTION_TIMEOUT"; exit};
-		"*?assword:*" {	send "$password\r"; set timeout 10;
-						expect "*?assword:*" {puts "WRONG_PASSWORD"; exit;}
+		"*?assword:*" {	send "$password\r"
+						expect {
+                                "*?assword:*" {puts "WRONG_PASSWORD"; exit;}
+                                "*Entering interactive session*" {puts "CONNECTED"; set timeout 0}
+                               }
 					  };
-        "*Entering interactive session*" {puts "CONNECTED"; set timeout 0};
-		-re . {exp_continue}
 		timeout {puts "CONNECTION_TIMEOUT"; exit}
 	}
 }
