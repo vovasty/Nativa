@@ -70,7 +70,7 @@ extern	NSString const *AMNewErrorMessage;
 
 #pragma mark -
 #pragma mark Helper methods
-- (NSMutableString *) prepareSSHCommand;
+- (NSString *) prepareSSHCommand;
 
 
 @end

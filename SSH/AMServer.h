@@ -23,11 +23,12 @@
 	NSString	*username;
 	NSString	*host;
     BOOL        useSSHV2;
+    NSInteger   compressionLevel;
 }
 @property(readwrite, retain) NSString	*host;
 @property(readwrite, retain) NSString	*password;
 @property(readwrite, retain) NSString	*port;
 @property(readwrite, retain) NSString	*username;
 @property                    BOOL       useSSHV2;
-
+@property                    NSInteger  compressionLevel;
 @end

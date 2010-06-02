@@ -252,12 +252,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 	return [[self object:@"MaxReconnects" forIndex:index] intValue];
 }
 
--(void) setGroupsField:(NSUInteger)groupsField forIndex:(NSInteger) index
+-(void) setGroupsField:(NSInteger)groupsField forIndex:(NSInteger) index
 {
 	[self setObject:[NSNumber numberWithInteger:groupsField] forKey:@"GroupsField" forIndex:index];
 }
 
--(NSUInteger) groupsFieldForIndex:(NSInteger) index
+-(NSInteger) groupsFieldForIndex:(NSInteger) index
 {
 	return [[self object:@"GroupsField" forIndex:index] intValue];
 }
@@ -278,6 +278,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 -(BOOL) sshUseV2ForIndex:(NSInteger) index
 {
 	return [[self object:@"SSHUseV2" forIndex:index] boolValue];
+}
+
+
+-(void) setSshCompressionLevel:(NSInteger)sshCompressionLevel forIndex:(NSInteger) index
+{
+	[self setObject:[NSNumber numberWithInteger:sshCompressionLevel] forKey:@"SSHCompressionLevel" forIndex:index];
+}
+
+-(NSInteger) sshCompressionLevelForIndex:(NSInteger) index
+{
+	return [[self object:@"SSHCompressionLevel" forIndex:index] intValue];
 }
 
 - (NSInteger) addProcess
@@ -325,6 +336,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 		server.password = [self sshPasswordForIndex:index];
 		server.port = [NSString stringWithFormat:@"%d", [self sshPortForIndex:index]];
         server.useSSHV2 = [self sshUseV2ForIndex:index];
+        server.compressionLevel = [self sshCompressionLevelForIndex:index];
 		proxy.currentServer = server;
 		proxy.maxAutoReconnectRetries = [self maxReconnectsForIndex:index];
 		proxy.autoReconnect = YES;

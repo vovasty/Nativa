@@ -68,14 +68,17 @@
 -(void) setMaxReconnects:(NSInteger)maxReconnects forIndex:(NSInteger) index;
 -(NSInteger) maxReconnectsForIndex:(NSInteger) index;
 
--(void) setGroupsField:(NSUInteger)groupsField forIndex:(NSInteger) index;
--(NSUInteger) groupsFieldForIndex:(NSInteger) index;
+-(void) setGroupsField:(NSInteger)groupsField forIndex:(NSInteger) index;
+-(NSInteger) groupsFieldForIndex:(NSInteger) index;
 
 -(void) setSshUseKeyLogin:(BOOL)sshUseKeyLogin forIndex:(NSInteger) index;
 -(BOOL) sshUseKeyLoginForIndex:(NSInteger) index;
 
 -(void) setSshUseV2:(BOOL)sshUseV2 forIndex:(NSInteger) index;
 -(BOOL) sshUseV2ForIndex:(NSInteger) index;
+
+-(void) setSshCompressionLevel:(NSInteger)sshCompressionLevel forIndex:(NSInteger) index;
+-(NSInteger) sshCompressionLevelForIndex:(NSInteger) index;
 
 - (NSInteger) indexForRow: (NSInteger) row;
 

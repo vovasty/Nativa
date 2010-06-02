@@ -69,26 +69,29 @@
 	[super dealloc];
 }
 
-- (NSMutableString *) prepareSSHCommand  
+- (NSString *) prepareSSHCommand  
 {
-	NSMutableString *argumentsString = [NSMutableString stringWithString: @"ssh "];
+    NSMutableString *argumentsString = [NSMutableString stringWithString: @"ssh "];
 	
 	if ([currentServer useSSHV2])
-		argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@" -2 "];
+		[argumentsString appendString:@" -2 "];
+    
+    if ([currentServer compressionLevel]>0)
+       [argumentsString appendFormat:@" -C -o CompressionLevel=%d ", [currentServer compressionLevel]];
 	
-	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@"-N -L "];
-	argumentsString = (NSMutableString *)[argumentsString stringByAppendingFormat:@"%d", localPort];
-	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@":"];
-	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:remoteHost];
-	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@":"];
-	argumentsString = (NSMutableString *)[argumentsString stringByAppendingFormat:@"%d", remotePort];
+	[argumentsString appendString:@"-N -L "];
+	[argumentsString appendFormat:@"%d", localPort];
+	[argumentsString appendString:@":"];
+	[argumentsString appendString:remoteHost];
+	[argumentsString appendString:@":"];
+	[argumentsString appendFormat:@"%d", remotePort];
 	
-	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@" "];
-	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[currentServer username]];
-	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@"@"];
-	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[currentServer host]];
-	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:@" -p "];
-	argumentsString = (NSMutableString *)[argumentsString stringByAppendingString:[currentServer port]];
+	[argumentsString appendString:@" "];
+	[argumentsString appendString:[currentServer username]];
+	[argumentsString appendString:@"@"];
+	[argumentsString appendString:[currentServer host]];
+	[argumentsString appendString:@" -p "];
+	[argumentsString appendString:[currentServer port]];
 
 	NSLog(@"Used SSH Command : %@", argumentsString);
 	
@@ -104,7 +107,7 @@
 {
 	NSString			*helperPath;
 	NSArray				*args;
-	NSMutableString		*argumentsString;
+	NSString            *argumentsString;
 	
 	_connectionInProgress = YES;
 	_connected = NO;

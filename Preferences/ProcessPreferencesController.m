@@ -33,7 +33,7 @@
 
 @implementation ProcessPreferencesController
 
-@synthesize useSSHKeyLogin, useSSHV2, host, port, useSSH, sshHost, sshPort, sshLocalPort, sshUser, sshPassword, groupsField;
+@synthesize useSSHKeyLogin, useSSHV2, host, port, useSSH, sshHost, sshPort, sshLocalPort, sshUser, sshPassword, groupsField, sshCompressionLevel;
 
 - (void) awakeFromNib
 {
@@ -93,6 +93,8 @@
     [pc setGroupsField:groupsField forIndex:index];
     
     [pc setSshUseV2:useSSHV2 forIndex:index];
+    
+    [pc setSshCompressionLevel:sshCompressionLevel forIndex:index];
 
     __block ProcessPreferencesController *blockSelf = self;
     
@@ -177,6 +179,8 @@
 	[self setSshLocalPort: [pc sshLocalPortForIndex:index] == 0?5001:[pc sshLocalPortForIndex:index]];
 	
 	[self setUseSSHKeyLogin:[pc sshUseKeyLoginForIndex:index]];
+    
+    [self setSshCompressionLevel:[pc sshCompressionLevelForIndex:index]];
 }
 
 - (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info

@@ -49,6 +49,8 @@
     NSString                *sshPassword;
     
     NSInteger               groupsField;
+    
+    NSInteger               sshCompressionLevel;
 }
 
 @property BOOL              useSSHKeyLogin;
@@ -72,6 +74,8 @@
 @property (retain) NSString *sshPassword;
 
 @property NSInteger         groupsField;
+
+@property NSInteger         sshCompressionLevel;
 
 - (void) downloadsPathShow: (id) sender;
 

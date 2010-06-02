@@ -23,6 +23,7 @@
 @synthesize password;
 @synthesize port;
 @synthesize useSSHV2;
+@synthesize compressionLevel;
 
 - (void) dealloc
 {
