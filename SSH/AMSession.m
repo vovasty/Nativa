@@ -255,39 +255,39 @@
 		
 		[outputContent appendString:stmp];
 		
-		NSLog(@"ssh out:%@", stmp);
+		NSLog(@"ssh said: %@", stmp);
 		
 		[stmp release];
 		
 		if ([checkError evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: @"SSH: Unknown error as occured while connecting."];
+			[self setError: @"Whats wrong with your server?"];
 			[self terminateTask];
 			
 		}
 		else if ([checkWrongPass evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: @"SSH: The password or username set for the server are wrong"];
+			[self setError: @"Liar! You have provided me with wrong password!"];
 			[self terminateTask];
 		}
 		else if ([checkRefused evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: @"SSH: Connection has been rejected by the server."];
+			[self setError: @"Your server is very rude rejecting my friendship attempts."];
 			[self terminateTask];
 		}		
 		else if ([checkWrongHostname evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: @"SSH: Wrong hostname."];
+			[self setError: [NSString stringWithFormat:@"No one in this world knows your server name %@.", remoteHost]];
 			[self terminateTask];
 		}		
 		else if ([checkTimeout evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: @"SSH: Connection timeout."];
+			[self setError: @"I am tired of waiting for your server reaction."];
 			[self terminateTask];
 		}		
 		else if ([checkPort evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: @"SSH: The port is already used on server."];
+			[self setError: [NSString stringWithFormat:@"You already lend port %d to someone.", localPort];
 			[self terminateTask];
 		}
 		else if ([checkConnected evaluateWithObject:outputContent] == YES)
@@ -312,7 +312,7 @@
 	if (_connected || ![sshTask isRunning])
 		return;
 	
-	[self setError: @"SSH: Process timeout."];
+	[self setError: @"Looks like ssh found something else to think about."];
 	[self terminateTask];
 }
 -(void)terminateTask
