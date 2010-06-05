@@ -29,7 +29,7 @@ exec $path/../KillTunnel.sh $arguments
 
 eval spawn $arguments
 
-match_max 1000000
+match_max 10000
 
 set timeout 30
 
@@ -62,5 +62,7 @@ if {$password eq ""} {
 }
 
 set timeout -1
-expect eof;
-
+expect {
+	-re \w$ {sleep 5;exp_continue;}
+	eof {exit}
+}

@@ -287,13 +287,13 @@
 		}		
 		else if ([checkPort evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: [NSString stringWithFormat:@"You already lend port %d to someone.", localPort];
+			[self setError: [NSString stringWithFormat:@"You already lend port %d to someone.", localPort]];
 			[self terminateTask];
 		}
 		else if ([checkConnected evaluateWithObject:outputContent] == YES)
 		{
 			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:outputHandle];
-			
+			[outputHandle closeFile];
 			[self willChangeValueForKey:@"connectionInProgress"];
 			[self willChangeValueForKey:@"connected"];
 			_connectionInProgress = NO;
