@@ -83,7 +83,6 @@
 		81C7E0191184B55000987846 /* MoveData.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81C7E0181184B55000987846 /* MoveData.xib */; };
 		81C7E0941184B9DE00987846 /* MoveDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C7E0931184B9DE00987846 /* MoveDataController.m */; };
 		81CB5A841128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */; };
-		81CB5A8E1128E70C00A9D5D3 /* Growl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81CB5A8D1128E70C00A9D5D3 /* Growl.framework */; };
 		81CCDE18113FF81B00893CCC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 81CCDE17113FF81B00893CCC /* Credits.rtf */; };
 		81CE376D113AF37600C9F344 /* SaveProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81CE376C113AF37600C9F344 /* SaveProgress.xib */; };
 		81CE3805113B016000C9F344 /* SaveProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CE3804113B016000C9F344 /* SaveProgressController.m */; };
@@ -248,7 +247,6 @@
 		81C7E0921184B9DE00987846 /* MoveDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveDataController.h; sourceTree = "<group>"; };
 		81C7E0931184B9DE00987846 /* MoveDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoveDataController.m; sourceTree = "<group>"; };
 		81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
-		81CB5A8D1128E70C00A9D5D3 /* Growl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Growl.framework; path = frameworks/Growl.framework; sourceTree = "<group>"; };
 		81CCDE17113FF81B00893CCC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
 		81CE376C113AF37600C9F344 /* SaveProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaveProgress.xib; sourceTree = "<group>"; };
 		81CE3803113B016000C9F344 /* SaveProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveProgressController.h; sourceTree = "<group>"; };
@@ -298,7 +296,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81CB5A8E1128E70C00A9D5D3 /* Growl.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				811B4BFC1127644D008A23C3 /* Security.framework in Frameworks */,
 				811B4BFE1127644D008A23C3 /* SecurityFoundation.framework in Frameworks */,
@@ -344,7 +341,6 @@
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				811B4BFB1127644D008A23C3 /* Security.framework */,
 				811B4BFD1127644D008A23C3 /* SecurityFoundation.framework */,
-				81CB5A8D1128E70C00A9D5D3 /* Growl.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
