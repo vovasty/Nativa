@@ -51,6 +51,8 @@
     NSInteger               groupsField;
     
     NSInteger               sshCompressionLevel;
+    
+    NSInteger               sshLocalPort;
 }
 
 @property BOOL              useSSHKeyLogin;
