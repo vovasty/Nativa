@@ -107,6 +107,7 @@
 		81F07D6B11791DAE008A297A /* OrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F07D6911791DAE008A297A /* OrderedDictionary.m */; };
 		81F07DA5117922E7008A297A /* NSStringSCGIAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F07DA4117922E7008A297A /* NSStringSCGIAdditions.m */; };
 		81F2107211826FA6006DE1FD /* NSStringRTorrentAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F2107111826FA6006DE1FD /* NSStringRTorrentAdditions.m */; };
+		81F660C711E652C200A810CD /* Bandwidth.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F660C611E652C200A810CD /* Bandwidth.png */; };
 		81FA9EFB113DA51900FDF920 /* DragOverlayWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FA9EF7113DA51900FDF920 /* DragOverlayWindow.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -284,6 +285,7 @@
 		81F07DA4117922E7008A297A /* NSStringSCGIAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringSCGIAdditions.m; sourceTree = "<group>"; };
 		81F2107011826FA6006DE1FD /* NSStringRTorrentAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringRTorrentAdditions.h; sourceTree = "<group>"; };
 		81F2107111826FA6006DE1FD /* NSStringRTorrentAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringRTorrentAdditions.m; sourceTree = "<group>"; };
+		81F660C611E652C200A810CD /* Bandwidth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bandwidth.png; sourceTree = "<group>"; };
 		81FA9EF7113DA51900FDF920 /* DragOverlayWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragOverlayWindow.m; sourceTree = "<group>"; };
 		81FA9EF8113DA51900FDF920 /* DragOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragOverlayView.h; sourceTree = "<group>"; };
 		81FA9EF9113DA51900FDF920 /* DragOverlayWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragOverlayWindow.h; sourceTree = "<group>"; };
@@ -387,11 +389,11 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				811EA5D11111FAD1001D16D0 /* images */,
 				811B4C0711276542008A23C3 /* SSHCommand.sh */,
 				810A08521152E7230011E46A /* KillTunnel.sh */,
 				81CCDE17113FF81B00893CCC /* Credits.rtf */,
 				810DBC3F11343E63000411D8 /* drag to trash.aif */,
-				811EA5D11111FAD1001D16D0 /* images */,
 				8D1107310486CEB800E47090 /* Nativa-Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
@@ -535,6 +537,7 @@
 		811EA5D11111FAD1001D16D0 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81F660C611E652C200A810CD /* Bandwidth.png */,
 				81CF0FE4118150B200B44A0E /* StopHover.png */,
 				81CF0FE5118150B200B44A0E /* StopOff.png */,
 				81CF0FE6118150B200B44A0E /* StopOn.png */,
@@ -745,6 +748,7 @@
 				81CF0FE8118150B200B44A0E /* StopOff.png in Resources */,
 				81CF0FE9118150B200B44A0E /* StopOn.png in Resources */,
 				81C7E0191184B55000987846 /* MoveData.xib in Resources */,
+				81F660C711E652C200A810CD /* Bandwidth.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

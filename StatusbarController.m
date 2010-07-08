@@ -105,27 +105,27 @@ typedef enum
     }
     else if (value == 0.0)
     {
-        downloadSpeed = 5*1024;
-        uploadSpeed = 5*1024;
+        downloadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitMinDownload];
+        uploadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitMinUpload];
     }
     else
     {
-        downloadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitDownload]/100*value;
-        uploadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitUpload]/100*value;
+        downloadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitMaxDownload]/100*value;
+        uploadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitMaxUpload]/100*value;
         if (downloadSpeed == 0)
-            downloadSpeed = 5*1024;
+            downloadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitMinDownload];
         if (uploadSpeed == 0)
-            uploadSpeed = 5*1024;
+            uploadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitMinUpload];
     }
     
-        //NSLog(@"%d %d %d", uploadSpeed, uploadSpeed, downloadSpeed);
+    NSLog(@"%d %d", uploadSpeed*1024, downloadSpeed*1024);
     
     [[DownloadsController sharedDownloadsController] 
-     setGlobalUploadSpeedLimit:uploadSpeed
+     setGlobalUploadSpeedLimit:uploadSpeed*1024
      response:nil];
     
     [[DownloadsController sharedDownloadsController] 
-     setGlobalDownloadSpeedLimit:downloadSpeed
+     setGlobalDownloadSpeedLimit:downloadSpeed*1024
      response:nil];
     
     _globalSpeedLimit = value;
@@ -173,8 +173,8 @@ typedef enum
         if (computedSpeedLimit>0)
         {
                 // max speed limit will be maxUL+maxDL
-            double maxSpeedLimit = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitUpload]+
-            [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitDownload];
+            double maxSpeedLimit = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitMaxUpload]*1024+
+            [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitMaxDownload]*1024;
             
             [_globalSpeedLimitSlider setDoubleValue:100*(computedSpeedLimit/maxSpeedLimit)];
         }

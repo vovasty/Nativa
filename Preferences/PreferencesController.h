@@ -34,8 +34,10 @@ extern NSString* const NIRefreshRateKey;
 extern NSString* const NIUpdateGlobalsRateKey;
 extern NSString* const NIAutoSizeKey;
 extern NSString* const NIForceStopKey;
-extern NSString* const NIGlobalSpeedLimitDownload;
-extern NSString* const NIGlobalSpeedLimitUpload;
+extern NSString* const NIGlobalSpeedLimitMaxDownload;
+extern NSString* const NIGlobalSpeedLimitMaxUpload;
+extern NSString* const NIGlobalSpeedLimitMinDownload;
+extern NSString* const NIGlobalSpeedLimitMinUpload;
 
 typedef enum 
 { 
@@ -45,7 +47,7 @@ typedef enum
 
 @interface PreferencesController : NSWindowController<NSToolbarDelegate>
 {
-	IBOutlet NSView * _generalView, * _processesView, *_groupsView;
+	IBOutlet NSView * _generalView, * _processesView, *_groupsView, *_bandwidthView;
 	
 	NSUserDefaults* _defaults;
 }

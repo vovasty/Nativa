@@ -29,6 +29,7 @@
 #define TOOLBAR_GENERAL     @"TOOLBAR_GENERAL"
 #define TOOLBAR_PROCESSES   @"TOOLBAR_PROCESSES"
 #define TOOLBAR_GROUPS		@"TOOLBAR_GROUPS"
+#define TOOLBAR_BANDWIDTH		@"TOOLBAR_BANDWIDTH"
 
 NSString* const NISpeedLimitDownload			= @"SpeedLimitDownload";
 
@@ -50,10 +51,13 @@ NSString* const NIAutoSizeKey					= @"AutoSize";
 
 NSString* const NIForceStopKey                  = @"ForceStop";
 
-NSString* const NIGlobalSpeedLimitDownload      = @"GlobalSpeedLimitDownload";
+NSString* const NIGlobalSpeedLimitMaxDownload      = @"GlobalSpeedLimitMaxDownload";
 
-NSString* const NIGlobalSpeedLimitUpload        = @"GlobalSpeedLimitUpload";
+NSString* const NIGlobalSpeedLimitMaxUpload        = @"GlobalSpeedLimitMaxUpload";
 
+NSString* const NIGlobalSpeedLimitMinDownload      = @"GlobalSpeedLimitMinDownload";
+
+NSString* const NIGlobalSpeedLimitMinUpload        = @"GlobalSpeedLimitMinUpload";
 
 @interface PreferencesController (Private)
 
@@ -118,6 +122,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PreferencesController);
         [item setAction: @selector(setPrefView:)];
         [item setAutovalidates: NO];
     }
+    else if ([ident isEqualToString: TOOLBAR_BANDWIDTH])
+    {
+        [item setLabel: NSLocalizedString(@"Bandwidth", "Preferences -> toolbar item title")];
+        [item setImage: [NSImage imageNamed: @"Bandwidth.png"]];
+        [item setTarget: self];
+        [item setAction: @selector(setPrefView:)];
+        [item setAutovalidates: NO];
+    }
     else
     {
         [item release];
@@ -129,7 +141,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PreferencesController);
 
 - (NSArray *) toolbarAllowedItemIdentifiers: (NSToolbar *) toolbar
 {
-    return [NSArray arrayWithObjects: TOOLBAR_GENERAL, TOOLBAR_PROCESSES, TOOLBAR_GROUPS, nil];
+    return [NSArray arrayWithObjects: TOOLBAR_GENERAL, TOOLBAR_PROCESSES, TOOLBAR_GROUPS, TOOLBAR_BANDWIDTH, nil];
 }
 
 - (NSArray *) toolbarSelectableItemIdentifiers: (NSToolbar *) toolbar
@@ -181,6 +193,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PreferencesController);
         view = _processesView;
 	else if ([identifier isEqualToString: TOOLBAR_GROUPS])
         view = _groupsView;
+	else if ([identifier isEqualToString: TOOLBAR_BANDWIDTH])
+        view = _bandwidthView;
     else
     {
         identifier = TOOLBAR_GENERAL; //general view is the default selected
