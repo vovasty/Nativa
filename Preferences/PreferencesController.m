@@ -31,10 +31,6 @@
 #define TOOLBAR_GROUPS		@"TOOLBAR_GROUPS"
 #define TOOLBAR_BANDWIDTH		@"TOOLBAR_BANDWIDTH"
 
-NSString* const NISpeedLimitDownload			= @"SpeedLimitDownload";
-
-NSString* const NISpeedLimitUpload				= @"SpeedLimitUpload";
-
 NSString* const NITrashDownloadDescriptorsKey	= @"TrashOriginalTransferDescriptor";
 
 NSString* const NIStartTransferWhenAddedKey		= @"StartTransferWhenAdded";

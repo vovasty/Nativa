@@ -118,8 +118,6 @@ typedef enum
             uploadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitMinUpload];
     }
     
-    NSLog(@"%d %d", uploadSpeed*1024, downloadSpeed*1024);
-    
     [[DownloadsController sharedDownloadsController] 
      setGlobalUploadSpeedLimit:uploadSpeed*1024
      response:nil];

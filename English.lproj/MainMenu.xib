@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="818"/>
+			<integer value="372"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -989,7 +989,7 @@
 							<string key="NSTitle">Upload Bandwidth Limit</string>
 							<object class="NSMutableArray" key="NSMenuItems">
 								<bool key="EncodedWithXMLCoder">YES</bool>
-								<object class="NSMenuItem" id="855037558">
+								<object class="NSMenuItem" id="245095688">
 									<reference key="NSMenu" ref="577495375"/>
 									<string key="NSTitle">999 KB/s</string>
 									<string key="NSKeyEquiv"/>
@@ -1830,30 +1830,6 @@ AAAAAAAAA</bytes>
 								<bool key="NSAltersState">YES</bool>
 							</object>
 						</object>
-						<object class="NSButton" id="711949409">
-							<reference key="NSNextResponder" ref="439893737"/>
-							<int key="NSvFlags">292</int>
-							<string key="NSFrame">{{114, 5}, {32, 18}}</string>
-							<reference key="NSSuperview" ref="439893737"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="65951129">
-								<int key="NSCellFlags">-2080244224</int>
-								<int key="NSCellFlags2">134348800</int>
-								<string key="NSContents"/>
-								<reference key="NSSupport" ref="26"/>
-								<reference key="NSControlView" ref="711949409"/>
-								<int key="NSButtonFlags">-926138113</int>
-								<int key="NSButtonFlags2">160</int>
-								<object class="NSCustomResource" key="NSNormalImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">TurtleTemplate</string>
-								</object>
-								<string key="NSAlternateContents"/>
-								<string key="NSKeyEquivalent"/>
-								<int key="NSPeriodicDelay">400</int>
-								<int key="NSPeriodicInterval">75</int>
-							</object>
-						</object>
 						<object class="NSSlider" id="348676292">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">257</int>
@@ -1941,25 +1917,25 @@ AAAAAAAAA</bytes>
 								<bool key="NSAltersState">YES</bool>
 							</object>
 						</object>
-						<object class="NSPopUpButton" id="441421347">
+						<object class="NSPopUpButton" id="444155845">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">257</int>
 							<string key="NSFrame">{{373, 4}, {91, 17}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSPopUpButtonCell" key="NSCell" id="171704159">
+							<object class="NSPopUpButtonCell" key="NSCell" id="1009961217">
 								<int key="NSCellFlags">-2076049856</int>
 								<int key="NSCellFlags2">133120</int>
 								<reference key="NSSupport" ref="915103961"/>
-								<reference key="NSControlView" ref="441421347"/>
+								<reference key="NSControlView" ref="444155845"/>
 								<int key="NSButtonFlags">-1229438721</int>
 								<int key="NSButtonFlags2">45</int>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
 								<int key="NSPeriodicInterval">75</int>
-								<object class="NSMenuItem" key="NSMenuItem" id="336755214">
-									<reference key="NSMenu" ref="115251103"/>
+								<object class="NSMenuItem" key="NSMenuItem" id="132829852">
+									<reference key="NSMenu" ref="1032925503"/>
 									<bool key="NSIsHidden">YES</bool>
 									<string key="NSTitle">999.9 KB/s</string>
 									<string key="NSKeyEquiv"/>
@@ -1969,16 +1945,16 @@ AAAAAAAAA</bytes>
 									<reference key="NSOnImage" ref="35465992"/>
 									<reference key="NSMixedImage" ref="502551668"/>
 									<string key="NSAction">_popUpItemAction:</string>
-									<reference key="NSTarget" ref="171704159"/>
+									<reference key="NSTarget" ref="1009961217"/>
 								</object>
 								<bool key="NSMenuItemRespectAlignment">YES</bool>
-								<object class="NSMenu" key="NSMenu" id="115251103">
+								<object class="NSMenu" key="NSMenu" id="1032925503">
 									<string key="NSTitle">OtherViews</string>
 									<object class="NSMutableArray" key="NSMenuItems">
 										<bool key="EncodedWithXMLCoder">YES</bool>
-										<reference ref="336755214"/>
-										<object class="NSMenuItem" id="600195849">
-											<reference key="NSMenu" ref="115251103"/>
+										<reference ref="132829852"/>
+										<object class="NSMenuItem" id="876966076">
+											<reference key="NSMenu" ref="1032925503"/>
 											<string key="NSTitle">Item 2</string>
 											<string key="NSKeyEquiv"/>
 											<int key="NSKeyEquivModMask">1048576</int>
@@ -1986,10 +1962,10 @@ AAAAAAAAA</bytes>
 											<reference key="NSOnImage" ref="35465992"/>
 											<reference key="NSMixedImage" ref="502551668"/>
 											<string key="NSAction">_popUpItemAction:</string>
-											<reference key="NSTarget" ref="171704159"/>
+											<reference key="NSTarget" ref="1009961217"/>
 										</object>
-										<object class="NSMenuItem" id="349560004">
-											<reference key="NSMenu" ref="115251103"/>
+										<object class="NSMenuItem" id="509824374">
+											<reference key="NSMenu" ref="1032925503"/>
 											<string key="NSTitle">Item 3</string>
 											<string key="NSKeyEquiv"/>
 											<int key="NSKeyEquivModMask">1048576</int>
@@ -1997,7 +1973,7 @@ AAAAAAAAA</bytes>
 											<reference key="NSOnImage" ref="35465992"/>
 											<reference key="NSMixedImage" ref="502551668"/>
 											<string key="NSAction">_popUpItemAction:</string>
-											<reference key="NSTarget" ref="171704159"/>
+											<reference key="NSTarget" ref="1009961217"/>
 										</object>
 									</object>
 								</object>
@@ -2161,28 +2137,12 @@ AAAAAAAAA</bytes>
 					<int key="connectionID">719</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">toggleTurtleSpeed:</string>
-						<reference key="source" ref="753007583"/>
-						<reference key="destination" ref="65951129"/>
-					</object>
-					<int key="connectionID">723</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">_window</string>
 						<reference key="source" ref="753007583"/>
 						<reference key="destination" ref="972006081"/>
 					</object>
 					<int key="connectionID">735</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_turtleButton</string>
-						<reference key="source" ref="753007583"/>
-						<reference key="destination" ref="711949409"/>
-					</object>
-					<int key="connectionID">738</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2746,27 +2706,11 @@ AAAAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">_globalSpeedLimitSlider</string>
-						<reference key="source" ref="753007583"/>
-						<reference key="destination" ref="348676292"/>
-					</object>
-					<int key="connectionID">1324</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
 						<string key="label">menu</string>
 						<reference key="source" ref="1759391"/>
 						<reference key="destination" ref="188904541"/>
 					</object>
 					<int key="connectionID">1340</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">_globalSpeedDownButton</string>
-						<reference key="source" ref="262304768"/>
-						<reference key="destination" ref="838388007"/>
-					</object>
-					<int key="connectionID">1350</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -2780,14 +2724,14 @@ AAAAAAAAA</bytes>
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">_uploadSpeedButton</string>
 						<reference key="source" ref="262304768"/>
-						<reference key="destination" ref="441421347"/>
+						<reference key="destination" ref="444155845"/>
 					</object>
 					<int key="connectionID">1362</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">menu</string>
-						<reference key="source" ref="441421347"/>
+						<reference key="source" ref="444155845"/>
 						<reference key="destination" ref="577495375"/>
 					</object>
 					<int key="connectionID">1364</int>
@@ -3076,9 +3020,8 @@ AAAAAAAAA</bytes>
 							<reference ref="271337786"/>
 							<reference ref="564668520"/>
 							<reference ref="348676292"/>
-							<reference ref="711949409"/>
 							<reference ref="838388007"/>
-							<reference ref="441421347"/>
+							<reference ref="444155845"/>
 							<reference ref="110318546"/>
 						</object>
 						<reference key="parent" ref="972006081"/>
@@ -3120,20 +3063,6 @@ AAAAAAAAA</bytes>
 						<int key="objectID">686</int>
 						<reference key="object" ref="753007583"/>
 						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">720</int>
-						<reference key="object" ref="711949409"/>
-						<object class="NSMutableArray" key="children">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="65951129"/>
-						</object>
-						<reference key="parent" ref="439893737"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">721</int>
-						<reference key="object" ref="65951129"/>
-						<reference key="parent" ref="711949409"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">727</int>
@@ -3676,7 +3605,7 @@ AAAAAAAAA</bytes>
 							<reference ref="143344934"/>
 							<reference ref="854442906"/>
 							<reference ref="818073920"/>
-							<reference ref="855037558"/>
+							<reference ref="245095688"/>
 						</object>
 						<reference key="parent" ref="8836224"/>
 					</object>
@@ -3881,51 +3810,51 @@ AAAAAAAAA</bytes>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1355</int>
-						<reference key="object" ref="441421347"/>
+						<reference key="object" ref="444155845"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="171704159"/>
+							<reference ref="1009961217"/>
 						</object>
 						<reference key="parent" ref="439893737"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1356</int>
-						<reference key="object" ref="171704159"/>
+						<reference key="object" ref="1009961217"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="115251103"/>
+							<reference ref="1032925503"/>
 						</object>
-						<reference key="parent" ref="441421347"/>
+						<reference key="parent" ref="444155845"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1357</int>
-						<reference key="object" ref="115251103"/>
+						<reference key="object" ref="1032925503"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="349560004"/>
-							<reference ref="600195849"/>
-							<reference ref="336755214"/>
+							<reference ref="509824374"/>
+							<reference ref="876966076"/>
+							<reference ref="132829852"/>
 						</object>
-						<reference key="parent" ref="171704159"/>
+						<reference key="parent" ref="1009961217"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1358</int>
-						<reference key="object" ref="349560004"/>
-						<reference key="parent" ref="115251103"/>
+						<reference key="object" ref="509824374"/>
+						<reference key="parent" ref="1032925503"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1359</int>
-						<reference key="object" ref="600195849"/>
-						<reference key="parent" ref="115251103"/>
+						<reference key="object" ref="876966076"/>
+						<reference key="parent" ref="1032925503"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1360</int>
-						<reference key="object" ref="336755214"/>
-						<reference key="parent" ref="115251103"/>
+						<reference key="object" ref="132829852"/>
+						<reference key="parent" ref="1032925503"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">1363</int>
-						<reference key="object" ref="855037558"/>
+						<reference key="object" ref="245095688"/>
 						<reference key="parent" ref="577495375"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -4162,9 +4091,6 @@ AAAAAAAAA</bytes>
 					<string>678.IBPluginDependency</string>
 					<string>72.IBPluginDependency</string>
 					<string>72.ImportedFromIB2</string>
-					<string>720.IBPluginDependency</string>
-					<string>720.ImportedFromIB2</string>
-					<string>721.IBPluginDependency</string>
 					<string>727.IBPluginDependency</string>
 					<string>73.IBPluginDependency</string>
 					<string>73.ImportedFromIB2</string>
@@ -4457,9 +4383,6 @@ AAAAAAAAA</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<integer value="1"/>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4608,12 +4531,10 @@ AAAAAAAAA</bytes>
 							<string>showPreferencePanel:</string>
 							<string>stopSelectedTorrents:</string>
 							<string>toggleQuickLook:</string>
-							<string>toggleTurtleSpeed:</string>
 							<string>unsetSpeedLimitGlobal:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -4651,7 +4572,6 @@ AAAAAAAAA</bytes>
 							<string>showPreferencePanel:</string>
 							<string>stopSelectedTorrents:</string>
 							<string>toggleQuickLook:</string>
-							<string>toggleTurtleSpeed:</string>
 							<string>unsetSpeedLimitGlobal:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -4717,10 +4637,6 @@ AAAAAAAAA</bytes>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">toggleTurtleSpeed:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
 								<string key="name">unsetSpeedLimitGlobal:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -4741,7 +4657,6 @@ AAAAAAAAA</bytes>
 							<string>_groupMainMenu</string>
 							<string>_groupMenu</string>
 							<string>_priorityMainMenu</string>
-							<string>_turtleButton</string>
 							<string>_viewController</string>
 							<string>_window</string>
 						</object>
@@ -4758,7 +4673,6 @@ AAAAAAAAA</bytes>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
 							<string>NSMenu</string>
-							<string>NSButton</string>
 							<string>TorrentViewController</string>
 							<string>NSWindow</string>
 						</object>
@@ -4778,7 +4692,6 @@ AAAAAAAAA</bytes>
 							<string>_groupMainMenu</string>
 							<string>_groupMenu</string>
 							<string>_priorityMainMenu</string>
-							<string>_turtleButton</string>
 							<string>_viewController</string>
 							<string>_window</string>
 						</object>
@@ -4827,10 +4740,6 @@ AAAAAAAAA</bytes>
 							<object class="IBToOneOutletInfo">
 								<string key="name">_priorityMainMenu</string>
 								<string key="candidateClassName">NSMenu</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_turtleButton</string>
-								<string key="candidateClassName">NSButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">_viewController</string>
@@ -6031,7 +5940,6 @@ AAAAAAAAA</bytes>
 				<string>PriorityHigh</string>
 				<string>PriorityLow</string>
 				<string>PriorityNormal</string>
-				<string>TurtleTemplate</string>
 				<string>YingYangTemplate</string>
 			</object>
 			<object class="NSMutableArray" key="dict.values">
@@ -6044,7 +5952,6 @@ AAAAAAAAA</bytes>
 				<string>{14, 14}</string>
 				<string>{14, 14}</string>
 				<string>{14, 14}</string>
-				<string>{20, 14}</string>
 				<string>{10, 12}</string>
 			</object>
 		</object>

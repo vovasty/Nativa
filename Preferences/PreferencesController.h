@@ -24,8 +24,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-extern NSString* const NISpeedLimitDownload;
-extern NSString* const NISpeedLimitUpload;
 extern NSString* const NITrashDownloadDescriptorsKey;
 extern NSString* const NIStartTransferWhenAddedKey;
 extern NSString* const NIProcessListKey;

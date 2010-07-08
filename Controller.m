@@ -57,12 +57,6 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
 	NSMutableDictionary* defaultValues = [NSMutableDictionary dictionary];
 	
 	//Put defaults into dictionary
-	[defaultValues setObject:[NSNumber numberWithInteger:10]
-					  forKey:NISpeedLimitUpload];
-
-	[defaultValues setObject:[NSNumber numberWithInteger:10]
-					  forKey:NISpeedLimitDownload];
-
 	[defaultValues setObject:[NSNumber numberWithBool:YES]
 					  forKey:NITrashDownloadDescriptorsKey];
 
@@ -167,26 +161,6 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
 {
 	[_overlayWindow fadeOut];
 	[[PreferencesController sharedPreferencesController] openPreferences:NIPReferencesViewDefault];
-}
-
--(IBAction)toggleTurtleSpeed:(id)sender
-{
-	__block Controller *blockSelf = self;
-	int speedDownload = [_turtleButton state] == NSOnState?[_defaults integerForKey:NISpeedLimitDownload]*1024:0;
-	[[DownloadsController sharedDownloadsController] 
-	 setGlobalDownloadSpeedLimit:speedDownload
-						response:^(NSString* error)
-						{
-							if (error != nil)
-							{
-								_turtleButton.state=!_turtleButton.state;
-								return;
-							}
-							int speedUpload = [blockSelf->_turtleButton state] == NSOnState?[blockSelf->_defaults integerForKey:NISpeedLimitUpload]*1024:0;
-							[[DownloadsController sharedDownloadsController] 
-								setGlobalUploadSpeedLimit:speedUpload
-												 response:nil];
-						}];
 }
 
 -(IBAction)removeNoDeleteSelectedTorrents:(id)sender
@@ -688,7 +662,6 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
     {
         BOOL isDownloadSpeedLimitSet = [DownloadsController sharedDownloadsController].globalDownloadSpeedLimit>0;
         BOOL isUploadSpeedLimitSet = [DownloadsController sharedDownloadsController].globalUploadSpeedLimit>0;
-        [_turtleButton setState: (isDownloadSpeedLimitSet || isUploadSpeedLimitSet)?NSOnState:NSOffState];
         [_globalUploadSpeedNoLimitMenuItem setState:!isUploadSpeedLimitSet?NSOnState:NSOffState];
         [_globalUploadSpeedLimitMenuItem setState:isUploadSpeedLimitSet?NSOnState:NSOffState];
         [_globalDownloadSpeedNoLimitMenuItem setState:!isDownloadSpeedLimitSet?NSOnState:NSOffState];

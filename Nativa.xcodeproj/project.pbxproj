@@ -43,7 +43,6 @@
 		811B4BFE1127644D008A23C3 /* SecurityFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 811B4BFD1127644D008A23C3 /* SecurityFoundation.framework */; };
 		811B4C0811276542008A23C3 /* SSHCommand.sh in Resources */ = {isa = PBXBuildFile; fileRef = 811B4C0711276542008A23C3 /* SSHCommand.sh */; };
 		811EA5601111F5A6001D16D0 /* RTorrentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811EA55F1111F5A6001D16D0 /* RTorrentController.m */; };
-		811EA5D31111FAD1001D16D0 /* TurtleTemplate.png in Resources */ = {isa = PBXBuildFile; fileRef = 811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */; };
 		8127692A111BEAC100D8749B /* Nativa.icns in Resources */ = {isa = PBXBuildFile; fileRef = 81276929111BEAC100D8749B /* Nativa.icns */; };
 		812A725010FD0A0300795D8B /* RTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A724F10FD0A0300795D8B /* RTConnection.m */; };
 		812A726D10FD0D3D00795D8B /* RTSCGIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A726C10FD0D3D00795D8B /* RTSCGIOperation.m */; };
@@ -189,7 +188,6 @@
 		811B4C0711276542008A23C3 /* SSHCommand.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; name = SSHCommand.sh; path = SSH/SSHCommand.sh; sourceTree = "<group>"; };
 		811EA55E1111F5A6001D16D0 /* RTorrentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTorrentController.h; sourceTree = "<group>"; };
 		811EA55F1111F5A6001D16D0 /* RTorrentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTorrentController.m; sourceTree = "<group>"; };
-		811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TurtleTemplate.png; sourceTree = "<group>"; };
 		81276929111BEAC100D8749B /* Nativa.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Nativa.icns; sourceTree = "<group>"; };
 		812A710710FCFB1600795D8B /* TorrentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TorrentController.h; sourceTree = "<group>"; };
 		812A724E10FD0A0300795D8B /* RTConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTConnection.h; sourceTree = "<group>"; };
@@ -571,7 +569,6 @@
 				810AEF35111335B000933772 /* ToolbarPauseSelectedTemplate.png */,
 				810AEF36111335B000933772 /* ToolbarResumeSelectedTemplate.png */,
 				810AEEFC11132FE400933772 /* ToolbarRemoveTemplate.png */,
-				811EA5D21111FAD1001D16D0 /* TurtleTemplate.png */,
 			);
 			path = images;
 			sourceTree = "<group>";
@@ -704,7 +701,6 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
-				811EA5D31111FAD1001D16D0 /* TurtleTemplate.png in Resources */,
 				810AEEFD11132FE400933772 /* ToolbarRemoveTemplate.png in Resources */,
 				810AEF37111335B000933772 /* ToolbarPauseSelectedTemplate.png in Resources */,
 				810AEF38111335B000933772 /* ToolbarResumeSelectedTemplate.png in Resources */,
