@@ -43,8 +43,6 @@
 	IBOutlet TorrentViewController	*_viewController;
     CGFloat                         _savedGlobalDownloadSpeedLimit;
     CGFloat                         _savedGlobalUploadSpeedLimit;
-    double                          _globalSpeedLimit;
-    IBOutlet NSSlider               *_globalSpeedLimitSlider;
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
@@ -68,5 +66,4 @@
 - (NSMenu *) contextRowMenu;
 - (void) setPriorityForSelectedTorrents: (id) sender;
 -(IBAction)moveSelectedTorrentsData:(id)sender;
-@property double                    globalSpeedLimit;
 @end

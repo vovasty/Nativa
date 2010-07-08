@@ -22,16 +22,20 @@
 #import "DownloadsController.h"
 #import "NSDataAdditions.h"
 #import "NSStringTorrentAdditions.h"
+#import "PreferencesController.h"
 
-static NSString* GlobalUploadContext = @"GlobalUploadContext";
+static NSString* GlobalUploadContext            = @"GlobalUploadContext";
 
-static NSString* GlobalDownloadContext = @"GlobalDownloadContext";
+static NSString* GlobalDownloadContext          = @"GlobalDownloadContext";
 
-static NSString* SpaceLeftContext = @"SpaceLeftContext";
+static NSString* SpaceLeftContext               = @"SpaceLeftContext";
 
-static NSString* GlobalUploadSizeContext = @"GlobalUploadSizeContext";
+static NSString* GlobalUploadSizeContext        = @"GlobalUploadSizeContext";
 
-static NSString* GlobalRatioContext = @"GlobalRatioContext";
+static NSString* GlobalRatioContext             = @"GlobalRatioContext";
+
+static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedContext";
+
 
 typedef enum
 {
@@ -52,6 +56,19 @@ typedef enum
 @end
 
 @implementation StatusbarController
+
+@dynamic globalSpeedLimit;
+
+- (id)init
+{
+    if (self = [super init]) 
+	{
+        _globalSpeedLimit = 0.01; //for some reason sider do not want set zero on start
+    }
+    return self;
+}
+
+
 - (void)awakeFromNib
 {
 	[[DownloadsController sharedDownloadsController] addObserver:self
@@ -63,8 +80,60 @@ typedef enum
 				options:0
 				context:&GlobalUploadContext];
 
+    [[DownloadsController sharedDownloadsController] addObserver:self
+                                                      forKeyPath:@"globalDownloadSpeedLimit"
+                                                         options:0
+                                                         context:&GlobalSpeedLimitChangedContext];
+    
+    [[DownloadsController sharedDownloadsController] addObserver:self
+                                                      forKeyPath:@"globalUploadSpeedLimit"
+                                                         options:0
+                                                         context:&GlobalSpeedLimitChangedContext];
+    
 	[self changeStatusLabel];
 	
+}
+
+-(void) setGlobalSpeedLimit: (double) value
+{
+    NSInteger uploadSpeed;
+    NSInteger downloadSpeed;
+    if (value == 100.0)
+    {
+        downloadSpeed = 0;
+        uploadSpeed = 0;
+    }
+    else if (value == 0.0)
+    {
+        downloadSpeed = 5*1024;
+        uploadSpeed = 5*1024;
+    }
+    else
+    {
+        downloadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitDownload]/100*value;
+        uploadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitUpload]/100*value;
+        if (downloadSpeed == 0)
+            downloadSpeed = 5*1024;
+        if (uploadSpeed == 0)
+            uploadSpeed = 5*1024;
+    }
+    
+        //NSLog(@"%d %d %d", uploadSpeed, uploadSpeed, downloadSpeed);
+    
+    [[DownloadsController sharedDownloadsController] 
+     setGlobalUploadSpeedLimit:uploadSpeed
+     response:nil];
+    
+    [[DownloadsController sharedDownloadsController] 
+     setGlobalDownloadSpeedLimit:downloadSpeed
+     response:nil];
+    
+    _globalSpeedLimit = value;
+}
+
+-(double) globalSpeedLimit
+{
+    return _globalSpeedLimit;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -76,8 +145,8 @@ typedef enum
     {
 		CGFloat up = [DownloadsController sharedDownloadsController].globalUploadSpeed;
 		CGFloat down = [DownloadsController sharedDownloadsController].globalDownloadSpeed;
-		[_globalSpeedUp setStringValue:[NSString stringForSpeed:up]];
-		[_globalSpeedDown setStringValue:[NSString stringForSpeed:down]];
+        [_dowloadSpeedButton setTitle: [NSString stringForSpeed:down]];
+        [_uploadSpeedButton setTitle: [NSString stringForSpeed:up]];
     }
 	else if (context == &SpaceLeftContext)
     {
@@ -94,6 +163,24 @@ typedef enum
     {
 		[_statusButton setTitle:[NSString stringWithFormat: @"Ratio: %@", 
 								 [NSString stringForRatio:[DownloadsController sharedDownloadsController].globalRatio]]];
+    }
+	else if (context == &GlobalSpeedLimitChangedContext)
+    {
+            // compute global speed limit (UL+DL)
+        double computedSpeedLimit = ([DownloadsController sharedDownloadsController].globalUploadSpeedLimit+
+                                     [DownloadsController sharedDownloadsController].globalDownloadSpeedLimit);
+        
+        if (computedSpeedLimit>0)
+        {
+                // max speed limit will be maxUL+maxDL
+            double maxSpeedLimit = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitUpload]+
+            [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitDownload];
+            
+            [_globalSpeedLimitSlider setDoubleValue:100*(computedSpeedLimit/maxSpeedLimit)];
+        }
+        else
+            [_globalSpeedLimitSlider setDoubleValue:100]; //no limit
+        
     }
     else
     {
@@ -137,7 +224,7 @@ typedef enum
     NSRect statusFrame = [_statusButton frame];
     statusFrame.size.width -= 25.0;
     
-    CGFloat difference = NSMaxX(statusFrame) + 5.0 - [_totalDLImageView frame].origin.x;
+    CGFloat difference = NSMaxX(statusFrame) + 5.0 - [_dowloadSpeedButton frame].origin.x;
     if (difference > 0)
         statusFrame.size.width -= difference;
     

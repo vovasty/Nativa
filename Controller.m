@@ -21,7 +21,6 @@
 #import "Controller.h"
 #import "DownloadsController.h"
 #import "PreferencesController.h"
-#import "PreferencesController.h"
 #import "TorrentViewController.h"
 #import "Torrent.h"
 #import "TorrentTableView.h"
@@ -51,7 +50,6 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
 @end
 
 @implementation Controller
-@dynamic globalSpeedLimit;
 
 +(void) initialize
 {
@@ -98,7 +96,6 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
     if (self = [super init]) 
 	{
 		_defaults = [NSUserDefaults standardUserDefaults];
-        _globalSpeedLimit = 0.01; //for some reason sider do not want set zero on start
     }
     return self;
 }
@@ -159,49 +156,6 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
 		}];
 	}
 }
-
--(void) setGlobalSpeedLimit: (double) value
-{
-    NSInteger uploadSpeed;
-    NSInteger downloadSpeed;
-    if (value == 100.0)
-    {
-        downloadSpeed = 0;
-        uploadSpeed = 0;
-    }
-    else if (value == 0.0)
-    {
-        downloadSpeed = 5*1024;
-        uploadSpeed = 5*1024;
-    }
-    else
-    {
-        downloadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitDownload]/100*value;
-        uploadSpeed = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitUpload]/100*value;
-        if (downloadSpeed == 0)
-            downloadSpeed = 5*1024;
-        if (uploadSpeed == 0)
-            uploadSpeed = 5*1024;
-    }
-    
-    NSLog(@"%d %d %d", uploadSpeed, uploadSpeed, downloadSpeed);
-
-    [[DownloadsController sharedDownloadsController] 
-     setGlobalUploadSpeedLimit:uploadSpeed
-     response:nil];
-
-    [[DownloadsController sharedDownloadsController] 
-         setGlobalDownloadSpeedLimit:downloadSpeed
-         response:nil];
-    
-    _globalSpeedLimit = value;
-}
-
--(double) globalSpeedLimit
-{
-    return _globalSpeedLimit;
-}
-
 
 -(IBAction)showPreferencePanel:(id)sender;
 {
@@ -430,7 +384,7 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
     }
     else if (menu == _globalUploadSpeedLimitMenu || menu == _globalDownloadSpeedLimitMenu)
     {
-        if ([menu numberOfItems] > 3)
+        if ([menu numberOfItems] > 4)
             return;
         
         const NSInteger speedLimitActionValue[] = { 5, 10, 20, 30, 40, 50, 75, 100, 150, 200, 250, 500, 750, 1000, 1500, 2000, -1 };
@@ -733,22 +687,6 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
         [_globalUploadSpeedLimitMenuItem setState:isUploadSpeedLimitSet?NSOnState:NSOffState];
         [_globalDownloadSpeedNoLimitMenuItem setState:!isDownloadSpeedLimitSet?NSOnState:NSOffState];
         [_globalDownloadSpeedLimitMenuItem setState:isDownloadSpeedLimitSet?NSOnState:NSOffState];
-
-        // compute global speed limit (UL+DL)
-        double computedSpeedLimit = ([DownloadsController sharedDownloadsController].globalUploadSpeedLimit+
-            [DownloadsController sharedDownloadsController].globalDownloadSpeedLimit);
-
-        if (computedSpeedLimit>0)
-        {
-            // max speed limit will be maxUL+maxDL
-            double maxSpeedLimit = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitUpload]+
-                                    [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitDownload];
-
-            [_globalSpeedLimitSlider setDoubleValue:100*(computedSpeedLimit/maxSpeedLimit)];
-        }
-        else
-            [_globalSpeedLimitSlider setDoubleValue:100]; //no limit
-        
         if (isDownloadSpeedLimitSet)
         {
             _savedGlobalDownloadSpeedLimit = [DownloadsController sharedDownloadsController].globalDownloadSpeedLimit;

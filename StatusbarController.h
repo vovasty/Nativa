@@ -23,11 +23,13 @@
 
 @interface StatusbarController : NSObject 
 {
-	IBOutlet NSTextField	* _globalSpeedDown;
-	IBOutlet NSTextField	* _globalSpeedUp;
 	IBOutlet NSButton		* _statusButton;
-	IBOutlet NSImageView    * _totalDLImageView;
 	NSString				*_currentObserver;
+    IBOutlet NSButton       *_dowloadSpeedButton;
+    IBOutlet NSButton       *_uploadSpeedButton;
+    IBOutlet NSSlider       *_globalSpeedLimitSlider;
+    double                  _globalSpeedLimit;
 }
 - (void) setStatusLabel: (id) sender;
+@property double            globalSpeedLimit;
 @end
