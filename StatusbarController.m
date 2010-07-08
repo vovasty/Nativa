@@ -165,10 +165,15 @@ typedef enum
 	else if (context == &GlobalSpeedLimitChangedContext)
     {
             // compute global speed limit (UL+DL)
-        double computedSpeedLimit = ([DownloadsController sharedDownloadsController].globalUploadSpeedLimit+
-                                     [DownloadsController sharedDownloadsController].globalDownloadSpeedLimit);
-        
-        if (computedSpeedLimit>0)
+        double maxDownload = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitMaxDownload]*1024;
+        double maxUpload = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitMaxUpload]*1024;
+        double tmp=[DownloadsController sharedDownloadsController].globalDownloadSpeedLimit;
+        double computedSpeedLimit = tmp>0?tmp:maxDownload;
+        tmp=[DownloadsController sharedDownloadsController].globalUploadSpeedLimit;
+        computedSpeedLimit += tmp>0?tmp:maxUpload;
+        if (computedSpeedLimit == (maxUpload+maxDownload))
+            [_globalSpeedLimitSlider setDoubleValue:100]; //no limit
+        else
         {
                 // max speed limit will be maxUL+maxDL
             double maxSpeedLimit = [[NSUserDefaults standardUserDefaults] doubleForKey:NIGlobalSpeedLimitMaxUpload]*1024+
@@ -176,9 +181,6 @@ typedef enum
             
             [_globalSpeedLimitSlider setDoubleValue:100*(computedSpeedLimit/maxSpeedLimit)];
         }
-        else
-            [_globalSpeedLimitSlider setDoubleValue:100]; //no limit
-        
     }
     else
     {
