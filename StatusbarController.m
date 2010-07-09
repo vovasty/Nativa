@@ -68,7 +68,11 @@ typedef enum
     return self;
 }
 
-
+-(void) dealloc
+{
+    [_currentObserver release];
+    [super dealloc];
+}
 - (void)awakeFromNib
 {
 	[[DownloadsController sharedDownloadsController] addObserver:self
