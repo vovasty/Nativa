@@ -46,6 +46,8 @@
 		8127692A111BEAC100D8749B /* Nativa.icns in Resources */ = {isa = PBXBuildFile; fileRef = 81276929111BEAC100D8749B /* Nativa.icns */; };
 		812A725010FD0A0300795D8B /* RTConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A724F10FD0A0300795D8B /* RTConnection.m */; };
 		812A726D10FD0D3D00795D8B /* RTSCGIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 812A726C10FD0D3D00795D8B /* RTSCGIOperation.m */; };
+		813AC4DC11E7C31900F5A9B8 /* BWToolkitFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 813AC4DB11E7C31900F5A9B8 /* BWToolkitFramework.framework */; };
+		813AC51311E7C33000F5A9B8 /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 813AC4DB11E7C31900F5A9B8 /* BWToolkitFramework.framework */; };
 		814FF9761100AB7100335707 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF9691100AB7100335707 /* NSDataAdditions.m */; };
 		814FF9771100AB7100335707 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF96B1100AB7100335707 /* NSStringAdditions.m */; };
 		814FF9781100AB7100335707 /* XMLRPCEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF96D1100AB7100335707 /* XMLRPCEncoder.m */; };
@@ -120,6 +122,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				813AC51311E7C33000F5A9B8 /* BWToolkitFramework.framework in CopyFiles */,
 				81F07D5311791C9A008A297A /* Sparkle.framework in CopyFiles */,
 				81F07D4811791C76008A297A /* Growl.framework in CopyFiles */,
 			);
@@ -195,6 +198,7 @@
 		812A726B10FD0D3D00795D8B /* RTSCGIOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTSCGIOperation.h; sourceTree = "<group>"; };
 		812A726C10FD0D3D00795D8B /* RTSCGIOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RTSCGIOperation.m; sourceTree = "<group>"; };
 		812A731B10FD1CC500795D8B /* RTorrentCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTorrentCommand.h; sourceTree = "<group>"; };
+		813AC4DB11E7C31900F5A9B8 /* BWToolkitFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = BWToolkitFramework.framework; path = frameworks/BWToolkitFramework.framework; sourceTree = "<group>"; };
 		814FF9681100AB7100335707 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAdditions.h; sourceTree = "<group>"; };
 		814FF9691100AB7100335707 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
 		814FF96A1100AB7100335707 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
@@ -302,6 +306,7 @@
 				81E76DF41141BDAD000C37D6 /* Quartz.framework in Frameworks */,
 				81F07D4111791C5E008A297A /* Growl.framework in Frameworks */,
 				81F07D5211791C96008A297A /* Sparkle.framework in Frameworks */,
+				813AC4DC11E7C31900F5A9B8 /* BWToolkitFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +346,7 @@
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 				811B4BFB1127644D008A23C3 /* Security.framework */,
 				811B4BFD1127644D008A23C3 /* SecurityFoundation.framework */,
+				813AC4DB11E7C31900F5A9B8 /* BWToolkitFramework.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";

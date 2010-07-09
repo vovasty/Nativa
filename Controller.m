@@ -37,7 +37,7 @@
 #define ACTION_MENU_PRIORITY_NORMAL_TAG 102
 #define ACTION_MENU_PRIORITY_LOW_TAG 103
 
-#define WINDOW_REGULAR_WIDTH    468.0
+#define WINDOW_REGULAR_WIDTH    500.0
 #define	MENU_BAR_HEIGHT 21
 
 static NSString* DownloadsViewChangedContext            = @"DownloadsViewChangedContext";
@@ -575,6 +575,12 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
     return frame;
 }
 
+- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
+{
+    if (frameSize.width<WINDOW_REGULAR_WIDTH)
+        frameSize.width = WINDOW_REGULAR_WIDTH;
+    return frameSize;
+}
 @end
 
 @implementation Controller(Private)

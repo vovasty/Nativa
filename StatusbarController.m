@@ -160,11 +160,13 @@ typedef enum
 		[_statusButton setTitle:[NSString stringWithFormat: @"DL: %@ UL: %@", 
 								 [NSString stringForFileSize:[DownloadsController sharedDownloadsController].globalDownloadSize],
 								 [NSString stringForFileSize:[DownloadsController sharedDownloadsController].globalUploadSize]]];
+        [self resizeStatusButton];
     }
 	else if (context == &GlobalRatioContext)
     {
 		[_statusButton setTitle:[NSString stringWithFormat: @"Ratio: %@", 
 								 [NSString stringForRatio:[DownloadsController sharedDownloadsController].globalRatio]]];
+        [self resizeStatusButton];
     }
 	else if (context == &GlobalSpeedLimitChangedContext)
     {
@@ -228,7 +230,7 @@ typedef enum
     NSRect statusFrame = [_statusButton frame];
     statusFrame.size.width -= 25.0;
     
-    CGFloat difference = NSMaxX(statusFrame) + 5.0 - [_dowloadSpeedButton frame].origin.x;
+    CGFloat difference = NSMaxX(statusFrame) + 5.0 - [_globalSpeedLimitSlider frame].origin.x;
     if (difference > 0)
         statusFrame.size.width -= difference;
     
