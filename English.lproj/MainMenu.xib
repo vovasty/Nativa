@@ -1781,7 +1781,7 @@ AAAAAAAAA</bytes>
 						<object class="NSPopUpButton" id="110318546">
 							<reference key="NSNextResponder" ref="439893737"/>
 							<int key="NSvFlags">260</int>
-							<string key="NSFrame">{{0, 4}, {103, 17}}</string>
+							<string key="NSFrame">{{4, 3}, {103, 17}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSPopUpButtonCell" key="NSCell" id="610440021">
@@ -2013,10 +2013,10 @@ AAAAAAAAA</bytes>
 									<int key="NSCellFlags">67239424</int>
 									<int key="NSCellFlags2">134217728</int>
 									<string key="NSContents">Button</string>
-									<object class="NSFont" key="NSSupport" id="28">
+									<object class="NSFont" key="NSSupport" id="384560181">
 										<string key="NSName">LucidaGrande</string>
 										<double key="NSSize">12</double>
-										<int key="NSfFlags">4883</int>
+										<int key="NSfFlags">16</int>
 									</object>
 									<reference key="NSControlView" ref="9876863"/>
 									<string key="NSAction">setSliderToMinimum</string>
@@ -2064,7 +2064,7 @@ AAMAAAABAAEAAAFSAAMAAAABAAIAAAFTAAMAAAAEAAAChgAAAAAACAAIAAgACAABAAEAAQABA</bytes
 									<int key="NSCellFlags">67239424</int>
 									<int key="NSCellFlags2">134217728</int>
 									<string key="NSContents">Button</string>
-									<reference key="NSSupport" ref="28"/>
+									<reference key="NSSupport" ref="384560181"/>
 									<reference key="NSControlView" ref="852045223"/>
 									<string key="NSAction">setSliderToMaximum</string>
 									<reference key="NSTarget" ref="676950283"/>
@@ -4247,6 +4247,10 @@ A1YAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>1363.IBPluginDependency</string>
 					<string>1367.IBPluginDependency</string>
 					<string>1368.IBPluginDependency</string>
+					<string>1372.IBPluginDependency</string>
+					<string>1373.IBPluginDependency</string>
+					<string>1374.IBPluginDependency</string>
+					<string>1375.IBPluginDependency</string>
 					<string>143.IBPluginDependency</string>
 					<string>143.ImportedFromIB2</string>
 					<string>144.IBPluginDependency</string>
@@ -4538,6 +4542,10 @@ A1YAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.brandonwalkin.BWToolkit</string>
 					<string>com.brandonwalkin.BWToolkit</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
