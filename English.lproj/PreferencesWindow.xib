@@ -22,6 +22,7 @@
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="551"/>
+			<integer value="599"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -239,7 +240,7 @@
 				<string key="NSExtension">NSResponder</string>
 			</object>
 			<object class="NSCustomView" id="957954228">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -675,13 +676,13 @@
 										<object class="NSTextField" id="285895300">
 											<reference key="NSNextResponder" ref="652547547"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{164, 60}, {71, 17}}</string>
+											<string key="NSFrame">{{159, 60}, {76, 17}}</string>
 											<reference key="NSSuperview" ref="652547547"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSTextFieldCell" key="NSCell" id="727247468">
 												<int key="NSCellFlags">605158976</int>
 												<int key="NSCellFlags2">272630784</int>
-												<string key="NSContents">Username:</string>
+												<string key="NSContents">User name:</string>
 												<reference key="NSSupport" ref="884388995"/>
 												<reference key="NSControlView" ref="285895300"/>
 												<reference key="NSBackgroundColor" ref="311040948"/>
@@ -745,13 +746,13 @@
 										<object class="NSButton" id="157422017">
 											<reference key="NSNextResponder" ref="652547547"/>
 											<int key="NSvFlags">268</int>
-											<string key="NSFrame">{{238, 5}, {189, 18}}</string>
+											<string key="NSFrame">{{238, 5}, {243, 18}}</string>
 											<reference key="NSSuperview" ref="652547547"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSButtonCell" key="NSCell" id="582728111">
 												<int key="NSCellFlags">-2080244224</int>
 												<int key="NSCellFlags2">0</int>
-												<string key="NSContents">I'm using private key login</string>
+												<string key="NSContents">I'm using public key authentication</string>
 												<reference key="NSSupport" ref="884388995"/>
 												<reference key="NSControlView" ref="157422017"/>
 												<int key="NSButtonFlags">1211912703</int>
@@ -1079,6 +1080,7 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{542, 338}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 				<string key="NSExtension">NSResponder</string>
 			</object>
