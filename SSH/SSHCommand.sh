@@ -18,7 +18,7 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 expect_user -re "(.*)\n"
-
+puts "password: "
 set password $expect_out(1,string)
 
 set arguments "[lindex $argv 0] -v"
@@ -34,6 +34,7 @@ match_max 10000
 set timeout 30
 
 if {$password eq ""} {
+    puts "USING PRIVATE KEY AUTHENTICATION\n"
 	expect {
 		"?sh: Error*" {puts "CONNECTION_ERROR"; exit};
 		"*yes/no*" {send "yes\r"; exp_continue};
@@ -45,6 +46,7 @@ if {$password eq ""} {
 	}
 
 } else {
+    puts "USING PASSWORD AUTHENTICATION\n"
 	expect {
 		"?sh: Error*" {puts "CONNECTION_ERROR"; exit};
 		"*yes/no*" {send "yes\r"; exp_continue};
