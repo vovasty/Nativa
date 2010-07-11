@@ -6,7 +6,7 @@
 @implementation SetupAssistantController
 
 @dynamic currentView;
-@synthesize sshHost, sshUsername, sshPassword, sshUsePrivateKey, errorMessage;
+@synthesize sshHost, sshUsername, sshPassword, sshUsePrivateKey, errorMessage, checking;
 ;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
@@ -86,7 +86,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 - (IBAction)checkSSH:(id)sender
 {
     [[self window] makeFirstResponder: nil];
-    errorMessage = nil;
+    [self setErrorMessage: nil];
+    [sshProxy closeTunnel];
+    [sshProxy release];
     
     NSArray *sshHostPort = [sshHost componentsSeparatedByString: @":"];
 
@@ -98,7 +100,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     server.useSSHV2 = NO;
     server.compressionLevel = 0;
     
-    [sshProxy release];
     sshProxy = [[AMSession alloc] init];
     sshProxy.sessionName = @"test";
 	sshProxy.remoteHost = @"127.0.0.1";
@@ -111,8 +112,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 	sshProxy.autoReconnect = NO;
     [server release];
 	[sshProxy retain];
-	
+	[self setChecking:YES];
     [sshProxy openTunnel:^(AMSession *sender){
+        [self setChecking:NO];
         if ([sender connected])
         {
             useSSH = YES;
@@ -120,6 +122,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
         }
         else
             [self setErrorMessage: [sender error]];
+
+        [sshProxy closeTunnel];
     }];
 }
 @end

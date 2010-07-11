@@ -5,25 +5,24 @@
 
 @interface SetupAssistantController : NSWindowController
 {
-    IBOutlet NSView         *currentView;
-    IBOutlet NSView         *startView;
-    IBOutlet NSView         *configureSSHView;
-    IBOutlet NSView         *configureSCGIView;
+    IBOutlet NSView              *currentView;
+    IBOutlet NSView              *startView;
+    IBOutlet NSView              *configureSSHView;
+    IBOutlet NSView              *configureSCGIView;
     
-    CATransition            *transition;
+    CATransition                 *transition;
     
-    NSString                *errorMessage;
+    NSString                     *errorMessage;
     
-    BOOL                    useSSH;
+    BOOL                         useSSH;
     
-    NSString                *sshHost;
-    NSString                *sshUsername;
-    NSString                *sshPassword;
-    BOOL                    sshUsePrivateKey;
-    
-    IBOutlet id             sshFirstResponder;
-    
-    AMSession                *sshProxy;
+    NSString                     *sshHost;
+    NSString                     *sshUsername;
+    NSString                     *sshPassword;
+    BOOL                         sshUsePrivateKey;
+    IBOutlet id                  sshFirstResponder;
+    AMSession                    *sshProxy;
+    BOOL                         checking;
 }
 + (SetupAssistantController *)sharedSetupAssistantController;
 - (void) openSetupAssistant;
@@ -36,6 +35,8 @@
 @property (retain) NSString  *sshUsername;
 @property (retain) NSString  *sshPassword;
 @property (assign) BOOL      sshUsePrivateKey;
+
+@property (assign) BOOL      checking;
 
 - (IBAction)showStartView:(id)sender;
 - (IBAction)showConfigureSSHView:(id)sender;
