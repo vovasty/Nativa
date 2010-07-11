@@ -109,7 +109,7 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 		_connected = NO;
 		_connecting = YES;
 		[self didChangeValueForKey:@"connecting"];
-		[_proxy openTunnel];
+		[_proxy openTunnel:nil];
 	}
 }
 

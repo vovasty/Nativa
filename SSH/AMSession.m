@@ -36,6 +36,7 @@
 @synthesize remotePort;
 @synthesize localPort;
 @dynamic	error;
+@synthesize openTunnelHandler;
 
 #pragma mark Initilizations
 
@@ -66,6 +67,7 @@
 	[outputContent release];
 	[error release];
 	[currentServer release];
+    [self setOpenTunnelHandler:nil];
 	[super dealloc];
 }
 
@@ -103,12 +105,13 @@
 
 #pragma mark Control methods
 
-- (void) openTunnel
+- (void) openTunnel:(void (^)(AMSession *sender))handler;
 {
 	NSString			*helperPath;
 	NSArray				*args;
 	NSString            *argumentsString;
 	
+    [self setOpenTunnelHandler:handler];
 	_connectionInProgress = YES;
 	_connected = NO;
 
@@ -160,7 +163,7 @@
 	
 	[sshTask launch];
 
-	[inputHandle writeData:[[[currentServer password] stringByAppendingString:@"\n"] dataUsingEncoding: NSASCIIStringEncoding]];
+	[inputHandle writeData:[[([currentServer password]==nil?@"":[currentServer password]) stringByAppendingString:@"\n"] dataUsingEncoding: NSASCIIStringEncoding]];
 
 	NSLog(@"Session %@ is now launched.", [self sessionName]);
 	[killTimer invalidate];
@@ -206,7 +209,7 @@
 	{
 		NSLog(@"reconnecting ssh tunnel ...");
 		autoReconnectTimes++;
-		[self openTunnel];
+		[self openTunnel:openTunnelHandler];
 	}
 	else 
 	{
@@ -220,6 +223,8 @@
 		_connected = NO;
 		[self didChangeValueForKey:@"connectionInProgress"];
 		[self didChangeValueForKey:@"connected"];
+        if (openTunnelHandler != nil)
+            openTunnelHandler(self);
 	}
 
 }
@@ -277,7 +282,7 @@
 		}		
 		else if ([checkWrongHostname evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: [NSString stringWithFormat:@"No one in this world knows your server name %@.", remoteHost]];
+			[self setError: [NSString stringWithFormat:@"No one in this world knows your server name %@.", [currentServer host]]];
 			[self terminateTask];
 		}		
 		else if ([checkTimeout evaluateWithObject:outputContent] == YES)
@@ -302,6 +307,9 @@
 			[self didChangeValueForKey:@"connected"];
 			//reset autoreconnect counter
 			autoReconnectTimes = 0;
+            if (openTunnelHandler != nil)
+                openTunnelHandler(self);
+
 		}
 		else
 			[outputHandle readInBackgroundAndNotify];

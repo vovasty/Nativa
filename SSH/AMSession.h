@@ -45,6 +45,7 @@ extern	NSString const *AMNewErrorMessage;
 	SFAuthorization *auth;
 	NSTimer			*killTimer;
 
+    void (^openTunnelHandler)(AMSession *sender);
 
 }
 @property(readonly)				BOOL				connected;
@@ -58,10 +59,12 @@ extern	NSString const *AMNewErrorMessage;
 @property						NSUInteger			localPort;
 @property						NSUInteger			remotePort;
 
+@property (copy) void (^openTunnelHandler)(AMSession *sender);
+
 #pragma mark -
 #pragma mark Control methods
 - (void) closeTunnel;
-- (void) openTunnel;
+- (void) openTunnel:(void (^)(AMSession *sender))handler;
 
 #pragma mark -
 #pragma mark Observers and delegates
