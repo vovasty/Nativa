@@ -266,33 +266,33 @@
 		
 		if ([checkError evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: @"Whats wrong with your server?"];
+			[self setError: @"SSH connection error. Look into console for details."];
 			[self terminateTask];
 			
 		}
 		else if ([checkWrongPass evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: @"Liar! You have provided me with wrong password!"];
+			[self setError: @"Wrong SSH password."];
 			[self terminateTask];
 		}
 		else if ([checkRefused evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: @"Your server is very rude rejecting my friendship attempts."];
+			[self setError: @"SSH connection refused."];
 			[self terminateTask];
 		}		
 		else if ([checkWrongHostname evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: [NSString stringWithFormat:@"No one in this world knows your server name %@.", [currentServer host]]];
+			[self setError: [NSString stringWithFormat:@"Wrong SSH host name: %@.", [currentServer host]]];
 			[self terminateTask];
 		}		
 		else if ([checkTimeout evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: @"I am tired of waiting for your server reaction."];
+			[self setError: @"SSH connection timeout. May be you specified password for private key authentication?"];
 			[self terminateTask];
 		}		
 		else if ([checkPort evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: [NSString stringWithFormat:@"You already lend port %d to someone.", localPort]];
+			[self setError: [NSString stringWithFormat:@"SSH unable to bind to port %d.", localPort]];
 			[self terminateTask];
 		}
 		else if ([checkConnected evaluateWithObject:outputContent] == YES)
@@ -320,7 +320,7 @@
 	if (_connected || ![sshTask isRunning])
 		return;
 	
-	[self setError: @"Looks like ssh found something else to think about."];
+	[self setError: @"SSH process not responded."];
 	[self terminateTask];
 }
 -(void)terminateTask
