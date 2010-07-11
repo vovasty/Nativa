@@ -1,9 +1,13 @@
 #import "SetupAssistantController.h"
 #import "SynthesizeSingleton.h"
+#import "AMSession.h"
+#import "AMServer.h"
 
 @implementation SetupAssistantController
 
 @dynamic currentView;
+@synthesize sshHost, sshUsername, sshPassword, sshUsePrivateKey, errorMessage;
+;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 
@@ -15,6 +19,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     }
     
     return self;
+}
+
+-(void) dealloc
+{
+    [sshProxy release];
 }
 
 -(void) openSetupAssistant
@@ -64,8 +73,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 }
 - (IBAction)showConfigureSSHView:(id)sender
 {
+    useSSH = NO;
     [transition setSubtype:kCATransitionFromRight];
     [self setCurrentView:configureSSHView];
+    [[self window] makeFirstResponder:sshFirstResponder];
 }
 - (IBAction)showConfigureSCGIView:(id)sender
 {
@@ -74,6 +85,41 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 }
 - (IBAction)checkSSH:(id)sender
 {
-    [self showConfigureSCGIView:nil];
+    [[self window] makeFirstResponder: nil];
+    errorMessage = nil;
+    
+    NSArray *sshHostPort = [sshHost componentsSeparatedByString: @":"];
+
+    AMServer *server = [[AMServer alloc] init];
+    server.host = [sshHostPort objectAtIndex:0];
+    server.username = sshUsername;
+	server.password = sshPassword;
+	server.port = [sshHostPort count]>1?[sshHostPort objectAtIndex:0]:@"22";
+    server.useSSHV2 = NO;
+    server.compressionLevel = 0;
+    
+    [sshProxy release];
+    sshProxy = [[AMSession alloc] init];
+    sshProxy.sessionName = @"test";
+	sshProxy.remoteHost = @"127.0.0.1";
+	sshProxy.remotePort = 5000;
+		
+    sshProxy.localPort = 5000;
+	
+    sshProxy.currentServer = server;
+	sshProxy.maxAutoReconnectRetries = 1;
+	sshProxy.autoReconnect = NO;
+    [server release];
+	[sshProxy retain];
+	
+    [sshProxy openTunnel:^(AMSession *sender){
+        if ([sender connected])
+        {
+            useSSH = YES;
+            [self showConfigureSCGIView:nil];
+        }
+        else
+            [self setErrorMessage: [sender error]];
+    }];
 }
 @end
