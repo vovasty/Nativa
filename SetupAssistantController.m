@@ -73,6 +73,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 }
 - (IBAction)showConfigureSSHView:(id)sender
 {
+    [sshProxy closeTunnel];
+    [sshProxy release];
+    sshProxy = nil;
+    [self setChecking:NO];
     useSSH = NO;
     [transition setSubtype:kCATransitionFromRight];
     [self setCurrentView:configureSSHView];
