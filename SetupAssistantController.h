@@ -22,6 +22,7 @@
     BOOL                         sshUsePrivateKey;
     IBOutlet id                  sshFirstResponder;
     AMSession                    *sshProxy;
+    int                          sshLocalPort;
     BOOL                         checking;
 }
 + (SetupAssistantController *)sharedSetupAssistantController;
@@ -35,6 +36,7 @@
 @property (retain) NSString  *sshUsername;
 @property (retain) NSString  *sshPassword;
 @property (assign) BOOL      sshUsePrivateKey;
+@property (assign) int       sshLocalPort;
 
 @property (assign) BOOL      checking;
 
