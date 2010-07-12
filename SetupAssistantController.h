@@ -31,6 +31,8 @@
     ProcessesController          *pc;
     
     void (^openSetupAssistantHandler)(id sender);
+    
+    IBOutlet NSPopUpButton       *_downloadsPathPopUp;
 }
 + (SetupAssistantController *)sharedSetupAssistantController;
 - (void) openSetupAssistant:(void (^)(id sender))handler;
@@ -56,4 +58,5 @@
 - (IBAction)showConfigureSCGIView:(id)sender;
 - (IBAction)checkSSH:(id)sender;
 - (IBAction)checkSCGI:(id)sender;
+- (void) downloadsPathShow: (id) sender;
 @end

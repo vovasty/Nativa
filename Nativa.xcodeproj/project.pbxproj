@@ -331,6 +331,8 @@
 				811B056910F6A055000D1DDC /* UI */,
 				8193C64011619206003DC173 /* EMKeychainItem.h */,
 				8193C64111619206003DC173 /* EMKeychainItem.m */,
+				8140A9C111E91611002D1031 /* SetupAssistantController.h */,
+				8140A9C211E91611002D1031 /* SetupAssistantController.m */,
 				256AC3D80F4B6AC300CF3369 /* NativaAppDelegate.h */,
 				256AC3D90F4B6AC300CF3369 /* NativaAppDelegate.m */,
 				819D3BE81110CD5200F7007C /* DownloadsController.h */,
@@ -499,7 +501,6 @@
 		811B056910F6A055000D1DDC /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				8140A9F111E91783002D1031 /* SetupAssistant */,
 				81079255115C1A7300A87CEA /* Groups */,
 				81FA9EF2113DA50B00FDF920 /* Overlay */,
 				810659071118DA4700674B45 /* Preferences */,
@@ -605,15 +606,6 @@
 				81E774051142DBC4000C37D6 /* RTListCommand.m */,
 			);
 			name = RTorrent;
-			sourceTree = "<group>";
-		};
-		8140A9F111E91783002D1031 /* SetupAssistant */ = {
-			isa = PBXGroup;
-			children = (
-				8140A9C111E91611002D1031 /* SetupAssistantController.h */,
-				8140A9C211E91611002D1031 /* SetupAssistantController.m */,
-			);
-			name = SetupAssistant;
 			sourceTree = "<group>";
 		};
 		814FF9671100AB7100335707 /* XMLRPC */ = {

@@ -30,6 +30,7 @@
 @interface SetupAssistantController(Private)
 - (int) findFreePort:(int) startPort endPort:(int)endPort;
 - (void) checkSettings:(BOOL) checkSSH checkSCGI:(BOOL) checkSCGI handler:(void (^)())handler;
+- (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info;
 @end
 
 @implementation SetupAssistantController
@@ -131,6 +132,23 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
         if (openSetupAssistantHandler != nil)
             openSetupAssistantHandler(self);
     }];
+}
+
+    //show folder doalog for downloads path
+- (void) downloadsPathShow: (id) sender
+{
+    NSOpenPanel * panel = [NSOpenPanel openPanel];
+	
+    [panel setPrompt: NSLocalizedString(@"Select", "Preferences -> Open panel prompt")];
+    [panel setAllowsMultipleSelection: NO];
+    [panel setCanChooseFiles: NO];
+    [panel setCanChooseDirectories: YES];
+    [panel setCanCreateDirectories: YES];
+	
+    [panel beginSheetForDirectory: nil file: nil types: nil
+				   modalForWindow: [self window] modalDelegate: self didEndSelector:
+	 @selector(downloadsPathClosed:returnCode:contextInfo:) contextInfo: nil];
+	
 }
 @end
 @implementation SetupAssistantController(Private)
@@ -265,5 +283,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
         }
 
     }];
+}
+
+- (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info
+{
+    if (code == NSOKButton)
+    {
+		NSString * folder = [[openPanel filenames] objectAtIndex: 0];
+        
+		[pc setLocalDownloadsFolder:folder forIndex:currentProcessIndex];
+		
+        [_downloadsPathPopUp removeItemAtIndex:0];
+        if ([pc localDownloadsFolderForIndex:currentProcessIndex] == nil)
+            [_downloadsPathPopUp insertItemWithTitle:@"" atIndex:0];
+        else
+        {
+            [_downloadsPathPopUp insertItemWithTitle:[[NSFileManager defaultManager] displayNameAtPath: [pc localDownloadsFolderForIndex:currentProcessIndex]] atIndex:0];
+            
+            NSString * path = [[pc localDownloadsFolderForIndex:currentProcessIndex] stringByExpandingTildeInPath];
+            NSImage * icon;
+                //show a folder icon if the folder doesn't exist
+            if ([[path pathExtension] isEqualToString: @""] && ![[NSFileManager defaultManager] fileExistsAtPath: path])
+                icon = [[NSWorkspace sharedWorkspace] iconForFileType: NSFileTypeForHFSTypeCode('fldr')];
+            else
+                icon = [[NSWorkspace sharedWorkspace] iconForFile: path];
+            
+            [icon setSize: NSMakeSize(16.0, 16.0)];
+            NSMenuItem* menuItem = [_downloadsPathPopUp itemAtIndex:0];
+            [menuItem setImage:icon];
+        }
+        [_downloadsPathPopUp selectItemAtIndex: 0];
+		
+    }
 }
 @end
