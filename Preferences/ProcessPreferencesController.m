@@ -96,15 +96,14 @@
     
     [pc setSshCompressionLevel:sshCompressionLevel forIndex:index];
 
-    __block ProcessPreferencesController *blockSelf = self;
-    
-    [pc openProcessForIndex:nil handler:^(NSString *error){
+    [pc openProcessForIndex:index handler:^(NSString *error){
         [pc setMaxReconnects:maxReconnects forIndex:index];
         if (error != nil)
         {
 			NSLog(@"error: %@", error);
 			[[SaveProgressController sharedSaveProgressController] message: error];
 			[[SaveProgressController sharedSaveProgressController] stop];
+            [pc closeProcessForIndex:index];
             return;
         }
         [[self->pc processForIndex:index] list:^(NSArray *array, NSString* error){
@@ -120,6 +119,7 @@
                 
                 [[ProcessesController sharedProcessesController] saveProcesses];
             }
+            [pc closeProcessForIndex:index];
         }];
     }];
 }
