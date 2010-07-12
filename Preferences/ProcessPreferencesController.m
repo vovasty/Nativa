@@ -22,6 +22,7 @@
 #import "ProcessesController.h"
 #import "SaveProgressController.h"
 #import "Controller.h"
+#import "NIHostPort.h"
 
 @interface ProcessPreferencesController(Private)
 
@@ -34,7 +35,7 @@
 
 @implementation ProcessPreferencesController
 
-@synthesize useSSHKeyLogin, useSSHV2, host, port, useSSH, sshHost, sshPort, sshLocalPort, sshUser, sshPassword, groupsField, sshCompressionLevel;
+@synthesize useSSHKeyLogin, useSSHV2, host, port, useSSH, sshHost, sshPort, sshLocalPort, sshUser, sshPassword, groupsField, sshCompressionLevel, errorMessage, checking;
 
 - (void) awakeFromNib
 {
@@ -66,26 +67,24 @@
 
 	NSInteger index = [self currentProcess];
 	
-	[[SaveProgressController sharedSaveProgressController] open: _window 
-														message:NSLocalizedString(@"Checking configuration...", "Preferences -> Save process")
-														handler:^{[pc closeProcessForIndex:index];}];
-
 	//test connection with only one reconnect
 	int maxReconnects = ([pc maxReconnectsForIndex:index] == 0?10:[pc maxReconnectsForIndex:index]);
 
 	[pc setMaxReconnects:0 forIndex:index];
     
-    [pc setHost:host forIndex:index];
+    NIHostPort *scgiHostPort = [NIHostPort parseHostPort:host defaultPort:5000];
     
-    [pc setPort:port forIndex:index];
+    [pc setHost:scgiHostPort.host forIndex:index];
+    
+    [pc setPort:scgiHostPort.port forIndex:index];
     
     [pc setConnectionType:useSSH?@"SSH":@"Local" forIndex:index];
     
-    [pc setSshHost:sshHost forIndex:index];
+    NIHostPort *sshHostPort = [NIHostPort parseHostPort:sshHost defaultPort:22];
     
-    [pc setSshPort:sshPort forIndex:index];
+    [pc setSshHost:sshHostPort.host forIndex:index];
     
-    [pc setSshLocalPort:sshLocalPort forIndex:index];
+    [pc setSshPort:sshHostPort.port forIndex:index];
     
     [pc setSshUser:sshUser forIndex:index];
     
@@ -98,31 +97,29 @@
     [pc setSshUseV2:useSSHV2 forIndex:index];
     
     [pc setSshCompressionLevel:sshCompressionLevel forIndex:index];
+    
+    [pc setSshLocalPort:sshLocalPort forIndex:index];
 
+    [self setErrorMessage:nil];
+    
+    [self setChecking:YES];
+    
     [pc openProcessForIndex:index handler:^(NSString *error){
         [pc setMaxReconnects:maxReconnects forIndex:index];
         if (error != nil)
         {
 			NSLog(@"error: %@", error);
-			[[SaveProgressController sharedSaveProgressController] message: error];
-			[[SaveProgressController sharedSaveProgressController] stop];
+			[self setErrorMessage:error];
+            [self setChecking:NO];
             [pc closeProcessForIndex:index];
-            [controller awake];
             return;
         }
         [[self->pc processForIndex:index] list:^(NSArray *array, NSString* error){
-            if (error != nil)
-            {
-                NSLog(@"error: %@", error);
-                [[SaveProgressController sharedSaveProgressController] message: error];
-                [[SaveProgressController sharedSaveProgressController] stop];
-            }
-            else
-            {
-                [[SaveProgressController sharedSaveProgressController] close:nil];
-                
+			[self setErrorMessage:error];
+            [self setChecking:NO];
+            if (error == nil)
                 [[ProcessesController sharedProcessesController] saveProcesses];
-            }
+
             [pc closeProcessForIndex:index];
             [controller awake];
         }];
@@ -143,10 +140,10 @@
 -(void)updateSelectedProcess
 {
     NSInteger index = [self currentProcess];
-	
-	[self setHost:[pc hostForIndex:index]];
 
-	[self setPort:[pc portForIndex:index]==0?5000:[pc portForIndex:index]];
+	[self setHost:[NSString stringWithFormat:@"%@:%d",
+                    [pc hostForIndex:index],
+                    [pc portForIndex:index]==0?5000:[pc portForIndex:index]]];
 	
 	[self setGroupsField:[pc groupsFieldForIndex:index]];
 		
@@ -172,16 +169,19 @@
 	[_downloadsPathPopUp selectItemAtIndex: 0];
 	
 	[self setUseSSH:[[pc connectionTypeForIndex:index] isEqualToString:@"SSH"]];
-		
-	[self setSshHost:[pc sshHostForIndex:index]];
-		
-	[self setSshPort:[pc sshPortForIndex:index] == 0?22:[pc sshPortForIndex:index]];
 
+    if ([pc sshPortForIndex:index] == 22)
+            [self setSshHost:[pc sshHostForIndex:index]];
+    else
+        [self setSshHost:[NSString stringWithFormat:@"%@:%d",
+                            [pc sshHostForIndex:index],
+                            [pc sshPortForIndex:index]]];
+		
 	[self setSshUser: [pc sshUserForIndex:index]];
 		
 	[self setSshPassword: [pc sshPasswordForIndex:index]];
 	
-	[self setSshLocalPort: [pc sshLocalPortForIndex:index] == 0?5001:[pc sshLocalPortForIndex:index]];
+	[self setSshLocalPort: [pc sshLocalPortForIndex:index] == 0?5000:[pc sshLocalPortForIndex:index]];
 	
 	[self setUseSSHKeyLogin:[pc sshUseKeyLoginForIndex:index]];
     

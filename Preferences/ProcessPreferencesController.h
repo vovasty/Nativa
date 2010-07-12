@@ -36,13 +36,9 @@
     
     NSString                *host;
     
-    NSInteger               port;
-    
     BOOL                    useSSH;
     
     NSString                *sshHost;
-    
-    NSInteger               sshPort;
     
     NSString                *sshUser;
     
@@ -55,6 +51,10 @@
     NSInteger               sshLocalPort;
 
     IBOutlet Controller     *controller;
+    
+    NSString                *errorMessage;
+    
+    BOOL                    checking;
 }
 
 @property BOOL              useSSHKeyLogin;
@@ -80,6 +80,10 @@
 @property NSInteger         groupsField;
 
 @property NSInteger         sshCompressionLevel;
+
+@property (retain) NSString *errorMessage;
+
+@property (assign) BOOL     checking;
 
 - (void) downloadsPathShow: (id) sender;
 
