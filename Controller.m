@@ -147,6 +147,11 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
 
 - (void) awake;
 {
+    if (![NSThread isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(awake) withObject:nil waitUntilDone:NO];
+        return;
+    }
 	if ([[ProcessesController sharedProcessesController] count]>0)
 	{
 		[_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.gif"] mainMessage:@"Connecting ..." message:nil];
@@ -161,13 +166,18 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
 }
 - (void) sleep
 {
+    if (![NSThread isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(sleep) withObject:nil waitUntilDone:NO];
+        return;
+    }
+	[[DownloadsController sharedDownloadsController] stopUpdates];
 	[_overlayWindow fadeOut];
 }
 
 
 -(IBAction)showPreferencePanel:(id)sender;
 {
-	[self sleep];
     [[PreferencesController sharedPreferencesController] openPreferences:NIPReferencesViewDefault];
 }
 

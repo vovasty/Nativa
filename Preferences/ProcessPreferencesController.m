@@ -21,6 +21,7 @@
 #import "ProcessPreferencesController.h"
 #import "ProcessesController.h"
 #import "SaveProgressController.h"
+#import "Controller.h"
 
 @interface ProcessPreferencesController(Private)
 
@@ -59,7 +60,9 @@
 
 - (void) saveProcess: (id) sender
 {
-	[_window makeFirstResponder: nil];
+    [controller sleep];
+
+    [_window makeFirstResponder: nil];
 
 	NSInteger index = [self currentProcess];
 	
@@ -104,6 +107,7 @@
 			[[SaveProgressController sharedSaveProgressController] message: error];
 			[[SaveProgressController sharedSaveProgressController] stop];
             [pc closeProcessForIndex:index];
+            [controller awake];
             return;
         }
         [[self->pc processForIndex:index] list:^(NSArray *array, NSString* error){
@@ -120,6 +124,7 @@
                 [[ProcessesController sharedProcessesController] saveProcesses];
             }
             [pc closeProcessForIndex:index];
+            [controller awake];
         }];
     }];
 }

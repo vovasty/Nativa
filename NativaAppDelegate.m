@@ -68,11 +68,6 @@
 @implementation NativaAppDelegate(Private)
 - (void)showMainWindow
 {
-    if (![NSThread isMainThread])
-    {
-            [self performSelectorOnMainThread:@selector(showMainWindow) withObject:nil waitUntilDone:NO];
-            return;
-    }
     [window orderFront:nil];
     [controller awake];
 }

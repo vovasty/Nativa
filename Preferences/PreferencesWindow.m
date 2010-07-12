@@ -37,9 +37,6 @@
 
 - (void) close
 {
-	[[DownloadsController sharedDownloadsController] stopUpdates];
-	[[DownloadsController sharedDownloadsController] startUpdates:nil];
-
     [self makeFirstResponder: nil]; //essentially saves pref changes on window close
     [super close];
 }

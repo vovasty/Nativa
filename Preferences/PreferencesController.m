@@ -23,7 +23,6 @@
  *****************************************************************************/
 
 #import "PreferencesController.h"
-#import "DownloadsController.h"
 #import "SynthesizeSingleton.h"
 
 #define TOOLBAR_GENERAL     @"TOOLBAR_GENERAL"
@@ -152,7 +151,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PreferencesController);
 
 -(void) openPreferences:(NIPReferencesView) view;
 {
- 	[[DownloadsController sharedDownloadsController] stopUpdates];
 	NSWindow* window = [self window];
 	if (![window isVisible])
         [window center];

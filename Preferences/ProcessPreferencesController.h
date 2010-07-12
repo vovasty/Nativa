@@ -20,7 +20,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class ProcessesController;
+@class ProcessesController, Controller;
 
 @interface ProcessPreferencesController : NSObject
 {
@@ -53,6 +53,8 @@
     NSInteger               sshCompressionLevel;
     
     NSInteger               sshLocalPort;
+
+    IBOutlet Controller     *controller;
 }
 
 @property BOOL              useSSHKeyLogin;
