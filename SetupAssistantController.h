@@ -19,7 +19,7 @@
     NSString                     *sshHost;
     NSString                     *sshUsername;
     NSString                     *sshPassword;
-    BOOL                         sshUsePrivateKey;
+    BOOL                         useSSHKeyLogin;
     IBOutlet id                  sshFirstResponder;
     int                          sshLocalPort;
     BOOL                         checking;
@@ -46,7 +46,7 @@
 @property (retain) NSString  *sshHost;
 @property (retain) NSString  *sshUsername;
 @property (retain) NSString  *sshPassword;
-@property (assign) BOOL      sshUsePrivateKey;
+@property (assign) BOOL      useSSHKeyLogin;
 @property (assign) int       sshLocalPort;
 
 @property (retain) NSString  *scgiHost;

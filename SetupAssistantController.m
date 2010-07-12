@@ -20,8 +20,6 @@
 
 #import "SetupAssistantController.h"
 #import "SynthesizeSingleton.h"
-#import "AMSession.h"
-#import "AMServer.h"
 #import "NIHostPort.h"
 #import "ProcessesController.h"
 
@@ -36,7 +34,7 @@
 @implementation SetupAssistantController
 
 @dynamic currentView;
-@synthesize sshHost, sshUsername, sshPassword, sshUsePrivateKey, errorMessage, checking, sshLocalPort, scgiHost, openSetupAssistantHandler;
+@synthesize sshHost, sshUsername, sshPassword, useSSHKeyLogin, errorMessage, checking, sshLocalPort, scgiHost, openSetupAssistantHandler;
 ;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
@@ -127,7 +125,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 - (IBAction)checkSCGI:(id)sender
 {
     [self checkSettings:useSSH checkSCGI:YES handler:^(){
-            //        [pc saveProcesses];
+        [pc saveProcesses];
         [[self window] close];
         if (openSetupAssistantHandler != nil)
             openSetupAssistantHandler(self);
@@ -149,6 +147,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 				   modalForWindow: [self window] modalDelegate: self didEndSelector:
 	 @selector(downloadsPathClosed:returnCode:contextInfo:) contextInfo: nil];
 	
+}
+
+-(BOOL)validateSshHost:(id *)ioValue error:(NSError **)outError
+{
+    if (*ioValue == nil) {
+        return NO;
+    }
+    return YES;
 }
 @end
 @implementation SetupAssistantController(Private)
@@ -238,7 +244,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     
     [pc setSshPassword:sshPassword forIndex:currentProcessIndex];
     
-    [pc setSshUseKeyLogin:sshUsePrivateKey forIndex:currentProcessIndex];
+    [pc setSshUseKeyLogin:useSSHKeyLogin forIndex:currentProcessIndex];
     
     [pc setGroupsField:1 forIndex:currentProcessIndex];
     
