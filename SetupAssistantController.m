@@ -121,19 +121,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
         if (success)
         {
             useSSH = YES;
-            //try default settings
-            if (success)
-                [self checkSettings:useSSH checkSCGI:YES handler:^(BOOL success){
-                    if (success)
-                    {
-                        [pc saveProcesses];
-                        [[self window] close];
-                        if (openSetupAssistantHandler != nil)
-                            openSetupAssistantHandler(self);
-                    }
-                }];
-            else
-                [self showConfigureSCGIView:nil];
+            [self setErrorMessage: nil];
+            [self showConfigureSCGIView:nil];
         }
     }];
 }
@@ -286,8 +275,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
                 }
                 if (handler)
                     handler(error == nil);
+                
                 [pc closeProcessForIndex:currentProcessIndex];
-
             }];
         }
         else 
