@@ -23,16 +23,21 @@
 #import "ProcessesController.h"
 #import "PreferencesController.h"
 #import "SetupAssistantController.h"
+#import "Controller.h"
 
 @implementation NativaAppDelegate
 
-@synthesize window;
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	if ([[ProcessesController sharedProcessesController] count]==0)
-        [[SetupAssistantController sharedSetupAssistantController] openSetupAssistant];
+        [[SetupAssistantController sharedSetupAssistantController] openSetupAssistant:^(id sender){
+            [window orderFront:nil];
+            [controller awake];
+        }];
     else
+    {
         [window orderFront:nil];
+        [controller awake];
+    }
 }
 
 - (void) application: (NSApplication *) app openFiles: (NSArray *) fileNames

@@ -22,6 +22,8 @@
 #import "SynthesizeSingleton.h"
 #import "AMSession.h"
 #import "AMServer.h"
+#import "NIHostPort.h"
+#import "ProcessesController.h"
 
 #import <netinet/in.h>
 
@@ -32,7 +34,7 @@
 @implementation SetupAssistantController
 
 @dynamic currentView;
-@synthesize sshHost, sshUsername, sshPassword, sshUsePrivateKey, errorMessage, checking, sshLocalPort;
+@synthesize sshHost, sshUsername, sshPassword, sshUsePrivateKey, errorMessage, checking, sshLocalPort, scgiHost, openSetupAssistantHandler;
 ;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
@@ -41,7 +43,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 {
     if ((self = [super initWithWindowNibName: @"SetupAssistant"]))
     {
-        
+        pc = [ProcessesController sharedProcessesController];
+        currentProcessIndex = [pc addProcess];
     }
     
     return self;
@@ -52,8 +55,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     [sshProxy release];
 }
 
--(void) openSetupAssistant
+- (void) openSetupAssistant:(void (^)(id sender))handler
 {
+    [self setOpenSetupAssistantHandler:handler];
 	NSWindow* window = [self window];
 	if (![window isVisible])
         [window center];
@@ -112,6 +116,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 {
     [transition setSubtype:kCATransitionFromRight];
     [self setCurrentView:configureSCGIView];
+    [[self window] makeFirstResponder:scgiFirstResponder];
 }
 - (IBAction)checkSSH:(id)sender
 {
@@ -129,13 +134,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     
     NSLog(@"using %d as local port", sshLocalPort);
     
-    NSArray *sshHostPort = [sshHost componentsSeparatedByString: @":"];
+    NIHostPort *sshHostPort = [NIHostPort parseHostPort:sshHost defaultPort:22];
 
     AMServer *server = [[AMServer alloc] init];
-    server.host = [sshHostPort objectAtIndex:0];
+    server.host = sshHostPort.host;
     server.username = sshUsername;
 	server.password = sshPassword;
-	server.port = [sshHostPort count]>1?[sshHostPort objectAtIndex:0]:@"22";
+	server.port = sshHostPort.port;
     server.useSSHV2 = NO;
     server.compressionLevel = 0;
     
@@ -143,7 +148,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     sshProxy.sessionName = @"test";
 	sshProxy.remoteHost = @"127.0.0.1";
 	sshProxy.remotePort = 5000;
-		
     sshProxy.localPort = sshLocalPort;
 	
     sshProxy.currentServer = server;
@@ -163,6 +167,76 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
             [self setErrorMessage: [sender error]];
 
         [sshProxy closeTunnel];
+        [sshProxy release];
+        sshProxy = nil;
+    }];
+}
+- (IBAction)checkSCGI:(id)sender
+{
+    [[self window] makeFirstResponder: nil];
+    [self setErrorMessage: nil];
+    [sshProxy closeTunnel];
+    [sshProxy release];
+    
+    NIHostPort *scgiHostPort = [NIHostPort parseHostPort:scgiHost defaultPort:5000];
+    
+    NIHostPort *sshHostPort = [NIHostPort parseHostPort:sshHost defaultPort:22];
+    
+    //test connection with only one reconnect
+	int maxReconnects = ([pc maxReconnectsForIndex:currentProcessIndex] == 0?10:[pc maxReconnectsForIndex:currentProcessIndex]);
+    
+	[pc setMaxReconnects:0 forIndex:currentProcessIndex];
+    
+    [pc setHost:scgiHostPort.host forIndex:currentProcessIndex];
+    
+    [pc setPort:scgiHostPort.port forIndex:currentProcessIndex];
+    
+    [pc setConnectionType:useSSH?@"SSH":@"Local" forIndex:currentProcessIndex];
+    
+    [pc setSshHost:sshHostPort.host forIndex:currentProcessIndex];
+    
+    [pc setSshPort:sshHostPort.port forIndex:currentProcessIndex];
+    
+    [pc setSshLocalPort:sshLocalPort forIndex:currentProcessIndex];
+    
+    [pc setSshUser:sshUsername forIndex:currentProcessIndex];
+    
+    [pc setSshPassword:sshPassword forIndex:currentProcessIndex];
+    
+    [pc setSshUseKeyLogin:sshUsePrivateKey forIndex:currentProcessIndex];
+    
+    [pc setGroupsField:1 forIndex:currentProcessIndex];
+    
+    [pc setSshUseV2:NO forIndex:currentProcessIndex];
+    
+    [pc setSshCompressionLevel:0 forIndex:currentProcessIndex];
+    
+    [pc openProcessForIndex:currentProcessIndex handler:^(NSString *error){
+        [pc setMaxReconnects:maxReconnects forIndex:currentProcessIndex];
+        if (error != nil)
+        {
+            NSLog(@"error: %@", error);
+			[self setErrorMessage: error];
+            [pc closeProcessForIndex:currentProcessIndex];
+            return;
+        }
+        [[pc processForIndex:currentProcessIndex] list:^(NSArray *array, NSString* error){
+            if (error != nil)
+            {
+                NSLog(@"error: %@", error);
+                [self setErrorMessage: error];
+                [pc closeProcessForIndex:currentProcessIndex];
+
+            }
+            else
+            {
+                [pc saveProcesses];
+                [pc closeProcessForIndex:currentProcessIndex];
+                if (openSetupAssistantHandler != nil)
+                    openSetupAssistantHandler(self);
+                [[self window] close];
+            }
+        }];
     }];
 }
 @end

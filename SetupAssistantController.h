@@ -1,7 +1,7 @@
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CoreAnimation.h>
 
-@class AMSession;
+@class AMSession, ProcessesController;
 
 @interface SetupAssistantController : NSWindowController
 {
@@ -24,9 +24,19 @@
     AMSession                    *sshProxy;
     int                          sshLocalPort;
     BOOL                         checking;
+    
+    NSString                     *scgiHost;
+    IBOutlet id                  scgiFirstResponder;
+    int                          currentProcessIndex;
+    
+    ProcessesController          *pc;
+    
+    void (^openSetupAssistantHandler)(id sender);
 }
 + (SetupAssistantController *)sharedSetupAssistantController;
-- (void) openSetupAssistant;
+- (void) openSetupAssistant:(void (^)(id sender))handler;
+
+@property (copy) void (^openSetupAssistantHandler)(id sender);
 
 @property (retain) NSView    *currentView;
 
@@ -38,10 +48,13 @@
 @property (assign) BOOL      sshUsePrivateKey;
 @property (assign) int       sshLocalPort;
 
+@property (retain) NSString  *scgiHost;
+
 @property (assign) BOOL      checking;
 
 - (IBAction)showStartView:(id)sender;
 - (IBAction)showConfigureSSHView:(id)sender;
 - (IBAction)showConfigureSCGIView:(id)sender;
 - (IBAction)checkSSH:(id)sender;
+- (IBAction)checkSCGI:(id)sender;
 @end

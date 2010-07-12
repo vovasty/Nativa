@@ -50,6 +50,7 @@
 		813AC51311E7C33000F5A9B8 /* BWToolkitFramework.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 813AC4DB11E7C31900F5A9B8 /* BWToolkitFramework.framework */; };
 		8140A9C311E91611002D1031 /* SetupAssistantController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8140A9C211E91611002D1031 /* SetupAssistantController.m */; };
 		8140AAA411E91FAC002D1031 /* SetupAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8140AAA311E91FAC002D1031 /* SetupAssistant.xib */; };
+		8140AF1711EB23BA002D1031 /* NIHostPort.m in Sources */ = {isa = PBXBuildFile; fileRef = 8140AF1611EB23BA002D1031 /* NIHostPort.m */; };
 		814FF9761100AB7100335707 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF9691100AB7100335707 /* NSDataAdditions.m */; };
 		814FF9771100AB7100335707 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF96B1100AB7100335707 /* NSStringAdditions.m */; };
 		814FF9781100AB7100335707 /* XMLRPCEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 814FF96D1100AB7100335707 /* XMLRPCEncoder.m */; };
@@ -204,6 +205,8 @@
 		8140A9C111E91611002D1031 /* SetupAssistantController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetupAssistantController.h; sourceTree = "<group>"; };
 		8140A9C211E91611002D1031 /* SetupAssistantController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetupAssistantController.m; sourceTree = "<group>"; };
 		8140AAA111E91FA7002D1031 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SetupAssistant.xib; sourceTree = "<group>"; };
+		8140AF1511EB23BA002D1031 /* NIHostPort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIHostPort.h; sourceTree = "<group>"; };
+		8140AF1611EB23BA002D1031 /* NIHostPort.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NIHostPort.m; sourceTree = "<group>"; };
 		814FF9681100AB7100335707 /* NSDataAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAdditions.h; sourceTree = "<group>"; };
 		814FF9691100AB7100335707 /* NSDataAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSDataAdditions.m; sourceTree = "<group>"; };
 		814FF96A1100AB7100335707 /* NSStringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringAdditions.h; sourceTree = "<group>"; };
@@ -483,6 +486,8 @@
 		811B055A10F6A019000D1DDC /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				8140AF1511EB23BA002D1031 /* NIHostPort.h */,
+				8140AF1611EB23BA002D1031 /* NIHostPort.m */,
 				81F07DA3117922E7008A297A /* NSStringSCGIAdditions.h */,
 				81F07DA4117922E7008A297A /* NSStringSCGIAdditions.m */,
 				811B4B6F11275B14008A23C3 /* SSH */,
@@ -829,6 +834,7 @@
 				81F2107211826FA6006DE1FD /* NSStringRTorrentAdditions.m in Sources */,
 				81C7E0941184B9DE00987846 /* MoveDataController.m in Sources */,
 				8140A9C311E91611002D1031 /* SetupAssistantController.m in Sources */,
+				8140AF1711EB23BA002D1031 /* NIHostPort.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

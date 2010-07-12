@@ -143,7 +143,10 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
                      forKeyPath:@"globalUploadSpeedLimit"
                         options:0
                         context:&GlobalSpeedLimitChangedContext];
+}
 
+- (void) awake;
+{
 	if ([[ProcessesController sharedProcessesController] count]>0)
 	{
 		[_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.gif"] mainMessage:@"Connecting ..." message:nil];
@@ -156,11 +159,16 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
 		}];
 	}
 }
+- (void) sleep
+{
+	[_overlayWindow fadeOut];
+}
+
 
 -(IBAction)showPreferencePanel:(id)sender;
 {
-	[_overlayWindow fadeOut];
-	[[PreferencesController sharedPreferencesController] openPreferences:NIPReferencesViewDefault];
+	[self sleep];
+    [[PreferencesController sharedPreferencesController] openPreferences:NIPReferencesViewDefault];
 }
 
 -(IBAction)removeNoDeleteSelectedTorrents:(id)sender

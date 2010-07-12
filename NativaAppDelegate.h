@@ -20,12 +20,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TorrentTableView;
+@class TorrentTableView, Controller;
 
 @interface NativaAppDelegate : NSObject <NSApplicationDelegate> {
-    NSWindow *window;
+    IBOutlet NSWindow    *window;
+    IBOutlet Controller  *controller;
 }
-
-@property (assign) IBOutlet NSWindow *window;
-
 @end
