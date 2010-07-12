@@ -103,7 +103,8 @@
 			[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate dateWithTimeIntervalSinceNow:0.1]];
 			if ((time(NULL) * 1000 - startTime)>timeout)
 			{
-				[self setError:NSLocalizedString(@"Network timeout", "Network -> error")];
+				if (_isExecuting)
+                    [self setError:NSLocalizedString(@"Network timeout", "Network -> error")];
 				break;
 			}
 		} while (_isExecuting);
@@ -257,13 +258,14 @@
 				[self setError:NSLocalizedString(@"Invalid response (is rtorrent running?)", "Network -> error")];
 				return;
 			}
-			
+	
+            [self finish];
+            
 			if (fault)
 				[self setError:result];
 			else
 				[self runResponse:result error:nil];
 			
-			[self finish];
             break;
         }
 		case NSStreamEventErrorOccurred: 
