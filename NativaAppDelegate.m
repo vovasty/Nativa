@@ -25,18 +25,21 @@
 #import "SetupAssistantController.h"
 #import "Controller.h"
 
+@interface NativaAppDelegate(Private)
+    - (void)showMainWindow;
+@end
+
+
 @implementation NativaAppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	if ([[ProcessesController sharedProcessesController] count]==0)
         [[SetupAssistantController sharedSetupAssistantController] openSetupAssistant:^(id sender){
-            [window orderFront:nil];
-            [controller awake];
+            [self showMainWindow];
         }];
     else
     {
-        [window orderFront:nil];
-        [controller awake];
+        [self showMainWindow];
     }
 }
 
@@ -59,5 +62,18 @@
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
 	[[DownloadsController sharedDownloadsController] stopUpdates]; 
+}
+@end
+
+@implementation NativaAppDelegate(Private)
+- (void)showMainWindow
+{
+    if (![NSThread isMainThread])
+    {
+            [self performSelectorOnMainThread:@selector(showMainWindow) withObject:nil waitUntilDone:NO];
+            return;
+    }
+    [window orderFront:nil];
+    [controller awake];
 }
 @end
