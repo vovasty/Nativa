@@ -88,8 +88,6 @@
 		81C7E0941184B9DE00987846 /* MoveDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C7E0931184B9DE00987846 /* MoveDataController.m */; };
 		81CB5A841128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */; };
 		81CCDE18113FF81B00893CCC /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 81CCDE17113FF81B00893CCC /* Credits.rtf */; };
-		81CE376D113AF37600C9F344 /* SaveProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81CE376C113AF37600C9F344 /* SaveProgress.xib */; };
-		81CE3805113B016000C9F344 /* SaveProgressController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CE3804113B016000C9F344 /* SaveProgressController.m */; };
 		81CF0FE7118150B200B44A0E /* StopHover.png in Resources */ = {isa = PBXBuildFile; fileRef = 81CF0FE4118150B200B44A0E /* StopHover.png */; };
 		81CF0FE8118150B200B44A0E /* StopOff.png in Resources */ = {isa = PBXBuildFile; fileRef = 81CF0FE5118150B200B44A0E /* StopOff.png */; };
 		81CF0FE9118150B200B44A0E /* StopOn.png in Resources */ = {isa = PBXBuildFile; fileRef = 81CF0FE6118150B200B44A0E /* StopOn.png */; };
@@ -259,9 +257,6 @@
 		81C7E0931184B9DE00987846 /* MoveDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoveDataController.m; sourceTree = "<group>"; };
 		81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Growl Registration Ticket.growlRegDict"; sourceTree = "<group>"; };
 		81CCDE17113FF81B00893CCC /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
-		81CE376C113AF37600C9F344 /* SaveProgress.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaveProgress.xib; sourceTree = "<group>"; };
-		81CE3803113B016000C9F344 /* SaveProgressController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveProgressController.h; sourceTree = "<group>"; };
-		81CE3804113B016000C9F344 /* SaveProgressController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveProgressController.m; sourceTree = "<group>"; };
 		81CF0FE4118150B200B44A0E /* StopHover.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StopHover.png; sourceTree = "<group>"; };
 		81CF0FE5118150B200B44A0E /* StopOff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StopOff.png; sourceTree = "<group>"; };
 		81CF0FE6118150B200B44A0E /* StopOn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = StopOn.png; sourceTree = "<group>"; };
@@ -414,7 +409,6 @@
 				8169684F111B0CFC00246098 /* PreferencesWindow.xib */,
 				816967F8111A3F4900246098 /* dsa_pub.pem */,
 				81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */,
-				81CE376C113AF37600C9F344 /* SaveProgress.xib */,
 				81941F57117A158D00B55647 /* GroupRules.xib */,
 				81C7E0181184B55000987846 /* MoveData.xib */,
 				8140AAA311E91FAC002D1031 /* SetupAssistant.xib */,
@@ -444,8 +438,6 @@
 				8106590B1118DA4700674B45 /* PreferencesWindow.m */,
 				8169644A1119F81400246098 /* ProcessPreferencesController.h */,
 				8169644B1119F81400246098 /* ProcessPreferencesController.m */,
-				81CE3803113B016000C9F344 /* SaveProgressController.h */,
-				81CE3804113B016000C9F344 /* SaveProgressController.m */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -743,7 +735,6 @@
 				811B4C0811276542008A23C3 /* SSHCommand.sh in Resources */,
 				81CB5A841128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict in Resources */,
 				810DBC4011343E63000411D8 /* drag to trash.aif in Resources */,
-				81CE376D113AF37600C9F344 /* SaveProgress.xib in Resources */,
 				81CCDE18113FF81B00893CCC /* Credits.rtf in Resources */,
 				81639434114153F0007C4B97 /* Loading.gif in Resources */,
 				8163946F114156FB007C4B97 /* Error-large.png in Resources */,
@@ -808,7 +799,6 @@
 				8169685C111B0DF800246098 /* FilterButton.m in Sources */,
 				811B4B7611275B14008A23C3 /* AMServer.m in Sources */,
 				811B4B7811275B14008A23C3 /* AMSession.m in Sources */,
-				81CE3805113B016000C9F344 /* SaveProgressController.m in Sources */,
 				81FA9EFB113DA51900FDF920 /* DragOverlayWindow.m in Sources */,
 				815B0E62114092F700C68070 /* DragOverlayView.m in Sources */,
 				81E76E761141CB89000C37D6 /* QuickLookController.m in Sources */,

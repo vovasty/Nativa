@@ -30,29 +30,19 @@
 #define TOOLBAR_GROUPS		@"TOOLBAR_GROUPS"
 #define TOOLBAR_BANDWIDTH		@"TOOLBAR_BANDWIDTH"
 
-NSString* const NITrashDownloadDescriptorsKey	= @"TrashOriginalTransferDescriptor";
-
-NSString* const NIStartTransferWhenAddedKey		= @"StartTransferWhenAdded";
-
-NSString* const NIProcessListKey				= @"ProcessList";
-
-NSString* const NIFilterKey						= @"Filter";
-
-NSString* const NIRefreshRateKey				= @"RefreshRateKey";
-
-NSString* const NIUpdateGlobalsRateKey			= @"UpdateGlobalsRateKey";
-
-NSString* const NIAutoSizeKey					= @"AutoSize";
-
-NSString* const NIForceStopKey                  = @"ForceStop";
-
-NSString* const NIGlobalSpeedLimitMaxDownload      = @"GlobalSpeedLimitMaxDownload";
-
-NSString* const NIGlobalSpeedLimitMaxUpload        = @"GlobalSpeedLimitMaxUpload";
-
-NSString* const NIGlobalSpeedLimitMinDownload      = @"GlobalSpeedLimitMinDownload";
-
-NSString* const NIGlobalSpeedLimitMinUpload        = @"GlobalSpeedLimitMinUpload";
+NSString* const NITrashDownloadDescriptorsKey       = @"TrashOriginalTransferDescriptor";
+NSString* const NIStartTransferWhenAddedKey         = @"StartTransferWhenAdded";
+NSString* const NIProcessListKey                    = @"ProcessList";
+NSString* const NIFilterKey                         = @"Filter";
+NSString* const NIRefreshRateKey                    = @"RefreshRateKey";
+NSString* const NIUpdateGlobalsRateKey              = @"UpdateGlobalsRateKey";
+NSString* const NIAutoSizeKey                       = @"AutoSize";
+NSString* const NIForceStopKey                      = @"ForceStop";
+NSString* const NIGlobalSpeedLimitMaxDownload       = @"GlobalSpeedLimitMaxDownload";
+NSString* const NIGlobalSpeedLimitMaxUpload         = @"GlobalSpeedLimitMaxUpload";
+NSString* const NIGlobalSpeedLimitMinDownload       = @"GlobalSpeedLimitMinDownload";
+NSString* const NIGlobalSpeedLimitMinUpload         = @"GlobalSpeedLimitMinUpload";
+NSString* const NIGlobalSpeedLimitMaxAuto           = @"GlobalSpeedLimitMaxAuto";
 
 @interface PreferencesController (Private)
 

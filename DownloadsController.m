@@ -412,6 +412,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
         [blockSelf willChangeValueForKey:@"globalDownloadSpeedLimit"];
 		_globalDownloadSpeedLimit = [number floatValue];
 		[blockSelf didChangeValueForKey:@"globalDownloadSpeedLimit"];
+
+        //update global max speed limits
+        NSLog(@"%d %f", [_defaults boolForKey: NIGlobalSpeedLimitMaxAuto], _globalDownloadSpeedLimit);
+        
+        if ([_defaults boolForKey: NIGlobalSpeedLimitMaxAuto] 
+                && _globalDownloadSpeedLimit == 0
+                && [_defaults integerForKey:NIGlobalSpeedLimitMaxDownload]<_globalDownloadSpeed/1024)
+                [_defaults setInteger:_globalDownloadSpeed/1024 forKey:NIGlobalSpeedLimitMaxDownload];
+        
     }];
 
     [[self _controller] getGlobalUploadSpeedLimit:^(NSNumber *number, NSString* error){
@@ -424,8 +433,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
         [blockSelf willChangeValueForKey:@"globalUploadSpeedLimit"];
 		_globalUploadSpeedLimit = [number floatValue];
 		[blockSelf didChangeValueForKey:@"globalUploadSpeedLimit"];
+
+        //update global max speed limits
+        if ([_defaults boolForKey: NIGlobalSpeedLimitMaxAuto] 
+                && _globalUploadSpeedLimit == 0
+                && [_defaults integerForKey:NIGlobalSpeedLimitMaxUpload]<_globalUploadSpeed/1024)
+                [_defaults setInteger:_globalUploadSpeed/1024 forKey:NIGlobalSpeedLimitMaxUpload];
     }];
-    
 }
 
 - (void) moveData:(Torrent *) torrent location:(NSString *) location handler:(VoidResponseBlock) handler

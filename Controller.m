@@ -71,11 +71,14 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
 
     [defaultValues setObject:[NSNumber numberWithBool:YES]
 					  forKey:NIForceStopKey];
-    
-    [defaultValues setObject:[NSNumber numberWithDouble:100]
+
+    [defaultValues setObject:[NSNumber numberWithBool:YES]
+					  forKey:NIGlobalSpeedLimitMaxAuto];
+
+    [defaultValues setObject:[NSNumber numberWithDouble:20]
 					  forKey:NIGlobalSpeedLimitMaxDownload];
 
-    [defaultValues setObject:[NSNumber numberWithDouble:50]
+    [defaultValues setObject:[NSNumber numberWithDouble:20]
 					  forKey:NIGlobalSpeedLimitMaxUpload];
 
     [defaultValues setObject:[NSNumber numberWithDouble:10]

@@ -36,6 +36,7 @@ extern NSString* const NIGlobalSpeedLimitMaxDownload;
 extern NSString* const NIGlobalSpeedLimitMaxUpload;
 extern NSString* const NIGlobalSpeedLimitMinDownload;
 extern NSString* const NIGlobalSpeedLimitMinUpload;
+extern NSString* const NIGlobalSpeedLimitMaxAuto;
 
 typedef enum 
 { 
