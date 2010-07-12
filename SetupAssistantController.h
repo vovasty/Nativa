@@ -1,7 +1,7 @@
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CoreAnimation.h>
 
-@class AMSession, ProcessesController;
+@class ProcessesController;
 
 @interface SetupAssistantController : NSWindowController
 {
@@ -21,7 +21,6 @@
     NSString                     *sshPassword;
     BOOL                         sshUsePrivateKey;
     IBOutlet id                  sshFirstResponder;
-    AMSession                    *sshProxy;
     int                          sshLocalPort;
     BOOL                         checking;
     

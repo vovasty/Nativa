@@ -28,7 +28,8 @@
 #import <netinet/in.h>
 
 @interface SetupAssistantController(Private)
--(int) findFreePort:(int) startPort endPort:(int)endPort;
+- (int) findFreePort:(int) startPort endPort:(int)endPort;
+- (void) checkSettings:(BOOL) checkSSH checkSCGI:(BOOL) checkSCGI handler:(void (^)())handler;
 @end
 
 @implementation SetupAssistantController
@@ -45,14 +46,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     {
         pc = [ProcessesController sharedProcessesController];
         currentProcessIndex = [pc addProcess];
+        [self setScgiHost: @"127.0.0.1:5000"];
     }
     
     return self;
-}
-
--(void) dealloc
-{
-    [sshProxy release];
 }
 
 - (void) openSetupAssistant:(void (^)(id sender))handler
@@ -98,14 +95,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 
 - (IBAction)showStartView:(id)sender
 {
+    useSSH = NO;
+    [self setChecking:NO];
     [transition setSubtype:kCATransitionFromLeft];
     [self setCurrentView:startView];
 }
 - (IBAction)showConfigureSSHView:(id)sender
 {
-    [sshProxy closeTunnel];
-    [sshProxy release];
-    sshProxy = nil;
     [self setChecking:NO];
     useSSH = NO;
     [transition setSubtype:kCATransitionFromRight];
@@ -120,123 +116,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 }
 - (IBAction)checkSSH:(id)sender
 {
-    [[self window] makeFirstResponder: nil];
-    [self setErrorMessage: nil];
-    [sshProxy closeTunnel];
-    [sshProxy release];
-    
     sshLocalPort = [self findFreePort:5000 endPort:5010];
-    if (sshLocalPort == 0)
-    {
-        [self setErrorMessage: @"unable to find free local port"];
-        return;
-    }
-    
-    NSLog(@"using %d as local port", sshLocalPort);
-    
-    NIHostPort *sshHostPort = [NIHostPort parseHostPort:sshHost defaultPort:22];
-
-    AMServer *server = [[AMServer alloc] init];
-    server.host = sshHostPort.host;
-    server.username = sshUsername;
-	server.password = sshPassword;
-	server.port = sshHostPort.port;
-    server.useSSHV2 = NO;
-    server.compressionLevel = 0;
-    
-    sshProxy = [[AMSession alloc] init];
-    sshProxy.sessionName = @"test";
-	sshProxy.remoteHost = @"127.0.0.1";
-	sshProxy.remotePort = 5000;
-    sshProxy.localPort = sshLocalPort;
-	
-    sshProxy.currentServer = server;
-	sshProxy.maxAutoReconnectRetries = 1;
-	sshProxy.autoReconnect = NO;
-    [server release];
-	[sshProxy retain];
-	[self setChecking:YES];
-    [sshProxy openTunnel:^(AMSession *sender){
-        [self setChecking:NO];
-        if ([sender connected])
-        {
-            useSSH = YES;
-            [self showConfigureSCGIView:nil];
-        }
-        else
-            [self setErrorMessage: [sender error]];
-
-        [sshProxy closeTunnel];
-        [sshProxy release];
-        sshProxy = nil;
+    [self checkSettings:YES checkSCGI:NO handler:^(){
+        useSSH = YES;
+        [self showConfigureSCGIView:nil];    
     }];
 }
+
 - (IBAction)checkSCGI:(id)sender
 {
-    [[self window] makeFirstResponder: nil];
-    [self setErrorMessage: nil];
-    [sshProxy closeTunnel];
-    [sshProxy release];
-    
-    NIHostPort *scgiHostPort = [NIHostPort parseHostPort:scgiHost defaultPort:5000];
-    
-    NIHostPort *sshHostPort = [NIHostPort parseHostPort:sshHost defaultPort:22];
-    
-    //test connection with only one reconnect
-	int maxReconnects = ([pc maxReconnectsForIndex:currentProcessIndex] == 0?10:[pc maxReconnectsForIndex:currentProcessIndex]);
-    
-	[pc setMaxReconnects:0 forIndex:currentProcessIndex];
-    
-    [pc setHost:scgiHostPort.host forIndex:currentProcessIndex];
-    
-    [pc setPort:scgiHostPort.port forIndex:currentProcessIndex];
-    
-    [pc setConnectionType:useSSH?@"SSH":@"Local" forIndex:currentProcessIndex];
-    
-    [pc setSshHost:sshHostPort.host forIndex:currentProcessIndex];
-    
-    [pc setSshPort:sshHostPort.port forIndex:currentProcessIndex];
-    
-    [pc setSshLocalPort:sshLocalPort forIndex:currentProcessIndex];
-    
-    [pc setSshUser:sshUsername forIndex:currentProcessIndex];
-    
-    [pc setSshPassword:sshPassword forIndex:currentProcessIndex];
-    
-    [pc setSshUseKeyLogin:sshUsePrivateKey forIndex:currentProcessIndex];
-    
-    [pc setGroupsField:1 forIndex:currentProcessIndex];
-    
-    [pc setSshUseV2:NO forIndex:currentProcessIndex];
-    
-    [pc setSshCompressionLevel:0 forIndex:currentProcessIndex];
-    
-    [pc openProcessForIndex:currentProcessIndex handler:^(NSString *error){
-        [pc setMaxReconnects:maxReconnects forIndex:currentProcessIndex];
-        if (error != nil)
-        {
-            NSLog(@"error: %@", error);
-			[self setErrorMessage: error];
-            [pc closeProcessForIndex:currentProcessIndex];
-            return;
-        }
-        [[pc processForIndex:currentProcessIndex] list:^(NSArray *array, NSString* error){
-            if (error != nil)
-            {
-                NSLog(@"error: %@", error);
-                [self setErrorMessage: error];
-                [pc closeProcessForIndex:currentProcessIndex];
-
-            }
-            else
-            {
-                [pc saveProcesses];
-                [pc closeProcessForIndex:currentProcessIndex];
-                if (openSetupAssistantHandler != nil)
-                    openSetupAssistantHandler(self);
-                [[self window] close];
-            }
-        }];
+    [self checkSettings:useSSH checkSCGI:YES handler:^(){
+            //        [pc saveProcesses];
+        if (openSetupAssistantHandler != nil)
+            openSetupAssistantHandler(self);
+        [[self window] close];
     }];
 }
 @end
@@ -294,5 +187,83 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
         NSLog(@"Unable to bind socket to address.");
 
     return resultPort;
+}
+- (void) checkSettings:(BOOL) checkSSH checkSCGI:(BOOL) checkSCGI handler:(void (^)())handler
+{
+    [[self window] makeFirstResponder: nil];
+    [self setErrorMessage: nil];
+
+    [pc closeProcessForIndex:currentProcessIndex];
+    
+    NIHostPort *scgiHostPort = [NIHostPort parseHostPort:scgiHost defaultPort:5000];
+    
+    NIHostPort *sshHostPort = [NIHostPort parseHostPort:sshHost defaultPort:22];
+    
+        //test connection with only one reconnect
+	int maxReconnects = ([pc maxReconnectsForIndex:currentProcessIndex] == 0?10:[pc maxReconnectsForIndex:currentProcessIndex]);
+    
+	[pc setMaxReconnects:0 forIndex:currentProcessIndex];
+    
+    [pc setHost:scgiHostPort.host forIndex:currentProcessIndex];
+    
+    [pc setPort:scgiHostPort.port forIndex:currentProcessIndex];
+    
+    [pc setConnectionType:checkSSH?@"SSH":@"Local" forIndex:currentProcessIndex];
+    
+    [pc setSshHost:sshHostPort.host forIndex:currentProcessIndex];
+    
+    [pc setSshPort:sshHostPort.port forIndex:currentProcessIndex];
+    
+    [pc setSshLocalPort:sshLocalPort forIndex:currentProcessIndex];
+    
+    [pc setSshUser:sshUsername forIndex:currentProcessIndex];
+    
+    [pc setSshPassword:sshPassword forIndex:currentProcessIndex];
+    
+    [pc setSshUseKeyLogin:sshUsePrivateKey forIndex:currentProcessIndex];
+    
+    [pc setGroupsField:1 forIndex:currentProcessIndex];
+    
+    [pc setSshUseV2:NO forIndex:currentProcessIndex];
+    
+    [pc setSshCompressionLevel:0 forIndex:currentProcessIndex];
+    
+    [self setChecking:YES];
+    [pc openProcessForIndex:currentProcessIndex handler:^(NSString *error){
+        [pc setMaxReconnects:maxReconnects forIndex:currentProcessIndex];
+        if (error != nil)
+        {
+            [self setChecking:NO];
+            NSLog(@"error: %@", error);
+			[self setErrorMessage: error];
+            return;
+        }
+        if (checkSCGI)
+        {
+            [[pc processForIndex:currentProcessIndex] list:^(NSArray *array, NSString* error){
+                [self setChecking:NO];
+                if (error == nil)
+                {
+                    if (handler)
+                        handler();
+                }
+                else
+                {
+                    NSLog(@"error: %@", error);
+                    [self setErrorMessage: error];
+                }
+                [pc closeProcessForIndex:currentProcessIndex];
+
+            }];
+        }
+        else 
+        {
+            [self setChecking:NO];
+            [pc closeProcessForIndex:currentProcessIndex];
+            if (handler)
+                handler();
+        }
+
+    }];
 }
 @end
