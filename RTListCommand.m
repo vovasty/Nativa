@@ -32,7 +32,7 @@
 
 @implementation RTListCommand
 
-@synthesize response = _response;
+@synthesize response;
 @synthesize groupCommand = _groupCommand;
 
 - (id)initWithArrayResponse:(ArrayResponseBlock) resp;
@@ -41,7 +41,7 @@
     if (self == nil)
         return nil;
     
-    _response = [resp retain];
+    [self setResponse:resp];
     return self;
 }
 
@@ -98,8 +98,8 @@
 		}
 		[result autorelease];
 	}
-	if (_response)
-		_response(result, error);
+	if (response)
+		response(result, error);
 }
 
 - (NSString *) command;
@@ -135,7 +135,7 @@
 
 - (void)dealloc
 {
-	[_response release];
+	[self setResponse:nil];
 	[self setGroupCommand:nil];
 	[super dealloc];
 }

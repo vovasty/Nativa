@@ -23,10 +23,10 @@
 
 @interface RTListCommand : NSObject<RTorrentCommand>
 {
-	ArrayResponseBlock	_response;
+	ArrayResponseBlock	response;
 	NSString			*_groupCommand;
 }
 - (id)initWithArrayResponse:(ArrayResponseBlock) resp;
-@property (retain) ArrayResponseBlock	response;
+@property (copy) ArrayResponseBlock	response;
 @property (retain) NSString				*groupCommand;
 @end
