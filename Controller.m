@@ -325,7 +325,6 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
     BOOL upload = [sender menu] == _globalUploadSpeedLimitMenu;
         //    [fDefaults setInteger: [[sender representedObject] intValue] forKey: upload ? @"UploadLimit" : @"DownloadLimit"];
     NSInteger limit = [[sender representedObject] intValue]*1024;
-	__block Controller *blockSelf = self;
     if (upload)
         [[DownloadsController sharedDownloadsController] 
          setGlobalUploadSpeedLimit:limit
