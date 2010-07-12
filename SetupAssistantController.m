@@ -27,7 +27,7 @@
 
 @interface SetupAssistantController(Private)
 - (int) findFreePort:(int) startPort endPort:(int)endPort;
-- (void) checkSettings:(BOOL) checkSSH checkSCGI:(BOOL) checkSCGI handler:(void (^)())handler;
+- (void) checkSettings:(BOOL) checkSSH checkSCGI:(BOOL) checkSCGI handler:(void (^)(BOOL success))handler;
 - (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info;
 @end
 
@@ -46,6 +46,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
         pc = [ProcessesController sharedProcessesController];
         currentProcessIndex = [pc addProcess];
         [self setScgiHost: @"127.0.0.1:5000"];
+        [self setSshUsername:NSUserName()];
     }
     
     return self;
@@ -116,19 +117,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 - (IBAction)checkSSH:(id)sender
 {
     sshLocalPort = [self findFreePort:5000 endPort:5010];
-    [self checkSettings:YES checkSCGI:NO handler:^(){
-        useSSH = YES;
-        [self showConfigureSCGIView:nil];    
+    [self checkSettings:YES checkSCGI:NO handler:^(BOOL success){
+        if (success)
+        {
+            useSSH = YES;
+            //try default settings
+            if (success)
+                [self checkSettings:useSSH checkSCGI:YES handler:^(BOOL success){
+                    if (success)
+                    {
+                        [pc saveProcesses];
+                        [[self window] close];
+                        if (openSetupAssistantHandler != nil)
+                            openSetupAssistantHandler(self);
+                    }
+                }];
+            else
+                [self showConfigureSCGIView:nil];
+        }
     }];
 }
 
 - (IBAction)checkSCGI:(id)sender
 {
-    [self checkSettings:useSSH checkSCGI:YES handler:^(){
-        [pc saveProcesses];
-        [[self window] close];
-        if (openSetupAssistantHandler != nil)
-            openSetupAssistantHandler(self);
+    [self checkSettings:useSSH checkSCGI:YES handler:^(BOOL success){
+        if (success)
+        {
+            [pc saveProcesses];
+            [[self window] close];
+            if (openSetupAssistantHandler != nil)
+                openSetupAssistantHandler(self);
+        }
     }];
 }
 
@@ -147,14 +166,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 				   modalForWindow: [self window] modalDelegate: self didEndSelector:
 	 @selector(downloadsPathClosed:returnCode:contextInfo:) contextInfo: nil];
 	
-}
-
--(BOOL)validateSshHost:(id *)ioValue error:(NSError **)outError
-{
-    if (*ioValue == nil) {
-        return NO;
-    }
-    return YES;
 }
 @end
 @implementation SetupAssistantController(Private)
@@ -212,16 +223,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 
     return resultPort;
 }
-- (void) checkSettings:(BOOL) checkSSH checkSCGI:(BOOL) checkSCGI handler:(void (^)())handler
+- (void) checkSettings:(BOOL) checkSSH checkSCGI:(BOOL) checkSCGI handler:(void (^)(BOOL success))handler;
 {
     [[self window] makeFirstResponder: nil];
     [self setErrorMessage: nil];
 
     [pc closeProcessForIndex:currentProcessIndex];
     
-    NIHostPort *scgiHostPort = [NIHostPort parseHostPort:scgiHost defaultPort:5000];
+    NIHostPort *scgiHostPort = [NIHostPort parseHostPort:scgiHost==nil?@"":scgiHost defaultPort:5000];
     
-    NIHostPort *sshHostPort = [NIHostPort parseHostPort:sshHost defaultPort:22];
+    NIHostPort *sshHostPort = [NIHostPort parseHostPort:sshHost==nil?@"":sshHost defaultPort:22];
     
         //test connection with only one reconnect
 	int maxReconnects = ([pc maxReconnectsForIndex:currentProcessIndex] == 0?10:[pc maxReconnectsForIndex:currentProcessIndex]);
@@ -260,22 +271,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
             [self setChecking:NO];
             NSLog(@"error: %@", error);
 			[self setErrorMessage: error];
+            if (handler)
+                handler(NO);
             return;
         }
         if (checkSCGI)
         {
             [[pc processForIndex:currentProcessIndex] list:^(NSArray *array, NSString* error){
                 [self setChecking:NO];
-                if (error == nil)
-                {
-                    if (handler)
-                        handler();
-                }
-                else
+                if (error != nil)
                 {
                     NSLog(@"error: %@", error);
                     [self setErrorMessage: error];
                 }
+                if (handler)
+                    handler(error == nil);
                 [pc closeProcessForIndex:currentProcessIndex];
 
             }];
@@ -285,7 +295,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
             [self setChecking:NO];
             [pc closeProcessForIndex:currentProcessIndex];
             if (handler)
-                handler();
+                handler(YES);
         }
 
     }];
