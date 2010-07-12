@@ -167,7 +167,6 @@
         {
             if (stream == oStream)
 			{
-                NSLog(@"1");
 				uint8_t *readBytes = (uint8_t *)[_requestData bytes];
 				readBytes += _writtenBytesCounter; // instance variable to move pointer
 				int data_len = [_requestData length];
@@ -252,7 +251,6 @@
 			NSData *body = [NSData dataWithBytes:(buf+start) length:(len-start)];
 			XMLRPCTreeBasedParser* xmlrpcResponse = [[XMLRPCTreeBasedParser alloc] initWithData: body];
 //			NSLog(@"%@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
-			NSLog(@"2");
 			id result = [xmlrpcResponse parse];
 			BOOL fault = [xmlrpcResponse isFault];
 			[xmlrpcResponse release];
