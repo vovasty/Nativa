@@ -334,7 +334,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 		server.host = [self sshHostForIndex:index];
 		server.username = [self sshUserForIndex:index];
 		server.password = [self sshPasswordForIndex:index];
-		server.port = [NSString stringWithFormat:@"%d", [self sshPortForIndex:index]];
+		server.port = [self sshPortForIndex:index];
         server.useSSHV2 = [self sshUseV2ForIndex:index];
         server.compressionLevel = [self sshCompressionLevelForIndex:index];
 		proxy.currentServer = server;
