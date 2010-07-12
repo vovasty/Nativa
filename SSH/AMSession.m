@@ -272,7 +272,7 @@
 		}
 		else if ([checkWrongPass evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: @"Wrong SSH password."];
+			[self setError: @"Wrong SSH user/password."];
 			[self terminateTask];
 		}
 		else if ([checkRefused evaluateWithObject:outputContent] == YES)
