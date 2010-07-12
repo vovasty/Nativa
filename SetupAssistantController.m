@@ -127,9 +127,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 {
     [self checkSettings:useSSH checkSCGI:YES handler:^(){
             //        [pc saveProcesses];
+        [[self window] close];
         if (openSetupAssistantHandler != nil)
             openSetupAssistantHandler(self);
-        [[self window] close];
     }];
 }
 @end
