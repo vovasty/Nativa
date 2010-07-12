@@ -36,7 +36,7 @@
 
 -(void) closeConnection;
 
--(void) openConnection;
+-(void) openConnection:(void (^)(RTConnection *sender))handler;
 
 -(NSString*) error;
 

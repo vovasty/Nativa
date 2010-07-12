@@ -27,7 +27,6 @@
 {
 	NSOperationQueue	*_queue;
 	RTConnection		*_connection;
-	VoidResponseBlock	_connectionResponse;
 	NSUInteger			_groupField;
 	NSString			*_setGroupCommand;
 	NSString			*_getGroupCommand;

@@ -25,7 +25,6 @@
 #import "NSStringRTorrentAdditions.h"
 
 static NSString * ConnectingContext = @"ConnectingContext";
-static NSString * ConnectedContext = @"ConnectingContext";
 
 @interface RTorrentController(Private)
 -(void)_runOperation:(id<RTorrentCommand>) operation;
@@ -53,11 +52,6 @@ static NSString * ConnectedContext = @"ConnectingContext";
 			 forKeyPath:@"connecting"
 				options:0
 				context:&ConnectingContext];
-	
-	[_connection addObserver:self
-				  forKeyPath:@"connected"
-					 options:0
-					 context:&ConnectedContext];
 	return self;
 }
 
@@ -65,7 +59,6 @@ static NSString * ConnectedContext = @"ConnectingContext";
 {
 	[_queue release];
 	[_connection removeObserver:self forKeyPath:@"connecting"];
-	[_connection removeObserver:self forKeyPath:@"connected"];
 	[_connection release];
 	[_getGroupCommand release];
 	[_setGroupCommand release];
@@ -288,16 +281,6 @@ static NSString * ConnectedContext = @"ConnectingContext";
     {
 		[_queue setSuspended:_connection.connecting];
     }
-	else if (context == &ConnectedContext)
-    {
-		if (_connectionResponse)
-		{
-			_connectionResponse([_connection error]);
-			//we will call response only once
-			[_connectionResponse release];
-			_connectionResponse = nil;
-		}
-    }
     else
     {
         [super observeValueForKeyPath:keyPath
@@ -314,10 +297,10 @@ static NSString * ConnectedContext = @"ConnectingContext";
 
 -(void) openConnection:(VoidResponseBlock) response;
 {
-	if (_connectionResponse != response)
-		[_connectionResponse release];
-	_connectionResponse = [response copy];
-	[_connection openConnection];
+	[_connection openConnection:^(RTConnection *sender){
+        if (response != nil)
+            response([sender error]);
+    }];
 }
 
 -(void) closeConnection

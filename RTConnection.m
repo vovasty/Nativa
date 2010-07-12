@@ -83,16 +83,20 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 
 -(void) closeConnection
 {
-	[self willChangeValueForKey:@"connecting"];
-	[self willChangeValueForKey:@"connected"];
-	_connected = NO;
-	_connecting = NO;
-	[self didChangeValueForKey:@"connecting"];
-	[self didChangeValueForKey:@"connected"];
-	[_proxy closeTunnel];
+    if (_proxy == nil) 
+    {
+        [self willChangeValueForKey:@"connecting"];
+        [self willChangeValueForKey:@"connected"];
+        _connected = NO;
+        _connecting = NO;
+        [self didChangeValueForKey:@"connecting"];
+        [self didChangeValueForKey:@"connected"];
+    }
+    else
+        [_proxy closeTunnel];
 }
 
--(void) openConnection
+-(void) openConnection:(void (^)(RTConnection *sender))handler
 {
 	if (_proxy == nil)
 	{
@@ -102,6 +106,8 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 		_connecting = NO;
 		[self didChangeValueForKey:@"connecting"];
 		[self didChangeValueForKey:@"connected"];
+        if (handler != nil) 
+            handler(self);
 	}
 	else
 	{
@@ -109,7 +115,10 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 		_connected = NO;
 		_connecting = YES;
 		[self didChangeValueForKey:@"connecting"];
-		[_proxy openTunnel:nil];
+		[_proxy openTunnel:^(AMSession *sender){
+            if (handler != nil) 
+                handler(self);
+        }];
 	}
 }
 
