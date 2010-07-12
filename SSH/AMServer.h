@@ -19,7 +19,7 @@
 @interface AMServer : NSObject
 {
 	NSString	*password;
-	NSString	*port;
+	int         port;
 	NSString	*username;
 	NSString	*host;
     BOOL        useSSHV2;
@@ -27,7 +27,7 @@
 }
 @property(readwrite, retain) NSString	*host;
 @property(readwrite, retain) NSString	*password;
-@property(readwrite, retain) NSString	*port;
+@property(assign)            int        port;
 @property(readwrite, retain) NSString	*username;
 @property                    BOOL       useSSHV2;
 @property                    NSInteger  compressionLevel;

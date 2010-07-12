@@ -93,7 +93,7 @@
 	[argumentsString appendString:@"@"];
 	[argumentsString appendString:[currentServer host]];
 	[argumentsString appendString:@" -p "];
-	[argumentsString appendString:[currentServer port]];
+    [argumentsString appendFormat:@"%d", [currentServer port]];
 
 	NSLog(@"Used SSH Command : %@", argumentsString);
 	

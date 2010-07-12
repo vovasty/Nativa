@@ -28,7 +28,6 @@
 - (void) dealloc
 {
 	[host release];
-	[port release];
 	[username release];
 	[password release];
 	
