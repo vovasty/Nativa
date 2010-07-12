@@ -165,8 +165,9 @@
 	switch(eventCode) {
         case NSStreamEventHasSpaceAvailable:
         {
-			if (stream == oStream)
+            if (stream == oStream)
 			{
+                NSLog(@"1");
 				uint8_t *readBytes = (uint8_t *)[_requestData bytes];
 				readBytes += _writtenBytesCounter; // instance variable to move pointer
 				int data_len = [_requestData length];
@@ -238,40 +239,41 @@
 				}
 				if (!headerDividerFound || len <= start)
 				{
-					[self setError:NSLocalizedString(@"Invalid response", "Network -> error")];
+					[self setError:NSLocalizedString(@"Invalid rtorrent response (is rtorrent running?)", "Network -> error")];
 					break;
 				}
 			}
 			else
-				[self setError:NSLocalizedString(@"Invalid response", "Network -> error")];
+            {
+				[self setError:NSLocalizedString(@"Invalid rtorrent response (is rtorrent running?)", "Network -> error")];
+                break;
+            }
 			
 			NSData *body = [NSData dataWithBytes:(buf+start) length:(len-start)];
 			XMLRPCTreeBasedParser* xmlrpcResponse = [[XMLRPCTreeBasedParser alloc] initWithData: body];
 //			NSLog(@"%@", [[NSString alloc] initWithData:body encoding:NSUTF8StringEncoding]);
-			
+			NSLog(@"2");
 			id result = [xmlrpcResponse parse];
 			BOOL fault = [xmlrpcResponse isFault];
 			[xmlrpcResponse release];
 			
 			if (result == nil)//empty response, occured with bad xml. network error?
 			{
-				[self setError:NSLocalizedString(@"Invalid response (is rtorrent running?)", "Network -> error")];
+				[self setError:NSLocalizedString(@"Invalid rtorrent response (is rtorrent running?)", "Network -> error")];
 				return;
 			}
 	
-            [self finish];
-            
 			if (fault)
 				[self setError:result];
 			else
+            {
 				[self runResponse:result error:nil];
-			
+			}
             break;
         }
 		case NSStreamEventErrorOccurred: 
 		{
 			[self setError:[[stream streamError] localizedDescription]];
-			[self finish];
 			break;
         }
     }
@@ -279,15 +281,16 @@
 
 - (void) setError:(NSString*) error;
 {
+	[self finish];
 	[self requestDidSent];
 	[self responseDidReceived];
 	[self runResponse:nil error:error];
-	[self finish];
 }
 
 - (void) runResponse:(NSData*) data error:(NSString*) error
 {
-	if (_operation == nil && handler)
+    [self finish];
+    if (_operation == nil && handler)
 		handler(data, error);
 	else
 		[_operation processResponse:data error:error];
