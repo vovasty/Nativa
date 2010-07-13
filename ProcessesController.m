@@ -320,42 +320,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 
 -(void) openProcessForIndex:(NSInteger) index handler:(void (^)(NSString *error)) handler
 {
-	AMSession* proxy = nil;
-	if ([[self connectionTypeForIndex:index] isEqualToString: @"SSH"])
-	{
-		proxy = [[AMSession alloc] init];
-		proxy.sessionName = [self nameForIndex:index];
-		proxy.remoteHost = [self hostForIndex:index];
-		proxy.remotePort = [self portForIndex:index];
-		
-		proxy.localPort = [self sshLocalPortForIndex:index];
-		
-		AMServer *server = [[AMServer alloc] init];
-		server.host = [self sshHostForIndex:index];
-		server.username = [self sshUserForIndex:index];
-		server.password = [self sshPasswordForIndex:index];
-		server.port = [self sshPortForIndex:index];
-        server.useSSHV2 = [self sshUseV2ForIndex:index];
-        server.compressionLevel = [self sshCompressionLevelForIndex:index];
-		proxy.currentServer = server;
-		proxy.maxAutoReconnectRetries = [self maxReconnectsForIndex:index];
-		proxy.autoReconnect = YES;
-		[server release];
-	}
-    
-	RTConnection* connection = [[RTConnection alloc] initWithHostPort:[self hostForIndex:index] port:[self portForIndex:index] proxy:proxy];
-	
-	RTorrentController *process = [[RTorrentController alloc] initWithConnection:connection];
-
-	[process setGroupField: [self groupsFieldForIndex:index]];
-	
-	[self setObject:process forKey:@"ProcessObject" forIndex:index];
+	id<TorrentController> process = [self processForIndex:index];
     
 	[process openConnection: handler];
-	
-	[process release];
-	[connection release];
-	[proxy release];
 }
 
 -(void) closeProcessForIndex:(NSInteger) index
@@ -365,7 +332,46 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 
 -(id<TorrentController>) processForIndex:(NSInteger) index
 {
-	return [self object:@"ProcessObject" forIndex:index];
+    id<TorrentController> process = [self object:@"ProcessObject" forIndex:index];
+    if (process == nil)
+    {
+        AMSession* proxy = nil;
+        if ([[self connectionTypeForIndex:index] isEqualToString: @"SSH"])
+        {
+            proxy = [[AMSession alloc] init];
+            proxy.sessionName = [self nameForIndex:index];
+            proxy.remoteHost = [self hostForIndex:index];
+            proxy.remotePort = [self portForIndex:index];
+		
+            proxy.localPort = [self sshLocalPortForIndex:index];
+		
+            AMServer *server = [[AMServer alloc] init];
+            server.host = [self sshHostForIndex:index];
+            server.username = [self sshUserForIndex:index];
+            server.password = [self sshPasswordForIndex:index];
+            server.port = [self sshPortForIndex:index];
+            server.useSSHV2 = [self sshUseV2ForIndex:index];
+            server.compressionLevel = [self sshCompressionLevelForIndex:index];
+            proxy.currentServer = server;
+            proxy.maxAutoReconnectRetries = [self maxReconnectsForIndex:index];
+            proxy.autoReconnect = YES;
+            [server release];
+        }
+    
+        RTConnection* connection = [[RTConnection alloc] initWithHostPort:[self hostForIndex:index] port:[self portForIndex:index] proxy:proxy];
+	
+        process = [[RTorrentController alloc] initWithConnection:connection];
+
+        [connection release];
+        [proxy release];
+
+        [(RTorrentController *)process setGroupField: [self groupsFieldForIndex:index]];
+	
+        [self setObject:process forKey:@"ProcessObject" forIndex:index];
+
+        [process release];
+    }
+	return process;
 }
 @end
 
