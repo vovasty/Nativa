@@ -117,7 +117,7 @@ static BOOL _logsErrors;
 
 #pragma mark General Properties
 
-@synthesize password = mPassword;
+@dynamic password;
 - (void)setPassword:(NSString *)newPassword
 {
 	@synchronized (self)
@@ -133,7 +133,12 @@ static BOOL _logsErrors;
 	}
 }
 
-@synthesize username = mUsername;
+- (NSString *) password
+{
+    return mPassword;
+}
+
+@dynamic username;
 - (void)setUsername:(NSString *)newUsername
 {
 	@synchronized (self)
@@ -149,7 +154,12 @@ static BOOL _logsErrors;
 	}
 }
 
-@synthesize label = mLabel;
+-(NSString*) username
+{
+    return mUsername;
+}
+
+@dynamic label;
 - (void)setLabel:(NSString *)newLabel
 {
 	@synchronized (self)
@@ -164,7 +174,10 @@ static BOOL _logsErrors;
 		[self _modifyAttributeWithTag:kSecLabelItemAttr toBeValue:(void *)newLabelCString ofLength:strlen(newLabelCString)];
 	}
 }
-
+-(NSString*) label
+{
+    return mLabel;
+}
 #pragma mark Actions
 - (void)removeFromKeychain
 {
@@ -270,7 +283,7 @@ static BOOL _logsErrors;
 
 #pragma mark Generic Properties
 
-@synthesize serviceName = mServiceName;
+@dynamic serviceName;
 - (void)setServiceName:(NSString *)newServiceName
 {
 	@synchronized (self)
@@ -286,6 +299,10 @@ static BOOL _logsErrors;
 	}
 }
 
+- (NSString*) serviceName
+{
+    return mServiceName;
+}
 @end
 
 #pragma mark -
@@ -412,7 +429,7 @@ static BOOL _logsErrors;
 
 #pragma mark Internet Properties
 
-@synthesize server = mServer;
+@dynamic server;
 - (void)setServer:(NSString *)newServer
 {
 	@synchronized (self)
@@ -428,7 +445,12 @@ static BOOL _logsErrors;
 	}
 }
 
-@synthesize path = mPath;
+- (NSString *) server
+{
+    return mServer;
+}
+
+@dynamic path;
 - (void)setPath:(NSString *)newPath
 {
 	if (mPath == newPath)
@@ -440,8 +462,12 @@ static BOOL _logsErrors;
 	const char *newPathCString = [newPath UTF8String];
 	[self _modifyAttributeWithTag:kSecPathItemAttr toBeValue:(void *)newPathCString ofLength:strlen(newPathCString)];
 }
+- (NSString *) path
+{
+    return mPath;
+}
 
-@synthesize port = mPort;
+@dynamic port;
 - (void)setPort:(NSInteger)newPort
 {
 	@synchronized (self)
@@ -456,7 +482,12 @@ static BOOL _logsErrors;
 	}
 }
 
-@synthesize protocol = mProtocol;
+- (NSInteger) port
+{
+    return mPort;
+}
+
+@dynamic protocol;
 - (void)setProtocol:(SecProtocolType)newProtocol
 {
 	@synchronized (self)
@@ -468,5 +499,10 @@ static BOOL _logsErrors;
 		
 		[self _modifyAttributeWithTag:kSecProtocolItemAttr toBeValue:&newProtocol ofLength:sizeof(newProtocol)];
 	}
+}
+
+-(SecProtocolType) protocol
+{
+    return mProtocol;
 }
 @end
