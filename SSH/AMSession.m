@@ -115,6 +115,22 @@
 	_connectionInProgress = YES;
 	_connected = NO;
 
+    if ([currentServer host] == nil || [[currentServer host] isEqualToString:@""]) 
+    {
+        [self setError:@"SSH host cannot be empty"];
+        if (handler)
+            handler(self);
+        return;
+    }
+    
+    if ([currentServer username] == nil || [[currentServer username] isEqualToString:@""]) 
+    {
+        [self setError:@"SSH user name cannot be empty"];
+        if (handler)
+            handler(self);
+        return;
+    }
+    
 	tryReconnect = autoReconnect;
 
 	[self setError: nil];

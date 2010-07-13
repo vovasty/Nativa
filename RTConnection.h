@@ -24,22 +24,22 @@
 
 @interface RTConnection : NSObject 
 {
-	NSString* hostName;
+	NSString    *hostName;
 	int port;
-	AMSession* _proxy;
-	BOOL _connected;
-	BOOL _connecting;
+	AMSession   *_proxy;
+	BOOL        _connected;
+	BOOL        _connecting;
+    NSString    *error;
 }
 - (id)initWithHostPort:(NSString *)initHost port:(int)initPort proxy:(AMSession*) proxy;
 
-- (BOOL) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate error:(NSString **) error;
+- (BOOL) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate error:(NSString **) connectionError;
 
 -(void) closeConnection;
 
 -(void) openConnection:(void (^)(RTConnection *sender))handler;
 
--(NSString*) error;
-
-@property (readonly) BOOL connected;
-@property (readonly) BOOL connecting;
+@property (readonly) BOOL     connected;
+@property (readonly) BOOL     connecting;
+@property (assign)   NSString *error;
 @end

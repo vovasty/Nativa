@@ -29,6 +29,7 @@
 - (int) findFreePort:(int) startPort endPort:(int)endPort;
 - (void) checkSettings:(BOOL) checkSSH checkSCGI:(BOOL) checkSCGI handler:(void (^)(BOOL success))handler;
 - (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info;
+- (void) showError:(NSString *) error;
 @end
 
 @implementation SetupAssistantController
@@ -45,7 +46,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     {
         pc = [ProcessesController sharedProcessesController];
         currentProcessIndex = [pc addProcess];
-        [self setScgiHost: @"127.0.0.1:5000"];
     }
     
     return self;
@@ -96,6 +96,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 {
     useSSH = NO;
     [self setChecking:NO];
+    [self setErrorMessage:nil];
     [transition setSubtype:kCATransitionFromLeft];
     [self setCurrentView:startView];
 }
@@ -109,6 +110,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 }
 - (IBAction)showConfigureSCGIView:(id)sender
 {
+    [self setErrorMessage: nil];
     [transition setSubtype:kCATransitionFromRight];
     [self setCurrentView:configureSCGIView];
     [[self window] makeFirstResponder:scgiFirstResponder];
@@ -116,11 +118,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 - (IBAction)checkSSH:(id)sender
 {
     sshLocalPort = [self findFreePort:5000 endPort:5010];
+    if (scgiHost == nil || [scgiHost isEqualToString:@""])
+        [self setScgiHost: @"127.0.0.1:5000"];
     [self checkSettings:YES checkSCGI:NO handler:^(BOOL success){
         if (success)
         {
             useSSH = YES;
-            [self setErrorMessage: nil];
             [self showConfigureSCGIView:nil];
         }
     }];
@@ -233,24 +236,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     
     [pc setConnectionType:checkSSH?@"SSH":@"Local" forIndex:currentProcessIndex];
     
-    if (checkSSH)
-    {
-        [pc setSshHost:sshHostPort.host forIndex:currentProcessIndex];
+    [pc setSshHost:sshHostPort.host forIndex:currentProcessIndex];
     
-        [pc setSshPort:sshHostPort.port forIndex:currentProcessIndex];
+    [pc setSshPort:sshHostPort.port forIndex:currentProcessIndex];
     
-        [pc setSshLocalPort:sshLocalPort forIndex:currentProcessIndex];
+    [pc setSshLocalPort:sshLocalPort forIndex:currentProcessIndex];
     
-        [pc setSshUser:sshUsername forIndex:currentProcessIndex];
+    [pc setSshUser:sshUsername forIndex:currentProcessIndex];
     
-        [pc setSshPassword:sshPassword forIndex:currentProcessIndex];
+    [pc setSshPassword:sshPassword forIndex:currentProcessIndex];
     
-        [pc setSshUseKeyLogin:useSSHKeyLogin forIndex:currentProcessIndex];
+    [pc setSshUseKeyLogin:useSSHKeyLogin forIndex:currentProcessIndex];
 
-        [pc setSshUseV2:NO forIndex:currentProcessIndex];
+    [pc setSshUseV2:NO forIndex:currentProcessIndex];
         
-        [pc setSshCompressionLevel:0 forIndex:currentProcessIndex];
-    }
+    [pc setSshCompressionLevel:0 forIndex:currentProcessIndex];
     
     [pc setGroupsField:1 forIndex:currentProcessIndex];
     
@@ -259,9 +259,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
         [pc setMaxReconnects:maxReconnects forIndex:currentProcessIndex];
         if (error != nil)
         {
-            [self setChecking:NO];
-            NSLog(@"error: %@", error);
-			[self setErrorMessage: error];
+            [self showError:error];
             if (handler)
                 handler(NO);
             return;
@@ -271,11 +269,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
             [[pc processForIndex:currentProcessIndex] list:^(NSArray *array, NSString* error){
                 [self setChecking:NO];
                 if (error != nil)
-                {
-                    NSLog(@"error: %@", error);
-                    [self setErrorMessage: error];
-                }
-                if (handler)
+                    [self showError:error];
+
+                    if (handler)
                     handler(error == nil);
                 
                 [pc closeProcessForIndex:currentProcessIndex];
@@ -323,4 +319,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 		
     }
 }
+
+- (void) showError:(NSString *) error
+{
+    if (![NSThread isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(showError:) withObject:error waitUntilDone:NO];
+        return;
+    }
+    NSLog(@"error: %@", error);
+	[self setChecking:NO];
+	[self setErrorMessage: error];
+}
+
 @end

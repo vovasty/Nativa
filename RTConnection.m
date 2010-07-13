@@ -28,6 +28,7 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 
 @synthesize connected = _connected;
 @synthesize connecting = _connecting;
+@dynamic error;
 
 - (id)initWithHostPort:(NSString *)initHost port:(int)initPort proxy:(AMSession*) proxy;
 {
@@ -50,11 +51,11 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 }
 
 
-- (BOOL) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate error:(NSString **) error
+- (BOOL) openStreams:(NSInputStream **)iStream oStream:(NSOutputStream **) oStream delegate:(id) delegate error:(NSString **) connectionError
 {
 	if (!_connected)
     {
-		*error = [NSString stringWithString:@"Not connected"];
+		*connectionError = [NSString stringWithString:@"Not connected"];
         return NO;
     }
 	NSHost *host = [NSHost hostWithAddress:hostName];
@@ -77,7 +78,7 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 		[(*iStream) open];
 		return YES;
 	}
-    *error = [NSString stringWithFormat:@"Unable to resolve host: %@",hostName];
+    *connectionError = [NSString stringWithFormat:@"Unable to resolve host: %@",hostName];
 	return NO;
 }
 
@@ -94,10 +95,20 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
     }
     else
         [_proxy closeTunnel];
+    
+    [self setError:nil];
 }
 
 -(void) openConnection:(void (^)(RTConnection *sender))handler
 {
+    if (hostName == nil || [hostName isEqualToString:@""]) 
+    {
+        [self setError:@"SCGI host cannot be empty"];
+        if (handler)
+            handler(self);
+        return;
+    }
+    
 	if (_proxy == nil)
 	{
 		[self willChangeValueForKey:@"connecting"];
@@ -122,16 +133,12 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 	}
 }
 
--(NSString*) error
-{
-	return _proxy == nil?nil:[_proxy error];
-}
-
 -(void)dealloc;
 {
 	[hostName release];
 	[_proxy removeObserver:self forKeyPath:@"connected"];
 	[_proxy release];
+    [self setError:nil];
 	[super dealloc];
 }
 
@@ -157,5 +164,22 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
                                change:change
                               context:context];
     }
+}
+
+-(void) setError:(NSString *) err
+{
+    if (err == error) 
+        return;
+    [err release];
+    error = [err retain];
+}
+
+-(NSString*)error
+{
+    if (error != nil)
+        return error;
+    if (_proxy != nil)
+        return _proxy.error;
+    return nil;
 }
 @end

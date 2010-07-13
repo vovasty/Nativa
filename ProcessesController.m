@@ -323,20 +323,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 	AMSession* proxy = nil;
 	if ([[self connectionTypeForIndex:index] isEqualToString: @"SSH"])
 	{
-        if ([self sshHostForIndex:index] == nil || [[self sshHostForIndex:index] isEqualToString:@""]) 
-        {
-            if (handler)
-                handler(@"SSH host cannot be empty");
-            return;
-        }
-
-        if ([self sshUserForIndex:index] == nil || [[self sshUserForIndex:index] isEqualToString:@""]) 
-        {
-            if (handler)
-                handler(@"SSH user name cannot be empty");
-            return;
-        }
-        
 		proxy = [[AMSession alloc] init];
 		proxy.sessionName = [self nameForIndex:index];
 		proxy.remoteHost = [self hostForIndex:index];
@@ -356,13 +342,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 		proxy.autoReconnect = YES;
 		[server release];
 	}
-    
-    if ([self hostForIndex:index] == nil || [[self hostForIndex:index] isEqualToString:@""]) 
-    {
-        if (handler)
-            handler(@"SCGI host cannot be empty");
-        return;
-    }
     
 	RTConnection* connection = [[RTConnection alloc] initWithHostPort:[self hostForIndex:index] port:[self portForIndex:index] proxy:proxy];
 	
