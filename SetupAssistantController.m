@@ -46,7 +46,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
         pc = [ProcessesController sharedProcessesController];
         currentProcessIndex = [pc addProcess];
         [self setScgiHost: @"127.0.0.1:5000"];
-        [self setSshUsername:NSUserName()];
     }
     
     return self;
