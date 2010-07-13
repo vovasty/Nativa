@@ -414,8 +414,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 		[blockSelf didChangeValueForKey:@"globalDownloadSpeedLimit"];
 
         //update global max speed limits
-        NSLog(@"%d %f", [_defaults boolForKey: NIGlobalSpeedLimitMaxAuto], _globalDownloadSpeedLimit);
-        
         if ([_defaults boolForKey: NIGlobalSpeedLimitMaxAuto] 
                 && _globalDownloadSpeedLimit == 0
                 && [_defaults integerForKey:NIGlobalSpeedLimitMaxDownload]<_globalDownloadSpeed/1024)
