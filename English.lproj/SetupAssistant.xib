@@ -456,7 +456,7 @@
 						<reference key="NSNextResponder" ref="739844354"/>
 						<int key="NSvFlags">1280</int>
 						<object class="NSPSMatrix" key="NSDrawMatrix"/>
-						<string key="NSFrame">{{304, 54}, {16, 16}}</string>
+						<string key="NSFrame">{{263, 53}, {16, 16}}</string>
 						<reference key="NSSuperview" ref="739844354"/>
 						<int key="NSpiFlags">28938</int>
 						<double key="NSMaxValue">100</double>
@@ -470,7 +470,7 @@
 						<object class="NSButtonCell" key="NSCell" id="260372037">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">134217728</int>
-							<string key="NSContents">Check connection</string>
+							<string key="NSContents">Finish</string>
 							<reference key="NSSupport" ref="884388995"/>
 							<reference key="NSControlView" ref="206825541"/>
 							<int key="NSButtonFlags">-2038284033</int>
@@ -1155,7 +1155,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="277219127"/>
 							<reference ref="177504905"/>
-							<reference ref="84203758"/>
 							<reference ref="49177195"/>
 							<reference ref="504108455"/>
 							<reference ref="346882279"/>
@@ -1164,6 +1163,7 @@
 							<reference ref="789529628"/>
 							<reference ref="206825541"/>
 							<reference ref="448540887"/>
+							<reference ref="84203758"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">configureSCGI</string>
