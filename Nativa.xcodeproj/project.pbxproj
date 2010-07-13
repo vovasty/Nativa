@@ -84,6 +84,7 @@
 		81B73ABF111399DC00A11521 /* StatusBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73ABE111399DC00A11521 /* StatusBarView.m */; };
 		81B73AFC1113B34000A11521 /* StatusbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73AFB1113B34000A11521 /* StatusbarController.m */; };
 		81B73C061113C50200A11521 /* NSStringTorrentAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B73C051113C50200A11521 /* NSStringTorrentAdditions.m */; };
+		81C0C6BC11EC811B00400993 /* ColorTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C0C6BB11EC811B00400993 /* ColorTextField.m */; };
 		81C7E0191184B55000987846 /* MoveData.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81C7E0181184B55000987846 /* MoveData.xib */; };
 		81C7E0941184B9DE00987846 /* MoveDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C7E0931184B9DE00987846 /* MoveDataController.m */; };
 		81CB5A841128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict in Resources */ = {isa = PBXBuildFile; fileRef = 81CB5A831128E55E00A9D5D3 /* Growl Registration Ticket.growlRegDict */; };
@@ -252,6 +253,8 @@
 		81B73AFB1113B34000A11521 /* StatusbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusbarController.m; sourceTree = "<group>"; };
 		81B73C041113C50200A11521 /* NSStringTorrentAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringTorrentAdditions.h; sourceTree = "<group>"; };
 		81B73C051113C50200A11521 /* NSStringTorrentAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringTorrentAdditions.m; sourceTree = "<group>"; };
+		81C0C6BA11EC811B00400993 /* ColorTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorTextField.h; sourceTree = "<group>"; };
+		81C0C6BB11EC811B00400993 /* ColorTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorTextField.m; sourceTree = "<group>"; };
 		81C7E0161184B54600987846 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MoveData.xib; sourceTree = "<group>"; };
 		81C7E0921184B9DE00987846 /* MoveDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoveDataController.h; sourceTree = "<group>"; };
 		81C7E0931184B9DE00987846 /* MoveDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoveDataController.m; sourceTree = "<group>"; };
@@ -428,6 +431,8 @@
 		810659071118DA4700674B45 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				81C0C6BA11EC811B00400993 /* ColorTextField.h */,
+				81C0C6BB11EC811B00400993 /* ColorTextField.m */,
 				81E00C6E117A233D00B3F87D /* PredicateEditorRowTemplateAny.h */,
 				81E00C6F117A233D00B3F87D /* PredicateEditorRowTemplateAny.m */,
 				81E00C01117A191D00B3F87D /* GroupsPrefsController.h */,
@@ -817,6 +822,7 @@
 				81C7E0941184B9DE00987846 /* MoveDataController.m in Sources */,
 				8140A9C311E91611002D1031 /* SetupAssistantController.m in Sources */,
 				8140AF1711EB23BA002D1031 /* NIHostPort.m in Sources */,
+				81C0C6BC11EC811B00400993 /* ColorTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
