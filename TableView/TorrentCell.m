@@ -726,6 +726,8 @@
 	case NITorrentStateChecking:
             string = [string stringByAppendingFormat: @" (%.2f%%)", 100*torrent.progress];
 			break;
+    default:
+			break;
 	}
 	
     return string;
