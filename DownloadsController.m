@@ -174,9 +174,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
             NSInteger index = [[GroupsController groups] groupIndexForTorrentByRules:constructed];
             NSString *groupName = [[GroupsController groups] nameForIndex:index];
             NSString *folderName = [[GroupsController groups] usesCustomDownloadLocationForIndex:index]?
-            [[GroupsController groups] customDownloadLocationForIndex:index]:
-            nil;
-            
+                                     [[GroupsController groups] customDownloadLocationForIndex:index]:
+                                     nil;
+            NSLog(@"%@", [blockSelf _controller]);
             [[blockSelf _controller] add:rawTorrent 
                               start:[_defaults boolForKey:NIStartTransferWhenAddedKey] 
                               group:groupName
