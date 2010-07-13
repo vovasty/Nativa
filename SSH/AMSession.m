@@ -183,6 +183,7 @@
 
 	NSLog(@"Session %@ is now launched.", [self sessionName]);
 	[killTimer invalidate];
+    [killTimer release];
 	killTimer = [NSTimer scheduledTimerWithTimeInterval:90
 														target:self 
 														selector:@selector(killTimeoutedTask) 
