@@ -233,23 +233,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     
     [pc setConnectionType:checkSSH?@"SSH":@"Local" forIndex:currentProcessIndex];
     
-    [pc setSshHost:sshHostPort.host forIndex:currentProcessIndex];
+    if (checkSSH)
+    {
+        [pc setSshHost:sshHostPort.host forIndex:currentProcessIndex];
     
-    [pc setSshPort:sshHostPort.port forIndex:currentProcessIndex];
+        [pc setSshPort:sshHostPort.port forIndex:currentProcessIndex];
     
-    [pc setSshLocalPort:sshLocalPort forIndex:currentProcessIndex];
+        [pc setSshLocalPort:sshLocalPort forIndex:currentProcessIndex];
     
-    [pc setSshUser:sshUsername forIndex:currentProcessIndex];
+        [pc setSshUser:sshUsername forIndex:currentProcessIndex];
     
-    [pc setSshPassword:sshPassword forIndex:currentProcessIndex];
+        [pc setSshPassword:sshPassword forIndex:currentProcessIndex];
     
-    [pc setSshUseKeyLogin:useSSHKeyLogin forIndex:currentProcessIndex];
+        [pc setSshUseKeyLogin:useSSHKeyLogin forIndex:currentProcessIndex];
+
+        [pc setSshUseV2:NO forIndex:currentProcessIndex];
+        
+        [pc setSshCompressionLevel:0 forIndex:currentProcessIndex];
+    }
     
     [pc setGroupsField:1 forIndex:currentProcessIndex];
-    
-    [pc setSshUseV2:NO forIndex:currentProcessIndex];
-    
-    [pc setSshCompressionLevel:0 forIndex:currentProcessIndex];
     
     [self setChecking:YES];
     [pc openProcessForIndex:currentProcessIndex handler:^(NSString *error){
