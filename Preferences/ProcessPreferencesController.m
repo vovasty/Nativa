@@ -171,10 +171,11 @@
 
     if ([pc sshPortForIndex:index] == 22)
             [self setSshHost:[pc sshHostForIndex:index]];
-    else
+    else if ([pc sshHostForIndex:index] != nil)
         [self setSshHost:[NSString stringWithFormat:@"%@:%d",
                             [pc sshHostForIndex:index],
                             [pc sshPortForIndex:index]]];
+    else;
 		
 	[self setSshUser: [pc sshUserForIndex:index]];
 		
