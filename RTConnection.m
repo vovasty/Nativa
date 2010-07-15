@@ -32,7 +32,7 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 
 - (id)initWithHostPort:(NSString *)initHost port:(int)initPort proxy:(AMSession*) proxy;
 {
-	hostName = [[NSString stringWithString:initHost] retain];
+	hostName = [initHost retain];
 	port = initPort;
 	_connecting = NO;
 	_connected = NO;

@@ -26,11 +26,12 @@
 @interface RTorrentController : NSObject<TorrentController>
 {
 	NSOperationQueue	*_queue;
-	RTConnection		*_connection;
+	RTConnection		*connection;
 	NSUInteger			_groupField;
 	NSString			*_setGroupCommand;
 	NSString			*_getGroupCommand;
 }
 - (id)initWithConnection:(RTConnection*) conn;
-@property NSUInteger	groupField;
+@property NSUInteger            groupField;
+@property (retain)RTConnection  *connection;
 @end

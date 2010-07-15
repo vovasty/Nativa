@@ -24,7 +24,7 @@
 #import "RTListCommand.h"
 #import "NSStringRTorrentAdditions.h"
 
-static NSString * ConnectingContext = @"ConnectingContext";
+static NSString * ConnectedContext = @"ConnectedContext";
 
 @interface RTorrentController(Private)
 -(void)_runOperation:(id<RTorrentCommand>) operation;
@@ -34,6 +34,19 @@ static NSString * ConnectingContext = @"ConnectingContext";
 
 @implementation RTorrentController
 @dynamic groupField;
+@synthesize connection;
+
+- (id) init
+{
+    if ((self = [super init]) != nil)
+    {
+        _queue = [[NSOperationQueue alloc] init];
+        [_queue setMaxConcurrentOperationCount:1];
+        
+        [_queue setSuspended:YES];
+    }
+    return self;
+}
 
 - (id)initWithConnection:(RTConnection*) conn;
 {
@@ -41,25 +54,20 @@ static NSString * ConnectingContext = @"ConnectingContext";
 	if (self == nil)
 		return nil;
 	
-	_connection = [conn retain];
-
-	_queue = [[NSOperationQueue alloc] init];
-	[_queue setMaxConcurrentOperationCount:1];
+	[self setConnection:conn];
+    _queue = [[NSOperationQueue alloc] init];
+    [_queue setMaxConcurrentOperationCount:1];
+    
+    [_queue setSuspended:YES];
+    
 	
-	[_queue setSuspended:YES];
-	
-	[_connection addObserver:self
-			 forKeyPath:@"connecting"
-				options:0
-				context:&ConnectingContext];
 	return self;
 }
 
 -(void)dealloc;
 {
 	[_queue release];
-	[_connection removeObserver:self forKeyPath:@"connecting"];
-	[_connection release];
+	[self setConnection:nil];
 	[_getGroupCommand release];
 	[_setGroupCommand release];
 	[super dealloc];
@@ -277,9 +285,9 @@ static NSString * ConnectingContext = @"ConnectingContext";
                         change:(NSDictionary *)change
                        context:(void *)context
 {
-	if (context == &ConnectingContext)
+	if (context == &ConnectedContext)
     {
-		[_queue setSuspended:_connection.connecting];
+		[_queue setSuspended:connection.connecting];
     }
     else
     {
@@ -292,12 +300,17 @@ static NSString * ConnectingContext = @"ConnectingContext";
 
 -(BOOL) connected
 {
-	return [_connection connected];
+	return [connection connected];
 }
 
 -(void) openConnection:(VoidResponseBlock) response;
 {
-	[_connection openConnection:^(RTConnection *sender){
+    [connection addObserver:self
+                 forKeyPath:@"connected"
+                    options:0
+                    context:&ConnectedContext];
+    
+	[connection openConnection:^(RTConnection *sender){
         if (response != nil)
             response([sender error]);
     }];
@@ -305,7 +318,13 @@ static NSString * ConnectingContext = @"ConnectingContext";
 
 -(void) closeConnection
 {
-	[_connection closeConnection];
+    @try {
+        [connection removeObserver:self forKeyPath:@"connected"];
+    }
+    @catch (NSException *exception) {
+            //ignore objserver removal exception
+    }
+	[connection closeConnection];
 }
 
 -(NSUInteger) groupField;
@@ -328,14 +347,14 @@ static NSString * ConnectingContext = @"ConnectingContext";
 @implementation RTorrentController(Private)
 -(void)_runOperation:(id<RTorrentCommand>) operation
 {
-	RTSCGIOperation* scgiOperation = [[RTSCGIOperation alloc] initWithOperation:_connection operation:operation];
+	RTSCGIOperation* scgiOperation = [[RTSCGIOperation alloc] initWithOperation:connection operation:operation];
 	[_queue addOperation:scgiOperation];
 	[scgiOperation release];
 }
 
 -(void)_runCommand:(NSString*) command arguments:(NSArray*)arguments handler:(void(^)(id data, NSString* error)) h
 {
-	RTSCGIOperation* scgiOperation = [[RTSCGIOperation alloc] initWithCommand:_connection command:command arguments:arguments handler:h];
+	RTSCGIOperation* scgiOperation = [[RTSCGIOperation alloc] initWithCommand:connection command:command arguments:arguments handler:h];
 	[_queue addOperation:scgiOperation];
 	[scgiOperation release];
 }
