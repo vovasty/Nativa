@@ -2003,7 +2003,7 @@ AAAAAAAAA</bytes>
 								<bool key="BWTSTrackHeight">NO</bool>
 							</object>
 							<int key="BWTSIndicatorIndex">0</int>
-							<object class="NSButton" key="BWTSMinButton" id="9876863">
+							<object class="NSButton" key="BWTSMinButton" id="188426593">
 								<nil key="NSNextResponder"/>
 								<int key="NSvFlags">256</int>
 								<string key="NSFrame">{{18, 4}, {9, 13}}</string>
@@ -2013,12 +2013,12 @@ AAAAAAAAA</bytes>
 									<int key="NSCellFlags">67239424</int>
 									<int key="NSCellFlags2">134217728</int>
 									<string key="NSContents">Button</string>
-									<object class="NSFont" key="NSSupport" id="384560181">
+									<object class="NSFont" key="NSSupport" id="28">
 										<string key="NSName">LucidaGrande</string>
 										<double key="NSSize">12</double>
-										<int key="NSfFlags">16</int>
+										<int key="NSfFlags">4883</int>
 									</object>
-									<reference key="NSControlView" ref="9876863"/>
+									<reference key="NSControlView" ref="188426593"/>
 									<string key="NSAction">setSliderToMinimum</string>
 									<reference key="NSTarget" ref="676950283"/>
 									<int key="NSButtonFlags">-2143010561</int>
@@ -2064,7 +2064,7 @@ AAMAAAABAAEAAAFSAAMAAAABAAIAAAFTAAMAAAAEAAAChgAAAAAACAAIAAgACAABAAEAAQABA</bytes
 									<int key="NSCellFlags">67239424</int>
 									<int key="NSCellFlags2">134217728</int>
 									<string key="NSContents">Button</string>
-									<reference key="NSSupport" ref="384560181"/>
+									<reference key="NSSupport" ref="28"/>
 									<reference key="NSControlView" ref="852045223"/>
 									<string key="NSAction">setSliderToMaximum</string>
 									<reference key="NSTarget" ref="676950283"/>
@@ -2121,7 +2121,7 @@ A1YAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 									<string>NeXT TIFF v4.0 pasteboard type</string>
 								</object>
 							</object>
-							<string key="NSFrame">{{160, 8}, {9, 9}}</string>
+							<string key="NSFrame">{{157, 6}, {13, 13}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="483624978">
@@ -2153,7 +2153,7 @@ A1YAAAAAAAgACAAIAAgAAQABAAEAAQ</bytes>
 									<string>NeXT TIFF v4.0 pasteboard type</string>
 								</object>
 							</object>
-							<string key="NSFrame">{{260.5, 6.5}, {13, 13}}</string>
+							<string key="NSFrame">{{259, 4}, {16, 16}}</string>
 							<reference key="NSSuperview" ref="439893737"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="767787366">
