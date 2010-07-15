@@ -35,7 +35,7 @@
 @implementation SetupAssistantController
 
 @dynamic currentView;
-@synthesize sshHost, sshUsername, sshPassword, useSSHKeyLogin, errorMessage, checking, sshLocalPort, scgiHost, openSetupAssistantHandler;
+@synthesize sshHost, sshUsername, sshPassword, useSSHKeyLogin, errorMessage, checking, sshLocalPort, scgiHost, openSetupAssistantHandler, localDownloadsFolder;
 ;
 
 SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
@@ -254,6 +254,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     
     [pc setGroupsField:1 forIndex:currentProcessIndex];
     
+    [pc setLocalDownloadsFolder:localDownloadsFolder forIndex:currentProcessIndex];
+    
     [self setChecking:YES];
     [pc openProcessForIndex:currentProcessIndex handler:^(NSString *error){
         [pc setMaxReconnects:maxReconnects forIndex:currentProcessIndex];
@@ -294,16 +296,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     {
 		NSString * folder = [[openPanel filenames] objectAtIndex: 0];
         
-		[pc setLocalDownloadsFolder:folder forIndex:currentProcessIndex];
+		[self setLocalDownloadsFolder:folder];
 		
         [_downloadsPathPopUp removeItemAtIndex:0];
-        if ([pc localDownloadsFolderForIndex:currentProcessIndex] == nil)
+        if (localDownloadsFolder == nil)
             [_downloadsPathPopUp insertItemWithTitle:@"" atIndex:0];
         else
         {
-            [_downloadsPathPopUp insertItemWithTitle:[[NSFileManager defaultManager] displayNameAtPath: [pc localDownloadsFolderForIndex:currentProcessIndex]] atIndex:0];
+            [_downloadsPathPopUp insertItemWithTitle:[[NSFileManager defaultManager] displayNameAtPath: localDownloadsFolder] atIndex:0];
             
-            NSString * path = [[pc localDownloadsFolderForIndex:currentProcessIndex] stringByExpandingTildeInPath];
+            NSString * path = [localDownloadsFolder stringByExpandingTildeInPath];
             NSImage * icon;
                 //show a folder icon if the folder doesn't exist
             if ([[path pathExtension] isEqualToString: @""] && ![[NSFileManager defaultManager] fileExistsAtPath: path])

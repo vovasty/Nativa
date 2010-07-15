@@ -27,6 +27,7 @@
     NSString                     *scgiHost;
     IBOutlet id                  scgiFirstResponder;
     int                          currentProcessIndex;
+    NSString                     *localDownloadsFolder;
     
     ProcessesController          *pc;
     
@@ -50,6 +51,7 @@
 @property (assign) int       sshLocalPort;
 
 @property (retain) NSString  *scgiHost;
+@property (retain) NSString  *localDownloadsFolder;
 
 @property (assign) BOOL      checking;
 
