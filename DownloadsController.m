@@ -79,14 +79,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	_downloads = [[[NSMutableArray alloc] init] retain];
 	_defaults = [NSUserDefaults standardUserDefaults];
     _queue = [[NSOperationQueue alloc] init];
-    [(NSObject *)[self _controller] addObserver:self
-                 forKeyPath:@"connected"
-                    options:0
-                    context:&ConnectedContext];
-    [(NSObject *)[self _controller] addObserver:self
-                                     forKeyPath:@"connecting"
-                                        options:0
-                                        context:&ConnectingContext];
 	return self;
 }
 
@@ -105,6 +97,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	[_updateListTimer invalidate];
 	[_updateGlobalsTimer invalidate];
 
+    [(NSObject *)[self _controller] addObserver:self
+                                     forKeyPath:@"connected"
+                                        options:0
+                                        context:&ConnectedContext];
+    [(NSObject *)[self _controller] addObserver:self
+                                     forKeyPath:@"connecting"
+                                        options:0
+                                        context:&ConnectingContext];
+    
+    
 	__block DownloadsController *blockSelf = self;
 	[[ProcessesController sharedProcessesController] openProcessForIndex:[self _processIndex] handler:^(NSString* error){
 		if (response)
@@ -138,6 +140,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 {
 	[_updateListTimer invalidate];
 	[_updateGlobalsTimer invalidate];
+
+    @try {
+        [(NSObject *)[self _controller] removeObserver:self forKeyPath:@"connected"];
+    }
+    @catch (NSException *exception) {
+            //ignore objserver removal exception
+    }
+
+    @try {
+        [(NSObject *)[self _controller] removeObserver:self forKeyPath:@"connecting"];
+    }
+    @catch (NSException *exception) {
+            //ignore objserver removal exception
+    }
+    
 	
 	ProcessesController* pc = [ProcessesController sharedProcessesController];
 	
