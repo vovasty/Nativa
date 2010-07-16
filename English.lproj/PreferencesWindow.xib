@@ -12,8 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="826"/>
 			<integer value="99"/>
+			<integer value="826"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1901,9 +1901,6 @@ AAA</bytes>
 			<object class="NSCustomObject" id="298051573">
 				<string key="NSClassName">GroupsPrefsController</string>
 			</object>
-			<object class="NSCustomObject" id="104662051">
-				<string key="NSClassName">Controller</string>
-			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -2671,14 +2668,6 @@ AAA</bytes>
 						</object>
 					</object>
 					<int key="connectionID">906</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">controller</string>
-						<reference key="source" ref="855986979"/>
-						<reference key="destination" ref="104662051"/>
-					</object>
-					<int key="connectionID">914</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -3526,11 +3515,6 @@ AAA</bytes>
 						<int key="objectID">912</int>
 						<reference key="object" ref="845434437"/>
 						<reference key="parent" ref="431847728"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">913</int>
-						<reference key="object" ref="104662051"/>
-						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">817</int>

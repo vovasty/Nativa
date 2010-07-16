@@ -36,17 +36,7 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 	port = initPort;
 	_connecting = NO;
 	_connected = NO;
-	if (proxy)
-	{
-		_proxy = [proxy retain];
-		
-		//watch proxy closing
-		[_proxy addObserver:self
-				forKeyPath:@"connected"
-				options:0
-				context:&ProxyConnectedContext];
-		
-	}
+    _proxy = [proxy retain];
 	return self;
 }
 
@@ -84,18 +74,23 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 
 -(void) closeConnection
 {
-    if (_proxy == nil) 
-    {
-        [self willChangeValueForKey:@"connecting"];
-        [self willChangeValueForKey:@"connected"];
-        _connected = NO;
-        _connecting = NO;
-        [self didChangeValueForKey:@"connecting"];
-        [self didChangeValueForKey:@"connected"];
-    }
-    else
-        [_proxy closeTunnel];
+    [self willChangeValueForKey:@"connecting"];
+    [self willChangeValueForKey:@"connected"];
+    _connected = NO;
+    _connecting = NO;
+    [self didChangeValueForKey:@"connecting"];
+    [self didChangeValueForKey:@"connected"];
     
+    if (_proxy != nil) 
+    {
+        @try {
+            [_proxy removeObserver:self forKeyPath:@"connected"];
+        }
+        @catch (NSException *exception) {
+                //ignore objserver removal exception
+        }
+        [_proxy closeTunnel];
+    }
     [self setError:nil];
 }
 
@@ -122,11 +117,17 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 	}
 	else
 	{
-		[self willChangeValueForKey:@"connecting"];
-		_connected = NO;
-		_connecting = YES;
-		[self didChangeValueForKey:@"connecting"];
+        [_proxy addObserver:self
+                     forKeyPath:@"connected"
+                        options:0
+                        context:&ProxyConnectedContext];
 		[_proxy openTunnel:^(AMSession *sender){
+            [self willChangeValueForKey:@"connecting"];
+            [self willChangeValueForKey:@"connected"];
+            _connected = _proxy.connected;
+            _connecting =_proxy.connectionInProgress;
+            [self didChangeValueForKey:@"connected"];
+            [self didChangeValueForKey:@"connecting"];
             if (handler != nil) 
                 handler(self);
         }];
@@ -136,7 +137,6 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 -(void)dealloc;
 {
 	[hostName release];
-	[_proxy removeObserver:self forKeyPath:@"connected"];
 	[_proxy release];
     [self setError:nil];
 	[super dealloc];
@@ -154,9 +154,10 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 		[self willChangeValueForKey:@"connected"];
 		_connected = _proxy.connected;
 		_connecting =_proxy.connectionInProgress;
-		[self didChangeValueForKey:@"connecting"];
 		[self didChangeValueForKey:@"connected"];
+		[self didChangeValueForKey:@"connecting"];
     }
+    
     else
     {
         [super observeValueForKeyPath:keyPath

@@ -28,6 +28,10 @@
 #include <Growl/Growl.h>
 #import "NSStringTorrentAdditions.h"
 
+static NSString * ConnectedContext = @"ConnectedContext";
+
+static NSString * ConnectingContext = @"ConnectingContext";
+
 NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
 @interface DownloadsController(Private)
@@ -59,6 +63,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 @synthesize globalDownloadSpeedLimit    = _globalDownloadSpeedLimit;
 @synthesize globalUploadSpeedLimit      = _globalUploadSpeedLimit;
 
+@synthesize connected, connecting;
+
 -(id)init;
 {
 	self = [super init];
@@ -67,6 +73,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	_downloads = [[[NSMutableArray alloc] init] retain];
 	_defaults = [NSUserDefaults standardUserDefaults];
     _queue = [[NSOperationQueue alloc] init];
+    [(NSObject *)[self _controller] addObserver:self
+                 forKeyPath:@"connected"
+                    options:0
+                    context:&ConnectedContext];
+    [(NSObject *)[self _controller] addObserver:self
+                                     forKeyPath:@"connecting"
+                                        options:0
+                                        context:&ConnectingContext];
 	return self;
 }
 
@@ -85,12 +99,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	[_updateListTimer invalidate];
 	[_updateGlobalsTimer invalidate];
 
-	ProcessesController* pc = [ProcessesController sharedProcessesController];
-
 	__block DownloadsController *blockSelf = self;
-	NSInteger index =[pc indexForRow:0];
-
-	[pc openProcessForIndex:index handler:^(NSString* error){
+	[[ProcessesController sharedProcessesController] openProcessForIndex:[self _processIndex] handler:^(NSString* error){
 		if (response)
 			response(error);
 		
@@ -445,6 +455,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	VoidResponseBlock r = [self _updateListResponse:handler errorFormat:@"Unable to set location for torrent: %@"];
 	[[self _controller] moveData:torrent location:location handler:r];
 	[r release];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+	if (context == &ConnectedContext)
+    {
+        [self setConnected:[self _controller].connected];
+    }
+    else if (context == &ConnectingContext)
+    {
+        [self setConnecting:[self _controller].connecting];
+    }
+    
+    else
+    {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
 }
 @end
 

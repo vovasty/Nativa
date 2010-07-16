@@ -20,8 +20,13 @@
 
 #import "ProcessPreferencesController.h"
 #import "ProcessesController.h"
-#import "Controller.h"
 #import "NIHostPort.h"
+#import "DownloadsController.h"
+
+#import "RTConnection.h"
+#import "AMServer.h"
+#import "AMSession.h"
+#import "RTorrentController.h"
 
 @interface ProcessPreferencesController(Private)
 
@@ -30,6 +35,8 @@
 - (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info;
 
 - (NSInteger) currentProcess;
+
+- (void) runUpdates;
 @end
 
 @implementation ProcessPreferencesController
@@ -60,67 +67,101 @@
 
 - (void) saveProcess: (id) sender
 {
-    [controller sleep];
-
     [_window makeFirstResponder: nil];
+    [[DownloadsController sharedDownloadsController] stopUpdates];
+    [_testProcess closeConnection];
+    [_testProcess release];
 
-	NSInteger index = [self currentProcess];
-	
-	//test connection with only one reconnect
-	int maxReconnects = ([pc maxReconnectsForIndex:index] == 0?10:[pc maxReconnectsForIndex:index]);
-
-	[pc setMaxReconnects:0 forIndex:index];
+    _testProcess = [[RTorrentController alloc] init];
+    [_testProcess retain];
     
+    AMSession* proxy = nil;
     NIHostPort *scgiHostPort = [NIHostPort parseHostPort:host defaultPort:5000];
+    if (useSSH)
+    {
+        proxy = [[AMSession alloc] init];
+        proxy.sessionName = @"test";
+        
+        
+        proxy.remoteHost = scgiHostPort.host;
+        proxy.remotePort = scgiHostPort.port;
+        
+        proxy.localPort = sshLocalPort;
+        
+        NIHostPort *sshHostPort = [NIHostPort parseHostPort:sshHost defaultPort:22];
+        AMServer *server = [[AMServer alloc] init];
+        server.host = sshHostPort.host;
+        server.port = sshHostPort.port;
+        server.username = sshUser;
+        server.password = sshPassword;
+        server.useSSHV2 = useSSHV2;
+        server.compressionLevel = sshCompressionLevel;
+        proxy.currentServer = server;
+        proxy.maxAutoReconnectRetries = 1;
+        proxy.autoReconnect = NO;
+        [server release];
+    }
     
-    [pc setHost:scgiHostPort.host forIndex:index];
+    RTConnection* connection = [[RTConnection alloc] initWithHostPort:scgiHostPort.host port:scgiHostPort.port proxy:proxy];
     
-    [pc setPort:scgiHostPort.port forIndex:index];
+    [_testProcess setConnection:connection];
     
-    [pc setConnectionType:useSSH?@"SSH":@"Local" forIndex:index];
+    [connection release];
+    [proxy release];
     
-    NIHostPort *sshHostPort = [NIHostPort parseHostPort:sshHost defaultPort:22];
+    [_testProcess setGroupField: groupsField];   
     
-    [pc setSshHost:sshHostPort.host forIndex:index];
-    
-    [pc setSshPort:sshHostPort.port forIndex:index];
-    
-    [pc setSshUser:sshUser forIndex:index];
-    
-    [pc setSshPassword:sshPassword forIndex:index];
-
-    [pc setSshUseKeyLogin:useSSHKeyLogin forIndex:index];
-    
-    [pc setGroupsField:groupsField forIndex:index];
-    
-    [pc setSshUseV2:useSSHV2 forIndex:index];
-    
-    [pc setSshCompressionLevel:sshCompressionLevel forIndex:index];
-    
-    [pc setSshLocalPort:sshLocalPort forIndex:index];
-
-    [self setErrorMessage:nil];
-    
-    [self setChecking:YES];
-    
-    [pc openProcessForIndex:index handler:^(NSString *error){
-        [pc setMaxReconnects:maxReconnects forIndex:index];
+	[_testProcess openConnection: ^(NSString *error){
         if (error != nil)
         {
 			NSLog(@"error: %@", error);
 			[self setErrorMessage:error];
             [self setChecking:NO];
-            [pc closeProcessForIndex:index];
+            [_testProcess closeConnection];
+            [self runUpdates];
             return;
         }
-        [[self->pc processForIndex:index] list:^(NSArray *array, NSString* error){
+        [_testProcess list:^(NSArray *array, NSString* error){
 			[self setErrorMessage:error];
             [self setChecking:NO];
+            [_testProcess closeConnection];
             if (error == nil)
+            {
+                NSInteger index = [self currentProcess];
+                
+                [pc setMaxReconnects:10 forIndex:index];
+                
+                NIHostPort *scgiHostPort = [NIHostPort parseHostPort:host defaultPort:5000];
+                
+                [pc setHost:scgiHostPort.host forIndex:index];
+                
+                [pc setPort:scgiHostPort.port forIndex:index];
+                
+                [pc setConnectionType:useSSH?@"SSH":@"Local" forIndex:index];
+                
+                NIHostPort *sshHostPort = [NIHostPort parseHostPort:sshHost defaultPort:22];
+                
+                [pc setSshHost:sshHostPort.host forIndex:index];
+                
+                [pc setSshPort:sshHostPort.port forIndex:index];
+                
+                [pc setSshUser:sshUser forIndex:index];
+                
+                [pc setSshPassword:sshPassword forIndex:index];
+                
+                [pc setSshUseKeyLogin:useSSHKeyLogin forIndex:index];
+                
+                [pc setGroupsField:groupsField forIndex:index];
+                
+                [pc setSshUseV2:useSSHV2 forIndex:index];
+                
+                [pc setSshCompressionLevel:sshCompressionLevel forIndex:index];
+                
+                [pc setSshLocalPort:sshLocalPort forIndex:index];
+                
                 [[ProcessesController sharedProcessesController] saveProcesses];
-
-            [pc closeProcessForIndex:index];
-            [controller awake];
+            }
+            [self runUpdates];
         }];
     }];
 }
@@ -131,6 +172,7 @@
     [self setSshHost:nil];
     [self setSshUser:nil];
     [self setSshPassword:nil];
+    [_testProcess release];
     [super dealloc];
 }
 @end
@@ -209,5 +251,15 @@
 		return [pc indexForRow:0];
 	else
 		return [pc addProcess];
+}
+
+-(void) runUpdates
+{
+    if (![NSThread isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(runUpdates) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    [[DownloadsController sharedDownloadsController] startUpdates:nil];
 }
 @end

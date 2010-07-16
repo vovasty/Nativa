@@ -30,8 +30,12 @@
 	NSUInteger			_groupField;
 	NSString			*_setGroupCommand;
 	NSString			*_getGroupCommand;
+    BOOL                connected;
+    BOOL                connecting;
 }
 - (id)initWithConnection:(RTConnection*) conn;
 @property NSUInteger            groupField;
 @property (retain)RTConnection  *connection;
+@property (assign)BOOL          connected;
+@property (assign)BOOL          connecting;
 @end

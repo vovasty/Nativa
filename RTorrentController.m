@@ -24,7 +24,8 @@
 #import "RTListCommand.h"
 #import "NSStringRTorrentAdditions.h"
 
-static NSString * ConnectedContext = @"ConnectedContext";
+static NSString * ConnectedContext  = @"ConnectedContext";
+static NSString * ConnectingContext = @"ConnectingContext";
 
 @interface RTorrentController(Private)
 -(void)_runOperation:(id<RTorrentCommand>) operation;
@@ -34,7 +35,7 @@ static NSString * ConnectedContext = @"ConnectedContext";
 
 @implementation RTorrentController
 @dynamic groupField;
-@synthesize connection;
+@synthesize connection, connected, connecting;
 
 - (id) init
 {
@@ -287,7 +288,12 @@ static NSString * ConnectedContext = @"ConnectedContext";
 {
 	if (context == &ConnectedContext)
     {
-		[_queue setSuspended:connection.connecting];
+		[_queue setSuspended:!connection.connected];
+        [self setConnected:connection.connected];
+    }
+	else if (context == &ConnectingContext)
+    {
+        [self setConnecting:connection.connecting];
     }
     else
     {
@@ -298,18 +304,22 @@ static NSString * ConnectedContext = @"ConnectedContext";
     }
 }
 
--(BOOL) connected
-{
-	return [connection connected];
-}
-
 -(void) openConnection:(VoidResponseBlock) response;
 {
     [connection addObserver:self
                  forKeyPath:@"connected"
                     options:0
                     context:&ConnectedContext];
-    
+    [connection addObserver:self
+                 forKeyPath:@"connecting"
+                    options:0
+                    context:&ConnectingContext];
+    [self willChangeValueForKey:@"connecting"];
+    [self willChangeValueForKey:@"connected"];
+    connected = NO;
+    connecting = NO;
+    [self didChangeValueForKey:@"connecting"];
+    [self didChangeValueForKey:@"connected"];
 	[connection openConnection:^(RTConnection *sender){
         if (response != nil)
             response([sender error]);
@@ -324,7 +334,19 @@ static NSString * ConnectedContext = @"ConnectedContext";
     @catch (NSException *exception) {
             //ignore objserver removal exception
     }
+    @try {
+        [connection removeObserver:self forKeyPath:@"connecting"];
+    }
+    @catch (NSException *exception) {
+            //ignore objserver removal exception
+    }
 	[connection closeConnection];
+    [self willChangeValueForKey:@"connected"];
+    [self willChangeValueForKey:@"connecting"];
+    connected = NO;
+    connecting = NO;
+    [self didChangeValueForKey:@"connecting"];
+    [self didChangeValueForKey:@"connected"];
 }
 
 -(NSUInteger) groupField;

@@ -41,12 +41,16 @@
 #define	MENU_BAR_HEIGHT 21
 
 static NSString* DownloadsViewChangedContext            = @"DownloadsViewChangedContext";
-static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedContext";
+static NSString* ConnectedContext                       = @"ConnectedContext";
+static NSString* ConnectingContext                      = @"ConnectingContext";
+static NSString* GlobalSpeedLimitChangedContext         = @"GlobalSpeedLimitChangedContext";
 
 @interface Controller(Private)
 - (NSRect) sizedWindowFrame;
 - (NSRect) windowFrameByAddingHeight: (CGFloat) height checkLimits: (BOOL) check;
 - (void) updateForExpandCollape;
+- (void) connecting;
+- (void) connected;
 @end
 
 @implementation Controller
@@ -146,38 +150,16 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
                      forKeyPath:@"globalUploadSpeedLimit"
                         options:0
                         context:&GlobalSpeedLimitChangedContext];
+    
+    [[DownloadsController sharedDownloadsController] addObserver:self
+                                                      forKeyPath:@"connected"
+                                                         options:0
+                                                         context:&ConnectedContext];
+    [[DownloadsController sharedDownloadsController] addObserver:self
+                                                      forKeyPath:@"connecting"
+                                                         options:0
+                                                         context:&ConnectingContext];
 }
-
-- (void) awake;
-{
-    if (![NSThread isMainThread])
-    {
-        [self performSelectorOnMainThread:@selector(awake) withObject:nil waitUntilDone:NO];
-        return;
-    }
-	if ([[ProcessesController sharedProcessesController] count]>0)
-	{
-		[_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.gif"] mainMessage:@"Connecting ..." message:nil];
-		__block Controller *blockSelf = self;
-		[[DownloadsController sharedDownloadsController] startUpdates:^(NSString* error){
-			if (error)
-				[blockSelf->_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Error" message:error];
-			else 
-				[blockSelf->_overlayWindow fadeOut];
-		}];
-	}
-}
-- (void) sleep
-{
-    if (![NSThread isMainThread])
-    {
-        [self performSelectorOnMainThread:@selector(sleep) withObject:nil waitUntilDone:NO];
-        return;
-    }
-	[[DownloadsController sharedDownloadsController] stopUpdates];
-	[_overlayWindow fadeOut];
-}
-
 
 -(IBAction)showPreferencePanel:(id)sender;
 {
@@ -708,6 +690,14 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
                                                       (NSInteger)_savedGlobalUploadSpeedLimit/1024]];
         }
     }
+    else if (context == &ConnectedContext)
+    {
+        [self connected];
+    }
+    else if (context == &ConnectingContext)
+    {
+        [self connecting];
+    }
     else
     {
         [super observeValueForKeyPath:keyPath
@@ -715,5 +705,32 @@ static NSString* GlobalSpeedLimitChangedContext = @"GlobalSpeedLimitChangedConte
                                change:change
                               context:context];
     }
+}
+- (void) connecting
+{
+    if (![NSThread isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(connecting) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    if ([DownloadsController sharedDownloadsController].connected)
+        [_overlayWindow fadeOut];
+    else if ([DownloadsController sharedDownloadsController].connecting)
+        [_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.gif"] mainMessage:@"Connecting ..." message:nil];
+    else
+        [_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Disconnected" message:nil];
+}
+- (void) connected
+{
+    if (![NSThread isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(connected) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    if ([DownloadsController sharedDownloadsController].connected)
+        [_overlayWindow fadeOut];
+    else if (![DownloadsController sharedDownloadsController].connecting)
+        [_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Disconnected" message:nil];
+    else;
 }
 @end

@@ -22,6 +22,7 @@
 -(void) analyzeOutput:(NSData*) data;
 -(void)killTimeoutedTask;
 -(void)terminateTask;
+-(void)_openTunnel:(void (^)(AMSession *sender))handler;
 @end
 
 @implementation AMSession
@@ -107,17 +108,16 @@
 
 - (void) openTunnel:(void (^)(AMSession *sender))handler;
 {
-	NSString			*helperPath;
-	NSArray				*args;
-	NSString            *argumentsString;
-	
-    [self setOpenTunnelHandler:handler];
-	_connectionInProgress = YES;
-	_connected = NO;
-
     if ([currentServer host] == nil || [[currentServer host] isEqualToString:@""]) 
     {
         [self setError:@"SSH host cannot be empty"];
+        [self willChangeValueForKey:@"connected"];
+        [self willChangeValueForKey:@"connectionInProgress"];
+        _connectionInProgress = NO;
+        _connected = NO;
+        [self didChangeValueForKey:@"connectionInProgress"];
+        [self didChangeValueForKey:@"connected"];
+        
         if (handler)
             handler(self);
         return;
@@ -126,72 +126,26 @@
     if ([currentServer username] == nil || [[currentServer username] isEqualToString:@""]) 
     {
         [self setError:@"SSH user name cannot be empty"];
+        [self willChangeValueForKey:@"connectionInProgress"];
+        _connectionInProgress = NO;
+        _connected = NO;
+        [self didChangeValueForKey:@"connectionInProgress"];
+        [self didChangeValueForKey:@"connected"];
+        
         if (handler)
             handler(self);
         return;
     }
     
-	tryReconnect = autoReconnect;
+    
+    [self willChangeValueForKey:@"connected"];
+    [self willChangeValueForKey:@"connectionInProgress"];
+    _connectionInProgress = YES;
+    _connected = NO;
+    [self didChangeValueForKey:@"connectionInProgress"];
+    [self didChangeValueForKey:@"connected"];
 
-	[self setError: nil];
-	
-	NSPipe *stdOut			= [NSPipe pipe];
-	NSPipe *stdIn			= [NSPipe pipe];
-	
-	
-	[sshTask release];
-
-	sshTask			= [[NSTask alloc] init];
-	
-	helperPath		= [[NSBundle mainBundle] pathForResource:@"SSHCommand" ofType:@"sh"];
-	
-	argumentsString = [self prepareSSHCommand];
-	
-	args			= [NSArray arrayWithObjects:argumentsString, nil];
-
-	[outputContent setString:@""];
-
-	[sshTask setLaunchPath:helperPath];
-
-	[sshTask setArguments:args];
-
-	[sshTask setStandardOutput:stdOut];
-	[sshTask setStandardInput:stdIn];
-	
-	outputHandle = [[sshTask standardOutput] fileHandleForReading];
-
-	inputHandle = [[sshTask standardInput] fileHandleForWriting];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector(handleProcessusExecution:)
-												 name:NSFileHandleReadCompletionNotification
-											   object:outputHandle];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self 
-											 selector:@selector(listernerForSSHTunnelDown:) 
-												 name:NSTaskDidTerminateNotification
-											   object:sshTask];
-	
-	[outputHandle readInBackgroundAndNotify];
-	
-	[auth permitWithRight:"system.privileges.admin" flags:kAuthorizationFlagDefaults|kAuthorizationFlagInteractionAllowed|
-	 kAuthorizationFlagExtendRights|kAuthorizationFlagPreAuthorize];
-	
-	[sshTask launch];
-
-	[inputHandle writeData:[[([currentServer password]==nil?@"":[currentServer password]) stringByAppendingString:@"\n"] dataUsingEncoding: NSASCIIStringEncoding]];
-
-	NSLog(@"Session %@ is now launched.", [self sessionName]);
-	[killTimer invalidate];
-    [killTimer release];
-	killTimer = [NSTimer scheduledTimerWithTimeInterval:90
-														target:self 
-														selector:@selector(killTimeoutedTask) 
-														userInfo:nil 
-														repeats:NO];
-	[killTimer retain];
-	[[NSRunLoop currentRunLoop] addTimer:killTimer forMode:NSDefaultRunLoopMode];
-	
+    [self _openTunnel:handler];	
 }
 
 - (void) closeTunnel
@@ -201,6 +155,12 @@
 	tryReconnect = NO;
 
 	NSLog(@"Session %@ is now closed.", [self sessionName]);
+    [self willChangeValueForKey:@"connectionInProgress"];
+    [self willChangeValueForKey:@"connected"];
+    _connectionInProgress = NO;
+    _connected = NO;
+    [self didChangeValueForKey:@"connectionInProgress"];
+    [self didChangeValueForKey:@"connected"];
 	[self terminateTask];
 	autoReconnectTimes = 0;
 }
@@ -226,7 +186,13 @@
 	{
 		NSLog(@"reconnecting ssh tunnel ...");
 		autoReconnectTimes++;
-		[self openTunnel:openTunnelHandler];
+		[self willChangeValueForKey:@"connectionInProgress"];
+		[self willChangeValueForKey:@"connected"];
+		_connectionInProgress = YES;
+		_connected = NO;
+		[self didChangeValueForKey:@"connectionInProgress"];
+		[self didChangeValueForKey:@"connected"];
+		[self _openTunnel:openTunnelHandler];
 	}
 	else 
 	{
@@ -365,5 +331,75 @@
 		sshTask = nil;
 	}
 	
+}
+-(void)_openTunnel:(void (^)(AMSession *sender))handler
+{
+    
+    NSString			*helperPath;
+	NSArray				*args;
+	NSString            *argumentsString;
+	
+    [self setOpenTunnelHandler:handler];
+    
+	tryReconnect = autoReconnect;
+    
+	[self setError: nil];
+	
+	NSPipe *stdOut			= [NSPipe pipe];
+	NSPipe *stdIn			= [NSPipe pipe];
+	
+	
+	[sshTask release];
+    
+	sshTask			= [[NSTask alloc] init];
+	
+	helperPath		= [[NSBundle mainBundle] pathForResource:@"SSHCommand" ofType:@"sh"];
+	
+	argumentsString = [self prepareSSHCommand];
+	
+	args			= [NSArray arrayWithObjects:argumentsString, nil];
+    
+	[outputContent setString:@""];
+    
+	[sshTask setLaunchPath:helperPath];
+    
+	[sshTask setArguments:args];
+    
+	[sshTask setStandardOutput:stdOut];
+	[sshTask setStandardInput:stdIn];
+	
+	outputHandle = [[sshTask standardOutput] fileHandleForReading];
+    
+	inputHandle = [[sshTask standardInput] fileHandleForWriting];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(handleProcessusExecution:)
+												 name:NSFileHandleReadCompletionNotification
+											   object:outputHandle];
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self 
+											 selector:@selector(listernerForSSHTunnelDown:) 
+												 name:NSTaskDidTerminateNotification
+											   object:sshTask];
+	
+	[outputHandle readInBackgroundAndNotify];
+	
+	[auth permitWithRight:"system.privileges.admin" flags:kAuthorizationFlagDefaults|kAuthorizationFlagInteractionAllowed|
+	 kAuthorizationFlagExtendRights|kAuthorizationFlagPreAuthorize];
+	
+	[sshTask launch];
+    
+	[inputHandle writeData:[[([currentServer password]==nil?@"":[currentServer password]) stringByAppendingString:@"\n"] dataUsingEncoding: NSASCIIStringEncoding]];
+    
+	NSLog(@"Session %@ is now launched.", [self sessionName]);
+	[killTimer invalidate];
+    [killTimer release];
+	killTimer = [NSTimer scheduledTimerWithTimeInterval:90
+                                                 target:self 
+                                               selector:@selector(killTimeoutedTask) 
+                                               userInfo:nil 
+                                                repeats:NO];
+	[killTimer retain];
+	[[NSRunLoop currentRunLoop] addTimer:killTimer forMode:NSDefaultRunLoopMode];
 }
 @end

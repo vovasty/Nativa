@@ -64,6 +64,4 @@
 - (NSMenu *) contextRowMenu;
 - (void) setPriorityForSelectedTorrents: (id) sender;
 - (IBAction)moveSelectedTorrentsData:(id)sender;
-- (void) awake;
-- (void) sleep;
 @end

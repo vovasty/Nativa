@@ -23,7 +23,6 @@
 #import "ProcessesController.h"
 #import "PreferencesController.h"
 #import "SetupAssistantController.h"
-#import "Controller.h"
 
 @interface NativaAppDelegate(Private)
     - (void)showMainWindow;
@@ -69,6 +68,6 @@
 - (void)showMainWindow
 {
     [window orderFront:nil];
-    [controller awake];
+    [[DownloadsController sharedDownloadsController] startUpdates:nil];
 }
 @end

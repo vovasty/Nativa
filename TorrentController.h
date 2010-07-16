@@ -24,6 +24,10 @@
 
 @protocol TorrentController<NSObject>
 
+@property BOOL connected;
+
+@property BOOL connecting;
+
 - (void) list:(ArrayResponseBlock) response;
 
 - (void) start:(Torrent *)torrent handler:(VoidResponseBlock) handler;
@@ -45,8 +49,6 @@
 - (void) setPriority:(Torrent *)torrent  priority:(TorrentPriority)priority response:(VoidResponseBlock) response;
 
 - (void) setGroup:(Torrent *)torrent group:(NSString *) group response:(VoidResponseBlock) response;
-
-- (BOOL) connected;
 
 - (void) openConnection:(VoidResponseBlock) response;
 

@@ -42,6 +42,8 @@ extern NSString* const NINotifyUpdateDownloads;
     CGFloat			  _globalDownloadSpeedLimit;
 	NSUserDefaults	* _defaults;
     NSOperationQueue	*_queue;
+    BOOL              connected;
+    BOOL              connecting;
 }
 @property (assign)	CGFloat globalUploadSpeed;
 @property (assign)	CGFloat globalDownloadSpeed;
@@ -51,6 +53,9 @@ extern NSString* const NINotifyUpdateDownloads;
 @property (assign)	CGFloat globalRatio;
 @property (assign)	CGFloat globalDownloadSpeedLimit;
 @property (assign)	CGFloat globalUploadSpeedLimit;
+
+@property (assign) BOOL connected;
+@property (assign) BOOL connecting;
 
 
 + (DownloadsController *)sharedDownloadsController;

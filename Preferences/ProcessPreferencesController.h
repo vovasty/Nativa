@@ -20,7 +20,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class ProcessesController, Controller;
+@class ProcessesController, RTorrentController;
 
 @interface ProcessPreferencesController : NSObject
 {
@@ -50,11 +50,11 @@
     
     NSInteger               sshLocalPort;
 
-    IBOutlet Controller     *controller;
-    
     NSString                *errorMessage;
     
     BOOL                    checking;
+    
+    RTorrentController      *_testProcess;
 }
 
 @property BOOL              useSSHKeyLogin;
