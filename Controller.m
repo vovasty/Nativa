@@ -718,7 +718,7 @@ static NSString* GlobalSpeedLimitChangedContext         = @"GlobalSpeedLimitChan
     else if ([DownloadsController sharedDownloadsController].connecting)
         [_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.gif"] mainMessage:@"Connecting ..." message:nil];
     else
-        [_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Disconnected" message:nil];
+        [_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Disconnected" message:[DownloadsController sharedDownloadsController].lastError];
 }
 - (void) connected
 {
@@ -730,7 +730,8 @@ static NSString* GlobalSpeedLimitChangedContext         = @"GlobalSpeedLimitChan
     if ([DownloadsController sharedDownloadsController].connected)
         [_overlayWindow fadeOut];
     else if (![DownloadsController sharedDownloadsController].connecting)
-        [_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Disconnected" message:nil];
+        [_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Disconnected" message:[DownloadsController sharedDownloadsController].lastError];
+
     else;
 }
 @end

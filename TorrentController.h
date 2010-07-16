@@ -59,5 +59,7 @@
 - (void) pause:(Torrent *) hash handler:(VoidResponseBlock) handler;
 
 - (void) moveData:(Torrent *) hash location:(NSString *) location handler:(VoidResponseBlock) handler;
+
+- (NSString *) lastError;
 @end
 

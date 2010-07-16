@@ -364,6 +364,11 @@ static NSString * ConnectingContext = @"ConnectingContext";
 	[_setGroupCommand retain];
 	_groupField = value;
 }
+
+- (NSString *) lastError
+{
+    return [connection error];
+}
 @end
 
 @implementation RTorrentController(Private)

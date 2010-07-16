@@ -65,6 +65,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 
 @synthesize connected, connecting;
 
+@dynamic lastError;
+- (NSString *) lastError
+{
+    return [[self _controller] lastError];
+}
+
 -(id)init;
 {
 	self = [super init];

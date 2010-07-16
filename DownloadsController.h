@@ -44,6 +44,7 @@ extern NSString* const NINotifyUpdateDownloads;
     NSOperationQueue	*_queue;
     BOOL              connected;
     BOOL              connecting;
+    NSString          *openConnectionError;
 }
 @property (assign)	CGFloat globalUploadSpeed;
 @property (assign)	CGFloat globalDownloadSpeed;
@@ -57,6 +58,7 @@ extern NSString* const NINotifyUpdateDownloads;
 @property (assign) BOOL connected;
 @property (assign) BOOL connecting;
 
+@property (readonly) NSString *lastError;
 
 + (DownloadsController *)sharedDownloadsController;
 
