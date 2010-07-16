@@ -182,16 +182,23 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:sshTask];
 	[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:outputHandle];
 
+    if (_connected)
+    {
+		[self willChangeValueForKey:@"connected"];
+		_connected = NO;
+		[self didChangeValueForKey:@"connecting"];
+    }
+    
 	if (tryReconnect && autoReconnectTimes<maxAutoReconnectRetries)
 	{
 		NSLog(@"reconnecting ssh tunnel ...");
 		autoReconnectTimes++;
-		[self willChangeValueForKey:@"connecting"];
-		[self willChangeValueForKey:@"connected"];
-		_connecting = YES;
-		_connected = NO;
-		[self didChangeValueForKey:@"connecting"];
-		[self didChangeValueForKey:@"connected"];
+        if (!_connecting)
+        {
+            [self willChangeValueForKey:@"connecting"];
+            _connecting = YES;
+            [self didChangeValueForKey:@"connecting"];
+        }
 		[self _openTunnel:openTunnelHandler];
 	}
 	else 
