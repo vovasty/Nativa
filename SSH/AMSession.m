@@ -30,7 +30,7 @@
 @synthesize	sessionName;
 @synthesize remoteHost;
 @synthesize connected = _connected;
-@synthesize connectionInProgress = _connectionInProgress;
+@synthesize connecting = _connecting;
 @synthesize currentServer;
 @synthesize autoReconnect;
 @synthesize maxAutoReconnectRetries;
@@ -47,7 +47,7 @@
 		return nil;
 	
 	_connected = NO;
-	_connectionInProgress = NO;
+	_connecting = NO;
 	autoReconnectTimes = 0;
 
 	outputContent	= [[NSMutableString alloc] init];
@@ -112,10 +112,10 @@
     {
         [self setError:@"SSH host cannot be empty"];
         [self willChangeValueForKey:@"connected"];
-        [self willChangeValueForKey:@"connectionInProgress"];
-        _connectionInProgress = NO;
+        [self willChangeValueForKey:@"connecting"];
+        _connecting = NO;
         _connected = NO;
-        [self didChangeValueForKey:@"connectionInProgress"];
+        [self didChangeValueForKey:@"connecting"];
         [self didChangeValueForKey:@"connected"];
         
         if (handler)
@@ -126,10 +126,10 @@
     if ([currentServer username] == nil || [[currentServer username] isEqualToString:@""]) 
     {
         [self setError:@"SSH user name cannot be empty"];
-        [self willChangeValueForKey:@"connectionInProgress"];
-        _connectionInProgress = NO;
+        [self willChangeValueForKey:@"connecting"];
+        _connecting = NO;
         _connected = NO;
-        [self didChangeValueForKey:@"connectionInProgress"];
+        [self didChangeValueForKey:@"connecting"];
         [self didChangeValueForKey:@"connected"];
         
         if (handler)
@@ -139,10 +139,10 @@
     
     
     [self willChangeValueForKey:@"connected"];
-    [self willChangeValueForKey:@"connectionInProgress"];
-    _connectionInProgress = YES;
+    [self willChangeValueForKey:@"connecting"];
+    _connecting = YES;
     _connected = NO;
-    [self didChangeValueForKey:@"connectionInProgress"];
+    [self didChangeValueForKey:@"connecting"];
     [self didChangeValueForKey:@"connected"];
 
     [self _openTunnel:handler];	
@@ -155,11 +155,11 @@
 	tryReconnect = NO;
 
 	NSLog(@"Session %@ is now closed.", [self sessionName]);
-    [self willChangeValueForKey:@"connectionInProgress"];
+    [self willChangeValueForKey:@"connecting"];
     [self willChangeValueForKey:@"connected"];
-    _connectionInProgress = NO;
+    _connecting = NO;
     _connected = NO;
-    [self didChangeValueForKey:@"connectionInProgress"];
+    [self didChangeValueForKey:@"connecting"];
     [self didChangeValueForKey:@"connected"];
 	[self terminateTask];
 	autoReconnectTimes = 0;
@@ -186,11 +186,11 @@
 	{
 		NSLog(@"reconnecting ssh tunnel ...");
 		autoReconnectTimes++;
-		[self willChangeValueForKey:@"connectionInProgress"];
+		[self willChangeValueForKey:@"connecting"];
 		[self willChangeValueForKey:@"connected"];
-		_connectionInProgress = YES;
+		_connecting = YES;
 		_connected = NO;
-		[self didChangeValueForKey:@"connectionInProgress"];
+		[self didChangeValueForKey:@"connecting"];
 		[self didChangeValueForKey:@"connected"];
 		[self _openTunnel:openTunnelHandler];
 	}
@@ -200,11 +200,11 @@
 		autoReconnectTimes = 0;
 		if (error == nil)
 			[self setError:@"SSH: unknown error"];
-		[self willChangeValueForKey:@"connectionInProgress"];
+		[self willChangeValueForKey:@"connecting"];
 		[self willChangeValueForKey:@"connected"];
-		_connectionInProgress = NO;
+		_connecting = NO;
 		_connected = NO;
-		[self didChangeValueForKey:@"connectionInProgress"];
+		[self didChangeValueForKey:@"connecting"];
 		[self didChangeValueForKey:@"connected"];
         if (openTunnelHandler != nil)
             openTunnelHandler(self);
@@ -282,11 +282,11 @@
 		{
 			[[NSNotificationCenter defaultCenter]  removeObserver:self name:NSFileHandleReadCompletionNotification  object:outputHandle];
 			[outputHandle closeFile];
-			[self willChangeValueForKey:@"connectionInProgress"];
+			[self willChangeValueForKey:@"connecting"];
 			[self willChangeValueForKey:@"connected"];
-			_connectionInProgress = NO;
+			_connecting = NO;
 			_connected = YES;
-			[self didChangeValueForKey:@"connectionInProgress"];
+			[self didChangeValueForKey:@"connecting"];
 			[self didChangeValueForKey:@"connected"];
 			//reset autoreconnect counter
 			autoReconnectTimes = 0;

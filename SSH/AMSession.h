@@ -32,7 +32,7 @@ extern	NSString const *AMNewErrorMessage;
 	NSUInteger		maxAutoReconnectRetries;
 	BOOL			autoReconnect;
 	BOOL			_connected;
-	BOOL			_connectionInProgress;
+	BOOL			_connecting;
 	BOOL			tryReconnect;
 	NSMutableString *outputContent;
 	NSString 		*remoteHost;
@@ -50,7 +50,7 @@ extern	NSString const *AMNewErrorMessage;
 }
 @property(readonly)				BOOL				connected;
 @property(readwrite)			BOOL				autoReconnect;
-@property(readonly)				BOOL				connectionInProgress;
+@property(readonly)				BOOL				connecting;
 @property(readwrite)			NSUInteger			maxAutoReconnectRetries;
 @property(readwrite, retain)	AMServer 			*currentServer;
 @property(readwrite, retain)	NSString 			*remoteHost;

@@ -122,12 +122,6 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
                         options:0
                         context:&ProxyConnectedContext];
 		[_proxy openTunnel:^(AMSession *sender){
-            [self willChangeValueForKey:@"connecting"];
-            [self willChangeValueForKey:@"connected"];
-            _connected = _proxy.connected;
-            _connecting =_proxy.connectionInProgress;
-            [self didChangeValueForKey:@"connected"];
-            [self didChangeValueForKey:@"connecting"];
             if (handler != nil) 
                 handler(self);
         }];
@@ -153,7 +147,7 @@ static NSString* ProxyConnectedContext = @"ProxyConnectedContext";
 		[self willChangeValueForKey:@"connecting"];
 		[self willChangeValueForKey:@"connected"];
 		_connected = _proxy.connected;
-		_connecting =_proxy.connectionInProgress;
+		_connecting =_proxy.connecting;
 		[self didChangeValueForKey:@"connected"];
 		[self didChangeValueForKey:@"connecting"];
     }
