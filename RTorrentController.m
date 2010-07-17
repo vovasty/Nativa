@@ -71,6 +71,7 @@ static NSString * ConnectingContext = @"ConnectingContext";
 	[self setConnection:nil];
 	[_getGroupCommand release];
 	[_setGroupCommand release];
+    [self setConnection:nil];
 	[super dealloc];
 }
 
@@ -314,12 +315,8 @@ static NSString * ConnectingContext = @"ConnectingContext";
                  forKeyPath:@"connecting"
                     options:0
                     context:&ConnectingContext];
-    [self willChangeValueForKey:@"connecting"];
-    [self willChangeValueForKey:@"connected"];
     connected = NO;
     connecting = NO;
-    [self didChangeValueForKey:@"connecting"];
-    [self didChangeValueForKey:@"connected"];
 	[connection openConnection:^(RTConnection *sender){
         if (response != nil)
             response([sender error]);
