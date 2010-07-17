@@ -42,14 +42,12 @@
 
 static NSString* DownloadsViewChangedContext            = @"DownloadsViewChangedContext";
 static NSString* ConnectedContext                       = @"ConnectedContext";
-static NSString* ConnectingContext                      = @"ConnectingContext";
 static NSString* GlobalSpeedLimitChangedContext         = @"GlobalSpeedLimitChangedContext";
 
 @interface Controller(Private)
 - (NSRect) sizedWindowFrame;
 - (NSRect) windowFrameByAddingHeight: (CGFloat) height checkLimits: (BOOL) check;
 - (void) updateForExpandCollape;
-- (void) connecting;
 - (void) connected;
 @end
 
@@ -158,7 +156,7 @@ static NSString* GlobalSpeedLimitChangedContext         = @"GlobalSpeedLimitChan
     [[DownloadsController sharedDownloadsController] addObserver:self
                                                       forKeyPath:@"connecting"
                                                          options:0
-                                                         context:&ConnectingContext];
+                                                         context:&ConnectedContext];
 }
 
 -(IBAction)showPreferencePanel:(id)sender;
@@ -694,10 +692,6 @@ static NSString* GlobalSpeedLimitChangedContext         = @"GlobalSpeedLimitChan
     {
         [self connected];
     }
-    else if (context == &ConnectingContext)
-    {
-        [self connecting];
-    }
     else
     {
         [super observeValueForKeyPath:keyPath
@@ -705,20 +699,6 @@ static NSString* GlobalSpeedLimitChangedContext         = @"GlobalSpeedLimitChan
                                change:change
                               context:context];
     }
-}
-- (void) connecting
-{
-    if (![NSThread isMainThread])
-    {
-        [self performSelectorOnMainThread:@selector(connecting) withObject:nil waitUntilDone:NO];
-        return;
-    }
-    if ([DownloadsController sharedDownloadsController].connected)
-        [_overlayWindow fadeOut];
-    else if ([DownloadsController sharedDownloadsController].connecting)
-        [_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.gif"] mainMessage:@"Connecting ..." message:nil];
-    else
-        [_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Disconnected" message:[DownloadsController sharedDownloadsController].lastError];
 }
 - (void) connected
 {
@@ -729,9 +709,9 @@ static NSString* GlobalSpeedLimitChangedContext         = @"GlobalSpeedLimitChan
     }
     if ([DownloadsController sharedDownloadsController].connected)
         [_overlayWindow fadeOut];
-    else if (![DownloadsController sharedDownloadsController].connecting)
+    else if ([DownloadsController sharedDownloadsController].connecting)
+        [_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Loading.gif"] mainMessage:@"Connecting ..." message:nil];
+    else
         [_overlayWindow setImageAndMessage:[NSImage imageNamed: @"Error-large.png"] mainMessage:@"Disconnected" message:[DownloadsController sharedDownloadsController].lastError];
-
-    else;
 }
 @end

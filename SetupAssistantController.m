@@ -260,23 +260,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     [self setChecking:YES];
     [pc openProcessForIndex:currentProcessIndex handler:^(NSString *error){
         [pc setMaxReconnects:maxReconnects forIndex:currentProcessIndex];
-        if (error != nil)
-        {
-            [self showError:error];
-            [self closeTestConnection];
-            if (handler)
-                handler(NO);
-            return;
-        }
+        [self showError:error];
+        
         if (checkSCGI)
         {
             [[pc processForIndex:currentProcessIndex] list:^(NSArray *array, NSString* error){
                 [self setChecking:NO];
-                if (error != nil)
-                    [self showError:error];
-                
+                [self showError:error];
                 [self closeTestConnection];
-
+                
                 if (handler)
                     handler(error == nil);
                 
@@ -286,8 +278,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
         {
             [self setChecking:NO];
             [self closeTestConnection];
+
             if (handler)
-                handler(YES);
+                handler(error == nil);
         }
 
     }];
