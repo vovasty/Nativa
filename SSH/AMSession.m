@@ -277,7 +277,7 @@
 		}		
 		else if ([checkTimeout evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: @"SSH connection timeout. May be you specified password for private key authentication?"];
+			[self setError: @"SSH connection timeout. Private key authentication?"];
 			[self terminateTask];
 		}		
 		else if ([checkPort evaluateWithObject:outputContent] == YES)
