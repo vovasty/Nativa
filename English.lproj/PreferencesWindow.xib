@@ -285,7 +285,7 @@
 					<object class="NSTextField" id="855849706">
 						<reference key="NSNextResponder" ref="957954228"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{185, 66}, {298, 28}}</string>
+						<string key="NSFrame">{{185, 66}, {288, 28}}</string>
 						<reference key="NSSuperview" ref="957954228"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="538200767">
@@ -313,13 +313,13 @@
 					<object class="NSTextField" id="968313365">
 						<reference key="NSNextResponder" ref="957954228"/>
 						<int key="NSvFlags">256</int>
-						<string key="NSFrame">{{138, 319}, {298, 14}}</string>
+						<string key="NSFrame">{{138, 305}, {277, 28}}</string>
 						<reference key="NSSuperview" ref="957954228"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="947533946">
 							<int key="NSCellFlags">67239424</int>
 							<int key="NSCellFlags2">272760832</int>
-							<string key="NSContents">this value is corresponding to rtorrent's custom_x field</string>
+							<string key="NSContents">this value is corresponding to rtorrent's "customX" field</string>
 							<reference key="NSSupport" ref="26"/>
 							<reference key="NSControlView" ref="968313365"/>
 							<reference key="NSBackgroundColor" ref="311040948"/>
@@ -4435,271 +4435,6 @@ AAA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">Controller</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="actions">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>checkSelectedTorrents:</string>
-							<string>forcePauseSelectedTorrents:</string>
-							<string>forceStopSelectedTorrents:</string>
-							<string>moveSelectedTorrentsData:</string>
-							<string>openShowSheet:</string>
-							<string>removeDeleteSelectedTorrents:</string>
-							<string>removeNoDeleteSelectedTorrents:</string>
-							<string>resumeSelectedTorrents:</string>
-							<string>revealSelectedTorrents:</string>
-							<string>setGroup:</string>
-							<string>setPriorityForSelectedTorrents:</string>
-							<string>setSpeedLimitGlobal:</string>
-							<string>showPreferencePanel:</string>
-							<string>stopSelectedTorrents:</string>
-							<string>toggleQuickLook:</string>
-							<string>unsetSpeedLimitGlobal:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>checkSelectedTorrents:</string>
-							<string>forcePauseSelectedTorrents:</string>
-							<string>forceStopSelectedTorrents:</string>
-							<string>moveSelectedTorrentsData:</string>
-							<string>openShowSheet:</string>
-							<string>removeDeleteSelectedTorrents:</string>
-							<string>removeNoDeleteSelectedTorrents:</string>
-							<string>resumeSelectedTorrents:</string>
-							<string>revealSelectedTorrents:</string>
-							<string>setGroup:</string>
-							<string>setPriorityForSelectedTorrents:</string>
-							<string>setSpeedLimitGlobal:</string>
-							<string>showPreferencePanel:</string>
-							<string>stopSelectedTorrents:</string>
-							<string>toggleQuickLook:</string>
-							<string>unsetSpeedLimitGlobal:</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBActionInfo">
-								<string key="name">checkSelectedTorrents:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">forcePauseSelectedTorrents:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">forceStopSelectedTorrents:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">moveSelectedTorrentsData:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">openShowSheet:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">removeDeleteSelectedTorrents:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">removeNoDeleteSelectedTorrents:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">resumeSelectedTorrents:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">revealSelectedTorrents:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">setGroup:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">setPriorityForSelectedTorrents:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">setSpeedLimitGlobal:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">showPreferencePanel:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">stopSelectedTorrents:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">toggleQuickLook:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-							<object class="IBActionInfo">
-								<string key="name">unsetSpeedLimitGlobal:</string>
-								<string key="candidateClassName">id</string>
-							</object>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>_contextRowMenu</string>
-							<string>_downloadsView</string>
-							<string>_globalDownloadSpeedLimitMenu</string>
-							<string>_globalDownloadSpeedLimitMenuItem</string>
-							<string>_globalDownloadSpeedNoLimitMenuItem</string>
-							<string>_globalUploadSpeedLimitMenu</string>
-							<string>_globalUploadSpeedLimitMenuItem</string>
-							<string>_globalUploadSpeedNoLimitMenuItem</string>
-							<string>_groupMainMenu</string>
-							<string>_groupMenu</string>
-							<string>_priorityMainMenu</string>
-							<string>_viewController</string>
-							<string>_window</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>NSMenu</string>
-							<string>TorrentTableView</string>
-							<string>NSMenu</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenu</string>
-							<string>NSMenuItem</string>
-							<string>NSMenuItem</string>
-							<string>NSMenu</string>
-							<string>NSMenu</string>
-							<string>NSMenu</string>
-							<string>TorrentViewController</string>
-							<string>NSWindow</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>_contextRowMenu</string>
-							<string>_downloadsView</string>
-							<string>_globalDownloadSpeedLimitMenu</string>
-							<string>_globalDownloadSpeedLimitMenuItem</string>
-							<string>_globalDownloadSpeedNoLimitMenuItem</string>
-							<string>_globalUploadSpeedLimitMenu</string>
-							<string>_globalUploadSpeedLimitMenuItem</string>
-							<string>_globalUploadSpeedNoLimitMenuItem</string>
-							<string>_groupMainMenu</string>
-							<string>_groupMenu</string>
-							<string>_priorityMainMenu</string>
-							<string>_viewController</string>
-							<string>_window</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_contextRowMenu</string>
-								<string key="candidateClassName">NSMenu</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_downloadsView</string>
-								<string key="candidateClassName">TorrentTableView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_globalDownloadSpeedLimitMenu</string>
-								<string key="candidateClassName">NSMenu</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_globalDownloadSpeedLimitMenuItem</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_globalDownloadSpeedNoLimitMenuItem</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_globalUploadSpeedLimitMenu</string>
-								<string key="candidateClassName">NSMenu</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_globalUploadSpeedLimitMenuItem</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_globalUploadSpeedNoLimitMenuItem</string>
-								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_groupMainMenu</string>
-								<string key="candidateClassName">NSMenu</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_groupMenu</string>
-								<string key="candidateClassName">NSMenu</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_priorityMainMenu</string>
-								<string key="candidateClassName">NSMenu</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_viewController</string>
-								<string key="candidateClassName">TorrentViewController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_window</string>
-								<string key="candidateClassName">NSWindow</string>
-							</object>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Controller.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">Controller</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">selectedToolbarClicked:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">selectedToolbarClicked:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">selectedToolbarClicked:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">Toolbar/ToolbarControllerAdditions.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">GroupsPrefsController</string>
 					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
@@ -4969,13 +4704,11 @@ AAA</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>_downloadsPathPopUp</string>
 							<string>_window</string>
-							<string>controller</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSPopUpButton</string>
 							<string>NSWindow</string>
-							<string>Controller</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -4984,7 +4717,6 @@ AAA</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>_downloadsPathPopUp</string>
 							<string>_window</string>
-							<string>controller</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -4996,74 +4728,11 @@ AAA</bytes>
 								<string key="name">_window</string>
 								<string key="candidateClassName">NSWindow</string>
 							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">controller</string>
-								<string key="candidateClassName">Controller</string>
-							</object>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">Preferences/ProcessPreferencesController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">TorrentTableView</string>
-					<string key="superclassName">NSOutlineView</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">_controller</string>
-						<string key="NS.object.0">Controller</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">_controller</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">_controller</string>
-							<string key="candidateClassName">Controller</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">TableView/TorrentTableView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">TorrentViewController</string>
-					<string key="superclassName">NSObject</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>_outlineView</string>
-							<string>_window</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>TorrentTableView</string>
-							<string>NSWindow</string>
-						</object>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<bool key="EncodedWithXMLCoder">YES</bool>
-						<object class="NSArray" key="dict.sortedKeys">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>_outlineView</string>
-							<string>_window</string>
-						</object>
-						<object class="NSMutableArray" key="dict.values">
-							<bool key="EncodedWithXMLCoder">YES</bool>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_outlineView</string>
-								<string key="candidateClassName">TorrentTableView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">_window</string>
-								<string key="candidateClassName">NSWindow</string>
-							</object>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">TableView/TorrentViewController.h</string>
 					</object>
 				</object>
 			</object>
@@ -5294,7 +4963,7 @@ AAA</bytes>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="759555418">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSOutlineView.h</string>
 					</object>
@@ -5550,11 +5219,6 @@ AAA</bytes>
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">Sparkle.framework/Headers/SUUpdater.h</string>
 					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSOutlineView</string>
-					<string key="superclassName">NSTableView</string>
-					<reference key="sourceIdentifier" ref="759555418"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSPopUpButton</string>
