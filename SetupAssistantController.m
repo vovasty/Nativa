@@ -30,6 +30,7 @@
 - (void) checkSettings:(BOOL) checkSSH checkSCGI:(BOOL) checkSCGI handler:(void (^)(BOOL success))handler;
 - (void) downloadsPathClosed: (NSOpenPanel *) openPanel returnCode: (int) code contextInfo: (void *) info;
 - (void) showError:(NSString *) error;
+- (void) closeTestConnection;
 @end
 
 @implementation SetupAssistantController
@@ -276,13 +277,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
                     if (handler)
                     handler(error == nil);
                 
-                [pc closeProcessForIndex:currentProcessIndex];
+                [self closeTestConnection];
             }];
         }
         else 
         {
             [self setChecking:NO];
-            [pc closeProcessForIndex:currentProcessIndex];
+            [self closeTestConnection];
             if (handler)
                 handler(YES);
         }
@@ -332,6 +333,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
     NSLog(@"error: %@", error);
 	[self setChecking:NO];
 	[self setErrorMessage: error];
+}
+
+- (void) closeTestConnection
+{
+    if (![NSThread isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(closeTestConnection) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    [pc closeProcessForIndex:currentProcessIndex];
 }
 
 @end
