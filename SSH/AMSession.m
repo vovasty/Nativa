@@ -282,7 +282,7 @@
 		}		
 		else if ([checkPort evaluateWithObject:outputContent] == YES)
 		{
-			[self setError: [NSString stringWithFormat:@"SSH unable to bind to port %d", localPort]];
+			[self setError: [NSString stringWithFormat:@"SSH unable to bind to local port %d", localPort]];
 			[self terminateTask];
 		}
 		else if ([checkConnected evaluateWithObject:outputContent] == YES)
