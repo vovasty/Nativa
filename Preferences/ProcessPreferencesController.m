@@ -71,6 +71,8 @@
     [[DownloadsController sharedDownloadsController] stopUpdates];
     [_testProcess closeConnection];
     [_testProcess release];
+    [self setErrorMessage:nil];
+    [self setChecking:YES];
 
     _testProcess = [[RTorrentController alloc] init];
     [_testProcess retain];
@@ -94,6 +96,7 @@
         server.port = sshHostPort.port;
         server.username = sshUser;
         server.password = sshPassword;
+        server.useSSHKeyLogin = useSSHKeyLogin;
         server.useSSHV2 = useSSHV2;
         server.compressionLevel = sshCompressionLevel;
         proxy.currentServer = server;

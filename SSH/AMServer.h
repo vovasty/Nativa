@@ -23,6 +23,7 @@
 	NSString	*username;
 	NSString	*host;
     BOOL        useSSHV2;
+    BOOL        useSSHKeyLogin;
     NSInteger   compressionLevel;
 }
 @property(readwrite, retain) NSString	*host;
@@ -31,4 +32,5 @@
 @property(readwrite, retain) NSString	*username;
 @property                    BOOL       useSSHV2;
 @property                    NSInteger  compressionLevel;
+@property                    BOOL       useSSHKeyLogin;
 @end

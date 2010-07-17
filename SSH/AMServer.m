@@ -24,6 +24,7 @@
 @synthesize port;
 @synthesize useSSHV2;
 @synthesize compressionLevel;
+@synthesize useSSHKeyLogin;
 
 - (void) dealloc
 {

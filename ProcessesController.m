@@ -266,6 +266,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
 {
 	[self setObject:[NSNumber numberWithBool:sshUseKeyLogin] forKey:@"SSHUseKeyLogin" forIndex:index];
 }
+
 -(BOOL) sshUseKeyLoginForIndex:(NSInteger) index
 {
 	return [[self object:@"SSHUseKeyLogin" forIndex:index] boolValue];
@@ -338,6 +339,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(ProcessesController);
         server.password = [self sshPasswordForIndex:index];
         server.port = [self sshPortForIndex:index];
         server.useSSHV2 = [self sshUseV2ForIndex:index];
+        server.useSSHKeyLogin = [self sshUseKeyLoginForIndex:index];
         server.compressionLevel = [self sshCompressionLevelForIndex:index];
         proxy.currentServer = server;
         proxy.maxAutoReconnectRetries = [self maxReconnectsForIndex:index];

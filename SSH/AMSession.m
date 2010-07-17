@@ -396,7 +396,8 @@
 	
 	[sshTask launch];
     
-	[inputHandle writeData:[[([currentServer password]==nil?@"":[currentServer password]) stringByAppendingString:@"\n"] dataUsingEncoding: NSASCIIStringEncoding]];
+    
+	[inputHandle writeData:[[(currentServer.password==nil || currentServer.useSSHKeyLogin?@"":[currentServer password]) stringByAppendingString:@"\n"] dataUsingEncoding: NSASCIIStringEncoding]];
     
 	NSLog(@"Session %@ is now launched.", [self sessionName]);
 	[killTimer invalidate];
