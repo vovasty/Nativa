@@ -263,6 +263,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
         if (error != nil)
         {
             [self showError:error];
+            [self closeTestConnection];
             if (handler)
                 handler(NO);
             return;
@@ -273,11 +274,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
                 [self setChecking:NO];
                 if (error != nil)
                     [self showError:error];
-
-                    if (handler)
-                    handler(error == nil);
                 
                 [self closeTestConnection];
+
+                if (handler)
+                    handler(error == nil);
+                
             }];
         }
         else 
