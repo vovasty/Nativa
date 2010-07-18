@@ -36,9 +36,13 @@
     
     NSString                *host;
     
+    NSInteger               port;
+    
     BOOL                    useSSH;
     
     NSString                *sshHost;
+    
+    NSInteger               sshPort;
     
     NSString                *sshUser;
     
