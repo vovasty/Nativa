@@ -128,11 +128,10 @@
     result.flatFileList = flatFiles;
     [root release];
     NSString *trackerUrl = [decodedData valueForKey:@"announce"];
-    NSMutableArray *trackersList;
-    if (trackerUrl != nil)
-        trackersList = [NSMutableArray arrayWithObjects:
-                           trackerUrl,
-                           nil];
+    NSMutableArray *trackersList = trackerUrl == nil?nil:[NSMutableArray arrayWithObjects:
+                                                          trackerUrl,
+                                                          nil];
+
     NSArray *trackerUrls = [decodedData valueForKey:@"announce-list"];
     if (trackerUrls != nil)
     {
