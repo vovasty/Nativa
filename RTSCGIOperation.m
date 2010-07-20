@@ -19,6 +19,7 @@
  *****************************************************************************/
 
 #import "RTSCGIOperation.h"
+#import "RTorrentController.h"
 #import "RTConnection.h"
 #import "XMLRPCEncoder.h"
 #import "XMLRPCTreeBasedParser.h"
@@ -39,35 +40,44 @@
 
 - (NSArray*) arguments;
 
+- (void) setArguments:(NSArray *) value;
+
 - (NSString*) command;
 
-@property (nonatomic, assign) NSAutoreleasePool *pool;
+- (void) setCommand:(NSString *) value;
+
+@property (nonatomic, assign) NSAutoreleasePool       *pool;
+@property (retain) RTorrentController                 *controller;
+@property (retain) id<RTorrentCommand>                operation;
 @end
 
 
 @implementation RTSCGIOperation
 
-@synthesize pool, handler;
+@synthesize pool, handler, controller, operation;
 
-- (id)initWithCommand:(RTConnection *) conn command:(NSString*)command arguments:(NSArray*)arguments handler:(void(^)(id data, NSString* error)) h;
+- (id)initWithCommand:(RTorrentController *)control command:(NSString*)cmd arguments:(NSArray*)args handler:(void(^)(id data, NSString* error)) h;
 {
 	if (self = [super init])
 	{
-		_connection = [conn retain];
-		   _command = [command retain];
-		 _arguments = [arguments retain];
-		[self setHandler:h];
+        [self setController: control];
+        [self setOperation: nil];
+		[self setArguments: args];
+        [self setCommand: cmd];
+		[self setHandler: h];
 	}
 	return self;
 	
 }
 
-- (id)initWithOperation:(RTConnection *) conn operation:(id<RTorrentCommand>) operation;
+- (id)initWithOperation:(RTorrentController *)control operation:(id<RTorrentCommand>) oper;
 {
 	if (self = [super init])
 	{
-		_connection = [conn retain];
-		_operation  = [operation retain];
+        [self setController: control];
+        [self setOperation: oper];
+        [self setCommand: nil];
+		[self setArguments: nil];
 	}
 	return self;
 }
@@ -81,6 +91,7 @@
 	iStream = nil;
 	
 	XMLRPCEncoder* xmlrpc_request = [[XMLRPCEncoder alloc] init];
+
 	[xmlrpc_request setMethod:[self command] withParameters:[self arguments]];
 	
 	NSString* scgi_req = [xmlrpc_request encode];
@@ -93,7 +104,7 @@
 	
     NSString *error;
     
-	if ([_connection openStreams:&iStream oStream:&oStream delegate:self error:&error])
+	if ([controller.connection openStreams:&iStream oStream:&oStream delegate:self error:&error])
 	{
 		[iStream retain];
 		[oStream retain];
@@ -121,16 +132,41 @@
 - (void)dealloc
 {
 	[_responseData release];
-	[_command release];
-	[_arguments release];
+	[self setCommand: nil];
+	[self setArguments: nil];
 	[self setHandler: nil];
-	[_connection release];
-	[_operation release];
+	[self setOperation:nil];
+    [self setController:nil];
 	[_requestData release];
 	[super dealloc];
 }
 
- 
+- (void) setArguments:(NSArray *) value
+{
+    if (arguments == value)
+        return;
+    [arguments release];
+    arguments = [value retain];
+}
+
+- (NSArray*) arguments
+{
+	return operation==nil?arguments:[operation arguments];
+}
+
+-(void) setCommand:(NSString *) value
+{
+    if (command == value)
+        return;
+    [command release];
+    command = [value retain];    
+}
+
+- (NSString*) command
+{
+	return operation==nil?command:[operation command];
+}
+
 - (void) requestDidSent;
 {
     if (oStream != nil) 
@@ -288,20 +324,9 @@
 - (void) runResponse:(NSData*) data error:(NSString*) error
 {
     [self finish];
-    if (_operation == nil && handler)
+    if (operation == nil && handler)
 		handler(data, error);
 	else
-		[_operation processResponse:data error:error];
+		[operation processResponse:data error:error];
 }
-
-- (NSArray*) arguments
-{
-	return _operation==nil?_arguments:[_operation arguments];
-}
-
-- (NSString*) command
-{
-	return _operation==nil?_command:[_operation command];
-}
-
 @end

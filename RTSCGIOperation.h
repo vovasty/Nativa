@@ -21,21 +21,19 @@
 #import <Cocoa/Cocoa.h>
 #import "RTorrentCommand.h"
 
-@class RTConnection;
+@class RTorrentController;
 
 @interface RTSCGIOperation : NSOperation<NSStreamDelegate> 
 {
-	RTConnection*				_connection;
-
 	NSOutputStream*				oStream;
 	
 	NSInputStream*				iStream;
 
 	NSMutableData*				_responseData;
 	
-	NSString					*_command;
+	NSString					*command;
 	
-	NSArray						*_arguments;
+	NSArray						*arguments;
 	
 	void (^handler)(id data, NSString* error);
 	
@@ -43,16 +41,18 @@
 	
 	NSAutoreleasePool			*pool;
 	
-	id<RTorrentCommand>         _operation;
+	id<RTorrentCommand>         operation;
 	
 	NSData						*_requestData;
 
 	NSInteger					_writtenBytesCounter;
+    
+    RTorrentController          *controller;
 }
 @property (copy) void (^handler)(id data, NSString* error);
 
-- (id)initWithCommand:(RTConnection *) conn command:(NSString*)command arguments:(NSArray*)arguments handler:(void(^)(id data, NSString* error)) h;
+- (id)initWithCommand:(RTorrentController *)controller command:(NSString*)command arguments:(NSArray*)arguments handler:(void(^)(id data, NSString* error)) h;
 
-- (id)initWithOperation:(RTConnection *) conn operation:(id<RTorrentCommand>) operation;
+- (id)initWithOperation:(RTorrentController *)controller operation:(id<RTorrentCommand>) operation;
 
 @end

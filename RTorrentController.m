@@ -371,14 +371,14 @@ static NSString * ConnectingContext = @"ConnectingContext";
 @implementation RTorrentController(Private)
 -(void)_runOperation:(id<RTorrentCommand>) operation
 {
-	RTSCGIOperation* scgiOperation = [[RTSCGIOperation alloc] initWithOperation:connection operation:operation];
+	RTSCGIOperation* scgiOperation = [[RTSCGIOperation alloc] initWithOperation:self operation:operation];
 	[_queue addOperation:scgiOperation];
 	[scgiOperation release];
 }
 
 -(void)_runCommand:(NSString*) command arguments:(NSArray*)arguments handler:(void(^)(id data, NSString* error)) h
 {
-	RTSCGIOperation* scgiOperation = [[RTSCGIOperation alloc] initWithCommand:connection command:command arguments:arguments handler:h];
+	RTSCGIOperation* scgiOperation = [[RTSCGIOperation alloc] initWithCommand:self command:command arguments:arguments handler:h];
 	[_queue addOperation:scgiOperation];
 	[scgiOperation release];
 }
