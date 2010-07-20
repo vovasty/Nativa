@@ -33,8 +33,9 @@
 }
 - (NSString *) urlDecode
 {
-    return (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault,
-                                                           (CFStringRef)self,
-                                                           CFSTR(""));
+    NSString * result = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault,
+                                                                               (CFStringRef)self,
+                                                                               CFSTR(""));
+    return [result autorelease];
 }
 @end

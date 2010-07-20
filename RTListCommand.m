@@ -83,7 +83,6 @@
 			
 			NSString *decodedGroupName = [groupName isEqualToString:@""]?nil:[groupName urlDecode];
 			r.groupName = decodedGroupName;
-			[decodedGroupName release];
 			
 			NSNumber*  checking = [row  objectAtIndex:17];
             
