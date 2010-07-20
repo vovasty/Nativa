@@ -177,6 +177,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(SetupAssistantController);
 	if (setsockopt(fileDescriptor, SOL_SOCKET, SO_REUSEADDR,
                    (void *)&reuse, sizeof(int)) != 0)
 	{
+        CFSocketInvalidate(socket);
+        CFRelease(socket);
+        socket = nil;
 		NSLog(@"Unable to set socket options.");
 		return 0;
 	}
