@@ -45,6 +45,7 @@ extern NSString* const NINotifyUpdateDownloads;
     BOOL              connected;
     BOOL              connecting;
     NSString          *openConnectionError;
+    NSSound           *_deleteSound;
 }
 @property (assign)	CGFloat globalUploadSpeed;
 @property (assign)	CGFloat globalDownloadSpeed;

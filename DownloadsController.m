@@ -46,8 +46,6 @@ NSString* const NINotifyUpdateDownloads = @"NINotifyUpdateDownloads";
 
 -(void) setError:(NSString*) fmt error:(NSString*) error;
 
--(void) playTrashSound;
-
 @end
 
 @implementation DownloadsController
@@ -79,6 +77,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	_downloads = [[[NSMutableArray alloc] init] retain];
 	_defaults = [NSUserDefaults standardUserDefaults];
     _queue = [[NSOperationQueue alloc] init];
+    [_queue retain];
+	_deleteSound = [NSSound soundNamed: @"drag to trash"];
+    [_deleteSound retain];
 	return self;
 }
 
@@ -86,6 +87,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 -(void)dealloc
 {
 	[_downloads release];
+    [_queue release];
+    [_deleteSound release];
 	[super dealloc];
 }
 
@@ -209,7 +212,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
             NSString *folderName = [[GroupsController groups] usesCustomDownloadLocationForIndex:index]?
                                      [[GroupsController groups] customDownloadLocationForIndex:index]:
                                      nil;
-            NSLog(@"%@", [blockSelf _controller]);
+
             [[blockSelf _controller] add:rawTorrent 
                               start:[_defaults boolForKey:NIStartTransferWhenAddedKey] 
                               group:groupName
@@ -224,18 +227,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
                                
                                if ([_defaults boolForKey:NITrashDownloadDescriptorsKey])
                                {
-                                       //play "trash" sound
-                                   id resp = [^(NSDictionary *newURLs, NSError *error){
-                                       if (!error)
-                                       {
-                                           NSSound *deleteSound;
-                                           deleteSound  = [NSSound soundNamed: @"drag to trash"];
-                                           [deleteSound play];
-                                       }
-                                   }copy];
                                    [[NSWorkspace sharedWorkspace] recycleURLs: urls
-                                                            completionHandler:resp];
-                                   [resp release];
+                                                            completionHandler:^(NSDictionary *newURLs, NSError *error){
+                                                                if (!error)
+                                                                    [blockSelf->_deleteSound play];
+                                                            }];
                                }
                                
                                [blockSelf _updateList];
@@ -274,36 +270,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 			NSString* dataLocation = [blockSelf findLocation:torrent];
 			if (dataLocation)
 			{
-				id resp = [^(NSDictionary *newURLs, NSError *error){
-					if (error)
-					{
-						NSLog(@"unable to trash file %@:",error);
-						NSError* removeError = nil;
-						[[NSFileManager defaultManager] removeItemAtPath:dataLocation error:&removeError];
-						if (removeError)
-							[self setError:@"Unable to delete file %@: " error:[removeError localizedDescription]];
-						else 
-						{
-							//play "trash" sound
-							NSSound *deleteSound;
-							deleteSound  = [NSSound soundNamed: @"drag to trash"];
-							[deleteSound play];
-						}
-
-					}
-					else
-					{
-						//play "trash" sound
-						NSSound *deleteSound;
-						deleteSound  = [NSSound soundNamed: @"drag to trash"];
-						[deleteSound play];
-					}
-				}copy];
 				NSURL* url = [NSURL fileURLWithPath:dataLocation];
 				NSArray* urls = [NSArray arrayWithObjects:url, nil];
 				[[NSWorkspace sharedWorkspace] recycleURLs: urls
-										 completionHandler:resp];
-				[resp release];
+										 completionHandler:^(NSDictionary *newURLs, NSError *error){
+                                             if (error)
+                                             {
+                                                 NSLog(@"unable to trash file %@:",error);
+                                                 NSError* removeError = nil;
+                                                 [[NSFileManager defaultManager] removeItemAtPath:dataLocation error:&removeError];
+                                                 if (removeError)
+                                                     [self setError:@"Unable to delete file %@: " error:[removeError localizedDescription]];
+                                                 else 
+                                                     [blockSelf->_deleteSound play]; //play "trash" sound
+                                                 
+                                             }
+                                             else
+                                             {
+                                                     //play "trash" sound
+                                                 [blockSelf->_deleteSound play];					}
+                                         }];
 			}
 			else 
 				[self setError:@"Unable to delete torrent data: %@" error:@"cannot find torrent data"];
@@ -612,12 +598,5 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
 	 isSticky:NO
 	 clickContext:nil];
 	NSLog(fmt, error);
-}
-
--(void) playTrashSound
-{
-	NSSound *deleteSound;
-	deleteSound  = [NSSound soundNamed: @"drag to trash"];
-	[deleteSound play];
 }
 @end
