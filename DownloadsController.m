@@ -206,6 +206,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DownloadsController);
             NSURLResponse *returningResponse = nil;
             NSError* connError = nil;
             NSData *rawTorrent = [NSURLConnection sendSynchronousRequest:request returningResponse:&returningResponse error:&connError];
+            if (rawTorrent == nil)
+            {
+                [blockSelf setError:@"Unable to add torrent: %@" error:[connError localizedDescription]];
+                continue;
+            }
             Torrent *constructed = [Torrent torrentWithData:rawTorrent];
             NSInteger index = [[GroupsController groups] groupIndexForTorrentByRules:constructed];
             NSString *groupName = [[GroupsController groups] nameForIndex:index];
