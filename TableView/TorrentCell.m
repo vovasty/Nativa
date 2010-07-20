@@ -540,6 +540,7 @@
                         + IMAGE_SIZE_REG + PADDING_BETWEEN_IMAGE_AND_TITLE;
     
     result.size.height = HEIGHT_TITLE;
+    result.size.width = 0;
     result.size.width = NSMaxX(bounds) - NSMinX(result) - PADDING_HORIZONTAL;
 
     if ([[self representedObject] priority] != NITorrentPriorityNormal)
@@ -558,6 +559,7 @@
     result.origin.x = NSMinX(bounds) + PADDING_HORIZONTAL + IMAGE_SIZE_REG + PADDING_BETWEEN_IMAGE_AND_TITLE;
     
     result.size.height = HEIGHT_STATUS;
+    result.size.width = 0;
     result.size.width = NSMaxX(bounds) - NSMinX(result) - PADDING_HORIZONTAL;
     
     return result;
@@ -571,6 +573,7 @@
     result.origin.x = NSMinX(bounds) + PADDING_HORIZONTAL + IMAGE_SIZE_REG + PADDING_BETWEEN_IMAGE_AND_TITLE;
     
     result.size.height = HEIGHT_STATUS;
+    result.size.width = 0;
     result.size.width = NSMaxX(bounds) - NSMinX(result) - PADDING_HORIZONTAL;
     
     return result;
