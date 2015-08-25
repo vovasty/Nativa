@@ -1,13 +1,4 @@
 syntax: glob
 .DS_Store
-build
-(*)
-*.pbxuser
-*.perspectivev3
-*.mode1v3
-*.mode2v3
-*.mpkg
-*.framework
 *.orig
-French.lproj/*.xib
-German.lproj/*.xib
+xcuserdata

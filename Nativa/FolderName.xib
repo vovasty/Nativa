@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6250"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="FileNameCell" customModule="Nativa" customModuleProvider="target"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <tableCellView id="gaR-Ok-lpN" customClass="FolderNameCell" customModule="Nativa" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="329" height="17"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gEn-RA-4UY">
+                    <rect key="frame" x="3" y="0.0" width="17" height="17"/>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="Ujl-0m-LCe"/>
+                </imageView>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HYk-bz-AXV">
+                    <rect key="frame" x="25" y="0.0" width="303" height="17"/>
+                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="DlG-gZ-CbG">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="HYk-bz-AXV" firstAttribute="leading" secondItem="gaR-Ok-lpN" secondAttribute="leading" constant="27" id="TYU-vI-Pcx"/>
+                <constraint firstAttribute="trailing" secondItem="HYk-bz-AXV" secondAttribute="trailing" constant="3" id="WeY-Pl-Oys"/>
+                <constraint firstItem="HYk-bz-AXV" firstAttribute="top" secondItem="gaR-Ok-lpN" secondAttribute="top" id="eV0-pb-6SM"/>
+            </constraints>
+            <connections>
+                <outlet property="imageView" destination="gEn-RA-4UY" id="PyS-P9-e7E"/>
+                <outlet property="textField" destination="HYk-bz-AXV" id="I4M-jE-wnf"/>
+            </connections>
+            <point key="canvasLocation" x="395.5" y="340"/>
+        </tableCellView>
+    </objects>
+    <resources>
+        <image name="NSActionTemplate" width="14" height="14"/>
+    </resources>
+</document>
