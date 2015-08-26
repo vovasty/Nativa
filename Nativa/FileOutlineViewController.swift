@@ -8,13 +8,13 @@
 
 import Cocoa
 
-@objc protocol FileOutlineViewControllerDelegate {
-    func fileOutlineViewController(controller: FileOutlineViewController, didChangeFilePriorities priorities:[FileListNode: Int])
+protocol FileOutlineViewControllerDelegate: class {
+    func fileOutlineViewController(controller: FileOutlineViewController, didChangeFilePriorities priorities: [FileListNode: Int])
 }
 
 class FileOutlineViewController: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
     @IBOutlet weak var outlineView: NSOutlineView!
-    @IBOutlet weak var delegate: FileOutlineViewControllerDelegate?
+    weak var delegate: FileOutlineViewControllerDelegate?
     var filePriorities: [FileListNode: (priority: DownloadPriority, state: Int)] = [:]
     var torrent: Download? {
         didSet {
@@ -61,7 +61,7 @@ class FileOutlineViewController: NSObject, NSOutlineViewDataSource, NSOutlineVie
         }
         else
         {
-            if var children = torrent?.file?.children {
+            if let children = torrent?.file?.children {
                 return children.count
             }
             else {
