@@ -9,13 +9,12 @@
 import Cocoa
 import Common
 
+let SelectedDownloadsNotification = "net.aramzamzam.nativa.SelectedDownloadsNotification"
+
 class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate, DropViewDelegate
 {
     @IBOutlet weak var outlineView: NSOutlineView!
     var torrentsFromDnD: IndexingGenerator<Array<(path: String, download: Download)>>?
-    var selectedTorrents: IndexingGenerator<Array<Download>>?
-    @IBOutlet weak var bottomBarConstraint: NSLayoutConstraint!
-    
 
     var downloadsObserver: String?
     
@@ -28,7 +27,6 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
     
     override func viewWillAppear() {
         super.viewWillAppear()
-        bottomBarConstraint.constant = view.window!.contentBorderThicknessForEdge(.MinY)
         
         //to unify toolbar and titlebar
         self.view.window?.titleVisibility = .Hidden
@@ -120,6 +118,18 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
         }
     }
     
+    func outlineViewSelectionDidChange(notification: NSNotification) {
+        let downloads = outlineView.selectedRowIndexes
+            .map { (e) -> Download in
+                return outlineView.itemAtRow(e) as! Download
+            }
+            .filter { (e) -> Bool in
+                e != nil
+        }
+
+        NSNotificationCenter.defaultCenter().postNotificationName(SelectedDownloadsNotification, object: self, userInfo: ["downloads": downloads])
+    }
+    
     //NSSeguePerforming
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
         switch segue.identifier!{
@@ -128,12 +138,6 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
                 let vc = segue.destinationController as? AddTorrentViewController {
                     vc.setTorrent(torrent.download, path: torrent.path)
             }
-        case "showInspector":
-            if  let download = selectedTorrents?.next(),
-                let vc = segue.destinationController as? InspectorViewController {
-                    vc.download = download
-            }
-            
         default:
             break
         }
@@ -167,23 +171,6 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
         }
     }
 
-    @IBAction func showInspector(sender: AnyObject) {
-        let torrents = outlineView.selectedRowIndexes
-            .map { (e) -> Download in
-            return outlineView.itemAtRow(e) as! Download
-            }
-            .filter { (e) -> Bool in
-                e != nil
-        }
-
-        selectedTorrents = torrents.generate()
-        
-        for _ in torrents {
-            self.performSegueWithIdentifier("showInspector", sender: nil)
-        }
-    }
-
-    
     override func validateMenuItem(menuItem: NSMenuItem) -> Bool {
         return outlineView.selectedRowIndexes.count > 0
     }

@@ -46,6 +46,7 @@
 		CD7EC18D19E5AEB700C09042 /* FileOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */; };
 		CD7EFCB019F87378001AE5E9 /* FolderName.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7EFCAF19F87378001AE5E9 /* FolderName.xib */; };
 		CD7EFCB219F87426001AE5E9 /* FolderNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7EFCB119F87426001AE5E9 /* FolderNameCell.swift */; };
+		CD90A79E1B8E5CF000889705 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD90A79D1B8E5CF000889705 /* MainViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		CDB2614D19F85F8B00DE168C /* FileNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2614C19F85F8B00DE168C /* FileNameCell.swift */; };
 		CDB2614F19F860B600DE168C /* FileName.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDB2614E19F860B600DE168C /* FileName.xib */; };
 		CDB54D7C19A13F7100D777D5 /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54D7B19A13F7100D777D5 /* GroupCell.swift */; };
@@ -170,6 +171,7 @@
 		CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileOutlineViewController.swift; sourceTree = "<group>"; };
 		CD7EFCAF19F87378001AE5E9 /* FolderName.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FolderName.xib; sourceTree = "<group>"; };
 		CD7EFCB119F87426001AE5E9 /* FolderNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderNameCell.swift; sourceTree = "<group>"; };
+		CD90A79D1B8E5CF000889705 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		CDB2614C19F85F8B00DE168C /* FileNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileNameCell.swift; sourceTree = "<group>"; };
 		CDB2614E19F860B600DE168C /* FileName.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileName.xib; sourceTree = "<group>"; };
 		CDB54D7B19A13F7100D777D5 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
@@ -272,6 +274,7 @@
 				CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */,
 				CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */,
 				CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */,
+				CD90A79D1B8E5CF000889705 /* MainViewController.swift */,
 				CD1E616B19F5C1C5006C23CA /* Main.storyboard */,
 				CDB2614E19F860B600DE168C /* FileName.xib */,
 				CD7EFCAF19F87378001AE5E9 /* FolderName.xib */,
@@ -609,6 +612,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD90A79E1B8E5CF000889705 /* MainViewController.swift in Sources */,
 				CD01C74E199162EB00D5B8A6 /* DownloadsViewController.swift in Sources */,
 				CDB2614D19F85F8B00DE168C /* FileNameCell.swift in Sources */,
 				CD01C7311991627100D5B8A6 /* AppDelegate.swift in Sources */,

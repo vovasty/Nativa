@@ -13,23 +13,34 @@ protocol InspectorViewControllerPanel: class {
 }
 
 class InspectorViewController: NSTabViewController {
-    var download: Download? {
-        didSet {
-            Datasource.instance.update(download!) { (download, error) -> Void in
-                guard let download = download where error == nil else {
-                    print("unable to update torrent info: \(error)")
-                    return
+    var observerId: NSObjectProtocol?
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let observerId = observerId {
+            NSNotificationCenter.defaultCenter().removeObserver(observerId)
+        }
+        
+        observerId = NSNotificationCenter.defaultCenter().addObserverForName(SelectedDownloadsNotification, object: nil, queue: nil) { (note) -> Void in
+            if let download = (note.userInfo?["downloads"] as? [Download])?.first {
+                Datasource.instance.update(download) { (download, error) -> Void in
+                    guard let download = download where error == nil else {
+                        print("unable to update torrent info: \(error)")
+                        return
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.title = download.title
+                        self.updateTabs(download)
+                    })
                 }
-                
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.title = download.title
-                    self.updateTabs()
-                })
             }
         }
     }
     
-    private func updateTabs() {
+    
+    private func updateTabs(download: Download) {
         for ti in tabViewItems {
             if let vc = ti.viewController as? InspectorViewControllerPanel {
                 vc.download = download
@@ -41,8 +52,10 @@ class InspectorViewController: NSTabViewController {
             print(tabViewItem?.viewController)
     }
  
-    override func viewWillAppear() {
-//        updateTabs()
+    deinit {
+        if let observerId = observerId {
+            NSNotificationCenter.defaultCenter().removeObserver(observerId)
+        }
     }
 }
 

@@ -13,7 +13,6 @@ class DownloadCell: NSTableCellView
 {
     @IBOutlet weak var controlButton: NSButton!
     @IBOutlet weak var actionButton: NSButton!
-    @IBOutlet weak var groupButton: NSButton!
     @IBOutlet weak var statusText: NSTextField!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
     internal var progressIndicatorConstraints: [NSLayoutConstraint]?
@@ -86,13 +85,6 @@ class DownloadCell: NSTableCellView
         }
         
         self.addTrackingAreaForView(actionButton, userInfo:["hint": NSLocalizedString("Options", comment: "")])
-        
-        if let gname = self.groupName {
-            self.addTrackingAreaForView(groupButton, userInfo:["hint": gname])
-        }
-        else{
-            self.addTrackingAreaForView(groupButton, userInfo:["hint": NSLocalizedString("No group", comment: "")])
-        }
     }
     
     
