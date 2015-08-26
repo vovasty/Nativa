@@ -13,12 +13,17 @@ import Common
 class ServiceDelegate : NSObject, NSXPCListenerDelegate {
     func listener(listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {
 
-        newConnection.exportedInterface = contructInterfaceForNativaHelper()
-
+        newConnection.exportedInterface = NSXPCInterface(`withProtocol`: NativaHelperProtocol.self)
         
         let exportedObject = NativaHelper()
+        
         newConnection.exportedObject = exportedObject
+        newConnection.remoteObjectInterface = NSXPCInterface(`withProtocol`: ConnectionEventListener.self)
+
+        exportedObject.xpcConnection = newConnection;
+
         newConnection.resume()
+        
         return true
     }
 }

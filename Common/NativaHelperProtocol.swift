@@ -21,7 +21,6 @@ import Foundation
     func setFilePriority(id: String, priorities:[Int: Int], handler: (NSError?)->Void)
 }
 
-public func contructInterfaceForNativaHelper()->NSXPCInterface{
-    let iface = NSXPCInterface(`withProtocol`: NativaHelperProtocol.self)
-    return iface
+@objc public protocol ConnectionEventListener {
+    func connectionDropped(error: NSError?)
 }

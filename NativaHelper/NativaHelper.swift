@@ -10,17 +10,8 @@ import Foundation
 import Common
 import SwiftySSH
 
-private extension NSError {
-    convenience init?(_ error: ErrorType?) {
-        guard let error = error else {
-            return nil
-        }
-        
-        self.init(domain: error._domain, code: error._code, userInfo: [NSLocalizedDescriptionKey: "\(error)"])
-    }
-}
-
 class NativaHelper : NSObject, NativaHelperProtocol {
+    weak var xpcConnection: NSXPCConnection?
     private var rtorrent: RTorrent?
     private let fullDownloadsList = DMultiCommand("main", field: "list", commands: [
         ResultCommand("d.get_hash=", parameters: nil, field: "id") { (v) -> AnyObject? in return v as? String },
@@ -53,13 +44,11 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         let session = SwiftySSH.Session(user, host: host, port: port)
         
         session.onDisconnect { (session, error) -> Void in
-            if let e = error {
-                connect(NSError(e))
-            }
+                self.xpcConnection!.remoteObjectProxy.connectionDropped(NSError(error))
             }
             .authenticate(.Password(password: password))
-            .onConnect({ (session) -> Void in
-                connect(nil)
+            .onConnect({ (Session, error) -> Void in
+                connect(NSError(error))
             })
             .connect()
         

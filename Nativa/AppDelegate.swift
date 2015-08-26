@@ -10,6 +10,7 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate{
+    private var connectionDropObserver: NSObjectProtocol?
     
     private let refreshTimer: Timer = Timer(timeout: 60) { (Void) -> Void in
         Datasource.instance.update()
@@ -17,6 +18,8 @@ class AppDelegate: NSObject, NSApplicationDelegate{
 
     private func connect() {
         refreshTimer.stop()
+        
+//        NSThread.sleepForTimeInterval(1)
         let defaults = NSUserDefaults.standardUserDefaults()
         let scgi = defaults["rtorrent.scgi"] as? String ?? "localhost:5000"
         
@@ -43,7 +46,13 @@ class AppDelegate: NSObject, NSApplicationDelegate{
     func applicationDidFinishLaunching(aNotification: NSNotification)
     {
         NSUserDefaults.standardUserDefaults().setValue(true, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
+        connectionDropObserver = NSNotificationCenter.defaultCenter().addObserverForName(ConnectionDroppedNotification, object: nil, queue: nil) { (note) -> Void in
+            self.connect()
+        }
+        
         connect()
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(ConnectionDroppedNotification, object: self)
     }
     
     //hide window instead of close

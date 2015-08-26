@@ -9,6 +9,10 @@
 import Foundation
 import Common
 
+public enum NativaError: ErrorType {
+    case UnknownError(message: String)
+}
+
 
 private var parseTorrentsLock: OSSpinLock = OS_SPINLOCK_INIT
 
@@ -60,8 +64,10 @@ class DownloadsSyncableArrayDelegate: SyncableArrayDelegate {
     }
 }
 
-class Datasource {
-    let downloaderService = NSXPCConnection(serviceName: "net.aramzamzam.Nativa.NativaHelper")
+let ConnectionDroppedNotification = "net.aramzamzam.Nativa.ConnectionDroppedNotification"
+
+class Datasource: ConnectionEventListener {
+    var downloaderService: NSXPCConnection?
     var downloader: NativaHelperProtocol!
     private let downloadsSyncableArrayDelegate = DownloadsSyncableArrayDelegate()
     let downloads: SyncableArray<DownloadsSyncableArrayDelegate>
@@ -69,16 +75,30 @@ class Datasource {
     
     static let instance = Datasource()
     
-    required init(){
-        
-        downloaderService.remoteObjectInterface = contructInterfaceForNativaHelper()
-        downloaderService.resume()
-
+    init(){
         downloads = SyncableArray(delegate: downloadsSyncableArrayDelegate)
     }
     
     func connect(user: String, host: String, port: UInt16, password: String, serviceHost: String, servicePort: UInt16, connect: (NSError?)->Void) {
         
+        downloaderService = nil
+        downloader = nil
+        
+        downloaderService = NSXPCConnection(serviceName: "net.aramzamzam.Nativa.NativaHelper")
+        
+        guard let downloaderService = downloaderService else{
+            self.downloaderService = nil
+            connect(NSError(NativaError.UnknownError(message: "unable to create NSXPCConnection")))
+            return
+        }
+        
+
+        self.downloaderService = downloaderService
+        downloaderService.remoteObjectInterface = NSXPCInterface(`withProtocol`: NativaHelperProtocol.self)
+        downloaderService.exportedInterface = NSXPCInterface(`withProtocol`: ConnectionEventListener.self)
+        downloaderService.exportedObject = self
+        downloaderService.resume()
+
         downloader = downloaderService.remoteObjectProxyWithErrorHandler {
             (error) in
             
@@ -88,6 +108,12 @@ class Datasource {
             
             } as! NativaHelperProtocol
         
+        guard let downloader = downloader else{
+            self.downloaderService = nil
+            connect(NSError(NativaError.UnknownError(message: "unable to create remote proxy")))
+            return
+        }
+
         downloader.connect(user, host: host, port: port, password: password, serviceHost: serviceHost, servicePort: servicePort) { (error) -> Void in
                 connect(error)
         }
@@ -220,4 +246,10 @@ class Datasource {
         downloader.removeTorrent(download.id, path: download.dataPath, removeData: removeData, response: response)
     }
 
+    //MARK: ConnectionEventListener
+    @objc func connectionDropped(error: NSError?) {
+        print("connection dropped \(error)")
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(ConnectionDroppedNotification, object: self)
+    }
 }

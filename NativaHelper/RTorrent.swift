@@ -8,10 +8,7 @@
 
 import Foundation
 import SwiftySSH
-
-public enum RTorrentError: ErrorType {
-    case UnknownError(message: String)
-}
+import Common
 
 class RTorrent {
     let host: String
