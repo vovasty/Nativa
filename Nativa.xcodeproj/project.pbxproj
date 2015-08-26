@@ -261,23 +261,16 @@
 				CDFFC20919DB74260072EEAD /* Model */,
 				CD01C7301991627100D5B8A6 /* AppDelegate.swift */,
 				CD01C7321991627100D5B8A6 /* Images.xcassets */,
-				CD01C74D199162EB00D5B8A6 /* DownloadsViewController.swift */,
+				CD90A7A01B8E694D00889705 /* DownloadsViewController */,
 				CD0D45561B8ABEAC004DB8E1 /* Inspector */,
-				CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */,
-				CDB54D7B19A13F7100D777D5 /* GroupCell.swift */,
-				CDB2614C19F85F8B00DE168C /* FileNameCell.swift */,
-				CD7EFCB119F87426001AE5E9 /* FolderNameCell.swift */,
+				CD90A7A11B8E6A9E00889705 /* FileOutlineViewController */,
 				CD526BA71992C2A9003D8671 /* Datasource.swift */,
 				CDB54D7F19A155EC00D777D5 /* Formatter.swift */,
 				CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */,
 				CD03055E19AE9B1100E8BF42 /* Timer.swift */,
-				CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */,
 				CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */,
-				CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */,
 				CD90A79D1B8E5CF000889705 /* MainViewController.swift */,
 				CD1E616B19F5C1C5006C23CA /* Main.storyboard */,
-				CDB2614E19F860B600DE168C /* FileName.xib */,
-				CD7EFCAF19F87378001AE5E9 /* FolderName.xib */,
 				CD0062CC1B82E14E005BAE46 /* Preferences.swift */,
 				CD01C72C1991627100D5B8A6 /* Supporting Files */,
 				CDCCFA501B77EDE60028EDCB /* Utils.swift */,
@@ -354,6 +347,29 @@
 				CD30A0BE1B8CF08B00D84BE2 /* SwiftySSHTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		CD90A7A01B8E694D00889705 /* DownloadsViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CDB54D7B19A13F7100D777D5 /* GroupCell.swift */,
+				CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */,
+				CD01C74D199162EB00D5B8A6 /* DownloadsViewController.swift */,
+				CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */,
+			);
+			name = DownloadsViewController;
+			sourceTree = "<group>";
+		};
+		CD90A7A11B8E6A9E00889705 /* FileOutlineViewController */ = {
+			isa = PBXGroup;
+			children = (
+				CDB2614E19F860B600DE168C /* FileName.xib */,
+				CD7EFCAF19F87378001AE5E9 /* FolderName.xib */,
+				CDB2614C19F85F8B00DE168C /* FileNameCell.swift */,
+				CD7EFCB119F87426001AE5E9 /* FolderNameCell.swift */,
+				CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */,
+			);
+			name = FileOutlineViewController;
 			sourceTree = "<group>";
 		};
 		CDF3D974199ECED5002B91C8 /* NativaHelper */ = {

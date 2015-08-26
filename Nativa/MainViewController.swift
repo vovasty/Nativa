@@ -20,9 +20,6 @@ class MainViewController: NSSplitViewController {
         let inspectorViewController = splitViewItems.last?.viewController as? InspectorViewController where !item.collapsed {
             inspectorViewController.downloads = downloadsViewController.selectedDownloads
         }
-        
-        
-        
     }
 
 }

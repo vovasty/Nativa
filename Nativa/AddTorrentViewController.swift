@@ -8,39 +8,34 @@
 
 import Cocoa
 
-class AddTorrentViewController:NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate
-{
-    @IBOutlet weak var outlineView: NSOutlineView!
+class AddTorrentViewController: FileOutlineViewController {
     @IBOutlet weak var torrentName: NSTextField!
     @IBOutlet weak var torrentIcon: NSImageView!
-    private var outlineController: FileOutlineViewController?
     private var path: String?
-    private var torrent: Download!
     
     override func viewDidLoad() {
-        outlineController = FileOutlineViewController(outlineView: self.outlineView, torrent: torrent!)
-        let fileNameNib = NSNib(nibNamed: "FileName", bundle: nil)
-        self.outlineView.registerNib(fileNameNib!, forIdentifier: "FileNameCell")
-        let folderNameNib = NSNib(nibNamed: "FolderName", bundle: nil)
-        self.outlineView.registerNib(folderNameNib!, forIdentifier: "FolderNameCell")
-        self.torrentName.stringValue = self.torrent!.title
-        self.torrentIcon.image = self.torrent!.icon
+        super.viewDidLoad()
+        self.outlineView.reloadData()
+        self.torrentName.stringValue = self.download!.title
+        self.torrentIcon.image = self.download!.icon
     }
-    
+
     override func viewDidAppear() {
         NSApp.activateIgnoringOtherApps(true)
     }
     
-    func setTorrent(torrent: Download, path:String)
+    func setDownload(download: Download, path: String)
     {
-        self.torrent = torrent
+        self.download = download
         self.path = path
-        self.title = torrent.title
+        self.torrentName?.stringValue = self.download!.title
+        self.torrentIcon?.image = self.download!.icon
+        title = download.title
     }
     
     @IBAction func add(sender: AnyObject) {
         do {
-            try Datasource.instance.addTorrentFiles([(path: path!, download: torrent)])
+            try Datasource.instance.addTorrentFiles([(path: path!, download: download!)])
         }
         catch let e {
             print("unable to add files \(e)")

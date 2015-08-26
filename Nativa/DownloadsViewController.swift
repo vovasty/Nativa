@@ -138,7 +138,7 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
         case "showAddTorrent":
             if  let torrent = torrentsFromDnD?.next(),
                 let vc = segue.destinationController as? AddTorrentViewController {
-                    vc.setTorrent(torrent.download, path: torrent.path)
+                    vc.setDownload(torrent.download, path: torrent.path)
             }
         default:
             break

@@ -467,7 +467,7 @@ CA
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowHeight="63" rowSizeStyle="automatic" viewBased="YES" indentationMarkerFollowsCell="NO" autoresizesOutlineColumn="YES" outlineTableColumn="RzK-N8-SJ9" id="StL-6A-5Yx">
-                                            <rect key="frame" x="0.0" y="0.0" width="478" height="270"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="478" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -604,6 +604,7 @@ CA
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <constraints>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="1000" id="9dI-1e-8Nb"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="400" id="J4S-z0-U7Y"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="tfX-ay-eDd">
@@ -984,6 +985,10 @@ CA
                                                     </prototypeCellViews>
                                                 </tableColumn>
                                             </tableColumns>
+                                            <connections>
+                                                <outlet property="dataSource" destination="SPS-Bb-RSo" id="7gM-rI-bEI"/>
+                                                <outlet property="delegate" destination="SPS-Bb-RSo" id="6dl-Zp-fFg"/>
+                                            </connections>
                                         </outlineView>
                                     </subviews>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1057,7 +1062,7 @@ Gw
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="outlineView" destination="ocw-Hp-MCR" id="aLS-xz-rRq"/>
+                        <outlet property="outlineView" destination="ocw-Hp-MCR" id="SwM-ty-PUG"/>
                         <outlet property="torrentIcon" destination="ojr-jP-uj7" id="iq3-3P-qbD"/>
                         <outlet property="torrentName" destination="PeE-KJ-5f2" id="XTf-x1-Xdj"/>
                         <outlet property="view" destination="Xr2-t9-jM5" id="EWB-lX-IDg"/>
@@ -1093,17 +1098,17 @@ Gw
             <objects>
                 <viewController title="Files" id="Xdb-dF-e6E" customClass="InspectorFilesViewController" customModule="Nativa" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="ee3-kz-uK1">
-                        <rect key="frame" x="0.0" y="0.0" width="340" height="526"/>
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="526"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1di-3Q-9TS">
-                                <rect key="frame" x="20" y="20" width="300" height="486"/>
+                                <rect key="frame" x="0.0" y="0.0" width="300" height="519"/>
                                 <clipView key="contentView" id="B8t-IW-9vV">
-                                    <rect key="frame" x="1" y="1" width="298" height="484"/>
+                                    <rect key="frame" x="1" y="1" width="298" height="517"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="ylc-vm-EBs" id="JDt-gp-yAZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="298" height="484"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="298" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1122,16 +1127,20 @@ Gw
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="FolderNameCell" id="xCH-9H-Ny9">
+                                                        <tableCellView identifier="FolderNameCell" id="xCH-9H-Ny9" customClass="FolderNameCell" customModule="Nativa" customModuleProvider="target">
                                                             <rect key="frame" x="1" y="1" width="261" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pYS-dx-1Ra">
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pYS-dx-1Ra">
                                                                     <rect key="frame" x="3" y="0.0" width="17" height="17"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="17" id="HHM-k3-tcE"/>
+                                                                        <constraint firstAttribute="height" constant="17" id="fai-9M-IXu"/>
+                                                                    </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="VxI-C2-e69"/>
                                                                 </imageView>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m9I-eJ-yv9">
-                                                                    <rect key="frame" x="25" y="0.0" width="352" height="17"/>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="m9I-eJ-yv9">
+                                                                    <rect key="frame" x="25" y="0.0" width="238" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="sO7-u8-BT4">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -1139,6 +1148,13 @@ Gw
                                                                     </textFieldCell>
                                                                 </textField>
                                                             </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="pYS-dx-1Ra" firstAttribute="leading" secondItem="xCH-9H-Ny9" secondAttribute="leading" constant="3" id="1BU-eV-NSI"/>
+                                                                <constraint firstItem="m9I-eJ-yv9" firstAttribute="leading" secondItem="pYS-dx-1Ra" secondAttribute="trailing" constant="7" id="EOQ-wh-X7k"/>
+                                                                <constraint firstItem="m9I-eJ-yv9" firstAttribute="centerY" secondItem="xCH-9H-Ny9" secondAttribute="centerY" id="LOi-Nq-nOo"/>
+                                                                <constraint firstAttribute="trailing" secondItem="m9I-eJ-yv9" secondAttribute="trailing" id="Whg-ds-b3h"/>
+                                                                <constraint firstItem="pYS-dx-1Ra" firstAttribute="centerY" secondItem="xCH-9H-Ny9" secondAttribute="centerY" id="bee-A7-TOt"/>
+                                                            </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="pYS-dx-1Ra" id="qOX-ov-LE9"/>
                                                                 <outlet property="textField" destination="m9I-eJ-yv9" id="4A8-Ld-e6C"/>
@@ -1148,19 +1164,41 @@ Gw
                                                             <rect key="frame" x="1" y="20" width="261" height="38"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="j2E-b0-Irz">
-                                                                    <rect key="frame" x="3" y="21" width="17" height="17"/>
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="j2E-b0-Irz">
+                                                                    <rect key="frame" x="3" y="11" width="17" height="17"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="height" constant="17" id="1in-IA-C5o"/>
+                                                                        <constraint firstAttribute="width" constant="17" id="u42-gM-cwa"/>
+                                                                    </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="ZWm-SH-r7E"/>
                                                                 </imageView>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C5W-Do-u6p">
-                                                                    <rect key="frame" x="25" y="21" width="105" height="17"/>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C5W-Do-u6p">
+                                                                    <rect key="frame" x="25" y="18" width="238" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="MYQ-6a-3z3">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qRx-jE-R3L">
+                                                                    <rect key="frame" x="25" y="3" width="238" height="11"/>
+                                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title=" 0.00% of 942.4 MB" id="D9r-Ll-Kff">
+                                                                        <font key="font" metaFont="miniSystem"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
                                                             </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="j2E-b0-Irz" firstAttribute="centerY" secondItem="okR-oY-Cp7" secondAttribute="centerY" id="3kE-ee-nX9"/>
+                                                                <constraint firstAttribute="trailing" secondItem="C5W-Do-u6p" secondAttribute="trailing" id="72w-bU-Djv"/>
+                                                                <constraint firstItem="C5W-Do-u6p" firstAttribute="leading" secondItem="j2E-b0-Irz" secondAttribute="trailing" constant="7" id="Fac-qF-j73"/>
+                                                                <constraint firstAttribute="bottom" secondItem="qRx-jE-R3L" secondAttribute="bottom" constant="3" id="Oko-9K-VQe"/>
+                                                                <constraint firstItem="qRx-jE-R3L" firstAttribute="leading" secondItem="j2E-b0-Irz" secondAttribute="trailing" constant="7" id="PuG-o4-mIz"/>
+                                                                <constraint firstAttribute="trailing" secondItem="qRx-jE-R3L" secondAttribute="trailing" id="Ug6-CA-jx6"/>
+                                                                <constraint firstItem="j2E-b0-Irz" firstAttribute="leading" secondItem="okR-oY-Cp7" secondAttribute="leading" constant="3" id="cOr-bF-qxK"/>
+                                                                <constraint firstItem="C5W-Do-u6p" firstAttribute="top" secondItem="okR-oY-Cp7" secondAttribute="top" constant="3" id="y2E-HT-btS"/>
+                                                            </constraints>
                                                             <connections>
                                                                 <outlet property="imageView" destination="j2E-b0-Irz" id="tIP-3f-Aeb"/>
                                                                 <outlet property="textField" destination="C5W-Do-u6p" id="suQ-BU-xeE"/>
@@ -1202,8 +1240,8 @@ Gw
                                                 </tableColumn>
                                             </tableColumns>
                                             <connections>
-                                                <outlet property="dataSource" destination="dN7-3n-3Vw" id="KPz-iW-DUh"/>
-                                                <outlet property="delegate" destination="dN7-3n-3Vw" id="TJF-A0-FOv"/>
+                                                <outlet property="dataSource" destination="Xdb-dF-e6E" id="46p-qa-b1c"/>
+                                                <outlet property="delegate" destination="Xdb-dF-e6E" id="xjq-H4-YoJ"/>
                                             </connections>
                                         </outlineView>
                                     </subviews>
@@ -1223,25 +1261,19 @@ Gw
                             </scrollView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="1di-3Q-9TS" secondAttribute="bottom" constant="20" id="55o-fw-IXm"/>
-                            <constraint firstAttribute="trailing" secondItem="1di-3Q-9TS" secondAttribute="trailing" constant="20" id="BtB-Fv-zCF"/>
-                            <constraint firstItem="1di-3Q-9TS" firstAttribute="leading" secondItem="ee3-kz-uK1" secondAttribute="leading" constant="20" id="EZW-h0-GP1"/>
-                            <constraint firstItem="1di-3Q-9TS" firstAttribute="top" secondItem="ee3-kz-uK1" secondAttribute="top" constant="20" id="ct0-7W-CXX"/>
+                            <constraint firstAttribute="bottom" secondItem="1di-3Q-9TS" secondAttribute="bottom" id="55o-fw-IXm"/>
+                            <constraint firstAttribute="trailing" secondItem="1di-3Q-9TS" secondAttribute="trailing" id="BtB-Fv-zCF"/>
+                            <constraint firstItem="1di-3Q-9TS" firstAttribute="leading" secondItem="ee3-kz-uK1" secondAttribute="leading" id="EZW-h0-GP1"/>
+                            <constraint firstItem="1di-3Q-9TS" firstAttribute="top" secondItem="ee3-kz-uK1" secondAttribute="top" constant="7" id="ct0-7W-CXX"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="outlineController" destination="dN7-3n-3Vw" id="F91-CL-tGB"/>
                         <outlet property="outlineView" destination="JDt-gp-yAZ" id="d8D-h5-xch"/>
                     </connections>
                 </viewController>
                 <customObject id="WrC-8X-5Zp" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
-                <customObject id="dN7-3n-3Vw" customClass="FileOutlineViewController" customModule="Nativa" customModuleProvider="target">
-                    <connections>
-                        <outlet property="outlineView" destination="JDt-gp-yAZ" id="0n1-L4-0C3"/>
-                    </connections>
-                </customObject>
             </objects>
-            <point key="canvasLocation" x="1284.5" y="1170"/>
+            <point key="canvasLocation" x="1284" y="1170"/>
         </scene>
     </scenes>
     <resources>

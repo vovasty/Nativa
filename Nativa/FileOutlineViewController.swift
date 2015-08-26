@@ -8,45 +8,32 @@
 
 import Cocoa
 
-protocol FileOutlineViewControllerDelegate: class {
-    func fileOutlineViewController(controller: FileOutlineViewController, didChangeFilePriorities priorities: [FileListNode: Int])
-}
-
-class FileOutlineViewController: NSObject, NSOutlineViewDataSource, NSOutlineViewDelegate {
+class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate {
     @IBOutlet weak var outlineView: NSOutlineView!
-    weak var delegate: FileOutlineViewControllerDelegate?
     var filePriorities: [FileListNode: (priority: DownloadPriority, state: Int)] = [:]
-    var torrent: Download? {
+    var download: Download? {
         didSet {
-            
-            if let files = torrent?.flatFileList {
+            if let files = download?.flatFileList {
                 filePriorities = files.reduce([FileListNode: (priority: DownloadPriority, state: Int)](), combine: { (var dict, file) -> [FileListNode: (priority: DownloadPriority, state: Int)] in
                     
                     dict[file] = (priority: file.priority, state: file.priority == .Skip ? NSOffState : NSOnState)
                     return dict
                 })
             }
-            else if let file = torrent?.file{
+            else if let file = download?.file{
                 filePriorities[file] = (priority: file.priority, state: file.priority == .Skip ? NSOffState : NSOnState)
             }
             
-            
-            self.outlineView.reloadData()
+            self.outlineView?.reloadData()
         }
     }
     
-    override init(){
-        super.init()
-    }
-    
-    init (outlineView: NSOutlineView, torrent: Download) {
-        self.outlineView = outlineView
-        self.torrent = torrent
-        
-        super.init()
-        
-        outlineView.setDelegate(self)
-        outlineView.setDataSource(self)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let fileNameNib = NSNib(nibNamed: "FileName", bundle: nil)
+        self.outlineView.registerNib(fileNameNib!, forIdentifier: "FileNameCell")
+        let folderNameNib = NSNib(nibNamed: "FolderName", bundle: nil)
+        self.outlineView.registerNib(folderNameNib!, forIdentifier: "FolderNameCell")
     }
     
     func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int
@@ -56,16 +43,16 @@ class FileOutlineViewController: NSObject, NSOutlineViewDataSource, NSOutlineVie
                 return children.count
             }
             else {
-                return torrent == nil ? 0 : 1
+                return download == nil ? 0 : 1
             }
         }
         else
         {
-            if let children = torrent?.file?.children {
+            if let children = download?.file?.children {
                 return children.count
             }
             else {
-                return torrent == nil ? 0 : 1
+                return download == nil ? 0 : 1
             }
         }
     }
@@ -89,11 +76,11 @@ class FileOutlineViewController: NSObject, NSOutlineViewDataSource, NSOutlineVie
             }
         }
         else {
-            if let children = torrent?.file?.children {
+            if let children = download?.file?.children {
                 return children[index]
             }
             else {
-                return torrent!.file!
+                return download!.file!
             }
         }
         
@@ -196,7 +183,7 @@ class FileOutlineViewController: NSObject, NSOutlineViewDataSource, NSOutlineVie
                     return (file, priority.priority.rawValue)
                 })
                 
-                delegate?.fileOutlineViewController(self, didChangeFilePriorities: filteredFiles)
+                filePrioritiesDidChange(filteredFiles)
             }
         }
     }
@@ -258,5 +245,9 @@ class FileOutlineViewController: NSObject, NSOutlineViewDataSource, NSOutlineVie
             return NSOnState
         }
         return NSMixedState
+    }
+    
+    func filePrioritiesDidChange(priorities: [FileListNode: Int]) {
+        
     }
 }
