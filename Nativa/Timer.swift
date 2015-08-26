@@ -13,11 +13,13 @@ class Timer
     private var timer: dispatch_source_t!
     private let block: (Void)->Void
     private let timeout: UInt64
+    private let queue: dispatch_queue_t
     var running: Bool { get { return timer == nil } }
     
-    init(timeout:UInt64, block:(Void)->Void) {
+    init(timeout: UInt64, queue: dispatch_queue_t = dispatch_get_main_queue(), block:(Void)->Void) {
         self.block = block
         self.timeout = timeout
+        self.queue = queue
     }
     
     deinit {
@@ -28,8 +30,6 @@ class Timer
     
     func start(){
         if timer == nil {
-            let queue  = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0);
-            
             // create our timer source
             timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
             
