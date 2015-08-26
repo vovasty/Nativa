@@ -15,6 +15,23 @@ protocol InspectorViewControllerPanel: class {
 class InspectorViewController: NSTabViewController {
     var observerId: NSObjectProtocol?
     
+    var downloads: [Download]? {
+        didSet {
+            if let download = downloads?.first {
+                self.title = download.title
+                Datasource.instance.update(download) { (download, error) -> Void in
+                    guard let download = download where error == nil else {
+                        print("unable to update torrent info: \(error)")
+                        return
+                    }
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.updateTabs(download)
+                    })
+                }
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,19 +40,7 @@ class InspectorViewController: NSTabViewController {
         }
         
         observerId = NSNotificationCenter.defaultCenter().addObserverForName(SelectedDownloadsNotification, object: nil, queue: nil) { (note) -> Void in
-            if let download = (note.userInfo?["downloads"] as? [Download])?.first {
-                Datasource.instance.update(download) { (download, error) -> Void in
-                    guard let download = download where error == nil else {
-                        print("unable to update torrent info: \(error)")
-                        return
-                    }
-                    
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.title = download.title
-                        self.updateTabs(download)
-                    })
-                }
-            }
+            self.downloads = (note.userInfo?["downloads"] as? [Download])
         }
     }
     

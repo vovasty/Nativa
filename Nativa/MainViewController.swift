@@ -12,8 +12,17 @@ class MainViewController: NSSplitViewController {
     
     @IBAction func showInspector(sender: AnyObject) {
         let item = splitViewItems.last!
+        //animated
+        //item.animator().collapsed = !item.collapsed
         item.collapsed = !item.collapsed
-//        item.animator().collapsed = !item.collapsed
+        
+        if let downloadsViewController = splitViewItems.first?.viewController as? DownloadsViewController,
+        let inspectorViewController = splitViewItems.last?.viewController as? InspectorViewController where !item.collapsed {
+            inspectorViewController.downloads = downloadsViewController.selectedDownloads
+        }
+        
+        
+        
     }
 
 }

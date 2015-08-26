@@ -16,7 +16,17 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
     @IBOutlet weak var outlineView: NSOutlineView!
     var torrentsFromDnD: IndexingGenerator<Array<(path: String, download: Download)>>?
 
-    var downloadsObserver: String?
+    private var downloadsObserver: String?
+    
+    var selectedDownloads: [Download] {
+        return self.outlineView.selectedRowIndexes
+            .map { (e) -> Download in
+                return outlineView.itemAtRow(e) as! Download
+                }
+            .filter { (e) -> Bool in
+                    e != nil
+            }
+    }
     
     
     override func awakeFromNib() {
@@ -119,15 +129,7 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
     }
     
     func outlineViewSelectionDidChange(notification: NSNotification) {
-        let downloads = outlineView.selectedRowIndexes
-            .map { (e) -> Download in
-                return outlineView.itemAtRow(e) as! Download
-            }
-            .filter { (e) -> Bool in
-                e != nil
-        }
-
-        NSNotificationCenter.defaultCenter().postNotificationName(SelectedDownloadsNotification, object: self, userInfo: ["downloads": downloads])
+        NSNotificationCenter.defaultCenter().postNotificationName(SelectedDownloadsNotification, object: self, userInfo: ["downloads": self.selectedDownloads])
     }
     
     //NSSeguePerforming
