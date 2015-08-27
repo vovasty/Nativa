@@ -95,7 +95,12 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                     return
                 }
                 
-                try! Datasource.instance.addTorrentFiles(parsed)
+                do {
+                    try Datasource.instance.addTorrentFiles(parsed)
+                }
+                catch let error {
+                    logger.error("unable to open files: \(error)")
+                }
             }
             sender.replyToOpenOrPrint(.Success)
     }
