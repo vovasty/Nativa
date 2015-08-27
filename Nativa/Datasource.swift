@@ -79,43 +79,61 @@ class Datasource: ConnectionEventListener {
         downloads = SyncableArray(delegate: downloadsSyncableArrayDelegate)
     }
     
-    func connect(user: String, host: String, port: UInt16, password: String, serviceHost: String, servicePort: UInt16, connect: (NSError?)->Void) {
+    private func createDownloader(erroHandler: (NSError)->Void) throws -> (NSXPCConnection, NativaHelperProtocol) {
+        let downloaderService = NSXPCConnection(serviceName: "net.aramzamzam.Nativa.NativaHelper")
         
-        downloaderService = nil
-        downloader = nil
-        
-        downloaderService = NSXPCConnection(serviceName: "net.aramzamzam.Nativa.NativaHelper")
-        
-        guard let downloaderService = downloaderService else{
-            self.downloaderService = nil
-            connect(NSError(NativaError.UnknownError(message: "unable to create NSXPCConnection")))
-            return
-        }
-        
-
-        self.downloaderService = downloaderService
         downloaderService.remoteObjectInterface = NSXPCInterface(`withProtocol`: NativaHelperProtocol.self)
         downloaderService.exportedInterface = NSXPCInterface(`withProtocol`: ConnectionEventListener.self)
         downloaderService.exportedObject = self
         downloaderService.resume()
-
-        downloader = downloaderService.remoteObjectProxyWithErrorHandler {
+        
+        let downloader = downloaderService.remoteObjectProxyWithErrorHandler {
             (error) in
             
             OSSpinLockUnlock(&parseTorrentsLock)
             
-            connect(error)
+            erroHandler(error)
             
             } as! NativaHelperProtocol
         
-        guard let downloader = downloader else{
-            self.downloaderService = nil
-            connect(NSError(NativaError.UnknownError(message: "unable to create remote proxy")))
-            return
+        return (downloaderService, downloader)
+    }
+    
+    func connect(user: String, host: String, port: UInt16, password: String, serviceHost: String, servicePort: UInt16, connect: (NSError?)->Void) {
+        
+        do {
+            let result = try createDownloader{(error)->Void in
+                connect(NSError(error))
+            }
+            
+            downloaderService = result.0
+            downloader = result.1
+        }
+        catch let error {
+            connect(NSError(error))
         }
 
         downloader.connect(user, host: host, port: port, password: password, serviceHost: serviceHost, servicePort: servicePort) { (error) -> Void in
                 connect(error)
+        }
+    }
+    
+    func connect(host: String, port: UInt16, connect: (NSError?)->Void) {
+        
+        do {
+            let result = try createDownloader{(error)->Void in
+                connect(NSError(error))
+            }
+            
+            downloaderService = result.0
+            downloader = result.1
+        }
+        catch let error {
+            connect(NSError(error))
+        }
+        
+        downloader.connect(host, port: port) { (error) -> Void in
+            connect(error)
         }
     }
     

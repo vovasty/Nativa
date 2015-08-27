@@ -8,7 +8,6 @@
 
 import Foundation
 import Common
-import SwiftySSH
 
 class NativaHelper : NSObject, NativaHelperProtocol {
     weak var xpcConnection: NSXPCConnection?
@@ -41,18 +40,25 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         ])
     
     func connect(user: String, host: String, port: UInt16, password: String, serviceHost: String, servicePort: UInt16, connect: (NSError?)->Void) {
-        let session = SwiftySSH.Session(user, host: host, port: port)
         
-        session.onDisconnect { (session, error) -> Void in
-                self.xpcConnection!.remoteObjectProxy.connectionDropped(NSError(error))
-            }
-            .authenticate(.Password(password: password))
-            .onConnect({ (Session, error) -> Void in
-                connect(NSError(error))
-            })
-            .connect()
+        let connection = SSHConnection(user: user,
+                                        host: host,
+                                        port: port,
+                                    password: password,
+                                 serviceHost: serviceHost,
+                                 servicePort: servicePort,
+                                     connect: { (error)->Void in connect(NSError(error)) },
+                                  disconnect:{ (error)->Void in self.xpcConnection!.remoteObjectProxy.connectionDropped(NSError(error)) })
+        rtorrent = RTorrent(connection: connection)
+    }
+    
+    func connect(host: String, port: UInt16, connect: (NSError?)->Void) {
         
-        rtorrent = RTorrent(session: session, host: serviceHost, port: servicePort)
+        let connection = TCPConnection(host: host,
+            port: port,
+            connect: { (error)->Void in connect(NSError(error)) },
+            disconnect:{ (error)->Void in self.xpcConnection!.remoteObjectProxy.connectionDropped(NSError(error)) })
+        rtorrent = RTorrent(connection: connection)
     }
     
     func version(response: (String?, NSError?)->Void) {

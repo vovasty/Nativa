@@ -10,6 +10,7 @@ import Foundation
 
 @objc public protocol NativaHelperProtocol {
     func connect(user: String, host: String, port: UInt16, password: String, serviceHost: String, servicePort: UInt16, connect: (NSError?)->Void)
+    func connect(host: String, port: UInt16, connect: (NSError?)->Void)
     func version(response: (String?, NSError?)->Void)
     func update(_: ([[String:AnyObject]]?, NSError?)->Void)->Void
     func update(id: String, handler:([String:AnyObject]?, NSError?)->Void)

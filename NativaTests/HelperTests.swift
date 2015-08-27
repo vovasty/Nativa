@@ -10,6 +10,7 @@ import XCTest
 @testable import Nativa
 
 class HelperTests: XCTestCase {
+    
     func testUpdateAll() {
         var expectation = expectationWithDescription("connect")
         
@@ -28,7 +29,8 @@ class HelperTests: XCTestCase {
             XCTAssertNotNil(result)
             XCTAssertNotEqual(result?.count, 0)
             
-            XCTAssertNotNil(result?.first?["info"]?["id"])
+            
+            XCTAssertNotNil(result?.first?["info"])
             expectation.fulfill()
         }
         
@@ -54,11 +56,12 @@ class HelperTests: XCTestCase {
             XCTAssertNotEqual(result?.count, 0)
             
             let d = Download(result!)
-            XCTAssertNil(d)
+            XCTAssertNotNil(d)
             XCTAssertNotEqual(d?.flatFileList?.count, 0)
+            expectation.fulfill()
         }
         
-        waitForExpectationsWithTimeout(10000, handler: nil)
+        waitForExpectationsWithTimeout(100, handler: nil)
     }
     
     func testSetPriority() {
@@ -78,6 +81,30 @@ class HelperTests: XCTestCase {
             XCTAssertNil(error)
             expectation.fulfill()
         }
-        waitForExpectationsWithTimeout(10000, handler: nil)
+        waitForExpectationsWithTimeout(100, handler: nil)
+    }
+    
+    func testRawConnection() {
+        var expectation = expectationWithDescription("connect")
+        
+        let helper = NativaHelper()
+        helper.connect("127.0.0.1", port: 5000)
+        { (error) -> Void in
+            XCTAssertNil(error)
+            expectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(100, handler: nil)
+        
+        expectation = expectationWithDescription("version")
+        
+        helper.version { (version, error) -> Void in
+            XCTAssertNil(error)
+            XCTAssertNotNil(version)
+            print(version)
+            expectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(100, handler: nil)
     }
 }

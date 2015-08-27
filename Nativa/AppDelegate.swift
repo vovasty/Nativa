@@ -21,17 +21,17 @@ class AppDelegate: NSObject, NSApplicationDelegate{
         
 //        NSThread.sleepForTimeInterval(1)
         let defaults = NSUserDefaults.standardUserDefaults()
-        let scgi = defaults["rtorrent.scgi"] as? String ?? "localhost:5000"
+        let scgi_string = defaults["rtorrent.scgi"] as? String ?? "localhost:5000"
+        let scgi = scgi_string.hosAndPort(5000)
         
         if let ssh_hp = defaults["ssh.host"] as? String,
             let user = defaults["ssh.user"] as? String,
             let password = defaults["ssh.password"] as? String,
             let useSSH = defaults["rtorrent.useSSH"] as? Bool where useSSH {
                 
-                let scgi = scgi.hosAndPort(5000)
                 let ssh = ssh_hp.hosAndPort(5000)
-                
-                Datasource.instance.connect(user, host: ssh.host, port: ssh.port, password: password, serviceHost: scgi.host, servicePort: scgi.port, connect: { (error) -> Void in
+                Datasource.instance.connect(user, host: ssh.host, port: ssh.port, password: password, serviceHost: scgi.host, servicePort: scgi.port)
+                    { (error) -> Void in
                     guard error == nil else {
                         print(error!)
                         self.connect()
@@ -39,7 +39,19 @@ class AppDelegate: NSObject, NSApplicationDelegate{
                     }
                     
                     self.refreshTimer.start()
-                })
+                }
+        }
+        else {
+            Datasource.instance.connect(scgi.host, port: scgi.port)
+                { (error) -> Void in
+                    guard error == nil else {
+                        print(error!)
+                        self.connect()
+                        return
+                    }
+                    
+                    self.refreshTimer.start()
+            }
         }
     }
     

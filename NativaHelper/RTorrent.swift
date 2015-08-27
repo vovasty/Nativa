@@ -11,48 +11,41 @@ import SwiftySSH
 import Common
 
 class RTorrent {
-    let host: String
-    let port: UInt16
-    let session: Session
+    let connection: Connection
     
-    init(session: Session, host: String, port: UInt16){
-        self.host = host
-        self.port = port
-        self.session = session
+    init(connection: Connection){
+        self.connection = connection
     }
     
-    func send(method: String, parameters:[AnyObject]?, response: (response: AnyObject?, error: ErrorType?) -> Void) {
-        let tunnel = Channel(session, remoteHost: host, remotePort: port)
-        
+    func send(method: String, parameters:[AnyObject]?, response: (AnyObject?, ErrorType?) -> Void) {
         let sMethod: String
         do {
             sMethod = try XMLRPCEncode(method, parameters: parameters)
         }
         catch let e {
-            response(response: nil, error: e)
+            response(nil, e)
             return
         }
-        let eMethod = encodeSCGI(sMethod)
-//            print("sending: \(sMethod)")
-        tunnel.send(eMethod){ (data, error) -> Void in
-            guard error == nil else {
-                response(response: nil, error: error)
-                return
-            }
-            
-            guard let data = data else {
-                response(response: nil, error: error)
+        
+        //            print("sending: \(sMethod)")
+        
+        let data = encodeSCGI(sMethod)
+        
+        connection.request(data) { (responseData, error) -> Void in
+            guard let responseData = responseData where error == nil else {
+                response(nil, error)
                 return
             }
             
             do {
-                let result = try XMLRPCDecode(data)
-//                    print("received: \(result)")
-                response(response: result, error: nil)
+                let result = try XMLRPCDecode(responseData)
+                //                    print("received: \(result)")
+                response(result, nil)
             }
-            catch let e {
-                response(response: nil, error: e)
+            catch let error {
+                response(nil, error)
             }
+
         }
     }
 }

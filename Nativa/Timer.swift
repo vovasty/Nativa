@@ -30,6 +30,9 @@ class Timer
     
     func start(){
         if timer == nil {
+            
+            //FIXME: crashes if no this line
+            print(queue)
             // create our timer source
             timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
             
