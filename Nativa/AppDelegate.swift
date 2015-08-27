@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Common
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate{
@@ -33,7 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate{
                 Datasource.instance.connect(user, host: ssh.host, port: ssh.port, password: password, serviceHost: scgi.host, servicePort: scgi.port)
                     { (error) -> Void in
                     guard error == nil else {
-                        print(error!)
+                        logger.error("unable to connect \(error)")
                         self.connect()
                         return
                     }
@@ -45,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate{
             Datasource.instance.connect(scgi.host, port: scgi.port)
                 { (error) -> Void in
                     guard error == nil else {
-                        print(error!)
+                        logger.error("unable to connect \(error)")
                         self.connect()
                         return
                     }
@@ -71,7 +72,7 @@ class AppDelegate: NSObject, NSApplicationDelegate{
         openFiles filenames: [String]) {
             Datasource.instance.parseTorrents(filenames) { (parsed, error) -> Void in
                 guard let parsed = parsed where error == nil else {
-                    print("unable to open files: \(error)")
+                    logger.error("unable to open files: \(error)")
                     return
                 }
                 

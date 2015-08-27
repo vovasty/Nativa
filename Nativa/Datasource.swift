@@ -149,7 +149,7 @@ class Datasource: ConnectionEventListener {
         downloads.update(["info": ["id": download.id, "active": false, "opened": false, "state": 1, "completed": false, "hashChecking": false]])
         downloader.stopTorrent(download.id) { (result, error) -> Void in
             guard let result = result where error == nil else {
-                print("failed to stop torrent \(error)")
+                logger.error("failed to stop torrent \(error)")
                 let message = error == nil ? "unable to stop torrent" : error!.localizedDescription
                 self.downloads.update(["info": ["id": download.id, "message": message]])
                 return
@@ -162,7 +162,7 @@ class Datasource: ConnectionEventListener {
         downloads.update(["info": ["id": download.id, "active": true, "opened": true, "state": 1, "completed": false, "hashChecking": false]])
         downloader.startTorrent(download.id) { (result, error) -> Void in
             guard let result = result where error == nil else {
-                print("failed to start torrent \(error)")
+                logger.error("failed to start torrent \(error)")
                 let message = error == nil ? "unable to start torrent" : error!.localizedDescription
                 self.downloads.update(["info": ["id": download.id, "message": message]])
                 return
@@ -175,7 +175,7 @@ class Datasource: ConnectionEventListener {
     {
         downloader.update { (result, error) -> Void in
             guard let result = result where error == nil else {
-                print(error)
+                logger.error("unable to update torrents list \(error)")
                 return
             }
             
@@ -274,7 +274,7 @@ class Datasource: ConnectionEventListener {
             let torrentData: NSData = try NSData(contentsOfFile:file.path, options: NSDataReadingOptions(rawValue: 0))
             downloads.append(file.download)
             downloader.addTorrentData(torrentData, start: false, group: nil, handler: { (error) -> Void in
-                print(error)
+                logger.error("unable to add torrent \(error)")
             })
         }
     }
@@ -285,7 +285,7 @@ class Datasource: ConnectionEventListener {
                 if let torrentData: NSData = NSData(contentsOfURL: url) {
                     self.downloader.addTorrentData(torrentData, start: false, group: nil, handler: { (error) -> Void in
                         if let error = error {
-                            print("unable to add torrent \(error)")
+                            logger.error("unable to add torrent \(error)")
                         }
                     })
                 }
@@ -301,7 +301,7 @@ class Datasource: ConnectionEventListener {
 
     //MARK: ConnectionEventListener
     @objc func connectionDropped(error: NSError?) {
-        print("connection dropped \(error)")
+        logger.error("connection dropped \(error)")
         
         NSNotificationCenter.defaultCenter().postNotificationName(ConnectionDroppedNotification, object: self)
     }

@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Common
 
 protocol InspectorViewControllerPanel: class {
     var download: Download? {set get}
@@ -21,7 +22,7 @@ class InspectorViewController: NSTabViewController {
                 self.title = download.title
                 Datasource.instance.update(download) { (download, error) -> Void in
                     guard let download = download where error == nil else {
-                        print("unable to update torrent info: \(error)")
+                        logger.error("unable to update torrent info: \(error)")
                         return
                     }
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -53,10 +54,6 @@ class InspectorViewController: NSTabViewController {
         }
     }
     
-    override func tabView(tabView: NSTabView, willSelectTabViewItem tabViewItem: NSTabViewItem?) {
-            print(tabViewItem?.viewController)
-    }
- 
     deinit {
         if let observerId = observerId {
             NSNotificationCenter.defaultCenter().removeObserver(observerId)

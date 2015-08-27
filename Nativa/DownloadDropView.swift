@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Common
 
 protocol DropViewDelegate {
     func completeDragToView(view: DownloadDropView, torrents: [(path: String, download: Download)])
@@ -58,7 +59,7 @@ class DownloadDropView: NSView {
                             }
                         }
                         catch let e {
-                            self.print("unable to add files \(e)")
+                            logger.error("unable to add files \(e)")
                         }
                     }
                 }

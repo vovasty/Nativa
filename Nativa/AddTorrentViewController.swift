@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Common
 
 class AddTorrentViewController: FileOutlineViewController {
     @IBOutlet weak var torrentName: NSTextField!
@@ -38,7 +39,7 @@ class AddTorrentViewController: FileOutlineViewController {
             try Datasource.instance.addTorrentFiles([(path: path!, download: download!)])
         }
         catch let e {
-            print("unable to add files \(e)")
+            logger.error("unable to add files \(e)")
         }
         
         if let window = self.view.window {

@@ -7,11 +7,12 @@
 //
 
 import Cocoa
+import Common
 
 class InspectorFilesViewController: FileOutlineViewController, InspectorViewControllerPanel {
     override func filePrioritiesDidChange(priorities: [FileListNode: Int]) {
         Datasource.instance.setFilePriority(download!, priorities: priorities) { (error) -> Void in
-            print(error)
+            logger.error("unable to set priority for torrent: \(error)")
         }
         
     }

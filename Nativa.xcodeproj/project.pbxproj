@@ -40,6 +40,7 @@
 		CD171F971B8F970B00014966 /* SSHConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F921B8F970B00014966 /* SSHConnection.swift */; settings = {ASSET_TAGS = (); }; };
 		CD171F981B8F970B00014966 /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F931B8F970B00014966 /* TCPConnection.swift */; settings = {ASSET_TAGS = (); }; };
 		CD171F991B8F970B00014966 /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F931B8F970B00014966 /* TCPConnection.swift */; settings = {ASSET_TAGS = (); }; };
+		CD171F9B1B8FAFBE00014966 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F9A1B8FAFBE00014966 /* Logger.swift */; settings = {ASSET_TAGS = (); }; };
 		CD1E616C19F5C1C5006C23CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD1E616B19F5C1C5006C23CA /* Main.storyboard */; };
 		CD23AEE719E1E6C80027A47D /* DownloadDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */; };
 		CD25A56919A0702D005CF5AF /* libCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CD25A55519A07003005CF5AF /* libCommon.dylib */; };
@@ -167,6 +168,7 @@
 		CD171F911B8F970B00014966 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Connection.swift; path = NativaHelper/Connection.swift; sourceTree = SOURCE_ROOT; };
 		CD171F921B8F970B00014966 /* SSHConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SSHConnection.swift; path = NativaHelper/SSHConnection.swift; sourceTree = SOURCE_ROOT; };
 		CD171F931B8F970B00014966 /* TCPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TCPConnection.swift; path = NativaHelper/TCPConnection.swift; sourceTree = SOURCE_ROOT; };
+		CD171F9A1B8FAFBE00014966 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		CD1E616B19F5C1C5006C23CA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadDropView.swift; sourceTree = "<group>"; };
 		CD25A55519A07003005CF5AF /* libCommon.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libCommon.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -328,6 +330,7 @@
 				CD10C3031B8987AC00EF9284 /* Synchronized.swift */,
 				CD10C2E91B891F9400EF9284 /* NativaHelperProtocol.swift */,
 				CD2C04E81B8D874C003D6382 /* Error.swift */,
+				CD171F9A1B8FAFBE00014966 /* Logger.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -686,6 +689,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD171F9B1B8FAFBE00014966 /* Logger.swift in Sources */,
 				CD2C04E91B8D874C003D6382 /* Error.swift in Sources */,
 				CD10C3041B8987AC00EF9284 /* SyncableArray.swift in Sources */,
 				CD10C2EA1B891F9400EF9284 /* NativaHelperProtocol.swift in Sources */,

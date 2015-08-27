@@ -27,7 +27,7 @@ class RTorrent {
             return
         }
         
-        //            print("sending: \(sMethod)")
+//        logger.debug("sending: \(sMethod)")
         
         let data = encodeSCGI(sMethod)
         
@@ -39,7 +39,7 @@ class RTorrent {
             
             do {
                 let result = try XMLRPCDecode(responseData)
-                //                    print("received: \(result)")
+//                logger.debug("received: \(result)")
                 response(result, nil)
             }
             catch let error {

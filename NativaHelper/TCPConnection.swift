@@ -74,12 +74,12 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
 
     
     private func requestDidSent() {
-        print("requestDidSent")
+        logger.debug("requestDidSent")
         requestSent = true
     }
     
     private func errorOccured(error: ErrorType) {
-        print("strem error: \(error)")
+        logger.debug("strem error: \(error)")
         disconnect(error)
         cleanup()
         dispatch_semaphore_signal(semaphore)
@@ -110,7 +110,7 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
                 return
             }
             guard let requestData = requestData else {
-                print("no data to send")
+                logger.debug("no data to send")
                 return
             }
             
@@ -129,7 +129,7 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
             }
             
             guard let responseData = responseData else {
-                print("no buffer to receive")
+                logger.debug("no buffer to receive")
                 return
             }
             
@@ -165,7 +165,7 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
             
             errorOccured(RTorrentError.UnknownError(message: error))
         default:
-            print("skipped event event \(eventCode)")
+            logger.debug("skipped event event \(eventCode)")
         }
     }
     

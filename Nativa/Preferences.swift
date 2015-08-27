@@ -11,7 +11,6 @@ import Cocoa
 class RTorrentPreferences: NSViewController {
     @IBOutlet weak var password: NSSecureTextField!
     @IBOutlet var settings: NSUserDefaultsController!
-    var notificationHandler: NSObjectProtocol?
     @IBOutlet weak var checkResult: NSButton!
     
     @IBAction func check(sender: AnyObject) {
@@ -55,17 +54,5 @@ class RTorrentPreferences: NSViewController {
         checkResult.title = error.localizedDescription
         checkResult.state = NSOffState
         checkResult.hidden = false
-    }
-    
-    override func viewDidLoad() {
-        notificationHandler = NSNotificationCenter.defaultCenter().addObserverForName(NSUserDefaultsDidChangeNotification, object: self, queue: nil) { (note) -> Void in
-            print("changed")
-        }
-    }
-    
-    deinit {
-        if let notificationHandler = notificationHandler {
-            NSNotificationCenter.defaultCenter().removeObserver(notificationHandler)
-        }
     }
 }
