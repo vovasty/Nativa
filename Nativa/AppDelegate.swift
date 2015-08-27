@@ -118,7 +118,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         return true
     }
     
-    @IBAction func open(sender: AnyObject) {
+    @IBAction func openDocument(sender: AnyObject) {
         let panel = NSOpenPanel()
         
         panel.allowsMultipleSelection = true
