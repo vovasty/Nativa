@@ -67,6 +67,20 @@ class AppDelegate: NSObject, NSApplicationDelegate{
         NSNotificationCenter.defaultCenter().postNotificationName(ConnectionDroppedNotification, object: self)
     }
     
+    func application(sender: NSApplication,
+        openFiles filenames: [String]) {
+            Datasource.instance.parseTorrents(filenames) { (parsed, error) -> Void in
+                guard let parsed = parsed where error == nil else {
+                    print("unable to open files: \(error)")
+                    return
+                }
+                
+                try! Datasource.instance.addTorrentFiles(parsed)
+            }
+            sender.replyToOpenOrPrint(.Success)
+    }
+
+    
     //hide window instead of close
     //http://iswwwup.com/t/4904b499b7a1/osx-how-to-handle-applicationshouldhandlereopen-in-a-non-document-based-st.html
     func applicationShouldHandleReopen(sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {

@@ -34,6 +34,12 @@
 		CD10C31A1B8994DA00EF9284 /* XMLRPCEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD10C2F31B8920EE00EF9284 /* XMLRPCEncoder.swift */; };
 		CD10C31B1B8994E200EF9284 /* libCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CD25A55519A07003005CF5AF /* libCommon.dylib */; };
 		CD156B941B88347600CDD8F3 /* InspectorFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD156B931B88347600CDD8F3 /* InspectorFilesViewController.swift */; };
+		CD171F941B8F970B00014966 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F911B8F970B00014966 /* Connection.swift */; settings = {ASSET_TAGS = (); }; };
+		CD171F951B8F970B00014966 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F911B8F970B00014966 /* Connection.swift */; settings = {ASSET_TAGS = (); }; };
+		CD171F961B8F970B00014966 /* SSHConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F921B8F970B00014966 /* SSHConnection.swift */; settings = {ASSET_TAGS = (); }; };
+		CD171F971B8F970B00014966 /* SSHConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F921B8F970B00014966 /* SSHConnection.swift */; settings = {ASSET_TAGS = (); }; };
+		CD171F981B8F970B00014966 /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F931B8F970B00014966 /* TCPConnection.swift */; settings = {ASSET_TAGS = (); }; };
+		CD171F991B8F970B00014966 /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F931B8F970B00014966 /* TCPConnection.swift */; settings = {ASSET_TAGS = (); }; };
 		CD1E616C19F5C1C5006C23CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD1E616B19F5C1C5006C23CA /* Main.storyboard */; };
 		CD23AEE719E1E6C80027A47D /* DownloadDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */; };
 		CD25A56919A0702D005CF5AF /* libCommon.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CD25A55519A07003005CF5AF /* libCommon.dylib */; };
@@ -54,12 +60,6 @@
 		CDC7617019D3D9FF0037EAD5 /* TorrentParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7616F19D3D9FF0037EAD5 /* TorrentParserTest.swift */; };
 		CDCCFA511B77EDE60028EDCB /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCCFA501B77EDE60028EDCB /* Utils.swift */; };
 		CDDFC50319996D9B00F5F6B7 /* ButtonToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */; };
-		CDE8535F1B8EC3C800D96ADF /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE8535E1B8EC3C800D96ADF /* Connection.swift */; settings = {ASSET_TAGS = (); }; };
-		CDE853621B8EC46C00D96ADF /* SSHConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE853611B8EC46C00D96ADF /* SSHConnection.swift */; settings = {ASSET_TAGS = (); }; };
-		CDE853631B8ECA9D00D96ADF /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE8535E1B8EC3C800D96ADF /* Connection.swift */; };
-		CDE853641B8ECA9D00D96ADF /* SSHConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE853611B8EC46C00D96ADF /* SSHConnection.swift */; };
-		CDE853661B8ECC3600D96ADF /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE853651B8ECC3600D96ADF /* TCPConnection.swift */; settings = {ASSET_TAGS = (); }; };
-		CDE853671B8EDBEE00D96ADF /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE853651B8ECC3600D96ADF /* TCPConnection.swift */; };
 		CDEE44DE1991E1EE00FB76AC /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */; };
 		CDF3D97F199ECED5002B91C8 /* NativaHelper.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CDFFC20819DB6D2E0072EEAD /* AddTorrentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */; };
@@ -164,6 +164,9 @@
 		CD10C3031B8987AC00EF9284 /* Synchronized.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Synchronized.swift; sourceTree = "<group>"; };
 		CD10C3121B8994A600EF9284 /* HelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperTests.swift; sourceTree = "<group>"; };
 		CD156B931B88347600CDD8F3 /* InspectorFilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspectorFilesViewController.swift; sourceTree = "<group>"; };
+		CD171F911B8F970B00014966 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Connection.swift; path = NativaHelper/Connection.swift; sourceTree = SOURCE_ROOT; };
+		CD171F921B8F970B00014966 /* SSHConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SSHConnection.swift; path = NativaHelper/SSHConnection.swift; sourceTree = SOURCE_ROOT; };
+		CD171F931B8F970B00014966 /* TCPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TCPConnection.swift; path = NativaHelper/TCPConnection.swift; sourceTree = SOURCE_ROOT; };
 		CD1E616B19F5C1C5006C23CA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadDropView.swift; sourceTree = "<group>"; };
 		CD25A55519A07003005CF5AF /* libCommon.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libCommon.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -186,12 +189,9 @@
 		CDC7616F19D3D9FF0037EAD5 /* TorrentParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TorrentParserTest.swift; sourceTree = "<group>"; };
 		CDCCFA501B77EDE60028EDCB /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonToolbarItem.swift; sourceTree = "<group>"; };
-		CDE8535E1B8EC3C800D96ADF /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connection.swift; sourceTree = "<group>"; };
-		CDE853611B8EC46C00D96ADF /* SSHConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSHConnection.swift; sourceTree = "<group>"; };
-		CDE853651B8ECC3600D96ADF /* TCPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCPConnection.swift; sourceTree = "<group>"; };
 		CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
 		CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = NativaHelper.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
-		CDF3D976199ECED5002B91C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CDF3D976199ECED5002B91C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../NativaHelper/Info.plist; sourceTree = "<group>"; };
 		CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTorrentViewController.swift; sourceTree = "<group>"; };
 		CDFFC20A19DB747F0072EEAD /* FileListNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileListNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -384,15 +384,15 @@
 		CDF3D974199ECED5002B91C8 /* NativaHelper */ = {
 			isa = PBXGroup;
 			children = (
+				CD171F911B8F970B00014966 /* Connection.swift */,
+				CD171F921B8F970B00014966 /* SSHConnection.swift */,
+				CD171F931B8F970B00014966 /* TCPConnection.swift */,
 				CD10C2FC1B89878500EF9284 /* bencode.swift */,
 				CD10C2EC1B8920EE00EF9284 /* Info.plist */,
 				CD10C2ED1B8920EE00EF9284 /* main.swift */,
 				CD10C2EE1B8920EE00EF9284 /* NativaHelper.swift */,
 				CD10C2EF1B8920EE00EF9284 /* RTorrent.swift */,
 				CD10C2F01B8920EE00EF9284 /* SCGIEncoder.swift */,
-				CDE8535E1B8EC3C800D96ADF /* Connection.swift */,
-				CDE853611B8EC46C00D96ADF /* SSHConnection.swift */,
-				CDE853651B8ECC3600D96ADF /* TCPConnection.swift */,
 				CD10C2F11B8920EE00EF9284 /* Utils.swift */,
 				CD10C2F21B8920EE00EF9284 /* XMLRPCDecoder.swift */,
 				CD10C2F31B8920EE00EF9284 /* XMLRPCEncoder.swift */,
@@ -668,17 +668,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CDE853671B8EDBEE00D96ADF /* TCPConnection.swift in Sources */,
-				CDE853631B8ECA9D00D96ADF /* Connection.swift in Sources */,
-				CDE853641B8ECA9D00D96ADF /* SSHConnection.swift in Sources */,
 				CD10C3141B8994DA00EF9284 /* bencode.swift in Sources */,
+				CD171F941B8F970B00014966 /* Connection.swift in Sources */,
 				CD10C3151B8994DA00EF9284 /* NativaHelper.swift in Sources */,
 				CD10C3161B8994DA00EF9284 /* RTorrent.swift in Sources */,
+				CD171F961B8F970B00014966 /* SSHConnection.swift in Sources */,
 				CD10C3171B8994DA00EF9284 /* SCGIEncoder.swift in Sources */,
 				CD10C3181B8994DA00EF9284 /* Utils.swift in Sources */,
 				CD10C3191B8994DA00EF9284 /* XMLRPCDecoder.swift in Sources */,
 				CD10C31A1B8994DA00EF9284 /* XMLRPCEncoder.swift in Sources */,
 				CD10C3131B8994A600EF9284 /* HelperTests.swift in Sources */,
+				CD171F981B8F970B00014966 /* TCPConnection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,16 +706,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD10C2FF1B89878500EF9284 /* bencode.swift in Sources */,
-				CDE8535F1B8EC3C800D96ADF /* Connection.swift in Sources */,
+				CD171F951B8F970B00014966 /* Connection.swift in Sources */,
 				CD10C2FA1B8920EE00EF9284 /* XMLRPCDecoder.swift in Sources */,
 				CD10C2FB1B8920EE00EF9284 /* XMLRPCEncoder.swift in Sources */,
-				CDE853621B8EC46C00D96ADF /* SSHConnection.swift in Sources */,
+				CD171F971B8F970B00014966 /* SSHConnection.swift in Sources */,
 				CD10C2F91B8920EE00EF9284 /* Utils.swift in Sources */,
 				CD10C2F71B8920EE00EF9284 /* RTorrent.swift in Sources */,
 				CD10C2F61B8920EE00EF9284 /* NativaHelper.swift in Sources */,
 				CD10C2F81B8920EE00EF9284 /* SCGIEncoder.swift in Sources */,
 				CD10C2F51B8920EE00EF9284 /* main.swift in Sources */,
-				CDE853661B8ECC3600D96ADF /* TCPConnection.swift in Sources */,
+				CD171F991B8F970B00014966 /* TCPConnection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

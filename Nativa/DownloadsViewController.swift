@@ -19,12 +19,17 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
     private var downloadsObserver: String?
     
     var selectedDownloads: [Download] {
+        
+        
         return self.outlineView.selectedRowIndexes
-            .map { (e) -> Download in
-                return outlineView.itemAtRow(e) as! Download
+            .map{ (e) -> Download? in
+                return outlineView.itemAtRow(e) as? Download
                 }
-            .filter { (e) -> Bool in
+            .filter{ (e) -> Bool in
                     e != nil
+            }
+            .map{ (e) -> Download in
+                e!
             }
     }
     

@@ -234,6 +234,41 @@ class Datasource: ConnectionEventListener {
         return result;
     }
     
+    func parseTorrents(files:[String], handler: ([(path: String, download: Download)]?, NSError?)->Void){
+        var torrentDatas: [NSData] = []
+        
+        do {
+            for file in files {
+                let torrentData: NSData = try NSData(contentsOfFile:file, options: NSDataReadingOptions(rawValue: 0))
+                torrentDatas.append(torrentData)
+            }
+        }
+        catch let error {
+            handler(nil, NSError(error))
+            return
+        }
+        
+        downloader.parseTorrent(torrentDatas) { (parsed, error) -> Void in
+
+            guard let parsed = parsed where error == nil else {
+                handler(nil, error)
+                return
+            }
+            
+            let result = parsed.enumerate().map{ (index, parsedTorrent) -> (path: String, download: Download?) in
+                return (path: files[index], download: Download(parsedTorrent))
+            }
+            .filter{(d) -> Bool in
+                    d.download != nil
+            }
+            .map({ (e) -> (path: String, download: Download) in
+                return (path: e.path, download: e.download!)
+            })
+            
+            handler(result, nil)
+        }
+    }
+    
     func addTorrentFiles(files: [(path: String, download: Download)]) throws {
         for file in files {
             let torrentData: NSData = try NSData(contentsOfFile:file.path, options: NSDataReadingOptions(rawValue: 0))
