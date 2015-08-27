@@ -48,7 +48,10 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                                  serviceHost: serviceHost,
                                  servicePort: servicePort,
                                      connect: { (error)->Void in connect(NSError(error)) },
-                                  disconnect:{ (error)->Void in self.xpcConnection!.remoteObjectProxy.connectionDropped(NSError(error)) })
+                                  disconnect:{
+                                    (error)->Void in
+                                    self.xpcConnection!.remoteObjectProxy.connectionDropped(NSError(error))
+        })
         rtorrent = RTorrent(connection: connection)
     }
     
@@ -57,7 +60,9 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         let connection = TCPConnection(host: host,
             port: port,
             connect: { (error)->Void in connect(NSError(error)) },
-            disconnect:{ (error)->Void in self.xpcConnection!.remoteObjectProxy.connectionDropped(NSError(error)) })
+            disconnect:{ (error)->Void in
+                self.xpcConnection!.remoteObjectProxy.connectionDropped(NSError(error))
+        })
         rtorrent = RTorrent(connection: connection)
     }
     

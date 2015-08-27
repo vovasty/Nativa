@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Cocoa
 
 public struct Logger {
     public func debug(msg: String) {
@@ -14,6 +15,13 @@ public struct Logger {
     }
     public func error(msg: String) {
         print("error: \(msg)")
+
+        let center = NSUserNotificationCenter.defaultUserNotificationCenter()
+        center.removeAllDeliveredNotifications()
+        let note = NSUserNotification()
+        note.title = "Error"
+        note.informativeText = msg
+        center.scheduleNotification(note)
     }
     public func info(msg: String) {
         print("info: \(msg)")

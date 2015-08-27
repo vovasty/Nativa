@@ -9,9 +9,16 @@
 import Cocoa
 import Common
 
+enum NotificationActions: Int {
+    case Reconnect = 0
+}
+
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate{
+class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate{
     private var connectionDropObserver: NSObjectProtocol?
+    var reconnectCounter = 0
+    var maxReconnectCounter = 10
+    
     
     private let refreshTimer: Timer = Timer(timeout: 60) { (Void) -> Void in
         Datasource.instance.update()
@@ -19,46 +26,58 @@ class AppDelegate: NSObject, NSApplicationDelegate{
 
     private func connect() {
         refreshTimer.stop()
+        guard reconnectCounter <= maxReconnectCounter else {
+            let center = NSUserNotificationCenter.defaultUserNotificationCenter()
+            center.removeAllDeliveredNotifications()
+            let note = NSUserNotification()
+            note.title = "Error"
+            note.informativeText = "Unable to connect"
+            note.hasActionButton = true
+            note.actionButtonTitle = "Try again"
+            note.userInfo = ["action": NotificationActions.Reconnect.rawValue]
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                center.scheduleNotification(note)
+            })
+            return
+        }
         
-//        NSThread.sleepForTimeInterval(1)
+        
         let defaults = NSUserDefaults.standardUserDefaults()
         let scgi_string = defaults["rtorrent.scgi"] as? String ?? "localhost:5000"
         let scgi = scgi_string.hosAndPort(5000)
+        
+        let connectHandler: (NSError?) -> Void = {(error) -> Void in
+            guard error == nil else {
+                logger.debug("unable to connect \(error)")
+                self.reconnectCounter++
+                NSThread.sleepForTimeInterval(1)
+                self.connect()
+                return
+            }
+            
+            self.reconnectCounter = 0
+            self.refreshTimer.start()
+        }
         
         if let ssh_hp = defaults["ssh.host"] as? String,
             let user = defaults["ssh.user"] as? String,
             let password = defaults["ssh.password"] as? String,
             let useSSH = defaults["rtorrent.useSSH"] as? Bool where useSSH {
                 
-                let ssh = ssh_hp.hosAndPort(5000)
-                Datasource.instance.connect(user, host: ssh.host, port: ssh.port, password: password, serviceHost: scgi.host, servicePort: scgi.port)
-                    { (error) -> Void in
-                    guard error == nil else {
-                        logger.error("unable to connect \(error)")
-                        self.connect()
-                        return
-                    }
-                    
-                    self.refreshTimer.start()
-                }
+                let ssh = ssh_hp.hosAndPort(22)
+                Datasource.instance.connect(user, host: ssh.host, port: ssh.port, password: password, serviceHost: scgi.host, servicePort: scgi.port, connect: connectHandler)
         }
         else {
-            Datasource.instance.connect(scgi.host, port: scgi.port)
-                { (error) -> Void in
-                    guard error == nil else {
-                        logger.error("unable to connect \(error)")
-                        self.connect()
-                        return
-                    }
-                    
-                    self.refreshTimer.start()
-            }
+            Datasource.instance.connect(scgi.host, port: scgi.port, connect: connectHandler)
         }
     }
     
     func applicationDidFinishLaunching(aNotification: NSNotification)
     {
         NSUserDefaults.standardUserDefaults().setValue(true, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
+        NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
+        
         connectionDropObserver = NSNotificationCenter.defaultCenter().addObserverForName(ConnectionDroppedNotification, object: nil, queue: nil) { (note) -> Void in
             self.connect()
         }
@@ -104,6 +123,21 @@ class AppDelegate: NSObject, NSApplicationDelegate{
         panel.beginSheetModalForWindow(NSApp.mainWindow!) { (flag) -> Void in
             Datasource.instance.addTorrentFiles(panel.URLs)
         }
+    }
+    
+    //MARK: NSUserNotificationCenterDelegate
+    func userNotificationCenter(center: NSUserNotificationCenter,
+        didActivateNotification notification: NSUserNotification) {
+            center.removeDeliveredNotification(notification)
+            guard let actionRaw = notification.userInfo?["action"] as? Int, let action = NotificationActions(rawValue: actionRaw) else {
+                return
+            }
+            
+            switch action {
+            case .Reconnect:
+                reconnectCounter = 0
+                connect()
+            }
     }
 }
 

@@ -152,7 +152,6 @@
 		CD03055E19AE9B1100E8BF42 /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		CD0D45541B8ABEA7004DB8E1 /* InspectorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspectorViewController.swift; sourceTree = "<group>"; };
 		CD10C2E91B891F9400EF9284 /* NativaHelperProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativaHelperProtocol.swift; sourceTree = "<group>"; };
-		CD10C2EC1B8920EE00EF9284 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = NativaHelper/Info.plist; sourceTree = SOURCE_ROOT; };
 		CD10C2ED1B8920EE00EF9284 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = main.swift; path = NativaHelper/main.swift; sourceTree = SOURCE_ROOT; };
 		CD10C2EE1B8920EE00EF9284 /* NativaHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NativaHelper.swift; path = NativaHelper/NativaHelper.swift; sourceTree = SOURCE_ROOT; };
 		CD10C2EF1B8920EE00EF9284 /* RTorrent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RTorrent.swift; path = NativaHelper/RTorrent.swift; sourceTree = SOURCE_ROOT; };
@@ -193,7 +192,7 @@
 		CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonToolbarItem.swift; sourceTree = "<group>"; };
 		CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
 		CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = NativaHelper.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
-		CDF3D976199ECED5002B91C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../NativaHelper/Info.plist; sourceTree = "<group>"; };
+		CDF3D976199ECED5002B91C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = NativaHelper/Info.plist; sourceTree = "<group>"; };
 		CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTorrentViewController.swift; sourceTree = "<group>"; };
 		CDFFC20A19DB747F0072EEAD /* FileListNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileListNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -391,7 +390,6 @@
 				CD171F921B8F970B00014966 /* SSHConnection.swift */,
 				CD171F931B8F970B00014966 /* TCPConnection.swift */,
 				CD10C2FC1B89878500EF9284 /* bencode.swift */,
-				CD10C2EC1B8920EE00EF9284 /* Info.plist */,
 				CD10C2ED1B8920EE00EF9284 /* main.swift */,
 				CD10C2EE1B8920EE00EF9284 /* NativaHelper.swift */,
 				CD10C2EF1B8920EE00EF9284 /* RTorrent.swift */,
