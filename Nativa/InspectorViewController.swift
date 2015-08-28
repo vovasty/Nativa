@@ -59,11 +59,11 @@ class InspectorViewController: NSTabViewController {
         
         view.addSubview(headerView, positioned: NSWindowOrderingMode.Above, relativeTo: tabView)
         
-        let const0 =  NSLayoutConstraint.constraintsWithVisualFormat("H:|[headerView]|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: ["segmentedControl": segmentedControl, "headerView": headerView])
-        view.addConstraints(const0)
+        let hConstraints =  NSLayoutConstraint.constraintsWithVisualFormat("H:|[headerView(width)]|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: ["width": CGRectGetWidth(view.bounds)], views: ["headerView": headerView])
+        view.addConstraints(hConstraints)
         
-        let const1 =  NSLayoutConstraint.constraintsWithVisualFormat("V:|[headerView][segmentedControl][tabView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["segmentedControl": segmentedControl, "headerView": headerView, "tabView": tabView])
-        view.addConstraints(const1)
+        let vConstraints =  NSLayoutConstraint.constraintsWithVisualFormat("V:|[headerView][segmentedControl][tabView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["segmentedControl": segmentedControl, "headerView": headerView, "tabView": tabView])
+        view.addConstraints(vConstraints)
     }
     
     
