@@ -13,7 +13,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
     var filePriorities: [FileListNode: (priority: DownloadPriority, state: Int)] = [:]
     var download: Download? {
         didSet {
-            if let files = download?.flatFileList {
+            if let files = download?.flatFileList where files.count > 0 {
                 filePriorities = files.reduce([FileListNode: (priority: DownloadPriority, state: Int)](), combine: { (var dict, file) -> [FileListNode: (priority: DownloadPriority, state: Int)] in
                     
                     dict[file] = (priority: file.priority, state: file.priority == .Skip ? NSOffState : NSOnState)
