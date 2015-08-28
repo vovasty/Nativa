@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftySSH
-import Common
 
 class SSHConnection: Connection {
     let serviceHost: String!

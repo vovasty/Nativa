@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Common
 
 class InspectorFilesViewController: FileOutlineViewController, InspectorViewControllerPanel {
     override func filePrioritiesDidChange(priorities: [FileListNode: Int]) {

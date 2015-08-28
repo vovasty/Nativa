@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Common
 
 
 enum DownloadState {
@@ -158,6 +157,7 @@ class Download
                     let fileName = fileList.last,
                     let fileSize = f["length"] as? Double else {
                             assert(false, "wrong structure")
+                        break
                 }
                 
                 let priority: DownloadPriority

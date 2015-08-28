@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Common
 
 class AddTorrentViewController: FileOutlineViewController {
     @IBOutlet weak var torrentName: NSTextField!

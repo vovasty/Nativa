@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Common
 
 enum NotificationActions: Int {
     case Reconnect = 0
@@ -20,7 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     var maxReconnectCounter = 10
     
     
-    private let refreshTimer: Timer = Timer(timeout: 60) { (Void) -> Void in
+    private let refreshTimer: Timer = Timer(timeout: 5) { (Void) -> Void in
         Datasource.instance.update()
     }
 

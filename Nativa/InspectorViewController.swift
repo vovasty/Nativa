@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Common
 
 protocol InspectorViewControllerPanel: class {
     var download: Download? {set get}

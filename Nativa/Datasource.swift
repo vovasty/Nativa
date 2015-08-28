@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Common
 
 public enum NativaError: ErrorType {
     case UnknownError(message: String)

@@ -8,7 +8,6 @@
 
 import Foundation
 import SwiftySSH
-import Common
 
 class RTorrent {
     let connection: Connection

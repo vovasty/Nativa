@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Common
 
 class TCPConnection: NSObject, Connection, NSStreamDelegate {
     private var iStream: NSInputStream?

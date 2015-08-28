@@ -7,8 +7,6 @@
 //
 
 import Foundation
-import Common
-
 
 class ServiceDelegate : NSObject, NSXPCListenerDelegate {
     func listener(listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {

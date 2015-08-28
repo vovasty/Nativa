@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Common
 
 let SelectedDownloadsNotification = "net.aramzamzam.nativa.SelectedDownloadsNotification"
 

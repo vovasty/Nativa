@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Common
 
 class DownloadCell: NSTableCellView
 {

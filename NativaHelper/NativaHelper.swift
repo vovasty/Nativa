@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Common
 
 class NativaHelper : NSObject, NativaHelperProtocol {
     weak var xpcConnection: NSXPCConnection?
@@ -50,7 +49,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                                      connect: { (error)->Void in connect(NSError(error)) },
                                   disconnect:{
                                     (error)->Void in
-                                    self.xpcConnection!.remoteObjectProxy.connectionDropped(NSError(error))
+                                    (self.xpcConnection!.remoteObjectProxy as? ConnectionEventListener)?.connectionDropped(NSError(error))
         })
         rtorrent = RTorrent(connection: connection)
     }
@@ -61,7 +60,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             port: port,
             connect: { (error)->Void in connect(NSError(error)) },
             disconnect:{ (error)->Void in
-                self.xpcConnection!.remoteObjectProxy.connectionDropped(NSError(error))
+                (self.xpcConnection!.remoteObjectProxy as? ConnectionEventListener)?.connectionDropped(NSError(error))
         })
         rtorrent = RTorrent(connection: connection)
     }

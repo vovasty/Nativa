@@ -10,11 +10,11 @@ import Foundation
 import Cocoa
 
 public struct Logger {
-    public func debug(msg: String) {
-        print("debug: \(msg)")
+    public func debug(msg: Any) {
+        NSLog("%@", "debug: \(msg)")
     }
     public func error(msg: String) {
-        print("error: \(msg)")
+        NSLog("%@", "error: \(msg)")
 
         let center = NSUserNotificationCenter.defaultUserNotificationCenter()
         center.removeAllDeliveredNotifications()
@@ -24,7 +24,7 @@ public struct Logger {
         center.scheduleNotification(note)
     }
     public func info(msg: String) {
-        print("info: \(msg)")
+        NSLog("%@", "info: \(msg)")
     }
 }
 

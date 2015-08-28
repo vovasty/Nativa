@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import Common
 
 protocol DropViewDelegate {
     func completeDragToView(view: DownloadDropView, torrents: [(path: String, download: Download)])
