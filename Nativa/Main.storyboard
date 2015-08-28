@@ -813,7 +813,7 @@ CA
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="FileCheckCell" id="e8T-Bd-wlJ">
-                                                            <rect key="frame" x="383" y="1" width="53" height="17"/>
+                                                            <rect key="frame" x="382.5" y="1" width="53" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <button tag="1001" translatesAutoresizingMaskIntoConstraints="NO" id="yak-ca-cA4">
@@ -933,10 +933,55 @@ Gw
                         <tabViewItems/>
                     </tabView>
                     <connections>
+                        <outlet property="downloadIcon" destination="pJW-4g-MEc" id="K4N-fM-gwh"/>
+                        <outlet property="downloadName" destination="mOV-bB-9jT" id="u2z-N6-pSY"/>
+                        <outlet property="downloadStatus" destination="F94-sT-k43" id="uPb-WC-Tk5"/>
+                        <outlet property="headerView" destination="Wdu-LO-g0p" id="Rob-5m-I7t"/>
                         <segue destination="Xdb-dF-e6E" kind="relationship" relationship="tabItems" id="QJz-rq-lyH"/>
                     </connections>
                 </tabViewController>
                 <customObject id="gcj-Qs-sQL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customView id="Wdu-LO-g0p">
+                    <rect key="frame" x="0.0" y="0.0" width="447" height="64"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pJW-4g-MEc">
+                            <rect key="frame" x="20" y="14" width="37" height="37"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="37" id="FdR-ac-uCk"/>
+                                <constraint firstAttribute="width" constant="37" id="uF0-nE-Ofk"/>
+                            </constraints>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="oJv-q7-DPF"/>
+                        </imageView>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mOV-bB-9jT">
+                            <rect key="frame" x="63" y="34" width="366" height="17"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Torrent Name" id="4Zn-eE-ziF">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="alternateSelectedControlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="F94-sT-k43">
+                            <rect key="frame" x="63" y="13" width="366" height="11"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title=" 0.00% of 942.4 MB" id="9qH-lJ-Fl4">
+                                <font key="font" metaFont="miniSystem"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="pJW-4g-MEc" firstAttribute="leading" secondItem="Wdu-LO-g0p" secondAttribute="leading" constant="20" id="GIg-ed-VBr"/>
+                        <constraint firstItem="F94-sT-k43" firstAttribute="leading" secondItem="pJW-4g-MEc" secondAttribute="trailing" constant="8" id="HXz-TP-FcO"/>
+                        <constraint firstItem="F94-sT-k43" firstAttribute="top" secondItem="mOV-bB-9jT" secondAttribute="bottom" constant="10" id="LDZ-Oq-oIV"/>
+                        <constraint firstItem="pJW-4g-MEc" firstAttribute="centerY" secondItem="Wdu-LO-g0p" secondAttribute="centerY" id="UfG-KG-2hh"/>
+                        <constraint firstItem="mOV-bB-9jT" firstAttribute="leading" secondItem="pJW-4g-MEc" secondAttribute="trailing" constant="8" id="W00-ma-G8T"/>
+                        <constraint firstAttribute="trailing" secondItem="mOV-bB-9jT" secondAttribute="trailing" constant="20" id="hlk-GG-Nm7"/>
+                        <constraint firstItem="mOV-bB-9jT" firstAttribute="top" secondItem="Wdu-LO-g0p" secondAttribute="top" constant="13" id="lBT-J2-Cyu"/>
+                        <constraint firstAttribute="trailing" secondItem="F94-sT-k43" secondAttribute="trailing" constant="20" id="x1B-jg-1Ie"/>
+                        <constraint firstAttribute="bottom" secondItem="F94-sT-k43" secondAttribute="bottom" constant="13" id="z4J-AV-zsN"/>
+                    </constraints>
+                </customView>
             </objects>
             <point key="canvasLocation" x="706.5" y="1159"/>
         </scene>

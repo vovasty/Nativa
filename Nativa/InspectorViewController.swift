@@ -15,11 +15,19 @@ protocol InspectorViewControllerPanel: class {
 
 class InspectorViewController: NSTabViewController {
     var observerId: NSObjectProtocol?
+    @IBOutlet var headerView: NSView!
+    @IBOutlet weak var downloadName: NSTextField!
+    @IBOutlet weak var downloadStatus: NSTextField!
+    @IBOutlet weak var downloadIcon: NSImageView!
     
     var downloads: [Download]? {
         didSet {
             if let download = downloads?.first {
                 self.title = download.title
+                self.downloadName.stringValue = download.title
+                self.downloadIcon.image = download.icon
+                self.downloadStatus.stringValue = Formatter.stringForSize(download.size)
+                
                 Datasource.instance.update(download) { (download, error) -> Void in
                     guard let download = download where error == nil else {
                         logger.error("unable to update torrent info: \(error)")
@@ -27,6 +35,7 @@ class InspectorViewController: NSTabViewController {
                     }
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.updateTabs(download)
+                        self.downloadStatus.stringValue = "\(download.flatFileList!.count) files, \(Formatter.stringForSize(download.size))"
                     })
                 }
             }
@@ -43,6 +52,18 @@ class InspectorViewController: NSTabViewController {
         observerId = NSNotificationCenter.defaultCenter().addObserverForName(SelectedDownloadsNotification, object: nil, queue: nil) { (note) -> Void in
             self.downloads = (note.userInfo?["downloads"] as? [Download])
         }
+        
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        let tabView = view.subviews[0]
+        let segmentedControl = view.subviews[1]
+        
+        view.addSubview(headerView, positioned: NSWindowOrderingMode.Above, relativeTo: tabView)
+        
+        let const0 =  NSLayoutConstraint.constraintsWithVisualFormat("H:|[headerView]|", options: NSLayoutFormatOptions.AlignAllBaseline, metrics: nil, views: ["segmentedControl": segmentedControl, "headerView": headerView])
+        view.addConstraints(const0)
+        
+        let const1 =  NSLayoutConstraint.constraintsWithVisualFormat("V:|[headerView][segmentedControl][tabView]|", options: NSLayoutFormatOptions(rawValue: 0), metrics: nil, views: ["segmentedControl": segmentedControl, "headerView": headerView, "tabView": tabView])
+        view.addConstraints(const1)
     }
     
     
