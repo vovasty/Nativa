@@ -10,19 +10,19 @@ import Foundation
 import Common
 
 class TCPConnection: NSObject, Connection, NSStreamDelegate {
-    var iStream: NSInputStream?
-    var oStream: NSOutputStream?
-    var requestData: NSData?
-    var responseData: NSMutableData?
-    var responseBuffer: [UInt8]?
-    var sentBytes: Int = 0
+    private var iStream: NSInputStream?
+    private var oStream: NSOutputStream?
+    private var requestData: NSData?
+    private var responseData: NSMutableData?
+    private var responseBuffer: [UInt8]?
+    private var sentBytes: Int = 0
+    private var requestSent: Bool = false
     var maxPacket = 4096
     var maxResponseSize = 1048576
-    let disconnect: (ErrorType?)->Void
-    var response: ((NSData?, ErrorType?) -> Void)?
+    private let disconnect: (ErrorType?)->Void
+    private var response: ((NSData?, ErrorType?) -> Void)?
     let host: String
     let port: UInt16
-    var requestSent: Bool = false
     let queue = dispatch_queue_create(nil, DISPATCH_QUEUE_SERIAL)
     let semaphore = dispatch_semaphore_create(1)
     var timeout: Int = 60
@@ -51,13 +51,10 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
             self.responseBuffer = Array(count: self.maxPacket, repeatedValue: 0)
 
             self.performSelector("_start", onThread: TCPConnection.networkRequestThread(), withObject: nil, waitUntilDone: false, modes: self.runLoopModes)
-            
-            
         }
     }
     
     func _start() {
-        
         NSStream.getStreamsToHostWithName(self.host, port: Int(self.port), inputStream: &self.iStream, outputStream: &self.oStream)
         self.iStream?.delegate = self
         self.oStream?.delegate = self
@@ -82,23 +79,26 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
         logger.debug("strem error: \(error)")
         disconnect(error)
         cleanup()
-        dispatch_semaphore_signal(semaphore)
     }
     
     private func responseDidReceived() {
+        logger.debug("responseDidReceived")
         response?(responseData, nil)
         cleanup()
-        dispatch_semaphore_signal(semaphore)
     }
     
     private func cleanup(){
-        requestData = nil
-        responseData = nil
+        logger.debug("cleanup")
         iStream?.close()
         oStream?.close()
+        requestData = nil
+        responseData = nil
         iStream = nil
         oStream = nil
         responseBuffer = nil
+        sentBytes = 0
+        requestSent = false
+        dispatch_semaphore_signal(semaphore)
     }
     
     //MARK: NSStreamDelegate

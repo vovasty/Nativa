@@ -102,7 +102,22 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         
         rtorrent.send([
             ResultCommand("d.get_hash", parameters: [id], field: "id") { (v) -> AnyObject? in return v as? String },
-            ResultCommand("d.get_name", parameters: [id], field: "name") { (v) -> AnyObject? in return v as? String },
+
+            ResultCommand("d.get_bytes_done", parameters: [id], field: "complete") { (v) -> AnyObject? in return v as? Double },
+            ResultCommand("d.get_state", parameters: [id], field: "state") { (v) -> AnyObject? in return v as? Int },
+            ResultCommand("d.is_open", parameters: [id], field: "opened") { (v) -> AnyObject? in return v as? Bool },
+            ResultCommand("d.get_down_rate", parameters: [id], field: "downloadSpeed") { (v) -> AnyObject? in return v as? Double },
+            ResultCommand("d.get_up_rate", parameters: [id], field: "uploadSpeed") { (v) -> AnyObject? in return v as? Double },
+            ResultCommand("d.get_up_total", parameters: [id], field: "uploadTotal") { (v) -> AnyObject? in return v as? Int },
+            ResultCommand("d.get_peers_connected", parameters: [id], field: "peersConnected") { (v) -> AnyObject? in return v as? Int },
+            ResultCommand("d.get_peers_not_connected", parameters: [id], field: "peersNotConnected") { (v) -> AnyObject? in return v as? Int },
+            ResultCommand("d.get_peers_complete", parameters: [id], field: "peersCompleted") { (v) -> AnyObject? in return v as? Int },
+            ResultCommand("d.get_priority", parameters: [id], field: "priority") { (v) -> AnyObject? in return v as? Int },
+            ResultCommand("d.get_message", parameters: [id], field: "message") { (v) -> AnyObject? in return v as? String },
+            ResultCommand("d.is_hash_checking", parameters: [id], field: "hashChecking") { (v) -> AnyObject? in return v as? Bool },
+            ResultCommand("d.get_complete", parameters: [id], field: "completed") { (v) -> AnyObject? in return v as? Bool },
+            ResultCommand("d.is_active", parameters: [id], field: "active") { (v) -> AnyObject? in return v as? Bool },
+            
             FMultiCommand(id, index: nil, field: "files", commands: [
                 ResultCommand("f.get_path=", parameters: nil, field: "path") { (v) -> AnyObject? in return (v as? String)?.characters.split("/").map{String($0)} as? AnyObject },
                 ResultCommand("f.get_size_bytes=", parameters: nil, field: "length") { (v) -> AnyObject? in return v as? Double },
