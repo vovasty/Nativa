@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import SnapKit
 
 let SelectedDownloadsNotification = "net.aramzamzam.nativa.SelectedDownloadsNotification"
 

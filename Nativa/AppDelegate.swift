@@ -16,7 +16,8 @@ enum NotificationActions: Int {
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate{
     private var connectionDropObserver: NSObjectProtocol?
     var reconnectCounter = 0
-    var maxReconnectCounter = 1
+    var maxReconnectCounter = 4
+    var reconnectTimeout = 1
     
     
     private let refreshTimer: Timer = Timer(timeout: 5) { (Void) -> Void in
@@ -30,8 +31,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     private func connect() {
         refreshTimer.stop()
-        
-        guard reconnectCounter < maxReconnectCounter else {
+        self.reconnectCounter++
+
+        guard reconnectCounter <= maxReconnectCounter else {
             let center = NSUserNotificationCenter.defaultUserNotificationCenter()
             center.removeAllDeliveredNotifications()
             let note = NSUserNotification()
@@ -55,9 +57,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         let connectHandler: (NSError?) -> Void = {(error) -> Void in
             guard error == nil else {
                 logger.debug("unable to connect \(error)")
-                self.reconnectCounter++
-                NSThread.sleepForTimeInterval(1)
-                self.connect()
                 return
             }
             
@@ -87,7 +86,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             
             switch Datasource.instance.connectionState {
             case .Disconnected(_):
-                self.connect()
+                //reconnect after a delay
+                dispatch_after(dispatch_time (DISPATCH_TIME_NOW , Int64(UInt64(self.reconnectTimeout) * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () in
+                    self.connect()
+                }
             default:
                 break
             }
