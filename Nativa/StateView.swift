@@ -130,4 +130,14 @@ class StateView: NSView {
         super.init(coder: coder)
         setup()
     }
+    
+    func addToView(view: NSView, hidden: Bool) -> Void {
+        view.addSubview(self, positioned: .Above, relativeTo: nil)
+        
+        self.snp_makeConstraints { (make) -> Void in
+            make.left.right.top.bottom.equalTo(0)
+        }
+        
+        self.hidden = hidden
+    }
 }

@@ -116,8 +116,15 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
     
     private func cleanup(){
         logger.debug("cleanup")
+
         iStream?.delegate = nil
         oStream?.delegate = nil
+
+        let runLoop = NSRunLoop.currentRunLoop()
+        for runLoopMode in runLoopModes {
+            oStream?.removeFromRunLoop(runLoop, forMode: runLoopMode)
+            iStream?.removeFromRunLoop(runLoop, forMode: runLoopMode)
+        }
         iStream?.close()
         oStream?.close()
         requestData = nil
@@ -132,11 +139,6 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
     
     //MARK: NSStreamDelegate
     func stream(aStream: NSStream, handleEvent eventCode: NSStreamEvent) {
-        guard iStream != nil || oStream != nil else {
-            logger.error("got stream event when no streams available")
-            return
-        }
-        
         switch(eventCode) {
         case NSStreamEvent.OpenCompleted:
             streamOpened()
@@ -161,7 +163,8 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
             }
         case NSStreamEvent.HasBytesAvailable:
             guard let stream = aStream as? NSInputStream where stream == iStream else{
-                assert(false, "unexpected stream")
+                logger.debug("unexpected stream: aStream(\((aStream as? NSInputStream))) == iStream(\(iStream)) =\((aStream as? NSInputStream) == iStream)")
+//                assert(false, "unexpected stream")
                 return
             }
             

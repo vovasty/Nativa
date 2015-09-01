@@ -28,15 +28,7 @@ class MainViewController: NSSplitViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         
-        let superView = view
-        
-        superView.addSubview(stateView, positioned: .Above, relativeTo: nil)
-        
-        stateView.snp_makeConstraints { (make) -> Void in
-            make.left.right.top.bottom.equalTo(0)
-        }
-        
-        stateView.hidden = true
+        stateView.addToView(view, hidden: true)
         
         connectionObserver = NSNotificationCenter.defaultCenter().addObserverForName(DatasourceConnectionStateDidChange, object: nil, queue: nil) { (note) -> Void in
             
