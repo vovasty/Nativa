@@ -24,10 +24,10 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
     let host: String
     let port: UInt16
     let queue = dispatch_queue_create(nil, DISPATCH_QUEUE_SERIAL)
-    let semaphore = dispatch_semaphore_create(1)
+    let requestSemaphore = dispatch_semaphore_create(1)
     var timeout: Int = 60
     var runLoopModes = [NSRunLoopCommonModes]
-    private var opened: Bool = false
+    private var connected: Bool = false
     
     init(host: String,
         port: UInt16,
@@ -40,32 +40,37 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
             
             super.init()
             
-            self.performSelector("_open", onThread: TCPConnection.networkRequestThread(), withObject: nil, waitUntilDone: false, modes: self.runLoopModes)
+            dispatch_async(queue) { () -> Void in
+                self.performSelector("_open", onThread: TCPConnection.networkRequestThread(), withObject: nil, waitUntilDone: false, modes: self.runLoopModes)
+            }
     }
     
     func request(data: NSData, response: (NSData?, ErrorType?) -> Void) {
         dispatch_async(queue) { () -> Void in
-            guard dispatch_semaphore_wait(self.semaphore, dispatch_time (DISPATCH_TIME_NOW , Int64(UInt64(self.timeout) * NSEC_PER_SEC))) == 0 else {
+            guard dispatch_semaphore_wait(self.requestSemaphore, dispatch_time (DISPATCH_TIME_NOW , Int64(UInt64(self.timeout) * NSEC_PER_SEC))) == 0 else {
                 response(nil, RTorrentError.Unknown(message: "timeout"))
                 return
             }
             
-            self.opened = false
             self.requestData = data
             self.responseData = NSMutableData()
             self.response = response
             self.requestSent = false
             self.responseBuffer = Array(count: self.maxPacket, repeatedValue: 0)
-            if self.oStream?.streamStatus == .Open {
-                self._sendData()
+            
+            if self.connected {
+                self.performSelector("_open", onThread: TCPConnection.networkRequestThread(), withObject: nil, waitUntilDone: false, modes: self.runLoopModes)
+            }
+            else if self.oStream?.streamStatus == .Open {
+                self.stream(self.oStream!, handleEvent: NSStreamEvent.HasSpaceAvailable)
             }
         }
     }
     
     func _open() {
         NSStream.getStreamsToHostWithName(self.host, port: Int(self.port), inputStream: &self.iStream, outputStream: &self.oStream)
-        self.iStream?.delegate = self
-        self.oStream?.delegate = self
+        iStream?.delegate = self
+        oStream?.delegate = self
         
         let runLoop = NSRunLoop.currentRunLoop()
         for runLoopMode in runLoopModes {
@@ -73,24 +78,17 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
             iStream?.scheduleInRunLoop(runLoop, forMode: runLoopMode)
         }
 
-        self.iStream?.open()
-        self.oStream?.open()
+        iStream?.open()
+        oStream?.open()
     }
     
-    func _sendData() {
-        guard let requestData = requestData else {
-            logger.debug("no data to send")
+    private func streamOpened() {
+        guard !connected else {
             return
         }
         
-        let buf = requestData.bytes.advancedBy(sentBytes)
-        let size = (requestData.length - sentBytes) > maxPacket ? maxPacket : (requestData.length - sentBytes)
-        let actuallySent = oStream!.write(UnsafePointer<UInt8>(buf), maxLength: size)
-        sentBytes += actuallySent
-        
-        if sentBytes == requestData.length {
-            requestDidSent()
-        }
+        connected = true
+        connect(nil)
     }
     
     private func requestDidSent() {
@@ -100,7 +98,7 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
     
     private func errorOccured(error: ErrorType) {
         logger.debug("stream error: \(error)")
-        if opened {
+        if connected {
             disconnect(error)
         }
         else {
@@ -118,6 +116,8 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
     
     private func cleanup(){
         logger.debug("cleanup")
+        iStream?.delegate = nil
+        oStream?.delegate = nil
         iStream?.close()
         oStream?.close()
         requestData = nil
@@ -127,21 +127,38 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
         responseBuffer = nil
         sentBytes = 0
         requestSent = false
-        dispatch_semaphore_signal(semaphore)
+        dispatch_semaphore_signal(requestSemaphore)
     }
     
     //MARK: NSStreamDelegate
     func stream(aStream: NSStream, handleEvent eventCode: NSStreamEvent) {
+        guard iStream != nil || oStream != nil else {
+            logger.error("got stream event when no streams available")
+            return
+        }
+        
         switch(eventCode) {
         case NSStreamEvent.OpenCompleted:
-            self.opened = true
+            streamOpened()
         case NSStreamEvent.HasSpaceAvailable:
             guard let stream = aStream as? NSOutputStream where stream == oStream else{
                 assert(false, "unexpected stream")
                 return
             }
             
-            _sendData()
+            guard let requestData = requestData else {
+                logger.debug("no data to send")
+                return
+            }
+            
+            let buf = requestData.bytes.advancedBy(sentBytes)
+            let size = (requestData.length - sentBytes) > maxPacket ? maxPacket : (requestData.length - sentBytes)
+            let actuallySent = oStream!.write(UnsafePointer<UInt8>(buf), maxLength: size)
+            sentBytes += actuallySent
+            
+            if sentBytes == requestData.length {
+                requestDidSent()
+            }
         case NSStreamEvent.HasBytesAvailable:
             guard let stream = aStream as? NSInputStream where stream == iStream else{
                 assert(false, "unexpected stream")
