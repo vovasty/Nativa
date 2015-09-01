@@ -155,7 +155,7 @@ extension RTorrent {
             }
             
             guard let result = result as? [AnyObject] else{
-                response(nil, RTorrentError.UnknownError(message: "invalid response"))
+                response(nil, RTorrentError.Unknown(message: "invalid response"))
                 return
             }
             

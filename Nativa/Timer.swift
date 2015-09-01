@@ -12,11 +12,11 @@ class Timer
 {
     private var timer: dispatch_source_t!
     private let block: (Void)->Void
-    private let timeout: UInt64
+    private let timeout: Int
     private let queue: dispatch_queue_t
     var running: Bool { get { return timer == nil } }
     
-    init(timeout: UInt64, queue: dispatch_queue_t = dispatch_get_main_queue(), block:(Void)->Void) {
+    init(timeout: Int, queue: dispatch_queue_t = dispatch_get_main_queue(), block:(Void)->Void) {
         self.block = block
         self.timeout = timeout
         self.queue = queue
@@ -39,7 +39,7 @@ class Timer
             // set the time to fire (we're only going to fire once,
             // so just fill in the initial time).
             
-            let interval = timeout * NSEC_PER_SEC
+            let interval = UInt64(timeout) * NSEC_PER_SEC
             dispatch_source_set_timer(timer, dispatch_walltime(nil, 0), interval, 0);
             
             // Hey, let's actually do something when the timer fires!

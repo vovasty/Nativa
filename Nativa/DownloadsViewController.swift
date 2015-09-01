@@ -39,12 +39,8 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
         }
     }
     
-    override func viewWillAppear() {
-        super.viewWillAppear()
-        
-        //to unify toolbar and titlebar
-        self.view.window?.titleVisibility = .Hidden
-        
+    override func viewDidLoad() {
+        super.viewDidLoad()
         downloadsObserver = Datasource.instance.downloads.addObserver({ (downloadChanges: [(object: Download, index: Int, type: ChangeType)]) -> Void in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.outlineView.beginUpdates()
@@ -63,8 +59,15 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
                     }
                 }
                 self.outlineView.endUpdates()
-                })
             })
+        })
+    }
+    
+    override func viewWillAppear() {
+        super.viewWillAppear()
+        
+        //to unify toolbar and titlebar
+        self.view.window?.titleVisibility = .Hidden
     }
 
     @IBAction func controlAction(sender: AnyObject) {

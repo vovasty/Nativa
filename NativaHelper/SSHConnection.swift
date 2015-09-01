@@ -39,7 +39,7 @@ class SSHConnection: Connection {
     
     func request(data: NSData, response: (NSData?, ErrorType?) -> Void) {
         guard let session = session else{
-            response(nil, RTorrentError.UnknownError(message: "not connected"))
+            response(nil, RTorrentError.Unknown(message: "not connected"))
             return
         }
         

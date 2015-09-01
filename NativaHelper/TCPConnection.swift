@@ -19,6 +19,7 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
     var maxPacket = 4096
     var maxResponseSize = 1048576
     private let disconnect: (ErrorType?)->Void
+    private let connect: (ErrorType?)->Void
     private var response: ((NSData?, ErrorType?) -> Void)?
     let host: String
     let port: UInt16
@@ -26,6 +27,7 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
     let semaphore = dispatch_semaphore_create(1)
     var timeout: Int = 60
     var runLoopModes = [NSRunLoopCommonModes]
+    private var opened: Bool = false
     
     init(host: String,
         port: UInt16,
@@ -34,26 +36,33 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
             self.disconnect = disconnect
             self.host = host
             self.port = port
-            connect(nil)
+            self.connect = connect
+            
+            super.init()
+            
+            self.performSelector("_open", onThread: TCPConnection.networkRequestThread(), withObject: nil, waitUntilDone: false, modes: self.runLoopModes)
     }
     
     func request(data: NSData, response: (NSData?, ErrorType?) -> Void) {
         dispatch_async(queue) { () -> Void in
             guard dispatch_semaphore_wait(self.semaphore, dispatch_time (DISPATCH_TIME_NOW , Int64(UInt64(self.timeout) * NSEC_PER_SEC))) == 0 else {
-                response(nil, RTorrentError.UnknownError(message: "timeout"))
+                response(nil, RTorrentError.Unknown(message: "timeout"))
                 return
             }
+            
+            self.opened = false
             self.requestData = data
             self.responseData = NSMutableData()
             self.response = response
             self.requestSent = false
             self.responseBuffer = Array(count: self.maxPacket, repeatedValue: 0)
-
-            self.performSelector("_start", onThread: TCPConnection.networkRequestThread(), withObject: nil, waitUntilDone: false, modes: self.runLoopModes)
+            if self.oStream?.streamStatus == .Open {
+                self._sendData()
+            }
         }
     }
     
-    func _start() {
+    func _open() {
         NSStream.getStreamsToHostWithName(self.host, port: Int(self.port), inputStream: &self.iStream, outputStream: &self.oStream)
         self.iStream?.delegate = self
         self.oStream?.delegate = self
@@ -67,7 +76,22 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
         self.iStream?.open()
         self.oStream?.open()
     }
-
+    
+    func _sendData() {
+        guard let requestData = requestData else {
+            logger.debug("no data to send")
+            return
+        }
+        
+        let buf = requestData.bytes.advancedBy(sentBytes)
+        let size = (requestData.length - sentBytes) > maxPacket ? maxPacket : (requestData.length - sentBytes)
+        let actuallySent = oStream!.write(UnsafePointer<UInt8>(buf), maxLength: size)
+        sentBytes += actuallySent
+        
+        if sentBytes == requestData.length {
+            requestDidSent()
+        }
+    }
     
     private func requestDidSent() {
         logger.debug("requestDidSent")
@@ -75,8 +99,14 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
     }
     
     private func errorOccured(error: ErrorType) {
-        logger.debug("strem error: \(error)")
-        disconnect(error)
+        logger.debug("stream error: \(error)")
+        if opened {
+            disconnect(error)
+        }
+        else {
+            connect(error)
+        }
+        
         cleanup()
     }
     
@@ -103,24 +133,15 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
     //MARK: NSStreamDelegate
     func stream(aStream: NSStream, handleEvent eventCode: NSStreamEvent) {
         switch(eventCode) {
+        case NSStreamEvent.OpenCompleted:
+            self.opened = true
         case NSStreamEvent.HasSpaceAvailable:
             guard let stream = aStream as? NSOutputStream where stream == oStream else{
                 assert(false, "unexpected stream")
                 return
             }
-            guard let requestData = requestData else {
-                logger.debug("no data to send")
-                return
-            }
             
-            let buf = requestData.bytes.advancedBy(sentBytes)
-            let size = (requestData.length - sentBytes) > maxPacket ? maxPacket : (requestData.length - sentBytes)
-            let actuallySent = stream.write(UnsafePointer<UInt8>(buf), maxLength: size)
-            sentBytes += actuallySent
-            
-            if sentBytes == requestData.length {
-                requestDidSent()
-            }
+            _sendData()
         case NSStreamEvent.HasBytesAvailable:
             guard let stream = aStream as? NSInputStream where stream == iStream else{
                 assert(false, "unexpected stream")
@@ -133,7 +154,7 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
             }
             
             guard responseData.length < maxResponseSize else {
-                errorOccured(RTorrentError.UnknownError(message: "response is too big"))
+                errorOccured(RTorrentError.Unknown(message: "response is too big"))
                 return
             }
             
@@ -147,7 +168,7 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
         case NSStreamEvent.EndEncountered:
             if (aStream as? NSOutputStream) == oStream{
                 if !requestSent {
-                    errorOccured(RTorrentError.UnknownError(message: "stream closed before request did send"))
+                    errorOccured(RTorrentError.Unknown(message: "stream closed before request did send"))
                 }
                 return
             }
@@ -158,11 +179,11 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
             assert(false, "unexpected stream")
         case NSStreamEvent.ErrorOccurred:
             guard let error = aStream.streamError?.localizedDescription else {
-                errorOccured(RTorrentError.UnknownError(message: "unknown stream error"))
+                errorOccured(RTorrentError.Unknown(message: "unknown stream error"))
                 return
             }
             
-            errorOccured(RTorrentError.UnknownError(message: error))
+            errorOccured(RTorrentError.Unknown(message: error))
         default:
             logger.debug("skipped event event \(eventCode)")
         }

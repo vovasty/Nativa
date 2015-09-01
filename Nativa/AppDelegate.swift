@@ -15,15 +15,14 @@ enum NotificationActions: Int {
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate{
     private var connectionDropObserver: NSObjectProtocol?
+    private var refreshTimer: Timer!
+
+    
     var reconnectCounter = 0
     var maxReconnectCounter = 4
     var reconnectTimeout = 1
+    var refreshTimeout = 5
     
-    
-    private let refreshTimer: Timer = Timer(timeout: 5) { (Void) -> Void in
-        Datasource.instance.update()
-    }
-
     func reconnect() {
         reconnectCounter = 0
         connect()
@@ -94,6 +93,11 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 break
             }
         }
+        
+        refreshTimer = Timer(timeout: refreshTimeout) { (Void) -> Void in
+                Datasource.instance.update()
+        }
+
         
         connect()
     }

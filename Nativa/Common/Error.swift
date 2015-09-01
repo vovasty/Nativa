@@ -8,8 +8,15 @@
 
 import Foundation
 
-public enum RTorrentError: ErrorType {
-    case UnknownError(message: String)
+public enum RTorrentError: ErrorType, CustomStringConvertible{
+    case Unknown(message: String)
+
+    public var description: String {
+        switch self {
+        case Unknown(let message):
+            return message
+        }
+    }
 }
 
 public extension NSError {
