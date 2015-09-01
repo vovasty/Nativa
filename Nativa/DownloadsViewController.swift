@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import SnapKit
 
 let SelectedDownloadsNotification = "net.aramzamzam.nativa.SelectedDownloadsNotification"
 
@@ -14,9 +15,9 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
 {
     @IBOutlet weak var outlineView: NSOutlineView!
     var torrentsFromDnD: IndexingGenerator<Array<(path: String, download: Download)>>?
-
     private var downloadsObserver: String?
-    
+
+
     var selectedDownloads: [Download] {
         
         

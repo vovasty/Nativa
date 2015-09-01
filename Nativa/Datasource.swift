@@ -8,10 +8,18 @@
 
 import Foundation
 
-public enum NativaError: ErrorType {
+enum NativaError: ErrorType {
     case UnknownError(message: String)
 }
 
+
+let DatasourceConnectionStateDidChange = "net.aramzamzam.Nativa.DatasourceConnectionStateDidChange"
+
+enum DatasourceConnectionStatus {
+    case Disconnected(error: NSError?)
+    case Establishing
+    case Established
+}
 
 private var parseTorrentsLock: OSSpinLock = OS_SPINLOCK_INIT
 
@@ -63,15 +71,20 @@ class DownloadsSyncableArrayDelegate: SyncableArrayDelegate {
     }
 }
 
-let ConnectionDroppedNotification = "net.aramzamzam.Nativa.ConnectionDroppedNotification"
-
 class Datasource: ConnectionEventListener {
     var downloaderService: NSXPCConnection?
     var downloader: NativaHelperProtocol!
     private let downloadsSyncableArrayDelegate = DownloadsSyncableArrayDelegate()
     let downloads: SyncableArray<DownloadsSyncableArrayDelegate>
-
     
+    private (set) var connectionState = DatasourceConnectionStatus.Disconnected(error: nil) {
+        didSet{
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                NSNotificationCenter.defaultCenter().postNotificationName(DatasourceConnectionStateDidChange, object: self)
+            }
+        }
+    }
+
     static let instance = Datasource()
     
     init(){
@@ -100,8 +113,11 @@ class Datasource: ConnectionEventListener {
     
     func connect(user: String, host: String, port: UInt16, password: String, serviceHost: String, servicePort: UInt16, connect: (NSError?)->Void) {
         
+        connectionState = .Establishing
+        
         do {
             let result = try createDownloader{(error)->Void in
+                self.connectionState = .Disconnected(error: error)
                 connect(NSError(error))
             }
             
@@ -109,18 +125,30 @@ class Datasource: ConnectionEventListener {
             downloader = result.1
         }
         catch let error {
-            connect(NSError(error))
+            let err = NSError(error)
+            connectionState = .Disconnected(error: err)
+            connect(err)
         }
 
         downloader.connect(user, host: host, port: port, password: password, serviceHost: serviceHost, servicePort: servicePort) { (error) -> Void in
-                connect(error)
+            
+            if error == nil {
+                self.connectionState = .Established
+            }
+            else {
+                self.connectionState = .Disconnected(error: error)
+            }
+
+            connect(error)
         }
     }
     
     func connect(host: String, port: UInt16, connect: (NSError?)->Void) {
+        connectionState = .Establishing
         
         do {
             let result = try createDownloader{(error)->Void in
+                self.connectionState = .Disconnected(error: error)
                 connect(NSError(error))
             }
             
@@ -128,10 +156,19 @@ class Datasource: ConnectionEventListener {
             downloader = result.1
         }
         catch let error {
-            connect(NSError(error))
+            let err = NSError(error)
+            connectionState = .Disconnected(error: err)
+            connect(err)
         }
         
         downloader.connect(host, port: port) { (error) -> Void in
+            if error == nil {
+                self.connectionState = .Established
+            }
+            else {
+                self.connectionState = .Disconnected(error: error)
+            }
+            
             connect(error)
         }
     }
@@ -301,7 +338,6 @@ class Datasource: ConnectionEventListener {
     //MARK: ConnectionEventListener
     @objc func connectionDropped(error: NSError?) {
         logger.error("connection dropped \(error)")
-        
-        NSNotificationCenter.defaultCenter().postNotificationName(ConnectionDroppedNotification, object: self)
+        self.connectionState = .Disconnected(error: error)
     }
 }

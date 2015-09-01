@@ -16,16 +16,22 @@ enum NotificationActions: Int {
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate{
     private var connectionDropObserver: NSObjectProtocol?
     var reconnectCounter = 0
-    var maxReconnectCounter = 10
+    var maxReconnectCounter = 1
     
     
     private let refreshTimer: Timer = Timer(timeout: 5) { (Void) -> Void in
         Datasource.instance.update()
     }
 
+    func reconnect() {
+        reconnectCounter = 0
+        connect()
+    }
+    
     private func connect() {
         refreshTimer.stop()
-        guard reconnectCounter <= maxReconnectCounter else {
+        
+        guard reconnectCounter < maxReconnectCounter else {
             let center = NSUserNotificationCenter.defaultUserNotificationCenter()
             center.removeAllDeliveredNotifications()
             let note = NSUserNotification()
@@ -77,13 +83,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         NSUserDefaults.standardUserDefaults().setValue(true, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
         NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
         
-        connectionDropObserver = NSNotificationCenter.defaultCenter().addObserverForName(ConnectionDroppedNotification, object: nil, queue: nil) { (note) -> Void in
-            self.connect()
+        connectionDropObserver = NSNotificationCenter.defaultCenter().addObserverForName(DatasourceConnectionStateDidChange, object: nil, queue: nil) { (note) -> Void in
+            
+            switch Datasource.instance.connectionState {
+            case .Disconnected(_):
+                self.connect()
+            default:
+                break
+            }
         }
         
         connect()
-        
-        NSNotificationCenter.defaultCenter().postNotificationName(ConnectionDroppedNotification, object: self)
     }
     
     func application(sender: NSApplication,
@@ -139,8 +149,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             
             switch action {
             case .Reconnect:
-                reconnectCounter = 0
-                connect()
+                reconnect()
             }
     }
 }

@@ -68,6 +68,9 @@
 		CDB54D8019A155EC00D777D5 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54D7F19A155EC00D777D5 /* Formatter.swift */; };
 		CDCCFA511B77EDE60028EDCB /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCCFA501B77EDE60028EDCB /* Utils.swift */; };
 		CDDFC50319996D9B00F5F6B7 /* ButtonToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */; };
+		CDE929C31B94DE6C007AE485 /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDE929BC1B94DE44007AE485 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CDE929C41B94DE72007AE485 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDE929BC1B94DE44007AE485 /* SnapKit.framework */; };
+		CDE929C61B94E054007AE485 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE929C51B94E054007AE485 /* StateView.swift */; settings = {ASSET_TAGS = (); }; };
 		CDEE44DE1991E1EE00FB76AC /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */; };
 		CDF3D97F199ECED5002B91C8 /* NativaHelper.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CDFFC20819DB6D2E0072EEAD /* AddTorrentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */; };
@@ -103,6 +106,41 @@
 			remoteGlobalIDString = CD849CBF19F99A670074F98B;
 			remoteInfo = SwiftySSH;
 		};
+		CDE929B91B94DE44007AE485 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EEBCC9D819CC627D0083B827;
+			remoteInfo = "SnapKit iOS";
+		};
+		CDE929BB1B94DE44007AE485 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EECDB37A1AC0C9D4006BBC11;
+			remoteInfo = "SnapKit OSX";
+		};
+		CDE929BD1B94DE44007AE485 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EEBCC9E219CC627E0083B827;
+			remoteInfo = "SnapKit iOS Tests";
+		};
+		CDE929BF1B94DE44007AE485 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EECDB3841AC0C9D4006BBC11;
+			remoteInfo = "SnapKit OSX Tests";
+		};
+		CDE929C11B94DE4F007AE485 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = EECDB3791AC0C9D4006BBC11;
+			remoteInfo = "SnapKit OSX";
+		};
 		CDF3D97D199ECED5002B91C8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CD01C7211991627100D5B8A6 /* Project object */;
@@ -127,6 +165,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				CD6851B91B90D48900A810F1 /* SwiftySSH.framework in CopyFiles */,
+				CDE929C31B94DE6C007AE485 /* SnapKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +230,8 @@
 		CDC23DD41B72C32100215D19 /* SwiftySSH.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftySSH.framework; path = ../SwiftySSH/build/Debug/SwiftySSH.framework; sourceTree = "<group>"; };
 		CDCCFA501B77EDE60028EDCB /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonToolbarItem.swift; sourceTree = "<group>"; };
+		CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SnapKit.xcodeproj; path = lib/SnapKit/SnapKit.xcodeproj; sourceTree = "<group>"; };
+		CDE929C51B94E054007AE485 /* StateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
 		CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
 		CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = NativaHelper.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDF3D976199ECED5002B91C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = NativaHelper/Info.plist; sourceTree = "<group>"; };
@@ -203,6 +244,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDE929C41B94DE72007AE485 /* SnapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +269,7 @@
 		CD01C7201991627100D5B8A6 = {
 			isa = PBXGroup;
 			children = (
+				CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */,
 				CD30A0B61B8CF08B00D84BE2 /* SwiftySSH.xcodeproj */,
 				CD01C72B1991627100D5B8A6 /* Nativa */,
 				CDF3D974199ECED5002B91C8 /* NativaHelper */,
@@ -249,7 +292,6 @@
 		CD01C72B1991627100D5B8A6 /* Nativa */ = {
 			isa = PBXGroup;
 			children = (
-				CD6851B31B90D09B00A810F1 /* Nativa.entitlements */,
 				CDFFC20919DB74260072EEAD /* Model */,
 				CD01C7301991627100D5B8A6 /* AppDelegate.swift */,
 				CD01C7321991627100D5B8A6 /* Images.xcassets */,
@@ -262,6 +304,7 @@
 				CD03055E19AE9B1100E8BF42 /* Timer.swift */,
 				CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */,
 				CD90A79D1B8E5CF000889705 /* MainViewController.swift */,
+				CDE929C51B94E054007AE485 /* StateView.swift */,
 				CD1E616B19F5C1C5006C23CA /* Main.storyboard */,
 				CD0062CC1B82E14E005BAE46 /* Preferences.swift */,
 				CD01C72C1991627100D5B8A6 /* Supporting Files */,
@@ -273,6 +316,7 @@
 		CD01C72C1991627100D5B8A6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CD6851B31B90D09B00A810F1 /* Nativa.entitlements */,
 				CD01C72D1991627100D5B8A6 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -349,6 +393,17 @@
 			name = FileOutlineViewController;
 			sourceTree = "<group>";
 		};
+		CDE929B31B94DE44007AE485 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CDE929BA1B94DE44007AE485 /* SnapKit.framework */,
+				CDE929BC1B94DE44007AE485 /* SnapKit.framework */,
+				CDE929BE1B94DE44007AE485 /* SnapKit iOS Tests.xctest */,
+				CDE929C01B94DE44007AE485 /* SnapKit OSX Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		CDF3D974199ECED5002B91C8 /* NativaHelper */ = {
 			isa = PBXGroup;
 			children = (
@@ -405,6 +460,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				CDE929C21B94DE4F007AE485 /* PBXTargetDependency */,
 				CDF3D97E199ECED5002B91C8 /* PBXTargetDependency */,
 				CDF3D981199ECED5002B91C8 /* PBXTargetDependency */,
 			);
@@ -495,6 +551,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = CDE929B31B94DE44007AE485 /* Products */;
+					ProjectRef = CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */;
+				},
+				{
 					ProductGroup = CD30A0B71B8CF08B00D84BE2 /* Products */;
 					ProjectRef = CD30A0B61B8CF08B00D84BE2 /* SwiftySSH.xcodeproj */;
 				},
@@ -521,6 +581,34 @@
 			fileType = wrapper.cfbundle;
 			path = SwiftySSHTests.xctest;
 			remoteRef = CD30A0BD1B8CF08B00D84BE2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CDE929BA1B94DE44007AE485 /* SnapKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SnapKit.framework;
+			remoteRef = CDE929B91B94DE44007AE485 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CDE929BC1B94DE44007AE485 /* SnapKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SnapKit.framework;
+			remoteRef = CDE929BB1B94DE44007AE485 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CDE929BE1B94DE44007AE485 /* SnapKit iOS Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SnapKit iOS Tests.xctest";
+			remoteRef = CDE929BD1B94DE44007AE485 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CDE929C01B94DE44007AE485 /* SnapKit OSX Tests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "SnapKit OSX Tests.xctest";
+			remoteRef = CDE929BF1B94DE44007AE485 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -575,6 +663,7 @@
 				CD7EC18D19E5AEB700C09042 /* FileOutlineViewController.swift in Sources */,
 				CD0062CD1B82E14E005BAE46 /* Preferences.swift in Sources */,
 				CD156B941B88347600CDD8F3 /* InspectorFilesViewController.swift in Sources */,
+				CDE929C61B94E054007AE485 /* StateView.swift in Sources */,
 				CD7EFCB219F87426001AE5E9 /* FolderNameCell.swift in Sources */,
 				CD6851A41B90CB7600A810F1 /* Error.swift in Sources */,
 				CDCCFA511B77EDE60028EDCB /* Utils.swift in Sources */,
@@ -645,6 +734,11 @@
 			isa = PBXTargetDependency;
 			name = SwiftySSH;
 			targetProxy = CD30A0C01B8CF09D00D84BE2 /* PBXContainerItemProxy */;
+		};
+		CDE929C21B94DE4F007AE485 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "SnapKit OSX";
+			targetProxy = CDE929C11B94DE4F007AE485 /* PBXContainerItemProxy */;
 		};
 		CDF3D97E199ECED5002B91C8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

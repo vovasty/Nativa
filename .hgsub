@@ -1,1 +1,2 @@
 lib/SwiftySSH = https://vovasty@bitbucket.org/vovasty/swiftyssh
+lib/SnapKit = [git]https://github.com/SnapKit/SnapKit.git
