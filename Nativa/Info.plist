@@ -55,5 +55,7 @@
 	<string>NSApplication</string>
 	<key>NSUserNotificationAlertStyle</key>
 	<string>alert</string>
+	<key>SUFeedURL</key>
+	<string>https://bitbucket.org/vovasty/nativa/raw/tip/update/cast.rss</string>
 </dict>
 </plist>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle"  xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Nativa Changelog</title>
+    <link>https://bitbucket.org/vovasty/nativa/raw/tip/update/cast.rss</link>
+    <description>Most recent changes with links to updates.</description>
+    <language>en</language>
+            <item>
+    			<title>Version 0.5</title>
+    			<sparkle:releaseNotesLink>http://www.aramzamzam.net/nativa/release_notes.html#0.5</sparkle:releaseNotesLink>
+    			<pubDate>Wed, 02 Sep 2015 16:08:36 -0700</pubDate>
+    			<enclosure
+    				url="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.5.zip"
+    				sparkle:version="25"
+    				sparkle:shortVersionString="0.5"
+    				type="application/octet-stream"
+    				length="3781367"
+    				sparkle:dsaSignature="MCwCFAxU8csoKSpoz1y/19y2fYlDCvqSAhRQTTofsdGpeYmUk0PIa0rF6u3GXQ=="
+    			/>
+    		</item>
+  </channel>
+</rss>
