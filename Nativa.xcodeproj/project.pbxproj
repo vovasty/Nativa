@@ -263,7 +263,6 @@
 		CD6851A11B90CB7600A810F1 /* NativaHelperProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativaHelperProtocol.swift; sourceTree = "<group>"; };
 		CD6851A21B90CB7600A810F1 /* SyncableArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncableArray.swift; sourceTree = "<group>"; };
 		CD6851A31B90CB7600A810F1 /* Synchronized.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Synchronized.swift; sourceTree = "<group>"; };
-		CD6851B41B90D18600A810F1 /* NativaHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = NativaHelper.entitlements; path = NativaHelper/NativaHelper.entitlements; sourceTree = SOURCE_ROOT; };
 		CD69F4FE19A6ADD80056BA62 /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		CD69F4FF19A6ADD80056BA62 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileOutlineViewController.swift; sourceTree = "<group>"; };
@@ -482,7 +481,6 @@
 		CDF3D974199ECED5002B91C8 /* NativaHelper */ = {
 			isa = PBXGroup;
 			children = (
-				CD6851B41B90D18600A810F1 /* NativaHelper.entitlements */,
 				CD171F911B8F970B00014966 /* Connection.swift */,
 				CD171F921B8F970B00014966 /* SSHConnection.swift */,
 				CD171F931B8F970B00014966 /* TCPConnection.swift */,
@@ -608,7 +606,7 @@
 						CreatedOnToolsVersion = 6.0;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -1031,7 +1029,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = NativaHelper/NativaHelper.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1054,7 +1051,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_ENTITLEMENTS = NativaHelper/NativaHelper.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
