@@ -39,13 +39,13 @@
 		CD1E616C19F5C1C5006C23CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD1E616B19F5C1C5006C23CA /* Main.storyboard */; };
 		CD23AEE719E1E6C80027A47D /* DownloadDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */; };
 		CD526BA81992C2A9003D8671 /* Datasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD526BA71992C2A9003D8671 /* Datasource.swift */; };
-		CD5AA85F1B97961C00517F47 /* SwiftySSH.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD5AA8591B9795F200517F47 /* SwiftySSH.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD5AA8871B97975C00517F47 /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD5AA87E1B97972400517F47 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD5AA8881B97976F00517F47 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD5AA86C1B9796E000517F47 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD5AA8891B97977B00517F47 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5AA87E1B97972400517F47 /* SnapKit.framework */; };
 		CD5AA88A1B97978000517F47 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5AA86C1B9796E000517F47 /* Sparkle.framework */; };
 		CD5AA88B1B97978D00517F47 /* SwiftySSH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5AA8591B9795F200517F47 /* SwiftySSH.framework */; };
 		CD5AA8B61B97B89E00517F47 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = CD5AA8B51B97B89E00517F47 /* dsa_pub.pem */; settings = {ASSET_TAGS = (); }; };
+		CD5AA8B71B9808B400517F47 /* SwiftySSH.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD5AA8591B9795F200517F47 /* SwiftySSH.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD6851A41B90CB7600A810F1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD68519F1B90CB7600A810F1 /* Error.swift */; settings = {ASSET_TAGS = (); }; };
 		CD6851A51B90CB7600A810F1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD68519F1B90CB7600A810F1 /* Error.swift */; settings = {ASSET_TAGS = (); }; };
 		CD6851A61B90CB7600A810F1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD68519F1B90CB7600A810F1 /* Error.swift */; settings = {ASSET_TAGS = (); }; };
@@ -203,22 +203,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		CD5AA85E1B97961400517F47 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				CD5AA85F1B97961C00517F47 /* SwiftySSH.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		CD6851B81B90D48100A810F1 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				CD5AA8B71B9808B400517F47 /* SwiftySSH.framework in CopyFiles */,
 				CD5AA8871B97975C00517F47 /* SnapKit.framework in CopyFiles */,
 				CD5AA8881B97976F00517F47 /* Sparkle.framework in CopyFiles */,
 			);
@@ -272,7 +263,6 @@
 		CD6851A11B90CB7600A810F1 /* NativaHelperProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NativaHelperProtocol.swift; sourceTree = "<group>"; };
 		CD6851A21B90CB7600A810F1 /* SyncableArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncableArray.swift; sourceTree = "<group>"; };
 		CD6851A31B90CB7600A810F1 /* Synchronized.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Synchronized.swift; sourceTree = "<group>"; };
-		CD6851B31B90D09B00A810F1 /* Nativa.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Nativa.entitlements; sourceTree = "<group>"; };
 		CD6851B41B90D18600A810F1 /* NativaHelper.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = NativaHelper.entitlements; path = NativaHelper/NativaHelper.entitlements; sourceTree = SOURCE_ROOT; };
 		CD69F4FE19A6ADD80056BA62 /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		CD69F4FF19A6ADD80056BA62 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
@@ -373,7 +363,6 @@
 			isa = PBXGroup;
 			children = (
 				CD5AA8B51B97B89E00517F47 /* dsa_pub.pem */,
-				CD6851B31B90D09B00A810F1 /* Nativa.entitlements */,
 				CD01C72D1991627100D5B8A6 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -581,7 +570,6 @@
 				CDF3D96F199ECED5002B91C8 /* Sources */,
 				CDF3D970199ECED5002B91C8 /* Frameworks */,
 				CDF3D971199ECED5002B91C8 /* Resources */,
-				CD5AA85E1B97961400517F47 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -608,7 +596,7 @@
 						CreatedOnToolsVersion = 6.0;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -968,7 +956,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Nativa/Nativa.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
@@ -986,7 +973,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Nativa/Nativa.entitlements;
 				CODE_SIGN_IDENTITY = "Developer ID Application";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
