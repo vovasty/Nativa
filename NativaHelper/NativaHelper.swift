@@ -26,11 +26,12 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         ResultCommand("d.get_peers_not_connected=", parameters: nil, field: "peersNotConnected") { (v) -> AnyObject? in return v as? Int },
         ResultCommand("d.get_peers_complete=", parameters: nil, field: "peersCompleted") { (v) -> AnyObject? in return v as? Int },
         ResultCommand("d.get_priority=", parameters: nil, field: "priority") { (v) -> AnyObject? in return v as? Int },
-        ResultCommand("d.is_multi_file=", parameters: nil, field: "files") { (v) -> AnyObject? in
-            if let v  = v as? Bool where v {
-                return []
+        ResultCommand("d.is_multi_file=", parameters: nil, field: "folder") { (v) -> AnyObject? in
+            if let v = v as? Bool{
+                return v
             }
-            return nil
+            
+            return false
         },
         ResultCommand("d.get_message=", parameters: nil, field: "message") { (v) -> AnyObject? in return v as? String },
         ResultCommand("d.is_hash_checking=", parameters: nil, field: "hashChecking") { (v) -> AnyObject? in return v as? Bool },

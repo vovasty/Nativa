@@ -375,7 +375,7 @@ CA
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSApplicationIcon" id="0Wj-Bu-dft"/>
                                                                 </imageView>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DpJ-DP-z2c">
-                                                                    <rect key="frame" x="39" y="42" width="432" height="17"/>
+                                                                    <rect key="frame" x="41" y="42" width="384" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Ubuntu.iso" id="saU-U2-2xE">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -383,7 +383,7 @@ CA
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4vy-Ns-1hv">
-                                                                    <rect key="frame" x="39" y="11" width="432" height="11"/>
+                                                                    <rect key="frame" x="41" y="11" width="384" height="11"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="0 of 942.4 MB (0.00%)" id="hAr-3E-hQ4">
                                                                         <font key="font" metaFont="miniSystem"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -420,21 +420,21 @@ CA
                                                                 </button>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="sM2-8g-Jgq" firstAttribute="leading" secondItem="vrM-eo-fWt" secondAttribute="trailing" constant="8" id="1Cy-QH-LU0"/>
+                                                                <constraint firstItem="sM2-8g-Jgq" firstAttribute="leading" secondItem="vrM-eo-fWt" secondAttribute="trailing" constant="8" symbolic="YES" id="1Cy-QH-LU0"/>
+                                                                <constraint firstItem="sM2-8g-Jgq" firstAttribute="leading" secondItem="4vy-Ns-1hv" secondAttribute="trailing" constant="8" symbolic="YES" id="3ya-98-UVW"/>
                                                                 <constraint firstAttribute="centerY" secondItem="MHZ-aG-f8C" secondAttribute="centerY" constant="1" id="4LN-ZH-r8g"/>
                                                                 <constraint firstAttribute="centerY" secondItem="sM2-8g-Jgq" secondAttribute="centerY" constant="1" id="8l5-3s-gUU"/>
                                                                 <constraint firstItem="Vdt-2O-6PL" firstAttribute="leading" secondItem="Tu7-Vc-Wdy" secondAttribute="leading" constant="3" id="Kji-7X-o2z"/>
                                                                 <constraint firstAttribute="trailing" secondItem="MHZ-aG-f8C" secondAttribute="trailing" constant="6" id="Ncx-LC-8HQ"/>
                                                                 <constraint firstItem="MHZ-aG-f8C" firstAttribute="leading" secondItem="sM2-8g-Jgq" secondAttribute="trailing" constant="10" id="QGe-LX-8Pd"/>
-                                                                <constraint firstItem="vrM-eo-fWt" firstAttribute="leading" secondItem="Vdt-2O-6PL" secondAttribute="trailing" constant="8" id="RI9-7N-h0W"/>
+                                                                <constraint firstItem="vrM-eo-fWt" firstAttribute="leading" secondItem="Vdt-2O-6PL" secondAttribute="trailing" constant="8" symbolic="YES" id="RI9-7N-h0W"/>
                                                                 <constraint firstAttribute="bottom" secondItem="4vy-Ns-1hv" secondAttribute="bottom" priority="1" constant="11" id="Trr-rn-fWj"/>
-                                                                <constraint firstAttribute="trailing" secondItem="4vy-Ns-1hv" secondAttribute="trailing" constant="6" id="XgP-O2-2X6"/>
                                                                 <constraint firstAttribute="centerY" secondItem="Vdt-2O-6PL" secondAttribute="centerY" id="boD-fW-p7n"/>
+                                                                <constraint firstItem="DpJ-DP-z2c" firstAttribute="leading" secondItem="Vdt-2O-6PL" secondAttribute="trailing" constant="8" symbolic="YES" id="e5c-VH-n8g"/>
+                                                                <constraint firstItem="4vy-Ns-1hv" firstAttribute="leading" secondItem="Vdt-2O-6PL" secondAttribute="trailing" constant="8" symbolic="YES" id="fV0-CP-hOi"/>
+                                                                <constraint firstItem="sM2-8g-Jgq" firstAttribute="leading" secondItem="DpJ-DP-z2c" secondAttribute="trailing" constant="8" symbolic="YES" id="iEu-vd-QWG"/>
                                                                 <constraint firstItem="DpJ-DP-z2c" firstAttribute="top" secondItem="Tu7-Vc-Wdy" secondAttribute="top" priority="1" constant="4" id="k4v-mF-9Hl"/>
                                                                 <constraint firstAttribute="centerY" secondItem="vrM-eo-fWt" secondAttribute="centerY" id="nvB-kg-4Um"/>
-                                                                <constraint firstItem="4vy-Ns-1hv" firstAttribute="leading" secondItem="Tu7-Vc-Wdy" secondAttribute="leading" constant="41" id="p5z-1S-oAt"/>
-                                                                <constraint firstItem="DpJ-DP-z2c" firstAttribute="leading" secondItem="Tu7-Vc-Wdy" secondAttribute="leading" constant="41" id="qXu-5b-ZKB"/>
-                                                                <constraint firstAttribute="trailing" secondItem="DpJ-DP-z2c" secondAttribute="trailing" constant="6" id="uOb-AF-ueS"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="actionButton" destination="MHZ-aG-f8C" id="Ed4-Vh-kWS"/>
@@ -820,7 +820,7 @@ CA
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="FileCheckCell" id="e8T-Bd-wlJ">
-                                                            <rect key="frame" x="382.5" y="1" width="53" height="17"/>
+                                                            <rect key="frame" x="382" y="1" width="53" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <button tag="1001" translatesAutoresizingMaskIntoConstraints="NO" id="yak-ca-cA4">
@@ -944,16 +944,41 @@ Gw
                         <outlet property="downloadName" destination="mOV-bB-9jT" id="u2z-N6-pSY"/>
                         <outlet property="downloadStatus" destination="F94-sT-k43" id="uPb-WC-Tk5"/>
                         <outlet property="headerView" destination="Wdu-LO-g0p" id="Rob-5m-I7t"/>
+                        <outlet property="noSelectionView" destination="r6F-Ne-3By" id="D75-9q-W3q"/>
                         <segue destination="Xdb-dF-e6E" kind="relationship" relationship="tabItems" id="QJz-rq-lyH"/>
                     </connections>
                 </tabViewController>
                 <customObject id="gcj-Qs-sQL" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <customView wantsLayer="YES" id="r6F-Ne-3By" customClass="BackgroundView" customModule="Nativa" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="389" height="96"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I1a-rz-HII">
+                            <rect key="frame" x="6" y="39" width="377" height="17"/>
+                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Select download" id="cIA-MW-Zd3">
+                                <font key="font" metaFont="system"/>
+                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="I1a-rz-HII" firstAttribute="centerY" secondItem="r6F-Ne-3By" secondAttribute="centerY" id="31D-X1-aOG"/>
+                        <constraint firstItem="I1a-rz-HII" firstAttribute="leading" secondItem="r6F-Ne-3By" secondAttribute="leading" constant="8" id="Lst-6p-u8f"/>
+                        <constraint firstAttribute="trailing" secondItem="I1a-rz-HII" secondAttribute="trailing" constant="8" id="xo4-iV-Sht"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundColor">
+                            <color key="value" red="0.90980392156862744" green="0.90980392156862744" blue="0.90980392156862744" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </customView>
                 <customView id="Wdu-LO-g0p">
-                    <rect key="frame" x="0.0" y="0.0" width="447" height="63"/>
+                    <rect key="frame" x="0.0" y="0.0" width="447" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pJW-4g-MEc">
-                            <rect key="frame" x="20" y="13" width="37" height="37"/>
+                            <rect key="frame" x="8" y="7" width="37" height="37"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="37" id="FdR-ac-uCk"/>
                                 <constraint firstAttribute="width" constant="37" id="uF0-nE-Ofk"/>
@@ -961,7 +986,7 @@ Gw
                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="oJv-q7-DPF"/>
                         </imageView>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mOV-bB-9jT">
-                            <rect key="frame" x="63" y="33" width="366" height="17"/>
+                            <rect key="frame" x="51" y="25" width="390" height="17"/>
                             <textFieldCell key="cell" lineBreakMode="truncatingMiddle" sendsActionOnEndEditing="YES" title="Torrent Name" id="4Zn-eE-ziF">
                                 <font key="font" metaFont="system"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -969,7 +994,7 @@ Gw
                             </textFieldCell>
                         </textField>
                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="F94-sT-k43">
-                            <rect key="frame" x="63" y="13" width="366" height="11"/>
+                            <rect key="frame" x="51" y="11" width="390" height="11"/>
                             <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="200 files, 31 GB" id="9qH-lJ-Fl4">
                                 <font key="font" metaFont="miniSystem"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -978,15 +1003,15 @@ Gw
                         </textField>
                     </subviews>
                     <constraints>
-                        <constraint firstItem="pJW-4g-MEc" firstAttribute="leading" secondItem="Wdu-LO-g0p" secondAttribute="leading" constant="20" id="GIg-ed-VBr"/>
+                        <constraint firstItem="pJW-4g-MEc" firstAttribute="leading" secondItem="Wdu-LO-g0p" secondAttribute="leading" constant="8" id="GIg-ed-VBr"/>
                         <constraint firstItem="F94-sT-k43" firstAttribute="leading" secondItem="pJW-4g-MEc" secondAttribute="trailing" constant="8" id="HXz-TP-FcO"/>
-                        <constraint firstItem="F94-sT-k43" firstAttribute="top" secondItem="mOV-bB-9jT" secondAttribute="bottom" constant="9" id="LDZ-Oq-oIV"/>
+                        <constraint firstItem="F94-sT-k43" firstAttribute="top" secondItem="mOV-bB-9jT" secondAttribute="bottom" constant="3" id="LDZ-Oq-oIV"/>
                         <constraint firstItem="pJW-4g-MEc" firstAttribute="centerY" secondItem="Wdu-LO-g0p" secondAttribute="centerY" id="UfG-KG-2hh"/>
-                        <constraint firstItem="mOV-bB-9jT" firstAttribute="leading" secondItem="pJW-4g-MEc" secondAttribute="trailing" constant="8" id="W00-ma-G8T"/>
-                        <constraint firstAttribute="trailing" secondItem="mOV-bB-9jT" secondAttribute="trailing" constant="20" id="hlk-GG-Nm7"/>
-                        <constraint firstItem="mOV-bB-9jT" firstAttribute="top" secondItem="Wdu-LO-g0p" secondAttribute="top" constant="13" id="lBT-J2-Cyu"/>
-                        <constraint firstAttribute="trailing" secondItem="F94-sT-k43" secondAttribute="trailing" constant="20" id="x1B-jg-1Ie"/>
-                        <constraint firstAttribute="bottom" secondItem="F94-sT-k43" secondAttribute="bottom" constant="13" id="z4J-AV-zsN"/>
+                        <constraint firstAttribute="bottom" secondItem="F94-sT-k43" secondAttribute="bottom" constant="11" id="VgJ-dP-A9i"/>
+                        <constraint firstItem="mOV-bB-9jT" firstAttribute="leading" secondItem="pJW-4g-MEc" secondAttribute="trailing" constant="8" symbolic="YES" id="W00-ma-G8T"/>
+                        <constraint firstAttribute="trailing" secondItem="mOV-bB-9jT" secondAttribute="trailing" constant="8" id="hlk-GG-Nm7"/>
+                        <constraint firstItem="mOV-bB-9jT" firstAttribute="top" secondItem="Wdu-LO-g0p" secondAttribute="top" constant="8" id="lBT-J2-Cyu"/>
+                        <constraint firstAttribute="trailing" secondItem="F94-sT-k43" secondAttribute="trailing" constant="8" id="x1B-jg-1Ie"/>
                     </constraints>
                 </customView>
             </objects>

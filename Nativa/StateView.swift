@@ -36,6 +36,26 @@ class StateView: NSView {
     let button = NSButton(frame: CGRectZero)
     var buttonHandler: ((AnyObject?)->Void)?
     
+    override var hidden: Bool {
+        didSet {
+            switch state {
+            case .Progress(_):
+                if hidden {
+                    progress.stopAnimation(nil)
+                }
+                else {
+                    progress.startAnimation(nil)
+                }
+            case .Error(_, _, _):
+                progress.stopAnimation(nil)
+            case .Unknown:
+                progress.stopAnimation(nil)
+                break
+            }
+        }
+    }
+
+    
     @IBInspectable
     var state: StateViewContent = StateViewContent.Unknown {
         didSet {

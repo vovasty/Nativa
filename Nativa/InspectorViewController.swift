@@ -19,33 +19,55 @@ class InspectorViewController: NSTabViewController {
     @IBOutlet weak var downloadStatus: NSTextField!
     @IBOutlet weak var downloadIcon: NSImageView!
     var stateView = StateView(frame: CGRectZero)
+    @IBOutlet var noSelectionView: NSView!
     
     var downloads: [Download]? {
         didSet {
             if let download = downloads?.first {
+                noSelectionView.hidden = true
                 self.title = download.title
                 self.downloadName.stringValue = download.title
                 self.downloadIcon.image = download.icon
                 
-                if let flatFileList = download.flatFileList {
-                    self.downloadStatus.stringValue = "\(flatFileList.count) files, \(Formatter.stringForSize(download.size))"
+                if let flatFileList = download.flatFileList{
+                    if flatFileList.count == 1 {
+                        self.downloadStatus.stringValue = Formatter.stringForSize(download.size)
+                    }
+                    else {
+                        self.downloadStatus.stringValue = "\(flatFileList.count) files, \(Formatter.stringForSize(download.size))"
+                    }
+                    self.loading = false
                 }
                 else {
                     self.downloadStatus.stringValue = Formatter.stringForSize(download.size)
+                    self.loading = true
                 }
                 
-                self.loading = true
-                Datasource.instance.update(download) { (download, error) -> Void in
-                    guard let download = download where error == nil else {
+                Datasource.instance.update(download) { (dl, error) -> Void in
+                    guard let dl = dl, let flatFileList = dl.flatFileList where error == nil else {
                         logger.error("unable to update torrent info: \(error)")
+                        
+                        self.stateView.state = StateViewContent.Error(message: error == nil ? "Unable to load torrent info" : error!.localizedDescription, buttonTitle: "try again", handler: { (sender) -> Void in
+                            self.downloads = self.downloads
+                        })
+                        self.loading = true
                         return
                     }
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.updateTabs(download)
-                        self.downloadStatus.stringValue = "\(download.flatFileList!.count) files, \(Formatter.stringForSize(download.size))"
-                        self.loading = false
-                    })
+                    
+                    self.updateTabs(dl)
+                    
+                    if flatFileList.count == 1 {
+                        self.downloadStatus.stringValue = Formatter.stringForSize(download.size)
+                    }
+                    else {
+                        self.downloadStatus.stringValue = "\(flatFileList.count) files, \(Formatter.stringForSize(download.size))"
+                    }
+                    
+                    self.loading = false
                 }
+            }
+            else {
+                noSelectionView.hidden = false
             }
         }
     }
@@ -57,7 +79,14 @@ class InspectorViewController: NSTabViewController {
         
         set {
             for v in view.subviews {
-                v.hidden = v != headerView && (newValue && v != stateView)
+                switch v {
+                case noSelectionView, headerView:
+                    break
+                case stateView:
+                    stateView.hidden = !newValue
+                default:
+                    v.hidden = newValue
+                }
             }
         }
     }
@@ -74,6 +103,7 @@ class InspectorViewController: NSTabViewController {
         
         view.addSubview(headerView, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
         view.addSubview(stateView, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
+        view.addSubview(noSelectionView, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
         
         headerView.snp_makeConstraints { (make) -> Void in
             make.width.equalTo(view.bounds.size.width)
@@ -93,6 +123,10 @@ class InspectorViewController: NSTabViewController {
             make.top.equalTo(segmentedControl.snp_bottom).offset(3)
         }
         
+        noSelectionView.snp_makeConstraints { (make) -> Void in
+            make.top.left.right.bottom.equalTo(0)
+        }
+        
         observerId = NSNotificationCenter.defaultCenter().addObserverForName(SelectedDownloadsNotification, object: nil, queue: nil) { (note) -> Void in
             self.downloads = (note.userInfo?["downloads"] as? [Download])
         }
@@ -106,6 +140,7 @@ class InspectorViewController: NSTabViewController {
             }
         }
     }
+    
     
     deinit {
         if let observerId = observerId {

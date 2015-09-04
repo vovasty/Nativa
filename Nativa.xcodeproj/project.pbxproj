@@ -71,6 +71,7 @@
 		CDB2614F19F860B600DE168C /* FileName.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDB2614E19F860B600DE168C /* FileName.xib */; };
 		CDB54D7C19A13F7100D777D5 /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54D7B19A13F7100D777D5 /* GroupCell.swift */; };
 		CDB54D8019A155EC00D777D5 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54D7F19A155EC00D777D5 /* Formatter.swift */; };
+		CDC7E37C1B990CEB00AB022E /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E37B1B990CEB00AB022E /* BackgroundView.swift */; settings = {ASSET_TAGS = (); }; };
 		CDCCFA511B77EDE60028EDCB /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCCFA501B77EDE60028EDCB /* Utils.swift */; };
 		CDDFC50319996D9B00F5F6B7 /* ButtonToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */; };
 		CDE929C61B94E054007AE485 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE929C51B94E054007AE485 /* StateView.swift */; settings = {ASSET_TAGS = (); }; };
@@ -273,6 +274,7 @@
 		CDB2614E19F860B600DE168C /* FileName.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileName.xib; sourceTree = "<group>"; };
 		CDB54D7B19A13F7100D777D5 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
 		CDB54D7F19A155EC00D777D5 /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		CDC7E37B1B990CEB00AB022E /* BackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		CDCCFA501B77EDE60028EDCB /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonToolbarItem.swift; sourceTree = "<group>"; };
 		CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SnapKit.xcodeproj; path = ../lib/SnapKit/SnapKit.xcodeproj; sourceTree = "<group>"; };
@@ -352,6 +354,7 @@
 				CD1E616B19F5C1C5006C23CA /* Main.storyboard */,
 				CD0062CC1B82E14E005BAE46 /* Preferences.swift */,
 				CDCCFA501B77EDE60028EDCB /* Utils.swift */,
+				CDC7E37B1B990CEB00AB022E /* BackgroundView.swift */,
 				CD5AA8601B9796DA00517F47 /* lib */,
 				CD01C72C1991627100D5B8A6 /* Supporting Files */,
 			);
@@ -770,6 +773,7 @@
 				CD69F50119A6ADD80056BA62 /* Group.swift in Sources */,
 				CD03055F19AE9B1100E8BF42 /* Timer.swift in Sources */,
 				CDDFC50319996D9B00F5F6B7 /* ButtonToolbarItem.swift in Sources */,
+				CDC7E37C1B990CEB00AB022E /* BackgroundView.swift in Sources */,
 				CDEE44DE1991E1EE00FB76AC /* DownloadCell.swift in Sources */,
 				CD6851A71B90CB7600A810F1 /* Logger.swift in Sources */,
 				CD6851AD1B90CB7600A810F1 /* SyncableArray.swift in Sources */,

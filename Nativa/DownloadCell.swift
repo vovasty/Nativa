@@ -148,57 +148,6 @@ class DownloadCell: NSTableCellView
         
         progressIndicator.stopAnimation(nil)
         
-        if let message = download.message where message.utf8.count > 0 {
-            statusString = message
-        }
-        else {
-            var peersPart: String!
-            switch download.state
-            {
-            case .Stopped:
-                peersPart = NSLocalizedString("Stopped", comment: "download.-> status string")
-            case .Paused:
-                peersPart = NSLocalizedString("Paused", comment:"download.-> status string")
-            case .Downloading:
-//                r.totalPeersLeech = [conn integerValue] - [compl integerValue];
-//                r.totalPeersSeed = [compl integerValue];
-//                r.totalPeersDisconnected = [notConn integerValue];
-                
-                if let peersConnected = download.peersConnected, let peersCompleted = download.peersCompleted,  let peersNotConnected = download.peersNotConnected {
-                    if (peersConnected - peersNotConnected) == 1 {
-                        peersPart = "Downloading from \(peersCompleted) of 1 peer"
-                    }
-                    else {
-                        peersPart = "Downloading from \(peersCompleted) of \(peersConnected + peersNotConnected) peers"
-                    }
-                }
-                else {
-                    peersPart = NSLocalizedString("Downloading", comment:"download.-> status string");
-                }
-            case .Seeding:
-                if let peersConnected = download.peersConnected, let peersCompleted = download.peersCompleted,  let peersNotConnected = download.peersNotConnected {
-                    if (peersConnected - peersNotConnected) == 1 {
-                        peersPart = "Seeding to \(peersConnected - peersCompleted) of 1 peer"
-                    }
-                    else {
-                        peersPart = "Seeding to \(peersConnected - peersCompleted) of \(peersConnected - peersCompleted + peersNotConnected) peers"
-
-                    }
-                }
-                else {
-                    peersPart = NSLocalizedString("Seeding", comment: "download.-> status string")
-                }
-            case .Checking:
-                peersPart = NSLocalizedString("Downloading", comment: "download.-> status string")
-            case .Unknown:
-                peersPart = NSLocalizedString("Unknown", comment: "download.-> status string")
-            }
-            
-            statusString = String.localizedStringWithFormat("%@ of %@", Formatter.stringForSize(download.complete), Formatter.stringForSize(download.size)) + " - " + peersPart
-        }
-        
-        
-        //append even if error
         var speedPart: String?
         switch download.state
         {
@@ -212,10 +161,32 @@ class DownloadCell: NSTableCellView
         default:
             speedPart = nil
         }
+
         
-        if let speedPart = speedPart {
-            statusString += " - " + speedPart
+        if let message = download.message where message.utf8.count > 0 {
+            statusString = message
         }
+        else {
+            var peersPart: String!
+            switch download.state
+            {
+            case .Stopped:
+                peersPart = NSLocalizedString("stopped", comment: "download.-> status string")
+            case .Paused:
+                peersPart = NSLocalizedString("paused", comment:"download.-> status string")
+            case .Downloading:
+                peersPart = NSLocalizedString("downloading", comment:"download.-> status string")
+            case .Seeding:
+                peersPart = NSLocalizedString("seeding", comment:"download.-> status string")
+            case .Checking:
+                peersPart = NSLocalizedString("checking", comment: "download.-> status string")
+            case .Unknown:
+                peersPart = NSLocalizedString("unknown", comment: "download.-> status string")
+            }
+            
+            statusString = String.localizedStringWithFormat("%@ of %@ — %@", Formatter.stringForSize(download.complete), Formatter.stringForSize(download.size), peersPart) + (speedPart == nil ? "" : " (\(speedPart!))")
+        }
+        
         
         if !tracking {
             statusText.stringValue = statusString

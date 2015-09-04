@@ -222,12 +222,16 @@ class Datasource: ConnectionEventListener {
     func update(download: Download,  handler: (Download?, NSError?) -> Void) {
         downloader.update(download.id) {(result, error)->Void in
             guard let result = result where error == nil else {
-                handler(nil, error)
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    handler(nil, error)
+                })
                 return
             }
-            
+
             self.downloads.update(result)
-            handler(download, nil)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                handler(download, nil)
+            })
         }
     }
     

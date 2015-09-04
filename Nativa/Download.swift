@@ -35,7 +35,7 @@ class Download
     var complete: Double = 0
     let comment: String?
     var flatFileList: [FileListNode]?
-    var file: FileListNode?
+    var file: FileListNode!
     private var _icon: NSImage?
     weak var group :Group?
     var message: String?
@@ -141,11 +141,9 @@ class Download
             torrentSize = size
         }
         
-        var root: FileListNode
-        var flatFiles: [FileListNode] = []
-        
         if let tfiles = info["files"] as? [[String: AnyObject]] {
-            root = FileListNode(name: title, path: title, folder: true, size:0)
+            var flatFiles: [FileListNode] = []
+            let root = FileListNode(name: title, path: title, folder: true, size:0)
             var fileIndex = 0
             var folders: [String: FileListNode] = [:]
             self.folder = true
@@ -222,17 +220,22 @@ class Download
                 }
                 fileIndex++;
             }
+            self.flatFileList = flatFiles
+            self.file = root
         }
         else {
-            self.folder = false
-            root = FileListNode(name: title, path: title, folder: false, size: torrentSize)
+            if let folder = info["folder"] as? Bool {
+                self.folder = folder
+            }
+            else {
+                self.folder = false
+            }
+            let root = FileListNode(name: title, path: title, folder: false, size: torrentSize)
             root.index = 0
+            self.file = root
         }
         
-        
         self.size = torrentSize
-        self.file = root
-        self.flatFileList = flatFiles
     }
 
 }
