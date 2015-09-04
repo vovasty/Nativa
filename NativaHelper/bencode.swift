@@ -25,26 +25,23 @@ private class Tokenizer: GeneratorType {
             let byte = bytes[0]
             
             //d e i l
-            if byte == 100 || byte == 101 || byte == 105 || byte == 108
-            {
+            switch byte {
+            case 100, 101, 105, 108:
                 let token = String(Character(UnicodeScalar(byte)))
                 values.append(token)
                 bytes++
-            }
-            else if byte>47 && byte<58
-            {
-                
-            }
-            else
-            {
-                throw BencodeError.Failure(msg: "junk[\(bytesEnd-bytes)]:\(Character(UnicodeScalar(bytes[0])))")
+            //0...9
+            case 48 ... 57:
+                break
+            default:
+                 throw BencodeError.Failure(msg: "junk[\(bytesEnd-bytes)]:\(Character(UnicodeScalar(bytes[0])))")
             }
             
             var numberPtr = bytes
             var numberLength = 0
-            // / .. :, numbers
-            while numberPtr[0]>47 && numberPtr[0]<58 && numberPtr < bytesEnd
-            {
+            //numbers
+            //0...9
+            while case 48 ... 57 = numberPtr[0] where numberPtr < bytesEnd {
                 numberPtr++
                 numberLength++
             }
@@ -90,7 +87,7 @@ private class Tokenizer: GeneratorType {
 }
 
 
-private func decodeItem(gen: Tokenizer, token: String) throws -> AnyObject?
+private func bdecode(gen: Tokenizer, token: String) throws -> AnyObject?
 {
     var data: AnyObject?
     
@@ -111,7 +108,7 @@ private func decodeItem(gen: Tokenizer, token: String) throws -> AnyObject?
             var array = [AnyObject]()
             
             while tok != "e"{
-                let v: AnyObject = try decodeItem(gen, token: tok)!
+                let v = try bdecode(gen, token: tok)!
                 array.append(v)
                 tok = gen.next()!
             }
@@ -121,7 +118,7 @@ private func decodeItem(gen: Tokenizer, token: String) throws -> AnyObject?
                 
                 for var i = array.startIndex; i < array.count; i += 2 {
                     let k = array[i] as! String
-                    let v: AnyObject = array[i + 1]
+                    let v = array[i + 1]
                     dict[k] = v
                 }
                 
@@ -146,5 +143,5 @@ public func bdecode<T>(data: NSData) throws -> T? {
         return nil
     }
     
-    return try decodeItem(gen, token: token) as? T
+    return try bdecode(gen, token: token) as? T
 }

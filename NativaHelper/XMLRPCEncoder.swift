@@ -127,12 +127,12 @@ private func encode(object: AnyObject) throws -> String {
         return try encode(o)
     case let o as [String: AnyObject]:
         return try encode(o)
-    case let o as Int:
-        return encode(o)
-    case let o as Double:
-        return encode(o)
-    case let o as Bool:
-        return encode(o)
+    case is Int:
+        return encode(object as! Int)
+    case is Double:
+        return encode(object as! Double)
+    case is Bool:
+        return encode(object as! Bool)
     case let o as String:
         return encode(o)
     case let o as NSDate:
