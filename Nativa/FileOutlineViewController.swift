@@ -52,7 +52,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
                 return children.count
             }
             else {
-                return download?.file == nil ? 0 : 1
+                return download == nil ? 0 : 1
             }
         }
     }
