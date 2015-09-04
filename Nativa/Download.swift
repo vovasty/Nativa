@@ -69,12 +69,11 @@ class Download
             folder = false
         }
         
-        var torrentSize: Double = 0
         if let size = info["length"] as? Double {
-            torrentSize = size
+            self.size = size
         }
         
-        file = FileListNode(name: title, path: title, folder: folder, size: torrentSize)
+        file = FileListNode(name: title, path: title, folder: folder, size: size)
         file.index = 0
         
         update(torrent)
@@ -151,12 +150,12 @@ class Download
         message = info["message"] as? String
         
         //parse size and files
-        var torrentSize: Double = 0
-        if let size = info["length"] as? Double {
-            torrentSize = size
-        }
-        
         if let tfiles = info["files"] as? [[String: AnyObject]] {
+            var torrentSize: Double = 0
+            if let size = info["length"] as? Double {
+                torrentSize = size
+            }
+
             var flatFiles: [FileListNode] = []
             file.folder = true
             file.children?.removeAll()
@@ -237,9 +236,8 @@ class Download
                 fileIndex++;
             }
             self.flatFileList = flatFiles
+            self.size = torrentSize
         }
-        
-        self.size = torrentSize
     }
 
 }

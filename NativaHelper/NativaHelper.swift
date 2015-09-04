@@ -225,8 +225,8 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         }
         
         rtorrent.send([
-            ResultCommand("d.open", parameters: [id], field: "result_open") { (v) -> AnyObject? in return v as? Bool },
-            ResultCommand("d.start", parameters: [id], field: "result_start") { (v) -> AnyObject? in return v as? Bool },
+            ResultCommand("d.close", parameters: [id], field: "result_close") { (v) -> AnyObject? in return v as? Bool },
+            ResultCommand("d.stop", parameters: [id], field: "result_stop") { (v) -> AnyObject? in return v as? Bool },
             ResultCommand("d.get_hash", parameters: [id], field: "id") { (v) -> AnyObject? in return v as? String },
             ResultCommand("d.get_state", parameters: [id], field: "state") { (v) -> AnyObject? in return v as? Int },
             ResultCommand("d.is_open", parameters: [id], field: "opened") { (v) -> AnyObject? in return v as? Bool },
