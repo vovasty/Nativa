@@ -36,6 +36,7 @@ class InspectorViewController: NSTabViewController {
                     else {
                         self.downloadStatus.stringValue = "\(flatFileList.count) files, \(Formatter.stringForSize(download.size))"
                     }
+                    self.updateTabs(download)
                     self.loading = false
                 }
                 else {

@@ -21,7 +21,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
                 })
             }
             else if let file = download?.file{
-                filePriorities[file] = (priority: file.priority, state: file.priority == .Skip ? NSOffState : NSOnState)
+                filePriorities = [file: (priority: file.priority, state: file.priority == .Skip ? NSOffState : NSOnState)]
             }
             
             self.outlineView?.reloadData()
@@ -48,7 +48,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         }
         else
         {
-            if let children = download?.file?.children {
+            if let children = download?.file.children {
                 return children.count
             }
             else {
@@ -76,7 +76,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
             }
         }
         else {
-            if let children = download?.file?.children {
+            if let children = download?.file.children {
                 return children[index]
             }
             else {

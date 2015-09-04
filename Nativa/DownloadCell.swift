@@ -154,7 +154,7 @@ class DownloadCell: NSTableCellView
         case .Downloading(let dl, let ul):
             speedPart = String.localizedStringWithFormat("DL: %@, UL: %@", Formatter.stringForSpeed(dl), Formatter.stringForSpeed(ul))
         case .Seeding(let ul):
-            speedPart = String.localizedStringWithFormat("UL: %@", Formatter.stringForSpeed(ul))
+            speedPart = Formatter.stringForSpeed(ul)
         case .Checking:
             let progress = 100 * (download.complete/download.size)
             statusString = String(format: "%.2f", progress)
@@ -184,7 +184,12 @@ class DownloadCell: NSTableCellView
                 peersPart = NSLocalizedString("unknown", comment: "download.-> status string")
             }
             
-            statusString = String.localizedStringWithFormat("%@ of %@ — %@", Formatter.stringForSize(download.complete), Formatter.stringForSize(download.size), peersPart) + (speedPart == nil ? "" : " (\(speedPart!))")
+            if download.complete == download.size {
+                statusString = String.localizedStringWithFormat("%@ — %@", Formatter.stringForSize(download.size), peersPart) + (speedPart == nil ? "" : " (\(speedPart!))")
+            }
+            else {
+                statusString = String.localizedStringWithFormat("%@ of %@ — %@", Formatter.stringForSize(download.complete), Formatter.stringForSize(download.size), peersPart) + (speedPart == nil ? "" : " (\(speedPart!))")
+            }
         }
         
         

@@ -29,13 +29,12 @@ class Download
     let id: String
     var title: String!
     var priority: DownloadPriority!
-    var folder: Bool = false
     var state = DownloadState.Unknown
     var size: Double = 0
     var complete: Double = 0
     let comment: String?
     var flatFileList: [FileListNode]?
-    var file: FileListNode!
+    var file: FileListNode
     private var _icon: NSImage?
     weak var group :Group?
     var message: String?
@@ -50,7 +49,7 @@ class Download
             size = 0
             comment = nil
             flatFileList = []
-            file = nil
+            file = FileListNode(name: "", path: "", folder: false, size: 0)
             id = ""
             return nil
         }
@@ -62,13 +61,29 @@ class Download
         
         self.comment = torrent["comment"] as? String
         
+        let folder: Bool
+        if let f = info["folder"] as? Bool {
+            folder = f
+        }
+        else {
+            folder = false
+        }
+        
+        var torrentSize: Double = 0
+        if let size = info["length"] as? Double {
+            torrentSize = size
+        }
+        
+        file = FileListNode(name: title, path: title, folder: folder, size: torrentSize)
+        file.index = 0
+        
         update(torrent)
     }
     
      var icon: NSImage? {
         if _icon == nil
         {
-            _icon = NSWorkspace.sharedWorkspace().iconForFileType(folder == true ? NSFileTypeForHFSTypeCode(OSType(kGenericFolderIcon)) :title.pathExtension)
+            _icon = NSWorkspace.sharedWorkspace().iconForFileType(file.folder ? NSFileTypeForHFSTypeCode(OSType(kGenericFolderIcon)) :title.pathExtension)
         }
             
         return _icon
@@ -143,10 +158,11 @@ class Download
         
         if let tfiles = info["files"] as? [[String: AnyObject]] {
             var flatFiles: [FileListNode] = []
-            let root = FileListNode(name: title, path: title, folder: true, size:0)
+            file.folder = true
+            file.children?.removeAll()
+            let root = file
             var fileIndex = 0
             var folders: [String: FileListNode] = [:]
-            self.folder = true
             
             for f in tfiles {
                 var parent = root
@@ -221,18 +237,6 @@ class Download
                 fileIndex++;
             }
             self.flatFileList = flatFiles
-            self.file = root
-        }
-        else {
-            if let folder = info["folder"] as? Bool {
-                self.folder = folder
-            }
-            else {
-                self.folder = false
-            }
-            let root = FileListNode(name: title, path: title, folder: false, size: torrentSize)
-            root.index = 0
-            self.file = root
         }
         
         self.size = torrentSize

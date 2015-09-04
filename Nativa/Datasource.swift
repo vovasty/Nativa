@@ -215,7 +215,9 @@ class Datasource: ConnectionEventListener {
                 return
             }
             
-            self.downloads.update(result, strategy: SyncStrategy.Replace)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.downloads.update(result, strategy: SyncStrategy.Replace)
+            })
         }
     }
     
@@ -228,8 +230,8 @@ class Datasource: ConnectionEventListener {
                 return
             }
 
-            self.downloads.update(result)
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.downloads.update(result)
                 handler(download, nil)
             })
         }

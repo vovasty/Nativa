@@ -344,7 +344,6 @@
 				CD90A7A01B8E694D00889705 /* DownloadsViewController */,
 				CD0D45561B8ABEAC004DB8E1 /* Inspector */,
 				CD90A7A11B8E6A9E00889705 /* FileOutlineViewController */,
-				CD526BA71992C2A9003D8671 /* Datasource.swift */,
 				CDB54D7F19A155EC00D777D5 /* Formatter.swift */,
 				CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */,
 				CD03055E19AE9B1100E8BF42 /* Timer.swift */,
@@ -513,6 +512,7 @@
 		CDFFC20919DB74260072EEAD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CD526BA71992C2A9003D8671 /* Datasource.swift */,
 				CD69F4FF19A6ADD80056BA62 /* Group.swift */,
 				CD69F4FE19A6ADD80056BA62 /* Download.swift */,
 				CDFFC20A19DB747F0072EEAD /* FileListNode.swift */,
