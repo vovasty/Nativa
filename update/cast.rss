@@ -6,8 +6,34 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
         <item>
+    			<title>Version 0.5.1</title>
+                <description>
+                  <![CDATA[
+                    <ul>
+                      <li>Bugfixes</li>
+                    </ul>
+                  ]]>
+                </description>
+    			<pubDate>Fri, 04 Sep 2015 11:22:44 -0700</pubDate>
+    			<enclosure
+    				url="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.5.1.zip"
+    				sparkle:version="26"
+    				sparkle:shortVersionString="0.5.1"
+    				type="application/octet-stream"
+    				length="3786531"
+    				sparkle:dsaSignature="MC4CFQDD87tR5K9QUp5kWWTfTADh3BY/FgIVAIiERCf9bLCshqP3IEb/N7MKndBG"
+    			/>
+    	</item>
+        <item>
     			<title>Version 0.5</title>
-    			<sparkle:releaseNotesLink>https://bitbucket.org/vovasty/nativa/raw/tip/update/release_notes.html#0.5</sparkle:releaseNotesLink>
+                <description>
+                  <![CDATA[
+                    <ul>
+                      <li>Completely rewritten</li>
+                      <li>You may select which files should be downloaded</li>
+                    </ul>
+                  ]]>
+                </description>
     			<pubDate>Wed, 02 Sep 2015 22:23:15 -0700</pubDate>
     			<enclosure
     				url="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.5.zip"
