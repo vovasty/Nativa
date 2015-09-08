@@ -20,9 +20,7 @@
 		CD10C2F91B8920EE00EF9284 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD10C2F11B8920EE00EF9284 /* Utils.swift */; };
 		CD10C2FA1B8920EE00EF9284 /* XMLRPCDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD10C2F21B8920EE00EF9284 /* XMLRPCDecoder.swift */; };
 		CD10C2FB1B8920EE00EF9284 /* XMLRPCEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD10C2F31B8920EE00EF9284 /* XMLRPCEncoder.swift */; };
-		CD10C2FF1B89878500EF9284 /* bencode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD10C2FC1B89878500EF9284 /* bencode.swift */; };
 		CD10C3131B8994A600EF9284 /* HelperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD10C3121B8994A600EF9284 /* HelperTests.swift */; };
-		CD10C3141B8994DA00EF9284 /* bencode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD10C2FC1B89878500EF9284 /* bencode.swift */; };
 		CD10C3151B8994DA00EF9284 /* NativaHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD10C2EE1B8920EE00EF9284 /* NativaHelper.swift */; };
 		CD10C3161B8994DA00EF9284 /* RTorrent.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD10C2EF1B8920EE00EF9284 /* RTorrent.swift */; };
 		CD10C3171B8994DA00EF9284 /* SCGIEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD10C2F01B8920EE00EF9284 /* SCGIEncoder.swift */; };
@@ -72,6 +70,11 @@
 		CDB54D7C19A13F7100D777D5 /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54D7B19A13F7100D777D5 /* GroupCell.swift */; };
 		CDB54D8019A155EC00D777D5 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54D7F19A155EC00D777D5 /* Formatter.swift */; };
 		CDC7E37C1B990CEB00AB022E /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E37B1B990CEB00AB022E /* BackgroundView.swift */; settings = {ASSET_TAGS = (); }; };
+		CDC7E3891B9A314C00AB022E /* bencode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E3881B9A314C00AB022E /* bencode.swift */; settings = {ASSET_TAGS = (); }; };
+		CDC7E38A1B9A352700AB022E /* bencode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E3881B9A314C00AB022E /* bencode.swift */; };
+		CDC7E38C1B9A355500AB022E /* BCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E38B1B9A355500AB022E /* BCodeTests.swift */; settings = {ASSET_TAGS = (); }; };
+		CDC7E3951B9A447600AB022E /* single.torrent in Resources */ = {isa = PBXBuildFile; fileRef = CDC7E3941B9A447600AB022E /* single.torrent */; settings = {ASSET_TAGS = (); }; };
+		CDC7E3971B9A449700AB022E /* multi.torrent in Resources */ = {isa = PBXBuildFile; fileRef = CDC7E3961B9A449700AB022E /* multi.torrent */; settings = {ASSET_TAGS = (); }; };
 		CDCCFA511B77EDE60028EDCB /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCCFA501B77EDE60028EDCB /* Utils.swift */; };
 		CDDFC50319996D9B00F5F6B7 /* ButtonToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */; };
 		CDE929C61B94E054007AE485 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE929C51B94E054007AE485 /* StateView.swift */; settings = {ASSET_TAGS = (); }; };
@@ -247,7 +250,6 @@
 		CD10C2F11B8920EE00EF9284 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = NativaHelper/Utils.swift; sourceTree = SOURCE_ROOT; };
 		CD10C2F21B8920EE00EF9284 /* XMLRPCDecoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XMLRPCDecoder.swift; path = NativaHelper/XMLRPCDecoder.swift; sourceTree = SOURCE_ROOT; };
 		CD10C2F31B8920EE00EF9284 /* XMLRPCEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = XMLRPCEncoder.swift; path = NativaHelper/XMLRPCEncoder.swift; sourceTree = SOURCE_ROOT; };
-		CD10C2FC1B89878500EF9284 /* bencode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = bencode.swift; path = NativaHelper/bencode.swift; sourceTree = SOURCE_ROOT; };
 		CD10C3121B8994A600EF9284 /* HelperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperTests.swift; sourceTree = "<group>"; };
 		CD156B931B88347600CDD8F3 /* InspectorFilesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspectorFilesViewController.swift; sourceTree = "<group>"; };
 		CD171F911B8F970B00014966 /* Connection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Connection.swift; path = NativaHelper/Connection.swift; sourceTree = SOURCE_ROOT; };
@@ -275,6 +277,12 @@
 		CDB54D7B19A13F7100D777D5 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
 		CDB54D7F19A155EC00D777D5 /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		CDC7E37B1B990CEB00AB022E /* BackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
+		CDC7E3881B9A314C00AB022E /* bencode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = bencode.swift; path = NativaHelper/bencode.swift; sourceTree = SOURCE_ROOT; };
+		CDC7E38B1B9A355500AB022E /* BCodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BCodeTests.swift; sourceTree = "<group>"; };
+		CDC7E38F1B9A3D2200AB022E /* NativaTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NativaTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		CDC7E3901B9A3D2200AB022E /* NativaHelper-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NativaHelper-Bridging-Header.h"; sourceTree = "<group>"; };
+		CDC7E3941B9A447600AB022E /* single.torrent */ = {isa = PBXFileReference; lastKnownFileType = file; path = single.torrent; sourceTree = "<group>"; };
+		CDC7E3961B9A449700AB022E /* multi.torrent */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multi.torrent; sourceTree = "<group>"; };
 		CDCCFA501B77EDE60028EDCB /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonToolbarItem.swift; sourceTree = "<group>"; };
 		CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SnapKit.xcodeproj; path = ../lib/SnapKit/SnapKit.xcodeproj; sourceTree = "<group>"; };
@@ -374,6 +382,10 @@
 			children = (
 				CD01C73F1991627100D5B8A6 /* Supporting Files */,
 				CD10C3121B8994A600EF9284 /* HelperTests.swift */,
+				CDC7E38B1B9A355500AB022E /* BCodeTests.swift */,
+				CDC7E38F1B9A3D2200AB022E /* NativaTests-Bridging-Header.h */,
+				CDC7E3941B9A447600AB022E /* single.torrent */,
+				CDC7E3961B9A449700AB022E /* multi.torrent */,
 			);
 			path = NativaTests;
 			sourceTree = "<group>";
@@ -486,7 +498,7 @@
 				CD171F911B8F970B00014966 /* Connection.swift */,
 				CD171F921B8F970B00014966 /* SSHConnection.swift */,
 				CD171F931B8F970B00014966 /* TCPConnection.swift */,
-				CD10C2FC1B89878500EF9284 /* bencode.swift */,
+				CDC7E3881B9A314C00AB022E /* bencode.swift */,
 				CD10C2ED1B8920EE00EF9284 /* main.swift */,
 				CD10C2EE1B8920EE00EF9284 /* NativaHelper.swift */,
 				CD10C2EF1B8920EE00EF9284 /* RTorrent.swift */,
@@ -496,9 +508,9 @@
 				CD10C2F31B8920EE00EF9284 /* XMLRPCEncoder.swift */,
 				CD5AA8521B9795C300517F47 /* lib */,
 				CDF3D975199ECED5002B91C8 /* Supporting Files */,
+				CDC7E3901B9A3D2200AB022E /* NativaHelper-Bridging-Header.h */,
 			);
-			name = NativaHelper;
-			path = DownloaderService;
+			path = NativaHelper;
 			sourceTree = "<group>";
 		};
 		CDF3D975199ECED5002B91C8 /* Supporting Files */ = {
@@ -746,6 +758,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDC7E3971B9A449700AB022E /* multi.torrent in Resources */,
+				CDC7E3951B9A447600AB022E /* single.torrent in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -798,7 +812,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD10C3141B8994DA00EF9284 /* bencode.swift in Sources */,
+				CDC7E38A1B9A352700AB022E /* bencode.swift in Sources */,
 				CD171F941B8F970B00014966 /* Connection.swift in Sources */,
 				CD10C3151B8994DA00EF9284 /* NativaHelper.swift in Sources */,
 				CD10C3161B8994DA00EF9284 /* RTorrent.swift in Sources */,
@@ -812,6 +826,7 @@
 				CD6851AE1B90CB7600A810F1 /* SyncableArray.swift in Sources */,
 				CD10C31A1B8994DA00EF9284 /* XMLRPCEncoder.swift in Sources */,
 				CD6851B11B90CB7600A810F1 /* Synchronized.swift in Sources */,
+				CDC7E38C1B9A355500AB022E /* BCodeTests.swift in Sources */,
 				CD10C3131B8994A600EF9284 /* HelperTests.swift in Sources */,
 				CD171F981B8F970B00014966 /* TCPConnection.swift in Sources */,
 			);
@@ -821,7 +836,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD10C2FF1B89878500EF9284 /* bencode.swift in Sources */,
 				CD171F951B8F970B00014966 /* Connection.swift in Sources */,
 				CD10C2FA1B8920EE00EF9284 /* XMLRPCDecoder.swift in Sources */,
 				CD10C2FB1B8920EE00EF9284 /* XMLRPCEncoder.swift in Sources */,
@@ -836,6 +850,7 @@
 				CD10C2F81B8920EE00EF9284 /* SCGIEncoder.swift in Sources */,
 				CD6851B21B90CB7600A810F1 /* Synchronized.swift in Sources */,
 				CD10C2F51B8920EE00EF9284 /* main.swift in Sources */,
+				CDC7E3891B9A314C00AB022E /* bencode.swift in Sources */,
 				CD171F991B8F970B00014966 /* TCPConnection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1006,6 +1021,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.aramzamzam.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "NativaTests/NativaTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nativa.app/Contents/MacOS/Nativa";
 			};
@@ -1025,6 +1041,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.aramzamzam.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "NativaTests/NativaTests-Bridging-Header.h";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Nativa.app/Contents/MacOS/Nativa";
 			};
 			name = Release;
@@ -1047,6 +1064,7 @@
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SOURCE_ROOT)/Common";
+				SWIFT_OBJC_BRIDGING_HEADER = "NativaHelper/NativaHelper-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -1065,6 +1083,7 @@
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 				SWIFT_INCLUDE_PATHS = "$(SOURCE_ROOT)/Common";
+				SWIFT_OBJC_BRIDGING_HEADER = "NativaHelper/NativaHelper-Bridging-Header.h";
 			};
 			name = Release;
 		};

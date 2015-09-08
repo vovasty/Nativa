@@ -164,11 +164,15 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         for data in data {
             
             do {
-                guard let parsed: [String: AnyObject] = try bdecode(data) else {
+                guard let parsed: ([String: AnyObject], String?) = try bdecode(data), let infoHash = parsed.1 else {
                     handler(nil, nil)
                     return
                 }
-                result.append(parsed)
+                var torrent = parsed.0
+                var info = torrent["info"] as! [String: AnyObject]
+                info["id"] = infoHash
+                torrent["info"] = info
+                result.append(torrent)
             }
             catch let e {
                 handler(nil, NSError(e))

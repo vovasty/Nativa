@@ -45,17 +45,16 @@ class Download
     
     init?(_ torrent: [String: AnyObject]) {
         guard let info = torrent["info"] as? [String: AnyObject],
-            let name = info["name"] as? String else {
+            let name = info["name"] as? String, let id = (info["id"] as? String)?.uppercaseString else {
             size = 0
             comment = nil
             flatFileList = []
             file = FileListNode(name: "", path: "", folder: false, size: 0)
-            id = ""
+            self.id = ""
             return nil
         }
         
-        //FIXME: WTF?
-        self.id = info["id"] as? String ?? NSUUID().UUIDString
+        self.id = id
 
         self.title = name
         

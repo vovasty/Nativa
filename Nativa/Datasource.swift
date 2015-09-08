@@ -51,7 +51,7 @@ class GroupsSyncableArrayDelegate: SyncableArrayDelegate {
 
 class DownloadsSyncableArrayDelegate: SyncableArrayDelegate {
     func idFromDictionary(dict: [String: AnyObject]) -> String? {
-        guard let info = dict["info"] as? [String: AnyObject], let id = info["id"] as? String else {
+        guard let info = dict["info"] as? [String: AnyObject], let id = (info["id"] as? String)?.uppercaseString else {
             return nil
         }
         
@@ -314,7 +314,7 @@ class Datasource: ConnectionEventListener {
     func addTorrentFiles(files: [(path: String, download: Download)]) throws {
         for file in files {
             let torrentData: NSData = try NSData(contentsOfFile:file.path, options: NSDataReadingOptions(rawValue: 0))
-            downloads.append(file.download)
+            downloads.update(file.download)
             downloader.addTorrentData(torrentData, start: false, group: nil, handler: { (error) -> Void in
                 logger.error("unable to add torrent \(error)")
             })

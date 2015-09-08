@@ -153,6 +153,10 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
                 return
             }
             
+            guard !requestSent else {
+                return
+            }
+            
             let buf = requestData.bytes.advancedBy(sentBytes)
             let size = (requestData.length - sentBytes) > maxPacket ? maxPacket : (requestData.length - sentBytes)
             let actuallySent = oStream!.write(UnsafePointer<UInt8>(buf), maxLength: size)

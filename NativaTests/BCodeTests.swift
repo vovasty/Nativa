@@ -20,10 +20,18 @@ class BCodeTests: XCTestCase {
         return NSData(contentsOfFile: path)!
     }
     
-    func testBDecode() {
+    func testBDecodeMulti() {
         let torrent: [String: AnyObject] = try! bdecode(multiTorrentData())!
         XCTAssertNotNil(torrent["info"])
         let files = (torrent["info"] as! [String: AnyObject])["files"]
         XCTAssertEqual(files?.count, 318)
     }
+    
+    func testBDecodeSingle() {
+        let torrent: [String: AnyObject] = try! bdecode(singleTorrentData())!
+        XCTAssertNotNil(torrent["info"])
+        let files = (torrent["info"] as! [String: AnyObject])["files"]
+        XCTAssertNil(files)
+    }
+
 }

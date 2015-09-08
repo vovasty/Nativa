@@ -124,8 +124,19 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ValueTyp
         }
     }
     
-    public func append(value: D.ValueType) {
-        let change = _append(value)
+    public func update(value: D.ValueType) {
+        let key = delegate.idFromObject(value)
+        let change: (object: D.ValueType, index: Int, type: ChangeType)
+        if index[key] == nil {
+            change = _append(value)
+        }
+        else {
+            let idx = order.indexOf(value)!
+            change = (object: value, index: idx, type: .Update)
+        }
+        
+        index[key] = value
+
         notifyObservers([change])
     }
     
