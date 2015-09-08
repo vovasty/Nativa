@@ -60,11 +60,20 @@ class DownloadDropView: NSView {
                                 return
                             }
                             
-                            self.torrents = parsedTorrents
+                            var nonExisingTorrents: [(path: String, download: Download)] = []
+                            for torrent in parsedTorrents {
+                                guard !Datasource.instance.downloads.contains(torrent.download) else{
+                                    continue
+                                }
+                                
+                                nonExisingTorrents.append(torrent)
+                            }
+                            
+                            self.torrents = nonExisingTorrents
                         })
                         
                         OSSpinLockLock(&parseTorrentsLock)
-                        return .Copy
+                        return self.torrents.count > 0 ? .Copy : .None
                     }
                 }
             }

@@ -236,6 +236,10 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ValueTyp
         
         return result
     }
+    
+    public func containsId(key: D.KeyType) -> Bool {
+        return index[key] != nil
+    }
 }
 
 extension SyncableArray : SequenceType {

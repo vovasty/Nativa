@@ -279,12 +279,23 @@ class Datasource: ConnectionEventListener {
     }
     
     func addTorrentFiles(files: [(path: String, download: Download)]) throws {
-        for file in files {
-            let torrentData: NSData = try NSData(contentsOfFile:file.path, options: NSDataReadingOptions(rawValue: 0))
-            downloads.update(file.download)
-            downloader.addTorrentData(torrentData, start: false, group: nil, handler: { (error) -> Void in
-                logger.error("unable to add torrent \(error)")
-            })
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () -> Void in
+            for file in files {
+                guard !self.downloads.contains(file.download) else{
+                    continue
+                }
+
+                do {
+                    let torrentData: NSData = try NSData(contentsOfFile:file.path, options: NSDataReadingOptions(rawValue: 0))
+                    self.downloads.update(file.download)
+                    self.downloader.addTorrentData(torrentData, start: false, group: nil, handler: { (error) -> Void in
+                        logger.error("unable to add torrent \(error)")
+                    })
+                }
+                catch let error {
+                    logger.error("unable to add torrent \(error)")
+                }
+            }
         }
     }
     
