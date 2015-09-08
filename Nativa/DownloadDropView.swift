@@ -12,9 +12,12 @@ protocol DropViewDelegate {
     func completeDragToView(view: DownloadDropView, torrents: [(path: String, download: Download)])
 }
 
+private var parseTorrentsLock: OSSpinLock = OS_SPINLOCK_INIT
+
 class DownloadDropView: NSView {
     var torrents: [(path: String, download: Download)] = []
     var delegate: DropViewDelegate?
+    
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -46,20 +49,22 @@ class DownloadDropView: NSView {
                     }
                     
                     if torrentFiles.count > 0 {
+                        OSSpinLockLock(&parseTorrentsLock)
+                        defer { OSSpinLockUnlock(&parseTorrentsLock) }
                         
-                        do {
-                            if let parsedTorrents = try Datasource.instance.parseTorrents(torrentFiles) {
-                                for i in 0 ... parsedTorrents.count - 1 {
-                                    let key = torrentFiles[i]
-                                    let value = parsedTorrents[i]
-                                    torrents.append((path: key, download: value))
-                                }
-                                return .Copy
+                        Datasource.instance.parseTorrents(torrentFiles, handler: { (parsedTorrents, error) -> Void in
+                            defer { OSSpinLockUnlock(&parseTorrentsLock) }
+                            
+                            guard let parsedTorrents = parsedTorrents where error == nil else{
+                                logger.error("unable to parse torrents \(error)")
+                                return
                             }
-                        }
-                        catch let e {
-                            logger.error("unable to add files \(e)")
-                        }
+                            
+                            self.torrents = parsedTorrents
+                        })
+                        
+                        OSSpinLockLock(&parseTorrentsLock)
+                        return .Copy
                     }
                 }
             }

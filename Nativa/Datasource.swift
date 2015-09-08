@@ -21,8 +21,6 @@ enum DatasourceConnectionStatus {
     case Established
 }
 
-private var parseTorrentsLock: OSSpinLock = OS_SPINLOCK_INIT
-
 class GroupsSyncableArrayDelegate: SyncableArrayDelegate {
     
     func idFromDictionary(dict: [String: AnyObject]) -> String? {
@@ -101,8 +99,6 @@ class Datasource: ConnectionEventListener {
         
         let downloader = downloaderService.remoteObjectProxyWithErrorHandler {
             (error) in
-            
-            OSSpinLockUnlock(&parseTorrentsLock)
             
             erroHandler(error)
             
@@ -245,35 +241,6 @@ class Datasource: ConnectionEventListener {
         }
         
         downloader.setFilePriority(download.id, priorities: pr, handler: handler)
-    }
-    
-    func parseTorrents(files:[String]) throws ->[Download]? {
-        OSSpinLockLock(&parseTorrentsLock)
-        defer { OSSpinLockUnlock(&parseTorrentsLock) }
-        
-        var result: [Download]?
-        var torrentDatas: [NSData] = []
-        for file in files {
-            let torrentData: NSData = try NSData(contentsOfFile:file, options: NSDataReadingOptions(rawValue: 0))
-            torrentDatas.append(torrentData)
-        }
-        
-        downloader.parseTorrent(torrentDatas) { (parsed, error) -> Void in
-            guard let parsed = parsed where error == nil else{
-                return
-            }
-            defer { OSSpinLockUnlock(&parseTorrentsLock) }
-            
-            result = []
-            for parsedTorrent in parsed {
-                if let download = Download(parsedTorrent) {
-                    result!.append(download)
-                }
-            }
-        }
-        
-        OSSpinLockLock(&parseTorrentsLock)
-        return result;
     }
     
     func parseTorrents(files:[String], handler: ([(path: String, download: Download)]?, NSError?)->Void){
