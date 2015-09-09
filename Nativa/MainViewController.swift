@@ -32,25 +32,25 @@ class MainViewController: NSSplitViewController {
         
         stateView.addToView(view, hidden: true)
         
-        connectionObserver = notificationCenter.add(DatasourceConnectionStateDidChange){ [weak self] (state: DatasourceConnectionStatus) -> Void in
+        connectionObserver = notificationCenter.add{(state: DatasourceConnectionStateDidChange) -> Void in
             
-            switch state {
+            switch state.state {
             case .Establishing:
-                self?.stateView.hidden = false
-                self?.splitView.hidden = true
-                self?.stateView.state = StateViewContent.Progress
+                self.stateView.hidden = false
+                self.splitView.hidden = true
+                self.stateView.state = StateViewContent.Progress
             case .Disconnected(let error):
-                self?.stateView.hidden = false
-                self?.splitView.hidden = true
+                self.stateView.hidden = false
+                self.splitView.hidden = true
                 let msg = error?.localizedDescription ?? "Unknwown Error"
-                self?.stateView.state = StateViewContent.Error(message: msg, buttonTitle: "try again", handler: { (sender) -> Void in
+                self.stateView.state = StateViewContent.Error(message: msg, buttonTitle: "try again", handler: { (sender) -> Void in
                     if let appDelegate = NSApp.delegate as? AppDelegate {
                         appDelegate.reconnect()
                     }
                 })
             case .Established:
-                self?.stateView.hidden = true
-                self?.splitView.hidden = false
+                self.stateView.hidden = true
+                self.splitView.hidden = false
             }
         }
     }

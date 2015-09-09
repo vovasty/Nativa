@@ -8,7 +8,9 @@
 
 import Cocoa
 
-let SelectedDownloadsNotification = "net.aramzamzam.nativa.SelectedDownloadsNotification"
+struct SelectedDownloadsNotification: Notification {
+    let downloads: [Download]
+}
 
 class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate, DropViewDelegate
 {
@@ -63,8 +65,8 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
             })
         })
         
-        let observer = notificationCenter.add(TorrentFilesAddedNotification) { [weak self] (urls: [(path: NSURL, download: Download)]) -> Void in
-            self?.addTorrents(urls)
+        let observer = notificationCenter.add{ [weak self] (note: DownloadFilesAddedNotification) -> Void in
+            self?.addTorrents(note.downloads)
         }
         
         ncObservers.append(observer)
@@ -143,7 +145,7 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
     }
     
     func outlineViewSelectionDidChange(notification: NSNotification) {
-        notificationCenter.post(SelectedDownloadsNotification, info: self.selectedDownloads)
+        notificationCenter.post(SelectedDownloadsNotification(downloads: self.selectedDownloads))
     }
     
     //NSSeguePerforming

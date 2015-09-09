@@ -67,19 +67,21 @@ extension EventEmitter {
     }
 }
 
+protocol Notification {
+    
+}
+
 class NotificationCenter{
     private let eventListeners = EventEmitter()
     
-    func add<T>(name: String, listener: (T) -> Void) -> AnyObject {
-        return eventListeners.add({ (note: (String, Any)) -> Void in
-            if let arg = note.1 as? T where name == note.0 {
-                listener(arg)
-            }
+    func add<T: Notification>(listener: (T) -> Void) -> AnyObject {
+        return eventListeners.add({ (note: T) -> Void in
+            listener(note)
         })
     }
     
-    func post(name: String, info: Any) {
-        eventListeners.emit((name, info))
+    func post(note: Notification) {
+        eventListeners.emit(note)
     }
     
     func remove(listener: AnyObject) {
@@ -88,8 +90,8 @@ class NotificationCenter{
 }
 
 extension NotificationCenter{
-    func postOnMain(name: String, info: Any) {
-        eventListeners.emitOnMain((name, info))
+    func postOnMain(note: Notification) {
+        eventListeners.emitOnMain(note)
     }
 }
 

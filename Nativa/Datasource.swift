@@ -13,7 +13,9 @@ enum NativaError: ErrorType {
 }
 
 
-let DatasourceConnectionStateDidChange = "net.aramzamzam.Nativa.DatasourceConnectionStateDidChange"
+struct DatasourceConnectionStateDidChange: Notification {
+    let state: DatasourceConnectionStatus
+}
 
 enum DatasourceConnectionStatus {
     case Disconnected(error: NSError?)
@@ -78,7 +80,7 @@ class Datasource: ConnectionEventListener {
     
     private (set) var connectionState = DatasourceConnectionStatus.Disconnected(error: nil) {
         didSet{
-            notificationCenter.postOnMain(DatasourceConnectionStateDidChange, info: connectionState)
+            notificationCenter.postOnMain(DatasourceConnectionStateDidChange(state: connectionState))
         }
     }
 

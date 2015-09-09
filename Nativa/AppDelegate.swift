@@ -12,7 +12,9 @@ enum NotificationActions: Int {
     case Reconnect = 0
 }
 
-let TorrentFilesAddedNotification = "net.aramzamzam.Nativa.TorrentFilesAddedNotification"
+struct DownloadFilesAddedNotification: Notification {
+    let downloads: [(path: NSURL, download: Download)]
+}
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate{
@@ -83,9 +85,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         NSUserDefaults.standardUserDefaults().setValue(true, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
         NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
         
-        connectionDropObserver = notificationCenter.add(DatasourceConnectionStateDidChange) { (state: DatasourceConnectionStatus) -> Void in
+        connectionDropObserver = notificationCenter.add{ (state: DatasourceConnectionStateDidChange) -> Void in
             
-            switch state {
+            switch state.state {
             case .Disconnected(_):
                 //reconnect after a delay
                 dispatch_after(dispatch_time (DISPATCH_TIME_NOW , Int64(UInt64(self.reconnectTimeout) * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () in
@@ -111,7 +113,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 return
             }
             
-            notificationCenter.postOnMain(TorrentFilesAddedNotification, info: parsed)
+            notificationCenter.postOnMain(DownloadFilesAddedNotification(downloads: parsed))
         }
 
     }

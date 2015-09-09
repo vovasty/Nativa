@@ -128,8 +128,8 @@ class InspectorViewController: NSTabViewController {
             make.top.left.right.bottom.equalTo(0)
         }
         
-        observerId = notificationCenter.add(SelectedDownloadsNotification) { [weak self] (downloads: [Download]) -> Void in
-            self?.downloads = downloads
+        observerId = notificationCenter.add{ [weak self] (note: SelectedDownloadsNotification) -> Void in
+            self?.downloads = note.downloads
         }
 
     }
