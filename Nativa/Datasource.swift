@@ -133,12 +133,14 @@ class Datasource: ConnectionEventListener {
             if error == nil {
                 self.connectionState = .Established
                 self.queue.suspended = false
+                self.update({ (error) -> Void in
+                    connect(error)
+                })
             }
             else {
                 self.connectionState = .Disconnected(error: error)
+                connect(error)
             }
-
-            connect(error)
         }
     }
     
@@ -164,12 +166,14 @@ class Datasource: ConnectionEventListener {
             if error == nil {
                 self.connectionState = .Established
                 self.queue.suspended = false
+                self.update({ (error) -> Void in
+                    connect(error)
+                })
             }
             else {
                 self.connectionState = .Disconnected(error: error)
+                connect(error)
             }
-            
-            connect(error)
         }
     }
     
@@ -207,16 +211,18 @@ class Datasource: ConnectionEventListener {
         }
     }
 
-    func update()
+    func update(closure: ((NSError?)->Void)? = nil)
     {
         downloader.update { (result, error) -> Void in
             guard let result = result where error == nil else {
                 logger.error("unable to update torrents list \(error)")
+                closure?(error)
                 return
             }
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.downloads.update(result, strategy: SyncStrategy.Replace)
+                closure?(nil)
             })
         }
     }
