@@ -24,7 +24,7 @@ private class VerticallyAlignedTextFieldCell: NSTextFieldCell {
 
 
 enum StateViewContent {
-    case Progress(message: String)
+    case Progress
     case Error(message: String, buttonTitle: String, handler: (AnyObject?)->Void)
     case Unknown
 }
@@ -60,12 +60,11 @@ class StateView: NSView {
     var state: StateViewContent = StateViewContent.Unknown {
         didSet {
             switch state {
-            case .Progress(let msg):
+            case .Progress:
+                message.hidden = true
                 button.hidden  = true
                 progress.hidden = false
                 progress.startAnimation(nil)
-                
-                message.stringValue = msg
                 
                 message.snp_remakeConstraints { (make) -> Void in
                     let attributes = message.attributedStringValue.attributesAtIndex(0, effectiveRange: nil)
@@ -78,10 +77,12 @@ class StateView: NSView {
                 }
                 
                 progress.snp_remakeConstraints { (make) -> Void in
-                    let size = progress.bounds.size
+                    var size = progress.frame.size
+                    size.width = max(size.width, size.height)
+                    size.height = size.width
+
                     make.size.equalTo(size)
-                    make.centerY.equalTo(self)
-                    make.right.equalTo(message.snp_left).offset(-3)
+                    make.center.equalTo(self)
                 }
             case .Error(let msg, let buttonTitle, let handler):
                 progress.hidden = true
@@ -130,7 +131,7 @@ class StateView: NSView {
         self.addSubview(button)
         
         progress.style = NSProgressIndicatorStyle.SpinningStyle
-        progress.controlSize = .SmallControlSize
+        progress.controlSize = .RegularControlSize
         progress.sizeToFit()
         
         message.editable = false

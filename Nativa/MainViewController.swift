@@ -38,7 +38,7 @@ class MainViewController: NSSplitViewController {
             case .Establishing:
                 self.stateView.hidden = false
                 self.splitView.hidden = true
-                self.stateView.state = StateViewContent.Progress(message: "Connecting")
+                self.stateView.state = StateViewContent.Progress
             case .Disconnected(let error):
                 self.stateView.hidden = false
                 self.splitView.hidden = true

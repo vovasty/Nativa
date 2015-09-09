@@ -95,7 +95,7 @@ class InspectorViewController: NSTabViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        stateView.state = .Progress(message: "loading...")
+        stateView.state = .Progress
         stateView.hidden = true
 
         headerView.translatesAutoresizingMaskIntoConstraints = false
