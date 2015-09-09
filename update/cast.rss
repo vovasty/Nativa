@@ -6,6 +6,26 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
         <item>
+    			<title>Version 0.5.2</title>
+                <description>
+                  <![CDATA[
+                    <ul>
+                      <li>Bugfixes</li>
+                      <li>prevented adding of already existing torrents</li>
+                    </ul>
+                  ]]>
+                </description>
+    			<pubDate>Tue, 08 Sep 2015 22:49:13 -0700</pubDate>
+    			<enclosure
+    				url="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.5.2.zip"
+    				sparkle:version="27"
+    				sparkle:shortVersionString="0.5.2"
+    				type="application/octet-stream"
+    				length="3810119"
+    				sparkle:dsaSignature="MC4CFQCDhpfdISaWfEfRvgp0+I8B+P0tUwIVAKYvhrpFFx+3k/8scHSXMAgSfksm"
+    			/>
+    		</item>
+        <item>
     			<title>Version 0.5.1</title>
                 <description>
                   <![CDATA[
