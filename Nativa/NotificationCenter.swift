@@ -8,50 +8,93 @@
 
 import Foundation
 
-private struct Entry<T where T: AnyObject> {
-    typealias Element = T
-    weak var element: Element?
+private protocol Entry {
+    var element: ClosurePointer? {get set}
+    func valid() -> Bool
 }
 
-private class ListenerPointer {
+private struct WeakEntry: Entry {
+    weak var element: ClosurePointer?
+    func valid() -> Bool {
+        return element != nil
+    }
+}
+
+private struct StrongEntry: Entry {
+    var element: ClosurePointer?
+    private var _valid : () -> Bool
+    
+    func valid() -> Bool {
+        
+        if !_valid() {
+            return false
+        } else {
+            return true
+        }
+    }
+    
+    init(owner o: AnyObject?, element: ClosurePointer) {
+        if o == nil {
+            _valid = { true }
+        } else {
+            _valid = { [weak o] in o != nil }
+        }
+        self.element = element
+    }
+}
+
+
+private class ClosurePointer {
     private let id = NSUUID()
     var value: ((Any) -> Void)?
+    
     init (_ value: (Any) -> Void) {
         self.value = value
     }
 }
 
-extension ListenerPointer: Equatable {}
+extension ClosurePointer: Equatable {}
 
-private func ==(lhs: ListenerPointer, rhs: ListenerPointer) -> Bool {
+private func ==(lhs: ClosurePointer, rhs: ClosurePointer) -> Bool {
     return lhs.id == rhs.id
 }
 
 class EventEmitter {
-    private var listeners: [Entry<ListenerPointer>] = []
+    private var listeners: [Entry] = []
     private var valueSet: Bool = false
     
     init () {
     }
     
-    func add<T>(listener: (T) -> Void) -> AnyObject {
-        let cmd = ListenerPointer{(arg) in
+    func add<T>(owner: AnyObject? = nil, listener: (T) -> Void) -> AnyObject {
+        let cmd = ClosurePointer{(arg) in
             if let arg = arg as? T {
                 listener(arg)
             }
         }
-        let entry = Entry(element: cmd)
+        let entry: Entry
+        
+        if owner == nil {
+            entry = WeakEntry(element: cmd)
+        }
+        else {
+            entry = StrongEntry(owner: owner, element: cmd)
+        }
         listeners.append(entry)
         return cmd
     }
     
     func remove(listener: AnyObject?) {
-        listeners = listeners.filter({ (entry) -> Bool in
-            return entry.element == nil || entry.element != listener as? ListenerPointer
-        })
+        listeners = listeners.filter{
+            return $0.element == nil || $0.element != listener as? ClosurePointer
+        }
     }
     
     func emit(value: Any) {
+        listeners = listeners.filter{
+            $0.valid()
+        }
+        
         for listener in listeners {
             listener.element?.value?(value)
         }
@@ -71,28 +114,14 @@ protocol Notification {
     
 }
 
-class NotificationCenter{
-    private let eventListeners = EventEmitter()
-    
-    func add<T: Notification>(listener: (T) -> Void) -> AnyObject {
-        return eventListeners.add({ (note: T) -> Void in
-            listener(note)
-        })
-    }
-    
+extension EventEmitter{
     func post(note: Notification) {
-        eventListeners.emit(note)
+        emit(note)
     }
     
-    func remove(listener: AnyObject) {
-        eventListeners.remove(listener)
-    }
-}
-
-extension NotificationCenter{
     func postOnMain(note: Notification) {
-        eventListeners.emitOnMain(note)
+        emitOnMain(note)
     }
 }
 
-let notificationCenter = NotificationCenter()
+let notificationCenter = EventEmitter()

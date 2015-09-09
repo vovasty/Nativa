@@ -13,7 +13,6 @@ protocol InspectorViewControllerPanel: class {
 }
 
 class InspectorViewController: NSTabViewController {
-    var observerId: AnyObject!
     @IBOutlet var headerView: NSView!
     @IBOutlet weak var downloadName: NSTextField!
     @IBOutlet weak var downloadStatus: NSTextField!
@@ -128,7 +127,7 @@ class InspectorViewController: NSTabViewController {
             make.top.left.right.bottom.equalTo(0)
         }
         
-        observerId = notificationCenter.add{ [weak self] (note: SelectedDownloadsNotification) -> Void in
+        notificationCenter.add(self) { [weak self] (note: SelectedDownloadsNotification) -> Void in
             self?.downloads = note.downloads
         }
 
@@ -140,11 +139,6 @@ class InspectorViewController: NSTabViewController {
                 vc.download = download
             }
         }
-    }
-    
-    
-    deinit {
-        notificationCenter.remove(observerId)
     }
 }
 

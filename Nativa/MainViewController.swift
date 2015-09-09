@@ -10,8 +10,6 @@ import Cocoa
 
 class MainViewController: NSSplitViewController {
     let stateView = StateView(frame: CGRectZero)
-    private var connectionObserver: AnyObject!
-    
 
     @IBAction func showInspector(sender: AnyObject) {
         let item = splitViewItems.last!
@@ -32,7 +30,7 @@ class MainViewController: NSSplitViewController {
         
         stateView.addToView(view, hidden: true)
         
-        connectionObserver = notificationCenter.add{(state: DatasourceConnectionStateDidChange) -> Void in
+        notificationCenter.add(self) {(state: DatasourceConnectionStateDidChange) -> Void in
             
             switch state.state {
             case .Establishing:
@@ -53,9 +51,5 @@ class MainViewController: NSSplitViewController {
                 self.splitView.hidden = false
             }
         }
-    }
-    
-    deinit {
-        notificationCenter.remove(connectionObserver)
     }
 }

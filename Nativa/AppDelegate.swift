@@ -18,7 +18,6 @@ struct DownloadFilesAddedNotification: Notification {
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate{
-    private var connectionDropObserver: AnyObject!
     private var refreshTimer: Timer!
 
     
@@ -85,7 +84,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         NSUserDefaults.standardUserDefaults().setValue(true, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
         NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
         
-        connectionDropObserver = notificationCenter.add{ (state: DatasourceConnectionStateDidChange) -> Void in
+        notificationCenter.add(self){ (state: DatasourceConnectionStateDidChange) -> Void in
             
             switch state.state {
             case .Disconnected(_):
@@ -163,10 +162,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             case .Reconnect:
                 reconnect()
             }
-    }
-    
-    deinit {
-        notificationCenter.remove(connectionDropObserver)
     }
 }
 

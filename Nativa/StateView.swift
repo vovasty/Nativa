@@ -85,6 +85,7 @@ class StateView: NSView {
                     make.center.equalTo(self)
                 }
             case .Error(let msg, let buttonTitle, let handler):
+                message.hidden = false
                 progress.hidden = true
                 progress.stopAnimation(nil)
                 button.hidden  = false

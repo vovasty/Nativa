@@ -17,8 +17,6 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
     @IBOutlet weak var outlineView: NSOutlineView!
     var torrents: IndexingGenerator<Array<(path: NSURL, download: Download)>>?
     private var downloadsObserver: String?
-    var ncObservers: [AnyObject] = []
-
 
     var selectedDownloads: [Download] {
         
@@ -65,11 +63,9 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
             })
         })
         
-        let observer = notificationCenter.add{ [weak self] (note: DownloadFilesAddedNotification) -> Void in
+        notificationCenter.add(self) { [weak self] (note: DownloadFilesAddedNotification) -> Void in
             self?.addTorrents(note.downloads)
         }
-        
-        ncObservers.append(observer)
     }
     
     override func viewWillAppear() {
@@ -203,10 +199,6 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
     }
     
     deinit {
-        for o in ncObservers {
-            notificationCenter.remove(o)
-        }
-        
         if let downloadsObserver = downloadsObserver {
             Datasource.instance.downloads.removeObserver(downloadsObserver)
         }
