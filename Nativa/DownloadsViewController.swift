@@ -63,8 +63,8 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
             })
         })
         
-        let observer = notificationCenter.add(TorrentFilesAddedNotification) { (urls: [(path: NSURL, download: Download)]) -> Void in
-            self.addTorrents(urls)
+        let observer = notificationCenter.add(TorrentFilesAddedNotification) { [weak self] (urls: [(path: NSURL, download: Download)]) -> Void in
+            self?.addTorrents(urls)
         }
         
         ncObservers.append(observer)
