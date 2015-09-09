@@ -36,7 +36,6 @@ class EventEmitter {
     
     func add<T>(listener: (T) -> Void) -> AnyObject {
         let cmd = ListenerPointer{(arg) in
-            print(arg)
             if let arg = arg as? T {
                 listener(arg)
             }

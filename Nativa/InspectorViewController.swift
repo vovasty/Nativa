@@ -13,7 +13,7 @@ protocol InspectorViewControllerPanel: class {
 }
 
 class InspectorViewController: NSTabViewController {
-    var observerId: NSObjectProtocol?
+    var observerId: AnyObject!
     @IBOutlet var headerView: NSView!
     @IBOutlet weak var downloadName: NSTextField!
     @IBOutlet weak var downloadStatus: NSTextField!
@@ -128,8 +128,8 @@ class InspectorViewController: NSTabViewController {
             make.top.left.right.bottom.equalTo(0)
         }
         
-        observerId = NSNotificationCenter.defaultCenter().addObserverForName(SelectedDownloadsNotification, object: nil, queue: nil) { (note) -> Void in
-            self.downloads = (note.userInfo?["downloads"] as? [Download])
+        observerId = notificationCenter.add(SelectedDownloadsNotification) { [weak self] (downloads: [Download]) -> Void in
+            self?.downloads = downloads
         }
 
     }
@@ -144,9 +144,7 @@ class InspectorViewController: NSTabViewController {
     
     
     deinit {
-        if let observerId = observerId {
-            NSNotificationCenter.defaultCenter().removeObserver(observerId)
-        }
+        notificationCenter.remove(observerId)
     }
 }
 

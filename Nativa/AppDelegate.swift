@@ -16,7 +16,7 @@ let TorrentFilesAddedNotification = "net.aramzamzam.Nativa.TorrentFilesAddedNoti
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate{
-    private var connectionDropObserver: NSObjectProtocol?
+    private var connectionDropObserver: AnyObject!
     private var refreshTimer: Timer!
 
     
@@ -83,9 +83,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         NSUserDefaults.standardUserDefaults().setValue(true, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
         NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
         
-        connectionDropObserver = NSNotificationCenter.defaultCenter().addObserverForName(DatasourceConnectionStateDidChange, object: nil, queue: nil) { (note) -> Void in
+        connectionDropObserver = notificationCenter.add(DatasourceConnectionStateDidChange) { (state: DatasourceConnectionStatus) -> Void in
             
-            switch Datasource.instance.connectionState {
+            switch state {
             case .Disconnected(_):
                 //reconnect after a delay
                 dispatch_after(dispatch_time (DISPATCH_TIME_NOW , Int64(UInt64(self.reconnectTimeout) * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () in
@@ -161,6 +161,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             case .Reconnect:
                 reconnect()
             }
+    }
+    
+    deinit {
+        notificationCenter.remove(connectionDropObserver)
     }
 }
 

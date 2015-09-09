@@ -143,7 +143,7 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
     }
     
     func outlineViewSelectionDidChange(notification: NSNotification) {
-        NSNotificationCenter.defaultCenter().postNotificationName(SelectedDownloadsNotification, object: self, userInfo: ["downloads": self.selectedDownloads])
+        notificationCenter.post(SelectedDownloadsNotification, info: self.selectedDownloads)
     }
     
     //NSSeguePerforming

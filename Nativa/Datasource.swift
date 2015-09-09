@@ -78,9 +78,7 @@ class Datasource: ConnectionEventListener {
     
     private (set) var connectionState = DatasourceConnectionStatus.Disconnected(error: nil) {
         didSet{
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                NSNotificationCenter.defaultCenter().postNotificationName(DatasourceConnectionStateDidChange, object: self)
-            }
+            notificationCenter.postOnMain(DatasourceConnectionStateDidChange, info: connectionState)
         }
     }
 

@@ -10,7 +10,7 @@ import Cocoa
 
 class MainViewController: NSSplitViewController {
     let stateView = StateView(frame: CGRectZero)
-    private var connectionObserver: NSObjectProtocol?
+    private var connectionObserver: AnyObject!
     
 
     @IBAction func showInspector(sender: AnyObject) {
@@ -32,26 +32,30 @@ class MainViewController: NSSplitViewController {
         
         stateView.addToView(view, hidden: true)
         
-        connectionObserver = NSNotificationCenter.defaultCenter().addObserverForName(DatasourceConnectionStateDidChange, object: nil, queue: nil) { (note) -> Void in
+        connectionObserver = notificationCenter.add(DatasourceConnectionStateDidChange){ [weak self] (state: DatasourceConnectionStatus) -> Void in
             
-            switch Datasource.instance.connectionState {
+            switch state {
             case .Establishing:
-                self.stateView.hidden = false
-                self.splitView.hidden = true
-                self.stateView.state = StateViewContent.Progress
+                self?.stateView.hidden = false
+                self?.splitView.hidden = true
+                self?.stateView.state = StateViewContent.Progress
             case .Disconnected(let error):
-                self.stateView.hidden = false
-                self.splitView.hidden = true
+                self?.stateView.hidden = false
+                self?.splitView.hidden = true
                 let msg = error?.localizedDescription ?? "Unknwown Error"
-                self.stateView.state = StateViewContent.Error(message: msg, buttonTitle: "try again", handler: { (sender) -> Void in
+                self?.stateView.state = StateViewContent.Error(message: msg, buttonTitle: "try again", handler: { (sender) -> Void in
                     if let appDelegate = NSApp.delegate as? AppDelegate {
                         appDelegate.reconnect()
                     }
                 })
             case .Established:
-                self.stateView.hidden = true
-                self.splitView.hidden = false
+                self?.stateView.hidden = true
+                self?.splitView.hidden = false
             }
         }
+    }
+    
+    deinit {
+        notificationCenter.remove(connectionObserver)
     }
 }
