@@ -13,8 +13,9 @@ let SelectedDownloadsNotification = "net.aramzamzam.nativa.SelectedDownloadsNoti
 class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate, DropViewDelegate
 {
     @IBOutlet weak var outlineView: NSOutlineView!
-    var torrentsFromDnD: IndexingGenerator<Array<(path: String, download: Download)>>?
+    var torrents: IndexingGenerator<Array<(path: NSURL, download: Download)>>?
     private var downloadsObserver: String?
+    var ncObservers: [AnyObject] = []
 
 
     var selectedDownloads: [Download] {
@@ -61,6 +62,12 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
                 self.outlineView.endUpdates()
             })
         })
+        
+        let observer = notificationCenter.add(TorrentFilesAddedNotification) { (urls: [(path: NSURL, download: Download)]) -> Void in
+            self.addTorrents(urls)
+        }
+        
+        ncObservers.append(observer)
     }
     
     override func viewWillAppear() {
@@ -143,7 +150,7 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
     override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
         switch segue.identifier!{
         case "showAddTorrent":
-            if  let torrent = torrentsFromDnD?.next(),
+            if  let torrent = torrents?.next(),
                 let vc = segue.destinationController as? AddTorrentViewController {
                     vc.setDownload(torrent.download, path: torrent.path)
             }
@@ -152,12 +159,16 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
         }
     }
     
-    //DropViewDelegate
-    func completeDragToView(view: DownloadDropView, torrents: [(path: String, download: Download)]) {
-        torrentsFromDnD = torrents.generate()
+    private func addTorrents(torrents: [(path: NSURL, download: Download)]) {
+        self.torrents = torrents.generate()
         for _ in 0 ... torrents.count - 1 {
             self.performSegueWithIdentifier("showAddTorrent", sender: nil)
         }
+    }
+    
+    //DropViewDelegate
+    func completeDragToView(view: DownloadDropView, torrents: [(path: NSURL, download: Download)]) {
+        addTorrents(torrents)
     }
     
     @IBAction func removeDownload(sender: AnyObject) {
@@ -190,6 +201,10 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
     }
     
     deinit {
+        for o in ncObservers {
+            notificationCenter.remove(o)
+        }
+        
         if let downloadsObserver = downloadsObserver {
             Datasource.instance.downloads.removeObserver(downloadsObserver)
         }

@@ -11,7 +11,7 @@ import Cocoa
 class AddTorrentViewController: FileOutlineViewController {
     @IBOutlet weak var torrentName: NSTextField!
     @IBOutlet weak var torrentIcon: NSImageView!
-    private var path: String?
+    private var path: NSURL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,7 @@ class AddTorrentViewController: FileOutlineViewController {
         NSApp.activateIgnoringOtherApps(true)
     }
     
-    func setDownload(download: Download, path: String)
+    func setDownload(download: Download, path: NSURL)
     {
         self.download = download
         self.path = path

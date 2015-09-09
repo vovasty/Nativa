@@ -12,6 +12,8 @@ enum NotificationActions: Int {
     case Reconnect = 0
 }
 
+let TorrentFilesAddedNotification = "net.aramzamzam.Nativa.TorrentFilesAddedNotification"
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDelegate{
     private var connectionDropObserver: NSObjectProtocol?
@@ -102,21 +104,23 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         connect()
     }
     
+    private func addDownloadsFromUrls(urls: [NSURL]) {
+        Datasource.instance.parseTorrents(urls) { (parsed, error) -> Void in
+            guard let parsed = parsed where error == nil else {
+                logger.error("unable to open files: \(error)")
+                return
+            }
+            
+            notificationCenter.postOnMain(TorrentFilesAddedNotification, info: parsed)
+        }
+
+    }
+    
     func application(sender: NSApplication,
         openFiles filenames: [String]) {
-            Datasource.instance.parseTorrents(filenames) { (parsed, error) -> Void in
-                guard let parsed = parsed where error == nil else {
-                    logger.error("unable to open files: \(error)")
-                    return
-                }
-                
-                do {
-                    try Datasource.instance.addTorrentFiles(parsed)
-                }
-                catch let error {
-                    logger.error("unable to open files: \(error)")
-                }
-            }
+            
+            let filenames = filenames.map { (s) -> NSURL in return NSURL(fileURLWithPath: s) }
+            addDownloadsFromUrls(filenames)
             sender.replyToOpenOrPrint(.Success)
     }
 
@@ -141,7 +145,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         panel.canChooseDirectories = false
         panel.allowedFileTypes = ["org.bittorrent.torrent", "torrent"]
         panel.beginSheetModalForWindow(NSApp.mainWindow!) { (flag) -> Void in
-            Datasource.instance.addTorrentFiles(panel.URLs)
+            self.addDownloadsFromUrls(panel.URLs)
         }
     }
     

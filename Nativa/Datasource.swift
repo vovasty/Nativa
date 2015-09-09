@@ -74,6 +74,7 @@ class Datasource: ConnectionEventListener {
     var downloader: NativaHelperProtocol!
     private let downloadsSyncableArrayDelegate = DownloadsSyncableArrayDelegate()
     let downloads: SyncableArray<DownloadsSyncableArrayDelegate>
+    let queue = NSOperationQueue()
     
     private (set) var connectionState = DatasourceConnectionStatus.Disconnected(error: nil) {
         didSet{
@@ -87,6 +88,7 @@ class Datasource: ConnectionEventListener {
     
     init(){
         downloads = SyncableArray(delegate: downloadsSyncableArrayDelegate)
+        queue.suspended = true
     }
     
     private func createDownloader(erroHandler: (NSError)->Void) throws -> (NSXPCConnection, NativaHelperProtocol) {
@@ -130,6 +132,7 @@ class Datasource: ConnectionEventListener {
             
             if error == nil {
                 self.connectionState = .Established
+                self.queue.suspended = false
             }
             else {
                 self.connectionState = .Disconnected(error: error)
@@ -160,6 +163,7 @@ class Datasource: ConnectionEventListener {
         downloader.connect(host, port: port) { (error) -> Void in
             if error == nil {
                 self.connectionState = .Established
+                self.queue.suspended = false
             }
             else {
                 self.connectionState = .Disconnected(error: error)
@@ -243,50 +247,52 @@ class Datasource: ConnectionEventListener {
         downloader.setFilePriority(download.id, priorities: pr, handler: handler)
     }
     
-    func parseTorrents(files:[String], handler: ([(path: String, download: Download)]?, NSError?)->Void){
-        var torrentDatas: [NSData] = []
-        
-        do {
-            for file in files {
-                let torrentData: NSData = try NSData(contentsOfFile:file, options: NSDataReadingOptions(rawValue: 0))
-                torrentDatas.append(torrentData)
+    func parseTorrents(files:[NSURL], handler: ([(path: NSURL, download: Download)]?, NSError?)->Void){
+        queue.addOperationWithBlock { () -> Void in
+            var torrentDatas: [NSData] = []
+            
+            do {
+                for file in files {
+                    let torrentData: NSData = try NSData(contentsOfURL:file, options: NSDataReadingOptions(rawValue: 0))
+                    torrentDatas.append(torrentData)
+                }
             }
-        }
-        catch let error {
-            handler(nil, NSError(error))
-            return
-        }
-        
-        downloader.parseTorrent(torrentDatas) { (parsed, error) -> Void in
-
-            guard let parsed = parsed where error == nil else {
-                handler(nil, error)
+            catch let error {
+                handler(nil, NSError(error))
                 return
             }
             
-            let result = parsed.enumerate().map{ (index, parsedTorrent) -> (path: String, download: Download?) in
-                return (path: files[index], download: Download(parsedTorrent))
+            self.downloader.parseTorrent(torrentDatas) { (parsed, error) -> Void in
+                
+                guard let parsed = parsed where error == nil else {
+                    handler(nil, error)
+                    return
+                }
+                
+                let result = parsed.enumerate().map{ (index, parsedTorrent) -> (path: NSURL, download: Download?) in
+                    return (path: files[index], download: Download(parsedTorrent))
+                    }
+                    .filter{(d) -> Bool in
+                        d.download != nil
+                    }
+                    .map({ (e) -> (path: NSURL, download: Download) in
+                        return (path: e.path, download: e.download!)
+                    })
+                
+                handler(result, nil)
             }
-            .filter{(d) -> Bool in
-                    d.download != nil
-            }
-            .map({ (e) -> (path: String, download: Download) in
-                return (path: e.path, download: e.download!)
-            })
-            
-            handler(result, nil)
         }
     }
     
-    func addTorrentFiles(files: [(path: String, download: Download)]) throws {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () -> Void in
+    func addTorrentFiles(files: [(path: NSURL, download: Download)]) throws {
+        queue.addOperationWithBlock { () -> Void in
             for file in files {
                 guard !self.downloads.contains(file.download) else{
                     continue
                 }
 
                 do {
-                    let torrentData: NSData = try NSData(contentsOfFile:file.path, options: NSDataReadingOptions(rawValue: 0))
+                    let torrentData: NSData = try NSData(contentsOfURL:file.path, options: NSDataReadingOptions(rawValue: 0))
                     self.downloads.update(file.download)
                     self.downloader.addTorrentData(torrentData, start: false, group: nil, handler: { (error) -> Void in
                         logger.error("unable to add torrent \(error)")
@@ -295,21 +301,6 @@ class Datasource: ConnectionEventListener {
                 catch let error {
                     logger.error("unable to add torrent \(error)")
                 }
-            }
-        }
-    }
-    
-    func addTorrentFiles(urls: [NSURL]) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () -> Void in
-            for url in urls {
-                if let torrentData: NSData = NSData(contentsOfURL: url) {
-                    self.downloader.addTorrentData(torrentData, start: false, group: nil, handler: { (error) -> Void in
-                        if let error = error {
-                            logger.error("unable to add torrent \(error)")
-                        }
-                    })
-                }
-                self.update()
             }
         }
     }

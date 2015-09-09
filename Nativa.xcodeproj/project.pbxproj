@@ -80,6 +80,7 @@
 		CDE929C61B94E054007AE485 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE929C51B94E054007AE485 /* StateView.swift */; settings = {ASSET_TAGS = (); }; };
 		CDEE44DE1991E1EE00FB76AC /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */; };
 		CDF3D97F199ECED5002B91C8 /* NativaHelper.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CDFE78A21B9F7E730001E8F9 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFE78A11B9F7E730001E8F9 /* NotificationCenter.swift */; settings = {ASSET_TAGS = (); }; };
 		CDFFC20819DB6D2E0072EEAD /* AddTorrentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */; };
 		CDFFC20B19DB747F0072EEAD /* FileListNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFFC20A19DB747F0072EEAD /* FileListNode.swift */; };
 /* End PBXBuildFile section */
@@ -290,6 +291,7 @@
 		CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
 		CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = NativaHelper.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDF3D976199ECED5002B91C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = NativaHelper/Info.plist; sourceTree = "<group>"; };
+		CDFE78A11B9F7E730001E8F9 /* NotificationCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 		CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTorrentViewController.swift; sourceTree = "<group>"; };
 		CDFFC20A19DB747F0072EEAD /* FileListNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileListNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -362,6 +364,7 @@
 				CD0062CC1B82E14E005BAE46 /* Preferences.swift */,
 				CDCCFA501B77EDE60028EDCB /* Utils.swift */,
 				CDC7E37B1B990CEB00AB022E /* BackgroundView.swift */,
+				CDFE78A11B9F7E730001E8F9 /* NotificationCenter.swift */,
 				CD5AA8601B9796DA00517F47 /* lib */,
 				CD01C72C1991627100D5B8A6 /* Supporting Files */,
 			);
@@ -793,6 +796,7 @@
 				CD6851AD1B90CB7600A810F1 /* SyncableArray.swift in Sources */,
 				CDB54D8019A155EC00D777D5 /* Formatter.swift in Sources */,
 				CD7EC18D19E5AEB700C09042 /* FileOutlineViewController.swift in Sources */,
+				CDFE78A21B9F7E730001E8F9 /* NotificationCenter.swift in Sources */,
 				CD0062CD1B82E14E005BAE46 /* Preferences.swift in Sources */,
 				CD156B941B88347600CDD8F3 /* InspectorFilesViewController.swift in Sources */,
 				CDE929C61B94E054007AE485 /* StateView.swift in Sources */,

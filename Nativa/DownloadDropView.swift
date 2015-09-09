@@ -9,13 +9,13 @@
 import Cocoa
 
 protocol DropViewDelegate {
-    func completeDragToView(view: DownloadDropView, torrents: [(path: String, download: Download)])
+    func completeDragToView(view: DownloadDropView, torrents: [(path: NSURL, download: Download)])
 }
 
 private var parseTorrentsLock: OSSpinLock = OS_SPINLOCK_INIT
 
 class DownloadDropView: NSView {
-    var torrents: [(path: String, download: Download)] = []
+    var torrents: [(path: NSURL, download: Download)] = []
     var delegate: DropViewDelegate?
     
     
@@ -47,6 +47,9 @@ class DownloadDropView: NSView {
                             return false
                         }
                     }
+                    .map({ (path) -> NSURL in
+                        return NSURL(fileURLWithPath: path)
+                    })
                     
                     if torrentFiles.count > 0 {
                         OSSpinLockLock(&parseTorrentsLock)
@@ -60,7 +63,7 @@ class DownloadDropView: NSView {
                                 return
                             }
                             
-                            var nonExisingTorrents: [(path: String, download: Download)] = []
+                            var nonExisingTorrents: [(path: NSURL, download: Download)] = []
                             for torrent in parsedTorrents {
                                 guard !Datasource.instance.downloads.contains(torrent.download) else{
                                     continue
