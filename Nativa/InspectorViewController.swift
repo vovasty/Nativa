@@ -44,13 +44,15 @@ class InspectorViewController: NSTabViewController {
                 }
                 
                 Datasource.instance.update(download) { (dl, error) -> Void in
-                    guard let dl = dl, let flatFileList = dl.flatFileList where error == nil else {
-                        logger.error("unable to update torrent info: \(error)")
-                        
-                        self.stateView.state = StateViewContent.Error(message: error == nil ? "Unable to load torrent info" : error!.localizedDescription, buttonTitle: "try again", handler: { (sender) -> Void in
-                            self.downloads = self.downloads
-                        })
-                        self.loading = true
+                    guard let dl = dl, let flatFileList = dl.flatFileList where dl == self.downloads?.first && error == nil else {
+                        if let error = error {
+                            logger.error("unable to update torrent info: \(error)")
+                            
+                            self.stateView.state = StateViewContent.Error(message: error.localizedDescription, buttonTitle: "try again", handler: { (sender) -> Void in
+                                self.downloads = self.downloads
+                            })
+                            self.loading = true
+                        }
                         return
                     }
                     
@@ -96,7 +98,7 @@ class InspectorViewController: NSTabViewController {
         
         stateView.state = .Progress
         stateView.hidden = true
-
+        
         headerView.translatesAutoresizingMaskIntoConstraints = false
         let tabView = view.subviews[0]
         let segmentedControl = view.subviews[1]
@@ -113,12 +115,12 @@ class InspectorViewController: NSTabViewController {
         segmentedControl.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(headerView.snp_bottom).offset(3)
         }
-
+        
         stateView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(segmentedControl.snp_bottom)
             make.left.right.bottom.equalTo(0)
         }
-
+        
         tabView.snp_makeConstraints { (make) -> Void in
             make.top.equalTo(segmentedControl.snp_bottom).offset(3)
         }
@@ -130,7 +132,7 @@ class InspectorViewController: NSTabViewController {
         notificationCenter.add(self) { [weak self] (note: SelectedDownloadsNotification) -> Void in
             self?.downloads = note.downloads
         }
-
+        
     }
     
     private func updateTabs(download: Download) {
