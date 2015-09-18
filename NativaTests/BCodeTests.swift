@@ -21,16 +21,16 @@ class BCodeTests: XCTestCase {
     }
     
     func testBDecodeMulti() {
-        let torrent: [String: AnyObject] = try! bdecode(multiTorrentData())!
-        XCTAssertNotNil(torrent["info"])
-        let files = (torrent["info"] as! [String: AnyObject])["files"]
+        let torrent: ([String: AnyObject], String?) = try! bdecode(multiTorrentData())!
+        XCTAssertNotNil(torrent.0["info"])
+        let files = (torrent.0["info"] as! [String: AnyObject])["files"]
         XCTAssertEqual(files?.count, 318)
     }
     
     func testBDecodeSingle() {
-        let torrent: [String: AnyObject] = try! bdecode(singleTorrentData())!
-        XCTAssertNotNil(torrent["info"])
-        let files = (torrent["info"] as! [String: AnyObject])["files"]
+        let torrent: ([String: AnyObject], String?) = try! bdecode(singleTorrentData())!
+        XCTAssertNotNil(torrent.0["info"])
+        let files = (torrent.0["info"] as! [String: AnyObject])["files"]
         XCTAssertNil(files)
     }
 

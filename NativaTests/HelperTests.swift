@@ -11,6 +11,16 @@ import XCTest
 
 class HelperTests: XCTestCase {
     
+    private func multiTorrentData() -> NSData {
+        let path = NSBundle(forClass: self.classForCoder).resourcePath!.stringByAppendingString("/multi.torrent")
+        return NSData(contentsOfFile: path)!
+    }
+    
+    private func singleTorrentData() -> NSData {
+        let path = NSBundle(forClass: self.classForCoder).resourcePath!.stringByAppendingString("/single.torrent")
+        return NSData(contentsOfFile: path)!
+    }
+    
     func testUpdateAll() {
         var expectation = expectationWithDescription("connect")
         
@@ -107,4 +117,27 @@ class HelperTests: XCTestCase {
         
         waitForExpectationsWithTimeout(100, handler: nil)
     }
+    
+    func testAddDownload() {
+        var expectation = expectationWithDescription("connect")
+        
+        let helper = NativaHelper()
+        helper.connect("127.0.0.1", port: 5000)
+            { (error) -> Void in
+                XCTAssertNil(error)
+                expectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(100, handler: nil)
+        
+        expectation = expectationWithDescription("upload")
+        
+        helper.addTorrentData("8B3696F4B1EACBECE1917FBCC3FC4D13C2B475EA", data: multiTorrentData(), priorities: [0:0, 4:0, 2: 1], folder: "/tmp/tmp", start: false, group: nil) { (error) -> Void in
+            XCTAssertNil(error)
+            expectation.fulfill()
+        }
+        
+        waitForExpectationsWithTimeout(100, handler: nil)
+    }
+
 }

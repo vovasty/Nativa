@@ -15,7 +15,7 @@ import Foundation
     func update(_: ([[String:AnyObject]]?, NSError?)->Void)->Void
     func update(id: String, handler:([String:AnyObject]?, NSError?)->Void)
     func parseTorrent(data:[NSData], handler:([[String:AnyObject]]?, NSError?)->Void)
-    func addTorrentData(data: NSData, start: Bool, group: String?, handler:(NSError?)->Void)
+    func addTorrentData(id: String, data: NSData, priorities: [Int: Int]?, folder: String?, start: Bool, group: String?, handler:(NSError?)->Void)
     func startTorrent(id:String, handler:([String:AnyObject]?, NSError?)->Void)
     func stopTorrent(id:String, handler:([String:AnyObject]?, NSError?)->Void)
     func removeTorrent(id: String, path: String?, removeData: Bool, response: (NSError?) -> Void)

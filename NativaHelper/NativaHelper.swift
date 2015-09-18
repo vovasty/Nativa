@@ -181,13 +181,28 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         handler(result, nil)
     }
     
-    func addTorrentData(data: NSData, start: Bool, group: String?, handler:(NSError?)->Void) {
+    func addTorrentData(id: String, data: NSData, priorities: [Int: Int]?, folder: String?, start: Bool, group: String?, handler:(NSError?)->Void) {
         guard let rtorrent = rtorrent else {
             return
         }
         let command =  start ? "load_raw_start" : "load_raw"
-        rtorrent.send(command, parameters: [data]) { (response, error) -> Void in
-            handler(NSError(error))
+        var parameters: [AnyObject] = [data]
+        if let folder = folder {
+            parameters.append("d.set_directory_base=\(folder)")
+        }
+        
+        rtorrent.send(ResultCommand(command, parameters: parameters, field: "result") { (v) -> AnyObject? in return v as? Bool }) { (response, error) -> Void in
+            guard error == nil else {
+                handler(NSError(error))
+                return
+            }
+            
+            guard let priorities = priorities else{
+                handler(nil)
+                return
+            }
+            
+            self.setFilePriority(id, priorities:priorities, handler: handler)
         }
     }
     

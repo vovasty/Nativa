@@ -41,13 +41,8 @@ class AddTorrentViewController: FileOutlineViewController {
     }
     
     @IBAction func add(sender: AnyObject) {
-        do {
-            if let processId = processId {
-                try Datasource.instance.addTorrentFiles(processId, files: [(path: path!, download: download!, start: start, group: nil)])
-            }
-        }
-        catch let e {
-            logger.error("unable to add files \(e)")
+        if let processId = processId {
+            Datasource.instance.addTorrentFiles(processId, files: [(path: path!, download: download!, start: start, group: nil, folder: nil, priorities: flatPriorities)])
         }
         
         if let window = self.view.window {

@@ -356,7 +356,7 @@ class Datasource: ConnectionEventListener {
         }
     }
     
-    func addTorrentFiles(processId: String, files: [(path: NSURL, download: Download, start: Bool, group: Group?)]) throws {
+    func addTorrentFiles(processId: String, files: [(path: NSURL, download: Download, start: Bool, group: Group?, folder: String?, priorities: [FileListNode: Int]?)]) {
         guard let process = getProcess(processId) else{
             return
         }
@@ -371,7 +371,18 @@ class Datasource: ConnectionEventListener {
                     let torrentData: NSData = try NSData(contentsOfURL:file.path, options: NSDataReadingOptions(rawValue: 0))
                     file.download.processId = processId
                     process.downloads.updateFromObject(file.download)
-                    process.downloader.addTorrentData(torrentData, start: file.start, group: file.group?.id, handler: { (error) -> Void in
+                    
+                    var pr: [Int: Int]?
+                    
+                    if let priorities = file.priorities {
+                        pr = priorities.map { (file, priority) -> (Int, Int) in
+                            //immediately set priorities
+                            file.priority = DownloadPriority(rawValue: priority)!
+                            return (file.index!, priority)
+                        }
+                    }
+                    
+                    process.downloader.addTorrentData(file.download.id, data: torrentData, priorities: pr, folder: file.folder, start: file.start, group: file.group?.id, handler: { (error) -> Void in
                         logger.error("unable to add torrent \(error)")
                     })
                 }

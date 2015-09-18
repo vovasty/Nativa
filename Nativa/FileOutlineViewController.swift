@@ -11,6 +11,7 @@ import Cocoa
 class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate {
     @IBOutlet weak var outlineView: NSOutlineView!
     var filePriorities: [FileListNode: (priority: DownloadPriority, state: Int)] = [:]
+    var flatPriorities: [FileListNode: Int]?
     var download: Download? {
         didSet {
             if let files = download?.flatFileList where files.count > 0 {
@@ -183,6 +184,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
                     return (file, priority.priority.rawValue)
                 })
                 
+                flatPriorities = filteredFiles.count > 0 ? filteredFiles : nil
                 filePrioritiesDidChange(filteredFiles)
             }
         }
