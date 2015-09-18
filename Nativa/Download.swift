@@ -197,7 +197,7 @@ class Download
                         file.parent = parent
                         
                         if let completed_chunks = f["completed_chunks"] as? Float, let size_chunks = f["size_chunks"] as? Float {
-                            file.percentCompleted = size_chunks / completed_chunks
+                            file.percentCompleted = completed_chunks > 0 ? size_chunks / completed_chunks : 0
                         }
                         
                         if parent.children == nil {

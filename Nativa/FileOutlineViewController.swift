@@ -152,7 +152,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
                         button.target = self
                         button.allowsMixedState = file.folder
                         button.state = stateForFile(file)
-                        button.enabled = file.percentCompleted < 1 && download?.file.children != nil
+                        button.enabled = file.percentCompleted < 1 && download?.flatFileList?.count > 1
                     }
                     result = cell
                 }
