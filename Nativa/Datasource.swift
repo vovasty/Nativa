@@ -81,17 +81,31 @@ class Datasource: ConnectionEventListener {
     let queue = NSOperationQueue()
     let downloadsDelegate = CompoundDownloadsSyncableArrayDelegate()
     
-    var processIds: [String] {
-        return processes.keys.map({ (k) -> String in
-            k
-        })
-    }
+    var processIds: [String] { return processes.keys.map({ (k) -> String in k}) }
     
     static let instance = Datasource()
     
     init(){
         downloads = SyncableArray(delegate: downloadsDelegate)
         queue.suspended = true
+    }
+    
+    var connectionState: DatasourceConnectionStatus {
+        var establishing = false
+        
+        for p in processes.values {
+            switch p.state {
+            case .Established:
+                return .Established
+            case .Establishing:
+                establishing = true
+            case .Disconnected(_):
+                break
+            }
+        }
+        
+        return establishing ? DatasourceConnectionStatus.Establishing :  DatasourceConnectionStatus.Disconnected(error: NSError(domain: "net.aramzamzam.Nativa", code: -1, userInfo: [NSLocalizedDescriptionKey: "no one service is connected"]))
+        
     }
     
     private func createDownloader(erroHandler: (NSError)->Void) throws -> (NSXPCConnection, NativaHelperProtocol) {
@@ -127,6 +141,7 @@ class Datasource: ConnectionEventListener {
             let result = try createDownloader{(error)->Void in
                 self.processes[id] = (xpc: nil, downloader: nil, downloads: nil, state: .Disconnected(error: error), observer: nil, delegate: nil)
                 handler(NSError(error))
+                notificationCenter.postOnMain(DatasourceConnectionStateDidChange(state: self.connectionState))
                 return
             }
             
@@ -136,6 +151,7 @@ class Datasource: ConnectionEventListener {
             let err = NSError(error)
             self.processes[id] = (xpc: nil, downloader: nil, downloads: nil, state: .Disconnected(error: err), observer: nil, delegate: nil)
             handler(err)
+            notificationCenter.postOnMain(DatasourceConnectionStateDidChange(state: self.connectionState))
             return
         }
         
@@ -143,6 +159,7 @@ class Datasource: ConnectionEventListener {
             guard error == nil else {
                 self.processes[id] = (xpc: nil, downloader: nil, downloads: nil, state: .Disconnected(error: error), observer: nil, delegate: nil)
                 handler(error)
+                notificationCenter.postOnMain(DatasourceConnectionStateDidChange(state: self.connectionState))
                 return
             }
             
@@ -170,6 +187,7 @@ class Datasource: ConnectionEventListener {
             
             self.update(id){ (error) -> Void in
                 handler(error)
+                notificationCenter.postOnMain(DatasourceConnectionStateDidChange(state: self.connectionState))
             }
         }
     }
