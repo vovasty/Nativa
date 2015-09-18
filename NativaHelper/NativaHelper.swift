@@ -121,9 +121,10 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             FMultiCommand(id, index: nil, field: "files", commands: [
                 ResultCommand("f.get_path=", parameters: nil, field: "path") { (v) -> AnyObject? in return (v as? String)?.characters.split("/").map{String($0)} as? AnyObject },
                 ResultCommand("f.get_size_bytes=", parameters: nil, field: "length") { (v) -> AnyObject? in return v as? Double },
-                ResultCommand("f.get_priority=", parameters: nil, field: "priority") { (v) -> AnyObject? in return v as? Int }
+                ResultCommand("f.get_priority=", parameters: nil, field: "priority") { (v) -> AnyObject? in return v as? Int },
+                ResultCommand("f.get_completed_chunks=", parameters: nil, field: "completed_chunks") { (v) -> AnyObject? in return v as? Int },
+                ResultCommand("f.get_size_chunks=", parameters: nil, field: "size_chunks") { (v) -> AnyObject? in return v as? Int }
                 ])
-            
             ]) { (response, error) -> Void in
                 guard let response = response where error == nil else{
                     handler(nil, NSError(error))

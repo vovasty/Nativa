@@ -127,7 +127,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
                         cell.textField?.stringValue = file.name
                         
                         if let c = cell as? FolderNameCell {
-                            c.setName(file.name, size: file.size)
+                            c.setName(file.name, size: file.size, complete: file.percentCompleted)
                         }
                         
                         result = cell
@@ -136,7 +136,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
                 else {
                     if let cell = outlineView.makeViewWithIdentifier("FileNameCell", owner:self) as? NSTableCellView {
                         if let c = cell as? FileNameCell {
-                           c.statusText.stringValue = Formatter.stringForSize(file.size)
+                           c.statusText.stringValue = String(format: "%.2f%%", file.percentCompleted*100) + " of " + Formatter.stringForSize(file.size)
                         }
                         
                         cell.imageView?.image = file.icon
@@ -152,6 +152,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
                         button.target = self
                         button.allowsMixedState = file.folder
                         button.state = stateForFile(file)
+                        button.enabled = file.percentCompleted < 1 && download?.file.children != nil
                     }
                     result = cell
                 }

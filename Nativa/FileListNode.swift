@@ -16,6 +16,7 @@ class FileListNode {
     var children: [FileListNode]?
     var size: Double
     var folder: Bool
+    var percentCompleted: Float = 0
     var priority: DownloadPriority = .Normal
     weak var parent: FileListNode?
     private var _icon: NSImage?

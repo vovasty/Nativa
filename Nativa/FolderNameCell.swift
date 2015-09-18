@@ -10,9 +10,9 @@ import Cocoa
 
 class FolderNameCell: NSTableCellView
 {
-    func setName(name: String, size: Double)
+    func setName(name: String, size: Double, complete: Float)
     {
-        let ssize = Formatter.stringForSize(size)
+        let ssize = String(format: "%.2f%%", complete*100) + " of " + Formatter.stringForSize(size)
         let title = NSMutableAttributedString(string: "\(name) \(ssize)")
         let sizeRange = NSRange(location: name.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)+" ".lengthOfBytesUsingEncoding(NSUTF8StringEncoding), length: ssize.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
         

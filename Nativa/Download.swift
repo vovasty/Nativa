@@ -196,6 +196,10 @@ class Download
                         file.priority = priority
                         file.parent = parent
                         
+                        if let completed_chunks = f["completed_chunks"] as? Float, let size_chunks = f["size_chunks"] as? Float {
+                            file.percentCompleted = size_chunks / completed_chunks
+                        }
+                        
                         if parent.children == nil {
                             parent.children = [file]
                         }
@@ -208,6 +212,7 @@ class Download
                         var p: FileListNode? = parent
                         while p != nil {
                             p?.size += fileSize
+                            p?.percentCompleted += file.percentCompleted
                             p = p!.parent
                         }
                         
