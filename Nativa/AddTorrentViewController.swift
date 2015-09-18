@@ -13,6 +13,9 @@ class AddTorrentViewController: FileOutlineViewController {
     @IBOutlet weak var torrentIcon: NSImageView!
     private var path: NSURL?
     @objc var processId: String? = Datasource.instance.processIds.first
+    @objc var hideProcessList: Bool {
+        return processIds.count == 1
+    }
     
     @objc var processIds: [String] {
         return Datasource.instance.processIds

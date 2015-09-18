@@ -695,7 +695,7 @@ CA
                                         <rect key="frame" x="0.0" y="52" width="246" height="22"/>
                                         <beginningViews>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lhg-5T-X6l">
-                                                <rect key="frame" x="-2" y="2.5" width="44" height="17"/>
+                                                <rect key="frame" x="-2" y="3" width="44" height="17"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="66" id="dKh-sT-IAx"/>
                                                 </constraints>
@@ -730,7 +730,7 @@ CA
                                         <rect key="frame" x="0.0" y="22" width="246" height="22"/>
                                         <beginningViews>
                                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ijD-n8-bF9">
-                                                <rect key="frame" x="-2" y="2.5" width="70" height="17"/>
+                                                <rect key="frame" x="-2" y="3" width="70" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="SCGI port:" id="Wfd-4S-ITw">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -797,7 +797,7 @@ CA
                                         <rect key="frame" x="0.0" y="60" width="246" height="22"/>
                                         <beginningViews>
                                             <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NVE-sd-V5e">
-                                                <rect key="frame" x="-2" y="2.5" width="37" height="17"/>
+                                                <rect key="frame" x="-2" y="3" width="37" height="17"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="66" id="Bqm-mM-pbj"/>
                                                 </constraints>
@@ -836,7 +836,7 @@ CA
                                         <rect key="frame" x="0.0" y="30" width="246" height="22"/>
                                         <beginningViews>
                                             <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lBn-2v-3cr">
-                                                <rect key="frame" x="-2" y="2.5" width="37" height="17"/>
+                                                <rect key="frame" x="-2" y="3" width="37" height="17"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="66" id="f3t-VG-pG3"/>
                                                 </constraints>
@@ -875,7 +875,7 @@ CA
                                         <rect key="frame" x="0.0" y="0.0" width="246" height="22"/>
                                         <beginningViews>
                                             <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Rz-sq-K5e">
-                                                <rect key="frame" x="-2" y="2.5" width="69" height="17"/>
+                                                <rect key="frame" x="-2" y="3" width="69" height="17"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="66" id="lkS-46-4Hm"/>
                                                 </constraints>
@@ -1083,7 +1083,7 @@ Gw
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="FileCheckCell" id="e8T-Bd-wlJ">
-                                                            <rect key="frame" x="382.5" y="1" width="53" height="17"/>
+                                                            <rect key="frame" x="382" y="1" width="53" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <button tag="1001" translatesAutoresizingMaskIntoConstraints="NO" id="yak-ca-cA4">
@@ -1110,6 +1110,10 @@ Gw
                                     </subviews>
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="329" id="JEU-iK-J6y"/>
+                                    <constraint firstAttribute="width" constant="440" id="fG7-2f-cvx"/>
+                                </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="vY8-6R-YlV">
                                     <rect key="frame" x="1" y="312" width="438" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
@@ -1192,6 +1196,7 @@ Gw
                                     </connections>
                                 </popUpButtonCell>
                                 <connections>
+                                    <binding destination="SPS-Bb-RSo" name="hidden" keyPath="hideProcessList" id="C6g-NH-Hga"/>
                                     <binding destination="SPS-Bb-RSo" name="selectedValue" keyPath="processId" id="Jll-Zl-vq2"/>
                                 </connections>
                             </popUpButton>
