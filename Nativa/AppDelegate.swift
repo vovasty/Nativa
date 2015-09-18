@@ -154,6 +154,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         panel.canChooseDirectories = false
         panel.allowedFileTypes = ["org.bittorrent.torrent", "torrent"]
         panel.beginSheetModalForWindow(NSApp.mainWindow!) { (flag) -> Void in
+            
+            guard flag == NSFileHandlingPanelOKButton else { return }
+            
             self.addDownloadsFromUrls(panel.URLs)
         }
     }

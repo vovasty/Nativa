@@ -158,6 +158,8 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
     }
     
     private func addTorrents(torrents: [(path: NSURL, download: Download)]) {
+        guard torrents.count > 0 else { return }
+        
         self.torrents = torrents.generate()
         for _ in 0 ... torrents.count - 1 {
             self.performSegueWithIdentifier("showAddTorrent", sender: nil)
