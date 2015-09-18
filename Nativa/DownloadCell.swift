@@ -151,8 +151,8 @@ class DownloadCell: NSTableCellView
         var speedPart: String?
         switch download.state
         {
-        case .Downloading(let dl, let ul):
-            speedPart = String.localizedStringWithFormat("DL: %@, UL: %@", Formatter.stringForSpeed(dl), Formatter.stringForSpeed(ul))
+        case .Downloading(let dl, _):
+            speedPart = Formatter.stringForSpeed(dl)
         case .Seeding(let ul):
             speedPart = Formatter.stringForSpeed(ul)
         case .Checking:
