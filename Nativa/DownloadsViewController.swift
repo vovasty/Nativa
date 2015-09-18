@@ -173,7 +173,9 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
         for index in outlineView.selectedRowIndexes {
             if let download = outlineView.itemAtRow(index) as? Download {
                 Datasource.instance.removeTorrent(download, removeData: false, response: { (error) -> Void in
-                    logger.error("unable to remove torrent: \(error)")
+                    if let error = error {
+                        logger.error("unable to remove torrent: \(error)")
+                    }
                 })
             }
         }
@@ -183,7 +185,9 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
         for index in outlineView.selectedRowIndexes {
             if let download = outlineView.itemAtRow(index) as? Download {
                 Datasource.instance.removeTorrent(download, removeData: true, response: { (error) -> Void in
-                    logger.error("unable to remove torrent: \(error)")
+                    if let error = error {
+                        logger.error("unable to remove torrent: \(error)")
+                    }
                 })
             }
         }

@@ -27,6 +27,7 @@ extension String {
 extension NSUserDefaults {
     public subscript(keypath : String) -> AnyObject? {
         get { return self.valueForKey(keypath) }
+        set { self.setObject(newValue, forKey: keypath) }
     }
 }
 

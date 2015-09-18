@@ -42,6 +42,7 @@ class Download
     var peersConnected: Int?
     var peersNotConnected: Int?
     var peersCompleted: Int?
+    var processId: String?
     
     init?(_ torrent: [String: AnyObject]) {
         guard let info = torrent["info"] as? [String: AnyObject],

@@ -51,10 +51,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             return
         }
         
-        
-        let defaults = NSUserDefaults.standardUserDefaults()
-        let scgi_string = defaults["rtorrent.scgi"] as? String ?? "localhost:5000"
-        let scgi = scgi_string.hosAndPort(5000)
+        guard let processes = NSUserDefaults.standardUserDefaults()["processes"] as? [[String: AnyObject]] else {
+            logger.error("no settings")
+            return
+        }
         
         let connectHandler: (NSError?) -> Void = {(error) -> Void in
             guard error == nil else {
@@ -66,16 +66,24 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             self.refreshTimer.start()
         }
         
-        if let ssh_hp = defaults["ssh.host"] as? String,
-            let user = defaults["ssh.user"] as? String,
-            let password = defaults["ssh.password"] as? String,
-            let useSSH = defaults["rtorrent.useSSH"] as? Bool where useSSH {
-                
-                let ssh = ssh_hp.hosAndPort(22)
-                Datasource.instance.connect(user, host: ssh.host, port: ssh.port, password: password, serviceHost: scgi.host, servicePort: scgi.port, connect: connectHandler)
-        }
-        else {
-            Datasource.instance.connect(scgi.host, port: scgi.port, connect: connectHandler)
+        for process in processes {
+            guard let scgi = (process["scgiPort"] as? String)?.hosAndPort(5000), let name = process["name"] as? String else {
+                logger.error("invalid process entry \(process)")
+                continue
+            }
+            guard let useSSH = process["useSSH"] as? Bool where useSSH else {
+                Datasource.instance.addConnection(name, host: scgi.host, port: scgi.port, connect: connectHandler)
+                continue
+            }
+            
+            guard let sshHost = (process["sshHost"] as? String)?.hosAndPort(22),
+                  let sshUser = process["sshUser"] as? String,
+                  let sshPassword = process["sshPassword"] as? String else {
+                    logger.error("invalid process entry \(process)")
+                    continue
+            }
+            
+            Datasource.instance.addConnection(name, user: sshUser, host: sshHost.host, port: sshHost.port, password: sshPassword, serviceHost: scgi.host, servicePort: scgi.port, connect: connectHandler)
         }
     }
     

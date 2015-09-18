@@ -36,6 +36,7 @@
 		CD171F991B8F970B00014966 /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F931B8F970B00014966 /* TCPConnection.swift */; settings = {ASSET_TAGS = (); }; };
 		CD1E616C19F5C1C5006C23CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD1E616B19F5C1C5006C23CA /* Main.storyboard */; };
 		CD23AEE719E1E6C80027A47D /* DownloadDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */; };
+		CD4C13D91BABC31B00D02AED /* InspectorDownloadInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4C13D81BABC31B00D02AED /* InspectorDownloadInfoViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		CD526BA81992C2A9003D8671 /* Datasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD526BA71992C2A9003D8671 /* Datasource.swift */; };
 		CD5AA8871B97975C00517F47 /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD5AA87E1B97972400517F47 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD5AA8881B97976F00517F47 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD5AA86C1B9796E000517F47 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -258,6 +259,7 @@
 		CD171F931B8F970B00014966 /* TCPConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TCPConnection.swift; path = NativaHelper/TCPConnection.swift; sourceTree = SOURCE_ROOT; };
 		CD1E616B19F5C1C5006C23CA /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadDropView.swift; sourceTree = "<group>"; };
+		CD4C13D81BABC31B00D02AED /* InspectorDownloadInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InspectorDownloadInfoViewController.swift; sourceTree = "<group>"; };
 		CD526BA71992C2A9003D8671 /* Datasource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Datasource.swift; sourceTree = "<group>"; };
 		CD5AA8341B963D2C00517F47 /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = ../lib/Sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
 		CD5AA8531B9795F200517F47 /* SwiftySSH.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftySSH.xcodeproj; path = lib/swiftyssh/SwiftySSH.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -406,6 +408,7 @@
 			children = (
 				CD156B931B88347600CDD8F3 /* InspectorFilesViewController.swift */,
 				CD0D45541B8ABEA7004DB8E1 /* InspectorViewController.swift */,
+				CD4C13D81BABC31B00D02AED /* InspectorDownloadInfoViewController.swift */,
 			);
 			name = Inspector;
 			sourceTree = "<group>";
@@ -794,6 +797,7 @@
 				CDEE44DE1991E1EE00FB76AC /* DownloadCell.swift in Sources */,
 				CD6851A71B90CB7600A810F1 /* Logger.swift in Sources */,
 				CD6851AD1B90CB7600A810F1 /* SyncableArray.swift in Sources */,
+				CD4C13D91BABC31B00D02AED /* InspectorDownloadInfoViewController.swift in Sources */,
 				CDB54D8019A155EC00D777D5 /* Formatter.swift in Sources */,
 				CD7EC18D19E5AEB700C09042 /* FileOutlineViewController.swift in Sources */,
 				CDFE78A21B9F7E730001E8F9 /* NotificationCenter.swift in Sources */,

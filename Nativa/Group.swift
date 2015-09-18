@@ -33,7 +33,7 @@ class Group
 }
 
 extension Group: SyncableArrayDelegate {
-    func idFromDictionary(dict: [String: AnyObject]) -> String? {
+    func idFromRaw(dict: [String: AnyObject]) -> String? {
         guard let info = dict["info"] as? [String: AnyObject], let id = info["id"] as? String else {
             return nil
         }
@@ -45,11 +45,12 @@ extension Group: SyncableArrayDelegate {
         return o.id
     }
     
-    func updateObject(dictionary: [String: AnyObject], object: Download) {
+    func updateObject(dictionary: [String: AnyObject], object: Download) -> Download {
         object.update(dictionary)
+        return object
     }
     
-    func createObjectFromDictionary(dict: [String: AnyObject]) -> Download? {
+    func createObject(dict: [String: AnyObject]) -> Download? {
         return Download(dict)
     }
 }

@@ -12,6 +12,13 @@ class AddTorrentViewController: FileOutlineViewController {
     @IBOutlet weak var torrentName: NSTextField!
     @IBOutlet weak var torrentIcon: NSImageView!
     private var path: NSURL?
+    @objc var processId: String? = Datasource.instance.processIds.first
+    
+    @objc var processIds: [String] {
+        return Datasource.instance.processIds
+    }
+    
+    @objc var start = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +42,9 @@ class AddTorrentViewController: FileOutlineViewController {
     
     @IBAction func add(sender: AnyObject) {
         do {
-            try Datasource.instance.addTorrentFiles([(path: path!, download: download!)])
+            if let processId = processId {
+                try Datasource.instance.addTorrentFiles(processId, files: [(path: path!, download: download!, start: start, group: nil)])
+            }
         }
         catch let e {
             logger.error("unable to add files \(e)")
