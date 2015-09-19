@@ -76,12 +76,10 @@ class CompoundDownloadsSyncableArrayDelegate: SyncableArrayDelegate {
 
 
 class Datasource: ConnectionEventListener {
-    private var processes: [String: (xpc: NSXPCConnection!, downloader: NativaHelperProtocol!, downloads: SyncableArray<DownloadsSyncableArrayDelegate>!, state: DatasourceConnectionStatus, observer: AnyObject?, delegate: DownloadsSyncableArrayDelegate?)] = [:]
+    var processes: [String: (xpc: NSXPCConnection!, downloader: NativaHelperProtocol!, downloads: SyncableArray<DownloadsSyncableArrayDelegate>!, state: DatasourceConnectionStatus, observer: AnyObject?, delegate: DownloadsSyncableArrayDelegate?)] = [:]
     let downloads: SyncableArray<CompoundDownloadsSyncableArrayDelegate>
     let queue = NSOperationQueue()
     let downloadsDelegate = CompoundDownloadsSyncableArrayDelegate()
-    
-    var processIds: [String] { return processes.keys.map({ (k) -> String in k}) }
     
     static let instance = Datasource()
     
@@ -317,7 +315,18 @@ class Datasource: ConnectionEventListener {
     
     func parseTorrents(files:[NSURL], handler: ([(path: NSURL, download: Download)]?, NSError?)->Void){
         queue.addOperationWithBlock { () -> Void in
-            guard let downloader = self.processes.first?.1.downloader else {
+            
+            var process: NativaHelperProtocol?
+            for key in self.processes.keys {
+                process = self.getProcess(key)?.downloader
+                
+                if process != nil {
+                    break
+                }
+            }
+            
+            guard let downloader = process else {
+                handler(nil, NSError(domain: "net.aramzamzam.Nativa", code: -1, userInfo: [NSLocalizedDescriptionKey: "no one service is connected"]))
                 return
             }
             

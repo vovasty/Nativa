@@ -11,14 +11,11 @@ import Cocoa
 class AddTorrentViewController: FileOutlineViewController {
     @IBOutlet weak var torrentName: NSTextField!
     @IBOutlet weak var torrentIcon: NSImageView!
+    @IBOutlet weak var processesButton: NSPopUpButton!
     private var path: NSURL?
-    @objc var processId: String? = Datasource.instance.processIds.first
+    @objc var processId: String?
     @objc var hideProcessList: Bool {
-        return processIds.count == 1
-    }
-    
-    @objc var processIds: [String] {
-        return Datasource.instance.processIds
+        return Datasource.instance.processes.count == 1
     }
     
     @objc var start = false
@@ -28,6 +25,23 @@ class AddTorrentViewController: FileOutlineViewController {
         self.outlineView.reloadData()
         self.torrentName.stringValue = self.download!.title
         self.torrentIcon.image = self.download!.icon
+        
+        processesButton.removeAllItems()
+        processesButton.autoenablesItems = false
+        for process in Datasource.instance.processes {
+            processesButton.addItemWithTitle(process.0)
+            
+            if case DatasourceConnectionStatus.Established = process.1.state {
+                processesButton.itemArray.last?.enabled = true
+                if processId == nil { //select first available process
+                    processId = process.0
+                    processesButton.selectItemWithTitle(processId!)
+                }
+            }
+            else {
+                processesButton.itemArray.last?.enabled = false
+            }
+        }
     }
 
     override func viewDidAppear() {
