@@ -25,17 +25,18 @@ private class Tokenizer: GeneratorType {
         {
             let byte = bytes[0]
             
-            //d e i l
+            
             switch byte {
-            case 100, 101, 105, 108:
+            case 100, 101, 105, 108: //d e i l
                 let token = String(Character(UnicodeScalar(byte)))
                 values.append((token, bytes - begin))
                 bytes++
-            //0...9
-            case 48 ... 57:
+            case 48 ... 57: //0...9
                 break
             default:
-                 throw BencodeError.Failure(msg: "junk[\(bytesEnd-bytes)]:\(Character(UnicodeScalar(bytes[0])))")
+                 //skip junk
+                 bytes++
+                 continue
             }
             
             var numberPtr = bytes

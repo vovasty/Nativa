@@ -65,6 +65,7 @@
 		CD7EC18D19E5AEB700C09042 /* FileOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */; };
 		CD7EFCB019F87378001AE5E9 /* FolderName.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7EFCAF19F87378001AE5E9 /* FolderName.xib */; };
 		CD7EFCB219F87426001AE5E9 /* FolderNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7EFCB119F87426001AE5E9 /* FolderNameCell.swift */; };
+		CD8EC6C51BB084C200A9F7AE /* bad.torrent in Resources */ = {isa = PBXBuildFile; fileRef = CD8EC6C41BB084C200A9F7AE /* bad.torrent */; settings = {ASSET_TAGS = (); }; };
 		CD90A79E1B8E5CF000889705 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD90A79D1B8E5CF000889705 /* MainViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		CDB2614D19F85F8B00DE168C /* FileNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2614C19F85F8B00DE168C /* FileNameCell.swift */; };
 		CDB2614F19F860B600DE168C /* FileName.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDB2614E19F860B600DE168C /* FileName.xib */; };
@@ -274,6 +275,7 @@
 		CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileOutlineViewController.swift; sourceTree = "<group>"; };
 		CD7EFCAF19F87378001AE5E9 /* FolderName.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FolderName.xib; sourceTree = "<group>"; };
 		CD7EFCB119F87426001AE5E9 /* FolderNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderNameCell.swift; sourceTree = "<group>"; };
+		CD8EC6C41BB084C200A9F7AE /* bad.torrent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bad.torrent; sourceTree = "<group>"; };
 		CD90A79D1B8E5CF000889705 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		CDB2614C19F85F8B00DE168C /* FileNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileNameCell.swift; sourceTree = "<group>"; };
 		CDB2614E19F860B600DE168C /* FileName.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileName.xib; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 				CDC7E38F1B9A3D2200AB022E /* NativaTests-Bridging-Header.h */,
 				CDC7E3941B9A447600AB022E /* single.torrent */,
 				CDC7E3961B9A449700AB022E /* multi.torrent */,
+				CD8EC6C41BB084C200A9F7AE /* bad.torrent */,
 			);
 			path = NativaTests;
 			sourceTree = "<group>";
@@ -766,6 +769,7 @@
 			files = (
 				CDC7E3971B9A449700AB022E /* multi.torrent in Resources */,
 				CDC7E3951B9A447600AB022E /* single.torrent in Resources */,
+				CD8EC6C51BB084C200A9F7AE /* bad.torrent in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

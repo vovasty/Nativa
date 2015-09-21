@@ -20,6 +20,12 @@ class BCodeTests: XCTestCase {
         return NSData(contentsOfFile: path)!
     }
     
+    private func badTorrentData() -> NSData {
+        let path = NSBundle(forClass: self.classForCoder).resourcePath!.stringByAppendingString("/bad.torrent")
+        return NSData(contentsOfFile: path)!
+    }
+
+    
     func testBDecodeMulti() {
         let torrent: ([String: AnyObject], String?) = try! bdecode(multiTorrentData())!
         XCTAssertNotNil(torrent.0["info"])
@@ -32,6 +38,14 @@ class BCodeTests: XCTestCase {
         XCTAssertNotNil(torrent.0["info"])
         let files = (torrent.0["info"] as! [String: AnyObject])["files"]
         XCTAssertNil(files)
+    }
+    
+    
+    func testBDecodeBad() {
+        let torrent: ([String: AnyObject], String?) = try! bdecode(badTorrentData())!
+        XCTAssertNotNil(torrent.0["info"])
+        let files = (torrent.0["info"] as! [String: AnyObject])["files"]
+        XCTAssertNotNil(files)
     }
 
 }
