@@ -209,7 +209,9 @@ class Datasource: ConnectionEventListener {
             if let observer = pr.observer as? String {
                 pr.downloads.removeObserver(observer)
             }
-            pr.xpc.invalidate()
+            if let xpc = pr.xpc {
+                xpc.invalidate()
+            }
         }
         processes = [:]
     }
