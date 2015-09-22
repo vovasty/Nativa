@@ -202,6 +202,17 @@ class Datasource: ConnectionEventListener {
             downloader.connect(host, port: port, connect: handler)
         }
     }
+    
+    func closeAllConnections(){
+        for process in processes {
+            let pr = process.1
+            if let observer = pr.observer as? String {
+                pr.downloads.removeObserver(observer)
+            }
+            pr.xpc.invalidate()
+        }
+        processes = [:]
+    }
 
     func version(id: String, response: (String?, NSError?)->Void) {
         guard let process = getProcess(id) else{

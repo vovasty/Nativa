@@ -8,15 +8,19 @@
 
 import Cocoa
 
+let kAccountsKey = "accounts"
+
 class RTorrentProcessPreferences: NSViewController{
-    @objc var processName: String?
-    @objc var scgiPort: String?
-    @objc var useSSH: Bool = false
-    @objc var sshHost: String?
-    @objc var sshUser: String?
-    @objc var sshPassword: String?
+    dynamic var processName: String?
+    dynamic var scgiPort: String?
+    dynamic var useSSH: Bool = false
+    dynamic var sshHost: String?
+    dynamic var sshUser: String?
+    dynamic var sshPassword: String?
     
     @IBAction func saveChanges(sender: AnyObject) {
+        commitEditing()
+        
         guard let processName = processName else{
             let error = NSError(domain: "net.aramzamzam.Nativa", code: -1, userInfo: [NSLocalizedDescriptionKey: "Some fields not defined"])
             NSApp.presentError(error)
@@ -24,7 +28,7 @@ class RTorrentProcessPreferences: NSViewController{
         }
         
         let defaults = NSUserDefaults.standardUserDefaults()
-        var processes = defaults["processes"] as? [[String: AnyObject]] ?? []
+        var processes = defaults[kAccountsKey] as? [[String: AnyObject]] ?? []
         
         var dict: [String: AnyObject] = [
             "name": processName,
@@ -33,7 +37,7 @@ class RTorrentProcessPreferences: NSViewController{
         
         func save() {
             processes.append(dict)
-            defaults["processes"] = processes
+            defaults[kAccountsKey] = processes
             defaults.synchronize()
             dismissController(nil)
         }
@@ -60,41 +64,36 @@ class RTorrentProcessPreferences: NSViewController{
 
 class Processes: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
     @IBOutlet weak var tableView: NSTableView!
+    @IBOutlet var arrayController: NSArrayController!
     
-    private var processes: [[String: AnyObject]] {
-        return NSUserDefaults.standardUserDefaults()["processes"] as? [[String: AnyObject]] ?? []
-    }
-
+    dynamic var useSSH: Bool = false
+    dynamic var sshHost: String?
+    dynamic var sshUser: String?
+    dynamic var sshPassword: String?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidAppear() {
+        super.viewDidAppear()
         
-        NSUserDefaults.standardUserDefaults().addObserver(self, forKeyPath: "processes", options: NSKeyValueObservingOptions.New, context: nil)
+        if arrayController.arrangedObjects.count == 0 {
+            performSegueWithIdentifier("addAccount", sender: nil)
+        }
     }
     
-    
-    //MARK :NSTableViewDataSource
-    
-    func numberOfRowsInTableView(tableView: NSTableView) -> Int {
-        return processes.count
+    override func viewWillDisappear() {
+        super.viewWillDisappear()
+        //save on close
+        arrayController.commitEditing()
+        
+        if let app = NSApp.delegate as? AppDelegate {
+            app.reconnect()
+        }
     }
     
-
     //MARK :NSTableViewDelegate
     func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
         let cell = tableView.makeViewWithIdentifier("NameCell", owner: self) as? NSTableCellView
-        cell?.textField?.stringValue = processes[row]["name"] as? String ?? "Unknown"
         return cell
     }
-    
-//    func tableView(tableView: NSTableView, shouldEditTableColumn tableColumn: NSTableColumn?, row: Int) -> Bool {
-//        return true
-//    }
-
-    func tableViewSelectionIsChanging(notification: NSNotification) {
-        
-    }
-    
     
     @IBAction func removeProcess(sender: AnyObject) {
         guard self.tableView.selectedRow != -1 else {
@@ -111,19 +110,8 @@ class Processes: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
             guard $0 == NSAlertFirstButtonReturn else {
                 return
             }
-
-            var processes = self.processes
-            processes.removeAtIndex(self.tableView.selectedRow)
-            NSUserDefaults.standardUserDefaults()["processes"] = processes
-            NSUserDefaults.standardUserDefaults().synchronize()
+            
+            self.arrayController.removeObjectAtArrangedObjectIndex(self.arrayController.selectionIndex)
         }
-    }
-    
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        self.tableView.reloadData()
-    }
-    
-    deinit {
-        NSUserDefaults.standardUserDefaults().removeObserver(self, forKeyPath: "processes")
     }
 }

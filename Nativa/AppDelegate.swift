@@ -33,6 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     private func connect() {
         refreshTimer.stop()
+        Datasource.instance.closeAllConnections()
         self.reconnectCounter++
 
         guard reconnectCounter <= maxReconnectCounter else {
@@ -51,7 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             return
         }
         
-        guard let processes = NSUserDefaults.standardUserDefaults()["processes"] as? [[String: AnyObject]] else {
+        guard let processes = NSUserDefaults.standardUserDefaults()[kAccountsKey] as? [[String: AnyObject]] else {
             logger.error("no settings")
             return
         }
