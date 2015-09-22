@@ -51,5 +51,11 @@ class MainViewController: NSSplitViewController {
                 self.splitView.hidden = false
             }
         }
+        
+        if (NSUserDefaults.standardUserDefaults()[kAccountsKey] as? [[String: AnyObject]])?.count == 0 {
+            let controller = storyboard?.instantiateControllerWithIdentifier("Preferences")
+            presentViewControllerAsModalWindow(controller as! NSViewController)
+        }
+
     }
 }
