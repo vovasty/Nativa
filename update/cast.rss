@@ -6,6 +6,26 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
         <item>
+    			<title>Version 0.6.0</title>
+                <description>
+                  <![CDATA[
+                    <ul>
+                      <li>now you can choose which files should be downloaded when adding torrent</li>
+                      <li>can manage multiple rTorrents</li>
+                    </ul>
+                  ]]>
+                </description>
+    			<pubDate>Mon, 21 Sep 2015 18:01:24 -0700</pubDate>
+                <enclosure
+    				url="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.6.0.zip"
+    				sparkle:version="28"
+    				sparkle:shortVersionString="0.6.0"
+    				type="application/octet-stream"
+    				length="3887521"
+    				sparkle:dsaSignature="MC0CFQC5Bs3vvB52gv8tssIf2CXCVO9ZPgIUDRc9xpIB8G77gs7UP0T/moua08M="
+                />
+    	</item>
+        <item>
     			<title>Version 0.5.2</title>
                 <description>
                   <![CDATA[
