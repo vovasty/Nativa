@@ -199,11 +199,6 @@ class Download
                             file.sizeChunks = size_chunks == 0 ? 1 : size_chunks
                             file.percentCompleted = file.completedChunks / file.sizeChunks
                         }
-                        else {
-                            file.completedChunks = 0
-                            file.sizeChunks = 1
-                            file.percentCompleted = 0
-                        }
                         
                         if parent.children == nil {
                             parent.children = [file]
