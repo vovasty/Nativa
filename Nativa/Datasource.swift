@@ -405,7 +405,10 @@ class Datasource: ConnectionEventListener {
                     }
                     
                     process.downloader.addTorrentData(file.download.id, data: torrentData, priorities: pr, folder: file.folder, start: file.start, group: file.group?.id, handler: { (error) -> Void in
-                        logger.error("unable to add torrent \(error)")
+                        guard error == nil else {
+                            logger.error("unable to add torrent \(error)")
+                            return
+                        }
                     })
                 }
                 catch let error {
