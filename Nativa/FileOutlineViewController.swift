@@ -17,7 +17,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
             if let files = download?.flatFileList where files.count > 0 {
                 filePriorities = files.reduce([FileListNode: (priority: DownloadPriority, state: Int)](), combine: { (var dict, file) -> [FileListNode: (priority: DownloadPriority, state: Int)] in
                     
-                    dict[file] = (priority: file.priority, state: file.priority == .Skip ? NSOffState : NSOnState)
+                    dict[file] = (priority: file.priority, state: (file.percentCompleted == 1 || file.priority != .Skip) ? NSOnState : NSOffState)
                     return dict
                 })
             }
@@ -192,7 +192,12 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
     }
     
     func setPriorityForFile(file: FileListNode, state: Int) {
+        guard file.percentCompleted < 1 else {
+            return
+        }
+        
         let priority: DownloadPriority
+        
         if state == NSOnState || state == NSMixedState {
             priority = .Normal
         }
@@ -231,10 +236,11 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
             else {
                 state = filePriorities[f]!.state
             }
+            
             if state == NSOnState {
                 checked++
             }
-            else {
+            else if state == NSOffState{
                 skipped++
             }
         }
