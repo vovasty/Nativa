@@ -20,7 +20,9 @@ class FileListNode {
     var priority: DownloadPriority = .Normal
     weak var parent: FileListNode?
     private var _icon: NSImage?
-    
+    var completedChunks: Float = 0
+    var sizeChunks: Float = 0
+
     init(name: String, path:String, folder: Bool, size: Double){
         self.name = name
         self.folder = folder

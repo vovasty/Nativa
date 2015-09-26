@@ -184,8 +184,6 @@ class Download
                 
                 torrentSize += fileSize;
                 
-                
-                
                 for pe in fileList
                 {
                     let path = "\(parent.path)/\(pe)"
@@ -197,7 +195,9 @@ class Download
                         file.parent = parent
                         
                         if let completed_chunks = f["completed_chunks"] as? Float, let size_chunks = f["size_chunks"] as? Float {
-                            file.percentCompleted = completed_chunks / size_chunks
+                            file.completedChunks = completed_chunks
+                            file.sizeChunks = size_chunks == 0 ? 1 : size_chunks
+                            file.percentCompleted = file.completedChunks / file.sizeChunks
                         }
                         
                         if parent.children == nil {
@@ -209,13 +209,14 @@ class Download
                         
                         flatFiles.append(file);
                         
-                        var p: FileListNode? = parent
-                        while p != nil {
-                            p?.size += fileSize
-                            p?.percentCompleted += file.percentCompleted
-                            p = p!.parent
+                        var par: FileListNode? = parent
+                        while let p = par {
+                            p.size += fileSize
+                            p.completedChunks += file.completedChunks
+                            p.sizeChunks += file.sizeChunks
+                            p.percentCompleted = p.completedChunks / p.sizeChunks
+                            par = p.parent
                         }
-                        
                     }
                     else
                     {
