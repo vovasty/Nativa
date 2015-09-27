@@ -184,8 +184,21 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
     }
     
     @IBAction func removeDownloadWithData(sender: AnyObject) {
-        for index in outlineView.selectedRowIndexes {
-            if let download = outlineView.itemAtRow(index) as? Download {
+        
+        let selectedDownloads: [Download] = outlineView.selectedRowIndexes.map { outlineView.itemAtRow($0) as! Download }
+        
+        let alert = NSAlert()
+        alert.addButtonWithTitle("OK")
+        alert.addButtonWithTitle("Cancel")
+        alert.messageText = "Delete the selected downloads?"
+        alert.informativeText = "This operation can not be undone."
+        alert.alertStyle = NSAlertStyle.WarningAlertStyle
+        alert.beginSheetModalForWindow(self.view.window!) {
+            guard $0 == NSAlertFirstButtonReturn else {
+                return
+            }
+            
+            for download in selectedDownloads {
                 Datasource.instance.removeTorrent(download, removeData: true, response: { (error) -> Void in
                     if let error = error {
                         logger.error("unable to remove torrent: \(error)")
