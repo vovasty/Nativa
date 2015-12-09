@@ -57,11 +57,13 @@ class AddTorrentViewController: FileOutlineViewController {
     
     @IBAction func add(sender: AnyObject) {
         if let processId = processId {
+            //to prevent capturing self
+            guard let path = self.path else { return }
             let start = NSUserDefaults.standardUserDefaults().boolForKey("downloadStartWhenAdded")
-            Datasource.instance.addTorrentFiles(processId, files: [(path: path!, download: download!, start: start, group: nil, folder: nil, priorities: flatPriorities)]) {
+            Datasource.instance.addTorrentFiles(processId, files: [(path: path, download: download!, start: start, group: nil, folder: nil, priorities: flatPriorities)]) {
                 if NSUserDefaults.standardUserDefaults().boolForKey("downloadTrashTorrentFile") {
                     do {
-                        try NSFileManager.defaultManager().trashPath(self.path!)
+                        try NSFileManager.defaultManager().trashPath(path)
                     }
                     catch {
                         logger.error("unable to remove torrent file: \(error)")
