@@ -99,7 +99,6 @@ class InspectorViewController: NSTabViewController {
         stateView.state = .Progress
         stateView.hidden = true
         
-        headerView.translatesAutoresizingMaskIntoConstraints = false
         let tabView = view.subviews[0]
         let segmentedControl = view.subviews[1]
         
@@ -108,7 +107,8 @@ class InspectorViewController: NSTabViewController {
         view.addSubview(noSelectionView, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
         
         headerView.snp_makeConstraints { (make) -> Void in
-            make.width.equalTo(view.bounds.size.width)
+            make.width.equalTo(view.snp_width)
+            make.height.equalTo(50)
             make.top.equalTo(3)
         }
         
