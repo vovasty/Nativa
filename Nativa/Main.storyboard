@@ -784,10 +784,8 @@ CA
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                        </beginningViews>
-                                        <middleViews>
                                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gbh-u8-4yX">
-                                                <rect key="frame" x="41" y="0.0" width="164" height="22"/>
+                                                <rect key="frame" x="41" y="0.0" width="205" height="22"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="cHK-yx-DqR">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -803,7 +801,7 @@ CA
                                                     <outlet property="nextKeyView" destination="bGx-FX-SqA" id="2ub-Xa-5Wk"/>
                                                 </connections>
                                             </textField>
-                                        </middleViews>
+                                        </beginningViews>
                                         <visibilityPriorities>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
@@ -827,10 +825,8 @@ CA
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                        </beginningViews>
-                                        <middleViews>
                                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bGx-FX-SqA">
-                                                <rect key="frame" x="41" y="0.0" width="164" height="22"/>
+                                                <rect key="frame" x="41" y="0.0" width="205" height="22"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="rnB-Nw-sQY">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -846,7 +842,7 @@ CA
                                                     <outlet property="nextKeyView" destination="hy4-PS-d37" id="5Ia-NC-Rsi"/>
                                                 </connections>
                                             </textField>
-                                        </middleViews>
+                                        </beginningViews>
                                         <visibilityPriorities>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
@@ -870,10 +866,8 @@ CA
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                        </beginningViews>
-                                        <middleViews>
                                             <secureTextField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hy4-PS-d37">
-                                                <rect key="frame" x="70" y="0.0" width="106" height="22"/>
+                                                <rect key="frame" x="70" y="0.0" width="176" height="22"/>
                                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="9vD-nr-2aP">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -891,7 +885,7 @@ CA
                                                     <binding destination="elT-GD-ykp" name="enabled" keyPath="selection.useSSH" id="nIS-xH-MXK"/>
                                                 </connections>
                                             </secureTextField>
-                                        </middleViews>
+                                        </beginningViews>
                                         <visibilityPriorities>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
@@ -1092,10 +1086,8 @@ CA
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                        </beginningViews>
-                                        <middleViews>
                                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="85B-EK-JCs">
-                                                <rect key="frame" x="41" y="0.0" width="164" height="22"/>
+                                                <rect key="frame" x="41" y="0.0" width="205" height="22"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="48T-tq-SkL">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -1111,7 +1103,7 @@ CA
                                                     <outlet property="nextKeyView" destination="YMy-VV-4de" id="uoA-06-jwh"/>
                                                 </connections>
                                             </textField>
-                                        </middleViews>
+                                        </beginningViews>
                                         <visibilityPriorities>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
@@ -1135,10 +1127,8 @@ CA
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                        </beginningViews>
-                                        <middleViews>
                                             <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YMy-VV-4de">
-                                                <rect key="frame" x="41" y="0.0" width="164" height="22"/>
+                                                <rect key="frame" x="41" y="0.0" width="205" height="22"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="53x-b4-WZk">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -1154,7 +1144,7 @@ CA
                                                     <outlet property="nextKeyView" destination="2eE-Jh-G6L" id="eXW-PX-4Bi"/>
                                                 </connections>
                                             </textField>
-                                        </middleViews>
+                                        </beginningViews>
                                         <visibilityPriorities>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
@@ -1178,10 +1168,8 @@ CA
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                             </textField>
-                                        </beginningViews>
-                                        <middleViews>
                                             <secureTextField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2eE-Jh-G6L">
-                                                <rect key="frame" x="70" y="0.0" width="106" height="22"/>
+                                                <rect key="frame" x="70" y="0.0" width="176" height="22"/>
                                                 <secureTextFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" enabled="NO" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" usesSingleLineMode="YES" id="kjp-5q-4r0">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -1199,7 +1187,7 @@ CA
                                                     <binding destination="eAt-ka-iOm" name="enabled" keyPath="useSSH" id="ENz-Xi-L0g"/>
                                                 </connections>
                                             </secureTextField>
-                                        </middleViews>
+                                        </beginningViews>
                                         <visibilityPriorities>
                                             <integer value="1000"/>
                                             <integer value="1000"/>
@@ -1473,7 +1461,7 @@ Gw
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <binding destination="SPS-Bb-RSo" name="value" keyPath="start" id="dXI-Ya-oER"/>
+                                    <binding destination="6SH-Mf-rFV" name="value" keyPath="values.downloadStartWhenAdded" id="9jm-q8-g9B"/>
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NTX-b5-bvm">
@@ -1494,6 +1482,16 @@ Gw
                                     <binding destination="SPS-Bb-RSo" name="selectedValue" keyPath="processId" id="Jll-Zl-vq2"/>
                                 </connections>
                             </popUpButton>
+                            <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3eH-Fv-Lg3">
+                                <rect key="frame" x="18" y="45" width="132" height="18"/>
+                                <buttonCell key="cell" type="check" title="Trash torrent file" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ik5-MX-5ED">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="6SH-Mf-rFV" name="value" keyPath="values.downloadTrashTorrentFile" id="37E-BV-kNO"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="fhe-YF-hKk" secondAttribute="trailing" constant="20" id="3XZ-yD-tV7"/>

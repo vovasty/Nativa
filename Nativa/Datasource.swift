@@ -378,7 +378,7 @@ class Datasource: ConnectionEventListener {
         }
     }
     
-    func addTorrentFiles(processId: String, files: [(path: NSURL, download: Download, start: Bool, group: Group?, folder: String?, priorities: [FileListNode: Int]?)]) {
+    func addTorrentFiles(processId: String, files: [(path: NSURL, download: Download, start: Bool, group: Group?, folder: String?, priorities: [FileListNode: Int]?)], handler: ()->Void) {
         guard let process = getProcess(processId) else{
             return
         }
@@ -411,10 +411,12 @@ class Datasource: ConnectionEventListener {
                         }
                     })
                 }
-                catch let error {
+                catch {
                     logger.error("unable to add torrent \(error)")
                 }
             }
+            
+            handler()
         }
     }
     

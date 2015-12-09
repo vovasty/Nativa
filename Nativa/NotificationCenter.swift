@@ -89,7 +89,11 @@ class EventEmitter {
             return $0.element == nil || $0.element != listener as? ClosurePointer
         }
     }
-    
+
+    func removeAll() {
+        listeners = []
+    }
+
     func emit(value: Any) {
         listeners = listeners.filter{
             $0.valid()

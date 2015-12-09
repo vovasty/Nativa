@@ -18,8 +18,6 @@ class AddTorrentViewController: FileOutlineViewController {
         return Datasource.instance.processes.count == 1
     }
     
-    @objc var start = false
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.outlineView.reloadData()
@@ -59,7 +57,17 @@ class AddTorrentViewController: FileOutlineViewController {
     
     @IBAction func add(sender: AnyObject) {
         if let processId = processId {
-            Datasource.instance.addTorrentFiles(processId, files: [(path: path!, download: download!, start: start, group: nil, folder: nil, priorities: flatPriorities)])
+            let start = NSUserDefaults.standardUserDefaults().boolForKey("downloadStartWhenAdded")
+            Datasource.instance.addTorrentFiles(processId, files: [(path: path!, download: download!, start: start, group: nil, folder: nil, priorities: flatPriorities)]) {
+                if NSUserDefaults.standardUserDefaults().boolForKey("downloadTrashTorrentFile") {
+                    do {
+                        try NSFileManager.defaultManager().trashPath(self.path!)
+                    }
+                    catch {
+                        logger.error("unable to remove torrent file: \(error)")
+                    }
+                }
+            }
         }
         
         if let window = self.view.window {

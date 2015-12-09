@@ -28,61 +28,62 @@
 		CD10C3191B8994DA00EF9284 /* XMLRPCDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD10C2F21B8920EE00EF9284 /* XMLRPCDecoder.swift */; };
 		CD10C31A1B8994DA00EF9284 /* XMLRPCEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD10C2F31B8920EE00EF9284 /* XMLRPCEncoder.swift */; };
 		CD156B941B88347600CDD8F3 /* InspectorFilesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD156B931B88347600CDD8F3 /* InspectorFilesViewController.swift */; };
-		CD171F941B8F970B00014966 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F911B8F970B00014966 /* Connection.swift */; settings = {ASSET_TAGS = (); }; };
-		CD171F951B8F970B00014966 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F911B8F970B00014966 /* Connection.swift */; settings = {ASSET_TAGS = (); }; };
-		CD171F961B8F970B00014966 /* SSHConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F921B8F970B00014966 /* SSHConnection.swift */; settings = {ASSET_TAGS = (); }; };
-		CD171F971B8F970B00014966 /* SSHConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F921B8F970B00014966 /* SSHConnection.swift */; settings = {ASSET_TAGS = (); }; };
-		CD171F981B8F970B00014966 /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F931B8F970B00014966 /* TCPConnection.swift */; settings = {ASSET_TAGS = (); }; };
-		CD171F991B8F970B00014966 /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F931B8F970B00014966 /* TCPConnection.swift */; settings = {ASSET_TAGS = (); }; };
+		CD171F941B8F970B00014966 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F911B8F970B00014966 /* Connection.swift */; };
+		CD171F951B8F970B00014966 /* Connection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F911B8F970B00014966 /* Connection.swift */; };
+		CD171F961B8F970B00014966 /* SSHConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F921B8F970B00014966 /* SSHConnection.swift */; };
+		CD171F971B8F970B00014966 /* SSHConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F921B8F970B00014966 /* SSHConnection.swift */; };
+		CD171F981B8F970B00014966 /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F931B8F970B00014966 /* TCPConnection.swift */; };
+		CD171F991B8F970B00014966 /* TCPConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD171F931B8F970B00014966 /* TCPConnection.swift */; };
 		CD1E616C19F5C1C5006C23CA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD1E616B19F5C1C5006C23CA /* Main.storyboard */; };
 		CD23AEE719E1E6C80027A47D /* DownloadDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */; };
-		CD4C13D91BABC31B00D02AED /* InspectorDownloadInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4C13D81BABC31B00D02AED /* InspectorDownloadInfoViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		CD4C13D91BABC31B00D02AED /* InspectorDownloadInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4C13D81BABC31B00D02AED /* InspectorDownloadInfoViewController.swift */; };
 		CD526BA81992C2A9003D8671 /* Datasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD526BA71992C2A9003D8671 /* Datasource.swift */; };
 		CD5AA8871B97975C00517F47 /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD5AA87E1B97972400517F47 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD5AA8881B97976F00517F47 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD5AA86C1B9796E000517F47 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD5AA8891B97977B00517F47 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5AA87E1B97972400517F47 /* SnapKit.framework */; };
 		CD5AA88A1B97978000517F47 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5AA86C1B9796E000517F47 /* Sparkle.framework */; };
 		CD5AA88B1B97978D00517F47 /* SwiftySSH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5AA8591B9795F200517F47 /* SwiftySSH.framework */; };
-		CD5AA8B61B97B89E00517F47 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = CD5AA8B51B97B89E00517F47 /* dsa_pub.pem */; settings = {ASSET_TAGS = (); }; };
+		CD5AA8B61B97B89E00517F47 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = CD5AA8B51B97B89E00517F47 /* dsa_pub.pem */; };
 		CD5AA8B71B9808B400517F47 /* SwiftySSH.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD5AA8591B9795F200517F47 /* SwiftySSH.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CD6851A41B90CB7600A810F1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD68519F1B90CB7600A810F1 /* Error.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851A51B90CB7600A810F1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD68519F1B90CB7600A810F1 /* Error.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851A61B90CB7600A810F1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD68519F1B90CB7600A810F1 /* Error.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851A71B90CB7600A810F1 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A01B90CB7600A810F1 /* Logger.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851A81B90CB7600A810F1 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A01B90CB7600A810F1 /* Logger.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851A91B90CB7600A810F1 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A01B90CB7600A810F1 /* Logger.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851AA1B90CB7600A810F1 /* NativaHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A11B90CB7600A810F1 /* NativaHelperProtocol.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851AB1B90CB7600A810F1 /* NativaHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A11B90CB7600A810F1 /* NativaHelperProtocol.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851AC1B90CB7600A810F1 /* NativaHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A11B90CB7600A810F1 /* NativaHelperProtocol.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851AD1B90CB7600A810F1 /* SyncableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A21B90CB7600A810F1 /* SyncableArray.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851AE1B90CB7600A810F1 /* SyncableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A21B90CB7600A810F1 /* SyncableArray.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851AF1B90CB7600A810F1 /* SyncableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A21B90CB7600A810F1 /* SyncableArray.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851B01B90CB7600A810F1 /* Synchronized.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A31B90CB7600A810F1 /* Synchronized.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851B11B90CB7600A810F1 /* Synchronized.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A31B90CB7600A810F1 /* Synchronized.swift */; settings = {ASSET_TAGS = (); }; };
-		CD6851B21B90CB7600A810F1 /* Synchronized.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A31B90CB7600A810F1 /* Synchronized.swift */; settings = {ASSET_TAGS = (); }; };
+		CD6851A41B90CB7600A810F1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD68519F1B90CB7600A810F1 /* Error.swift */; };
+		CD6851A51B90CB7600A810F1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD68519F1B90CB7600A810F1 /* Error.swift */; };
+		CD6851A61B90CB7600A810F1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD68519F1B90CB7600A810F1 /* Error.swift */; };
+		CD6851A71B90CB7600A810F1 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A01B90CB7600A810F1 /* Logger.swift */; };
+		CD6851A81B90CB7600A810F1 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A01B90CB7600A810F1 /* Logger.swift */; };
+		CD6851A91B90CB7600A810F1 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A01B90CB7600A810F1 /* Logger.swift */; };
+		CD6851AA1B90CB7600A810F1 /* NativaHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A11B90CB7600A810F1 /* NativaHelperProtocol.swift */; };
+		CD6851AB1B90CB7600A810F1 /* NativaHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A11B90CB7600A810F1 /* NativaHelperProtocol.swift */; };
+		CD6851AC1B90CB7600A810F1 /* NativaHelperProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A11B90CB7600A810F1 /* NativaHelperProtocol.swift */; };
+		CD6851AD1B90CB7600A810F1 /* SyncableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A21B90CB7600A810F1 /* SyncableArray.swift */; };
+		CD6851AE1B90CB7600A810F1 /* SyncableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A21B90CB7600A810F1 /* SyncableArray.swift */; };
+		CD6851AF1B90CB7600A810F1 /* SyncableArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A21B90CB7600A810F1 /* SyncableArray.swift */; };
+		CD6851B01B90CB7600A810F1 /* Synchronized.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A31B90CB7600A810F1 /* Synchronized.swift */; };
+		CD6851B11B90CB7600A810F1 /* Synchronized.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A31B90CB7600A810F1 /* Synchronized.swift */; };
+		CD6851B21B90CB7600A810F1 /* Synchronized.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A31B90CB7600A810F1 /* Synchronized.swift */; };
 		CD69F50019A6ADD80056BA62 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD69F4FE19A6ADD80056BA62 /* Download.swift */; };
 		CD69F50119A6ADD80056BA62 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD69F4FF19A6ADD80056BA62 /* Group.swift */; };
 		CD7EC18D19E5AEB700C09042 /* FileOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */; };
 		CD7EFCB019F87378001AE5E9 /* FolderName.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7EFCAF19F87378001AE5E9 /* FolderName.xib */; };
 		CD7EFCB219F87426001AE5E9 /* FolderNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7EFCB119F87426001AE5E9 /* FolderNameCell.swift */; };
-		CD8EC6C51BB084C200A9F7AE /* bad.torrent in Resources */ = {isa = PBXBuildFile; fileRef = CD8EC6C41BB084C200A9F7AE /* bad.torrent */; settings = {ASSET_TAGS = (); }; };
-		CD90A79E1B8E5CF000889705 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD90A79D1B8E5CF000889705 /* MainViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		CD8EC6C51BB084C200A9F7AE /* bad.torrent in Resources */ = {isa = PBXBuildFile; fileRef = CD8EC6C41BB084C200A9F7AE /* bad.torrent */; };
+		CD90A79E1B8E5CF000889705 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD90A79D1B8E5CF000889705 /* MainViewController.swift */; };
+		CD9E103F1C18E99D00C390B3 /* NSFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9E103E1C18E99D00C390B3 /* NSFileManager.swift */; };
 		CDB2614D19F85F8B00DE168C /* FileNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2614C19F85F8B00DE168C /* FileNameCell.swift */; };
 		CDB2614F19F860B600DE168C /* FileName.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDB2614E19F860B600DE168C /* FileName.xib */; };
 		CDB54D7C19A13F7100D777D5 /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54D7B19A13F7100D777D5 /* GroupCell.swift */; };
 		CDB54D8019A155EC00D777D5 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54D7F19A155EC00D777D5 /* Formatter.swift */; };
-		CDC7E37C1B990CEB00AB022E /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E37B1B990CEB00AB022E /* BackgroundView.swift */; settings = {ASSET_TAGS = (); }; };
-		CDC7E3891B9A314C00AB022E /* bencode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E3881B9A314C00AB022E /* bencode.swift */; settings = {ASSET_TAGS = (); }; };
+		CDC7E37C1B990CEB00AB022E /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E37B1B990CEB00AB022E /* BackgroundView.swift */; };
+		CDC7E3891B9A314C00AB022E /* bencode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E3881B9A314C00AB022E /* bencode.swift */; };
 		CDC7E38A1B9A352700AB022E /* bencode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E3881B9A314C00AB022E /* bencode.swift */; };
-		CDC7E38C1B9A355500AB022E /* BCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E38B1B9A355500AB022E /* BCodeTests.swift */; settings = {ASSET_TAGS = (); }; };
-		CDC7E3951B9A447600AB022E /* single.torrent in Resources */ = {isa = PBXBuildFile; fileRef = CDC7E3941B9A447600AB022E /* single.torrent */; settings = {ASSET_TAGS = (); }; };
-		CDC7E3971B9A449700AB022E /* multi.torrent in Resources */ = {isa = PBXBuildFile; fileRef = CDC7E3961B9A449700AB022E /* multi.torrent */; settings = {ASSET_TAGS = (); }; };
+		CDC7E38C1B9A355500AB022E /* BCodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E38B1B9A355500AB022E /* BCodeTests.swift */; };
+		CDC7E3951B9A447600AB022E /* single.torrent in Resources */ = {isa = PBXBuildFile; fileRef = CDC7E3941B9A447600AB022E /* single.torrent */; };
+		CDC7E3971B9A449700AB022E /* multi.torrent in Resources */ = {isa = PBXBuildFile; fileRef = CDC7E3961B9A449700AB022E /* multi.torrent */; };
 		CDCCFA511B77EDE60028EDCB /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCCFA501B77EDE60028EDCB /* Utils.swift */; };
 		CDDFC50319996D9B00F5F6B7 /* ButtonToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */; };
-		CDE929C61B94E054007AE485 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE929C51B94E054007AE485 /* StateView.swift */; settings = {ASSET_TAGS = (); }; };
+		CDE929C61B94E054007AE485 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE929C51B94E054007AE485 /* StateView.swift */; };
 		CDEE44DE1991E1EE00FB76AC /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */; };
 		CDF3D97F199ECED5002B91C8 /* NativaHelper.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		CDFE78A21B9F7E730001E8F9 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFE78A11B9F7E730001E8F9 /* NotificationCenter.swift */; settings = {ASSET_TAGS = (); }; };
+		CDFE78A21B9F7E730001E8F9 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFE78A11B9F7E730001E8F9 /* NotificationCenter.swift */; };
 		CDFFC20819DB6D2E0072EEAD /* AddTorrentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */; };
 		CDFFC20B19DB747F0072EEAD /* FileListNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFFC20A19DB747F0072EEAD /* FileListNode.swift */; };
 /* End PBXBuildFile section */
@@ -277,6 +278,7 @@
 		CD7EFCB119F87426001AE5E9 /* FolderNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderNameCell.swift; sourceTree = "<group>"; };
 		CD8EC6C41BB084C200A9F7AE /* bad.torrent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bad.torrent; sourceTree = "<group>"; };
 		CD90A79D1B8E5CF000889705 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		CD9E103E1C18E99D00C390B3 /* NSFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFileManager.swift; sourceTree = "<group>"; };
 		CDB2614C19F85F8B00DE168C /* FileNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileNameCell.swift; sourceTree = "<group>"; };
 		CDB2614E19F860B600DE168C /* FileName.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileName.xib; sourceTree = "<group>"; };
 		CDB54D7B19A13F7100D777D5 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
@@ -369,6 +371,7 @@
 				CDCCFA501B77EDE60028EDCB /* Utils.swift */,
 				CDC7E37B1B990CEB00AB022E /* BackgroundView.swift */,
 				CDFE78A11B9F7E730001E8F9 /* NotificationCenter.swift */,
+				CD9E103E1C18E99D00C390B3 /* NSFileManager.swift */,
 				CD5AA8601B9796DA00517F47 /* lib */,
 				CD01C72C1991627100D5B8A6 /* Supporting Files */,
 			);
@@ -814,6 +817,7 @@
 				CDFFC20B19DB747F0072EEAD /* FileListNode.swift in Sources */,
 				CD0D45551B8ABEA7004DB8E1 /* InspectorViewController.swift in Sources */,
 				CD526BA81992C2A9003D8671 /* Datasource.swift in Sources */,
+				CD9E103F1C18E99D00C390B3 /* NSFileManager.swift in Sources */,
 				CDFFC20819DB6D2E0072EEAD /* AddTorrentViewController.swift in Sources */,
 				CD23AEE719E1E6C80027A47D /* DownloadDropView.swift in Sources */,
 				CDB54D7C19A13F7100D777D5 /* GroupCell.swift in Sources */,
