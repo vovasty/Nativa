@@ -102,13 +102,14 @@ class InspectorViewController: NSTabViewController {
         let tabView = view.subviews[0]
         let segmentedControl = view.subviews[1]
         
-        view.addSubview(headerView, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
-        view.addSubview(stateView, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
-        view.addSubview(noSelectionView, positioned: NSWindowOrderingMode.Above, relativeTo: nil)
+        view.addSubview(headerView, positioned: .Above, relativeTo: nil)
+        view.addSubview(stateView, positioned: .Above, relativeTo: nil)
+        view.addSubview(noSelectionView, positioned: .Above, relativeTo: nil)
         
         headerView.snp_makeConstraints { (make) -> Void in
             make.width.equalTo(view.snp_width)
             make.height.equalTo(50)
+            make.left.right.equalTo(0)
             make.top.equalTo(3)
         }
         
