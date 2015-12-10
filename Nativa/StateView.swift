@@ -77,11 +77,6 @@ class StateView: NSView {
                 }
                 
                 progress.snp_remakeConstraints { (make) -> Void in
-                    var size = progress.frame.size
-                    size.width = max(size.width, size.height)
-                    size.height = size.width
-
-                    make.size.equalTo(size)
                     make.center.equalTo(self)
                 }
             case .Error(let msg, let buttonTitle, let handler):

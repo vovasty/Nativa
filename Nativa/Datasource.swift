@@ -153,6 +153,8 @@ class Datasource: ConnectionEventListener {
             return
         }
         
+        notificationCenter.postOnMain(DatasourceConnectionStateDidChange(state: self.connectionState))
+        
         connect(processes[id]!.downloader) { (error) in
             guard error == nil else {
                 self.processes[id] = (xpc: nil, downloader: nil, downloads: nil, state: .Disconnected(error: error), observer: nil, delegate: nil)

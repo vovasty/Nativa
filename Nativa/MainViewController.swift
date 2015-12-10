@@ -30,32 +30,36 @@ class MainViewController: NSSplitViewController {
         
         stateView.addToView(view, hidden: true)
         
+        showConnectionState(Datasource.instance.connectionState)
+        
         notificationCenter.add(self) {(state: DatasourceConnectionStateDidChange) -> Void in
-            
-            switch state.state {
-            case .Establishing:
-                self.stateView.hidden = false
-                self.splitView.hidden = true
-                self.stateView.state = StateViewContent.Progress
-            case .Disconnected(let error):
-                self.stateView.hidden = false
-                self.splitView.hidden = true
-                let msg = error?.localizedDescription ?? "Unknwown Error"
-                self.stateView.state = StateViewContent.Error(message: msg, buttonTitle: "try again", handler: { (sender) -> Void in
-                    if let appDelegate = NSApp.delegate as? AppDelegate {
-                        appDelegate.reconnect()
-                    }
-                })
-            case .Established:
-                self.stateView.hidden = true
-                self.splitView.hidden = false
-            }
+            self.showConnectionState(state.state)
         }
         
         if (NSUserDefaults.standardUserDefaults()[kAccountsKey] as? [[String: AnyObject]])?.count == 0 {
             let controller = storyboard?.instantiateControllerWithIdentifier("Preferences")
             presentViewControllerAsModalWindow(controller as! NSViewController)
         }
-
+    }
+    
+    private func showConnectionState (state: DatasourceConnectionStatus) {
+        switch state {
+        case .Establishing:
+            self.stateView.hidden = false
+            self.splitView.hidden = true
+            self.stateView.state = StateViewContent.Progress
+        case .Disconnected(let error):
+            self.stateView.hidden = false
+            self.splitView.hidden = true
+            let msg = error?.localizedDescription ?? "Unknwown Error"
+            self.stateView.state = StateViewContent.Error(message: msg, buttonTitle: "try again", handler: { (sender) -> Void in
+                if let appDelegate = NSApp.delegate as? AppDelegate {
+                    appDelegate.reconnect()
+                }
+            })
+        case .Established:
+            self.stateView.hidden = true
+            self.splitView.hidden = false
+        }
     }
 }
