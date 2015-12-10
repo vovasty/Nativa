@@ -145,7 +145,7 @@ class Datasource: ConnectionEventListener {
             
             processes[id] = (xpc: result.0, downloader: result.1, downloads: nil, state: .Establishing, observer: nil, delegate: nil)
         }
-        catch let error {
+        catch {
             let err = NSError(error)
             self.processes[id] = (xpc: nil, downloader: nil, downloads: nil, state: .Disconnected(error: err), observer: nil, delegate: nil)
             handler(err)
@@ -351,7 +351,7 @@ class Datasource: ConnectionEventListener {
                     torrentDatas.append(torrentData)
                 }
             }
-            catch let error {
+            catch {
                 handler(nil, NSError(error))
                 return
             }

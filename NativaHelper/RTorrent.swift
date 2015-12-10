@@ -41,7 +41,7 @@ class RTorrent {
 //                logger.debug("received: \(result)")
                 response(result, nil)
             }
-            catch let error {
+            catch {
                 response(nil, error)
             }
 
