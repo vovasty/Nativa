@@ -28,6 +28,8 @@ class MainViewController: NSSplitViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         
+        self.view.window?.titleVisibility = .Hidden
+        
         stateView.addToView(view, hidden: true)
         
         showConnectionState(Datasource.instance.connectionState)

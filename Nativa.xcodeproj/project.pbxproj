@@ -68,6 +68,8 @@
 		CD8EC6C51BB084C200A9F7AE /* bad.torrent in Resources */ = {isa = PBXBuildFile; fileRef = CD8EC6C41BB084C200A9F7AE /* bad.torrent */; };
 		CD90A79E1B8E5CF000889705 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD90A79D1B8E5CF000889705 /* MainViewController.swift */; };
 		CD9E103F1C18E99D00C390B3 /* NSFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9E103E1C18E99D00C390B3 /* NSFileManager.swift */; };
+		CD9E104C1C1A096800C390B3 /* ScopeBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9E104B1C1A096800C390B3 /* ScopeBar.swift */; };
+		CD9E104E1C1A417300C390B3 /* SyncableArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9E104D1C1A417300C390B3 /* SyncableArrayTests.swift */; };
 		CDB2614D19F85F8B00DE168C /* FileNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2614C19F85F8B00DE168C /* FileNameCell.swift */; };
 		CDB2614F19F860B600DE168C /* FileName.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDB2614E19F860B600DE168C /* FileName.xib */; };
 		CDB54D7C19A13F7100D777D5 /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54D7B19A13F7100D777D5 /* GroupCell.swift */; };
@@ -279,6 +281,8 @@
 		CD8EC6C41BB084C200A9F7AE /* bad.torrent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bad.torrent; sourceTree = "<group>"; };
 		CD90A79D1B8E5CF000889705 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		CD9E103E1C18E99D00C390B3 /* NSFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFileManager.swift; sourceTree = "<group>"; };
+		CD9E104B1C1A096800C390B3 /* ScopeBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScopeBar.swift; sourceTree = "<group>"; };
+		CD9E104D1C1A417300C390B3 /* SyncableArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncableArrayTests.swift; sourceTree = "<group>"; };
 		CDB2614C19F85F8B00DE168C /* FileNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileNameCell.swift; sourceTree = "<group>"; };
 		CDB2614E19F860B600DE168C /* FileName.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileName.xib; sourceTree = "<group>"; };
 		CDB54D7B19A13F7100D777D5 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
@@ -393,6 +397,7 @@
 				CD01C73F1991627100D5B8A6 /* Supporting Files */,
 				CD10C3121B8994A600EF9284 /* HelperTests.swift */,
 				CDC7E38B1B9A355500AB022E /* BCodeTests.swift */,
+				CD9E104D1C1A417300C390B3 /* SyncableArrayTests.swift */,
 				CDC7E38F1B9A3D2200AB022E /* NativaTests-Bridging-Header.h */,
 				CDC7E3941B9A447600AB022E /* single.torrent */,
 				CDC7E3961B9A449700AB022E /* multi.torrent */,
@@ -488,6 +493,7 @@
 				CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */,
 				CD01C74D199162EB00D5B8A6 /* DownloadsViewController.swift */,
 				CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */,
+				CD9E104B1C1A096800C390B3 /* ScopeBar.swift */,
 			);
 			name = DownloadsViewController;
 			sourceTree = "<group>";
@@ -814,6 +820,7 @@
 				CD7EFCB219F87426001AE5E9 /* FolderNameCell.swift in Sources */,
 				CD6851A41B90CB7600A810F1 /* Error.swift in Sources */,
 				CDCCFA511B77EDE60028EDCB /* Utils.swift in Sources */,
+				CD9E104C1C1A096800C390B3 /* ScopeBar.swift in Sources */,
 				CDFFC20B19DB747F0072EEAD /* FileListNode.swift in Sources */,
 				CD0D45551B8ABEA7004DB8E1 /* InspectorViewController.swift in Sources */,
 				CD526BA81992C2A9003D8671 /* Datasource.swift in Sources */,
@@ -838,6 +845,7 @@
 				CD10C3181B8994DA00EF9284 /* Utils.swift in Sources */,
 				CD6851AB1B90CB7600A810F1 /* NativaHelperProtocol.swift in Sources */,
 				CD10C3191B8994DA00EF9284 /* XMLRPCDecoder.swift in Sources */,
+				CD9E104E1C1A417300C390B3 /* SyncableArrayTests.swift in Sources */,
 				CD6851A81B90CB7600A810F1 /* Logger.swift in Sources */,
 				CD6851AE1B90CB7600A810F1 /* SyncableArray.swift in Sources */,
 				CD10C31A1B8994DA00EF9284 /* XMLRPCEncoder.swift in Sources */,
@@ -942,7 +950,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -979,7 +987,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};
@@ -995,7 +1003,6 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = Nativa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.aramzamzam.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1013,7 +1020,6 @@
 				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				INFOPLIST_FILE = Nativa/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = "net.aramzamzam.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

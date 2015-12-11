@@ -79,9 +79,17 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
     private var order: [D.ObjectType] = []
     public weak var delegate: D!
     public var orderedArray: [D.ObjectType] {get {return order}}
-    public var sorter: ((D.ObjectType, D.ObjectType) -> Bool)?
+    private var _sorter: ((D.ObjectType, D.ObjectType) -> Bool)?
+    private var _filter: ((D.ObjectType) -> Bool)?
+    public func sorter(sorter: ((D.ObjectType, D.ObjectType) -> Bool)?) {
+        self._sorter = sorter
+    }
     
-    public init(delegate: D){
+    public func filterHandler(filter: ((D.ObjectType) -> Bool)?) {
+        self._filter = filter
+    }
+    
+    required public init(delegate: D){
         super.init()
         self.delegate = delegate
     }
@@ -98,12 +106,14 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
         get { return order.count }
     }
     
-    private func _append(value: D.ObjectType)-> (object: D.ObjectType, index: Int, type: ChangeType) {
+    private func _append(value: D.ObjectType)-> (object: D.ObjectType, index: Int, type: ChangeType)? {
+        guard (_filter?(value) ?? true) else { return nil }
+        
         let key = delegate.idFromObject(value)
         index[key] = value
         
         var idx = -1
-        if let s = sorter {
+        if let s = _sorter {
             idx = order.insertionIndexOf(value, isOrderedBefore: s)
             order.insert(value, atIndex: idx)
         }
@@ -127,7 +137,7 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
     
     public func updateFromObject(value: D.ObjectType) {
         let key = delegate.idFromObject(value)
-        let change: (object: D.ObjectType, index: Int, type: ChangeType)
+        let change: (object: D.ObjectType, index: Int, type: ChangeType)?
         if index[key] == nil {
             change = _append(value)
         }
@@ -136,9 +146,11 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
             change = (object: value, index: idx, type: .Update)
         }
         
+        guard let chg = change else { return }
+        
         index[key] = value
         
-        notifyObservers([change])
+        notifyObservers([chg])
     }
     
     private func _remove(value: D.ObjectType) -> (object: D.ObjectType, index: Int, type: ChangeType)? {
@@ -159,45 +171,54 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
         return nil
     }
     
-    private func _update(dict: D.RawType)->(object: D.ObjectType, index: Int, type: ChangeType)? {
-        if let id = delegate?.idFromRaw(dict) {
-            var change: (object: D.ObjectType, index: Int, type: ChangeType)!
-            
-            if let object = index[id] {
-                let o = delegate.updateObject(dict, object: object)
+    private func _update(dict: D.RawType)->[(object: D.ObjectType, index: Int, type: ChangeType)]? {
+        guard let id = delegate?.idFromRaw(dict) else { return nil }
+        
+        if let object = index[id] {
+            let o = delegate.updateObject(dict, object: object)
+            if _filter?(o) ?? true {
                 let idx = order.indexOf(o)!
-                change = (object: o, index: idx, type: .Update)
-            }
-            else {
-                if let o = delegate.createObject(dict) {
-                    change = _append(o)
+                
+                if let s = _sorter {
+                    let newIndex = order.insertionIndexOf(o, isOrderedBefore: s)
+                    if idx == newIndex {
+                        return [(object: o, index: idx, type: .Update)]
+                    }
+                    order.removeAtIndex(idx)
+                    order.insert(o, atIndex: newIndex)
+                    return [(object: o, index: idx, type: .Delete), (object: o, index: newIndex, type: .Insert)]
+                }
+                else {
+                    return [(object: o, index: idx, type: .Update)]
                 }
             }
-            
-            return change
+            else {
+                let change = _remove(o)
+                return change == nil ? nil : [change!]
+            }
         }
-        
-        return nil
+        else if let o = delegate.createObject(dict) {
+            let change = _append(o)
+            return change == nil ? nil : [change!]
+        }
+        else {
+            return nil
+        }
     }
     
     public func update(raw: D.RawType)->D.ObjectType? {
-        if let change = _update(raw) {
-            notifyObservers([change])
-            return change.object
-        }
+        guard let change = _update(raw) else { return nil }
         
-        return nil
+        notifyObservers(change)
+        return change.first?.object
     }
     
     public func update(raw: D.RawType, forId: D.KeyType)->D.ObjectType? {
-        if let object = index.removeValueForKey(forId) {
-            if let id = delegate.idFromRaw(raw) {
-                index[id] = object
-                return update(raw)
-            }
-        }
-        
-        return  nil
+        guard let object = index.removeValueForKey(forId) else { return nil }
+        guard let id = delegate.idFromRaw(raw) else { return nil }
+
+        index[id] = object
+        return update(raw)
     }
     
     public func update(array: [D.RawType], strategy: SyncStrategy)->[D.ObjectType] {
@@ -206,9 +227,9 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
         var changes: [(object: D.ObjectType, index: Int, type: ChangeType)] = []
         for dict in array {
             if let change = _update(dict) {
-                changes.append(change)
-                result.append(change.object)
-                validIds[delegate.idFromObject(change.object)] = true
+                changes.appendContentsOf(change)
+                result.append(change.first!.object)
+                validIds[delegate.idFromObject(change.first!.object)] = true
             }
         }
         
