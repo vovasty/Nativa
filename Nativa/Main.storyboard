@@ -317,13 +317,13 @@ CA
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="65" horizontalPageScroll="10" verticalLineScroll="65" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pcu-4l-3jM">
-                                <rect key="frame" x="0.0" y="0.0" width="480" height="246"/>
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="250"/>
                                 <clipView key="contentView" id="rJU-Vo-yja">
-                                    <rect key="frame" x="1" y="1" width="478" height="244"/>
+                                    <rect key="frame" x="1" y="1" width="478" height="248"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowHeight="63" rowSizeStyle="automatic" viewBased="YES" indentationMarkerFollowsCell="NO" autoresizesOutlineColumn="YES" outlineTableColumn="RzK-N8-SJ9" id="StL-6A-5Yx">
-                                            <rect key="frame" x="0.0" y="0.0" width="478" height="244"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="478" height="248"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -473,39 +473,39 @@ CA
                                 </scroller>
                             </scrollView>
                             <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XHn-Rx-KgF" customClass="ScopeBar" customModule="Nativa" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="245" width="480" height="27"/>
+                                <rect key="frame" x="0.0" y="249" width="480" height="23"/>
                                 <beginningViews>
                                     <button verticalHuggingPriority="750" fixedFrame="YES" tag="1001" translatesAutoresizingMaskIntoConstraints="NO" id="E2C-WE-kbH">
-                                        <rect key="frame" x="0.0" y="5" width="73" height="17"/>
+                                        <rect key="frame" x="0.0" y="3" width="29" height="17"/>
                                         <buttonCell key="cell" type="recessed" title="All" bezelStyle="recessed" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HHy-Hl-ATH">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                            <font key="font" metaFont="systemBold" size="12"/>
+                                            <font key="font" metaFont="system" size="12"/>
                                         </buttonCell>
                                     </button>
                                     <button verticalHuggingPriority="750" fixedFrame="YES" tag="1002" translatesAutoresizingMaskIntoConstraints="NO" id="yrK-K3-N8n">
-                                        <rect key="frame" x="81" y="5" width="93" height="17"/>
+                                        <rect key="frame" x="37" y="3" width="88" height="17"/>
                                         <buttonCell key="cell" type="recessed" title="Downloading" bezelStyle="recessed" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ciu-3g-9Fi">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                            <font key="font" metaFont="systemBold" size="12"/>
+                                            <font key="font" metaFont="system" size="12"/>
                                         </buttonCell>
                                     </button>
                                     <button verticalHuggingPriority="750" fixedFrame="YES" tag="1003" translatesAutoresizingMaskIntoConstraints="NO" id="WAm-Me-qWt">
-                                        <rect key="frame" x="182" y="5" width="73" height="17"/>
+                                        <rect key="frame" x="133" y="3" width="60" height="17"/>
                                         <buttonCell key="cell" type="recessed" title="Seeding" bezelStyle="recessed" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="r3o-q1-ryV">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                            <font key="font" metaFont="systemBold" size="12"/>
+                                            <font key="font" metaFont="system" size="12"/>
                                         </buttonCell>
                                     </button>
                                     <button verticalHuggingPriority="750" fixedFrame="YES" tag="1004" translatesAutoresizingMaskIntoConstraints="NO" id="stN-gp-e2w">
-                                        <rect key="frame" x="263" y="5" width="73" height="17"/>
+                                        <rect key="frame" x="201" y="3" width="56" height="17"/>
                                         <buttonCell key="cell" type="recessed" title="Paused" bezelStyle="recessed" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f7E-eg-zr9">
                                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                            <font key="font" metaFont="systemBold" size="12"/>
+                                            <font key="font" metaFont="system" size="12"/>
                                         </buttonCell>
                                     </button>
                                 </beginningViews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="27" id="opU-WP-6Sb"/>
+                                    <constraint firstAttribute="height" constant="23" id="opU-WP-6Sb"/>
                                 </constraints>
                                 <visibilityPriorities>
                                     <integer value="1000"/>
