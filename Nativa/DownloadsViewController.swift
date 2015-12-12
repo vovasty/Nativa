@@ -52,39 +52,43 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
         filterBar.scopeBarDelegate = self
 
         downloads = SyncableArray(delegate: self)
-
-        downloadsObserver = downloads.addObserver{ (downloadChanges: [(object: Download, index: Int, type: ChangeType)]) -> Void in
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                self.outlineView.beginUpdates()
-                for downloadChange in downloadChanges {
-                    let indexes = NSIndexSet(index: downloadChange.index)
-                    switch downloadChange.type {
-                    case .Delete:
-                        self.outlineView.removeItemsAtIndexes(indexes, inParent: nil, withAnimation: NSTableViewAnimationOptions.SlideUp)
-                    case .Insert:
-                        self.outlineView.insertItemsAtIndexes(indexes, inParent: nil, withAnimation: NSTableViewAnimationOptions.SlideDown)
-                    case .Update:
-                        //cause reloadItem is not working...
-                        let row = self.outlineView.rowForItem(downloadChange.object)
-                        self.outlineView.setNeedsDisplayInRect(self.outlineView.rectOfRow(row))
-                    }
-                }
-                self.outlineView.endUpdates()
-            }
-        }
         
-        datasourceObserver = Datasource.instance.downloads.addObserver{ (downloadChanges: [(object: Download, index: Int, type: ChangeType)]) -> Void in
-            for downloadChange in downloadChanges {
-                switch downloadChange.type {
-                case .Delete:
-                    self.downloads.remove(downloadChange.object)
-                case .Insert, .Update:
-                    self.downloads.update(downloadChange.object)
-                }
-            }
+        downloads.sorter { (d1, d2) -> Bool in
+            return d1.title < d2.title
         }
         
         downloads.update(Datasource.instance.downloads.orderedArray, strategy: .Replace)
+
+        downloadsObserver = downloads.addObserver{ (downloadChanges: [(object: Download, index: Int, type: ChangeType)]) -> Void in
+            self.outlineView.beginUpdates()
+            for downloadChange in downloadChanges {
+                let indexes = NSIndexSet(index: downloadChange.index)
+                switch downloadChange.type {
+                case .Delete:
+                    self.outlineView.removeItemsAtIndexes(indexes, inParent: nil, withAnimation: NSTableViewAnimationOptions.SlideUp)
+                case .Insert:
+                    self.outlineView.insertItemsAtIndexes(indexes, inParent: nil, withAnimation: NSTableViewAnimationOptions.SlideDown)
+                case .Update:
+                    //cause reloadItem is not working...
+                    let row = self.outlineView.rowForItem(downloadChange.object)
+                    self.outlineView.setNeedsDisplayInRect(self.outlineView.rectOfRow(row))
+                }
+            }
+            self.outlineView.endUpdates()
+        }
+        
+        datasourceObserver = Datasource.instance.downloads.addObserver{ (downloadChanges: [(object: Download, index: Int, type: ChangeType)]) -> Void in
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                for downloadChange in downloadChanges {
+                    switch downloadChange.type {
+                    case .Delete:
+                        self.downloads.remove(downloadChange.object)
+                    case .Insert, .Update:
+                        self.downloads.update(downloadChange.object)
+                    }
+                }
+            }
+        }
         
         notificationCenter.add(self) { [weak self] (note: DownloadFilesAddedNotification) -> Void in
             self?.addTorrents(note.downloads)

@@ -14,49 +14,70 @@ class SyncableArrayTests: XCTestCase, SyncableArrayDelegate {
     func testAppend() {
         let array = SyncableArray<SyncableArrayTests>(delegate: self)
         
-        array.update(1)
-        array.update(2)
-        array.update(3)
-        array.update(4)
+        array.update("1")
+        array.update("2")
+        array.update("3")
+        array.update("4")
         
-        XCTAssert(array.containsId(1))
-        XCTAssert(array.containsId(2))
-        XCTAssert(array.containsId(3))
-        XCTAssert(array.containsId(4))
+        XCTAssert(array.containsId("1"))
+        XCTAssert(array.containsId("2"))
+        XCTAssert(array.containsId("3"))
+        XCTAssert(array.containsId("4"))
     }
 
     func testFilter() {
         let array = SyncableArray<SyncableArrayTests>(delegate: self)
-        array.filterHandler { (num) -> Bool in
-            return num < 4
+        array.filterHandler { (s) -> Bool in
+            return s.compare("4") == .OrderedDescending
         }
         
-        array.update(1)
-        array.update(2)
-        array.update(3)
-        array.update(4)
+        array.update("1")
+        array.update("2")
+        array.update("3")
+        array.update("4")
         
-        XCTAssert(array.containsId(1))
-        XCTAssert(array.containsId(2))
-        XCTAssert(array.containsId(3))
-        XCTAssertFalse(array.containsId(4))
+        XCTAssert(array.containsId("1"))
+        XCTAssert(array.containsId("2"))
+        XCTAssert(array.containsId("3"))
+        XCTAssertFalse(array.containsId("4"))
+    }
+    
+    func testSorter() {
+        let array = SyncableArray<SyncableArrayTests>(delegate: self)
+        array.sorter { (a, b) -> Bool in
+            return a > b
+        }
+        
+        array.update("1")
+        XCTAssertEqual(array[0], "1")
+        array.update("2")
+        XCTAssertEqual(array[0], "2")
+        array.update("3")
+        XCTAssertEqual(array[0], "3")
+        array.update("4")
+        XCTAssertEqual(array[0], "4")
+        
+        XCTAssertEqual(array[0], "4")
+        XCTAssertEqual(array[1], "3")
+        XCTAssertEqual(array[2], "2")
+        XCTAssertEqual(array[3], "1")
     }
     
     
     //MARK: SyncableArrayDelegate
-    func idFromRaw(object: Int) -> Int? {
+    func idFromRaw(object: String) -> String? {
         return object
     }
     
-    func idFromObject(object: Int) -> Int {
+    func idFromObject(object: String) -> String {
         return object
     }
     
-    func updateObject(source: Int, object: Int) -> Int {
+    func updateObject(source: String, object: String) -> String {
         return object
     }
     
-    func createObject(object: Int) -> Int? {
+    func createObject(object: String) -> String? {
         return object
     }
 }

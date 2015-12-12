@@ -120,7 +120,6 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
         else {
             order.append(value)
             idx = order.count - 1
-            
         }
         
         return (object: value, index: idx, type: .Insert)
@@ -180,11 +179,17 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
                 let idx = order.indexOf(o)!
                 
                 if let s = _sorter {
-                    let newIndex = order.insertionIndexOf(o, isOrderedBefore: s)
+                    var newIndex = order.insertionIndexOf(o, isOrderedBefore: s)
                     if idx == newIndex {
                         return [(object: o, index: idx, type: .Update)]
                     }
+                    
                     order.removeAtIndex(idx)
+                    
+                    if newIndex > idx {
+                        newIndex--
+                    }
+                    
                     order.insert(o, atIndex: newIndex)
                     return [(object: o, index: idx, type: .Delete), (object: o, index: newIndex, type: .Insert)]
                 }
