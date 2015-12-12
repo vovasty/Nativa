@@ -6,6 +6,23 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
         <item>
+    			<title>Version 0.7.0</title>
+                <![CDATA[
+                  <ul>
+                    <li>filter downloads by status</li>
+                  </ul>
+                ]]>
+    			<pubDate>Fri, 11 Dec 2015 16:20:12 -0800</pubDate>
+    			<enclosure
+    				url="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.7.0.zip"
+    				sparkle:version="30"
+    				sparkle:shortVersionString="0.7.0"
+    				type="application/octet-stream"
+    				length="3717676"
+    				sparkle:dsaSignature="MC0CFEF312PdZCo3q0j778X6MrkF4Q1/AhUAoZOuIvW5GdrZ+V++OxMDU5LvfZY="
+    			/>
+    	</item>
+        <item>
     			<title>Version 0.6.1</title>
                 <description>
                   <![CDATA[
