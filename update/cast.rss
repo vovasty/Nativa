@@ -7,11 +7,13 @@
     <language>en</language>
         <item>
     			<title>Version 0.7.0</title>
-                <![CDATA[
-                  <ul>
-                    <li>filter downloads by status</li>
-                  </ul>
-                ]]>
+                <description>
+                    <![CDATA[
+                      <ul>
+                        <li>filter downloads by status</li>
+                      </ul>
+                    ]]>
+                </description>
     			<pubDate>Fri, 11 Dec 2015 16:20:12 -0800</pubDate>
     			<enclosure
     				url="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.7.0.zip"
