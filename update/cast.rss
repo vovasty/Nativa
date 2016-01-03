@@ -5,6 +5,25 @@
     <link>https://bitbucket.org/vovasty/nativa/raw/tip/update/cast.rss</link>
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
+           <item>
+    			<title>Version 0.7.1</title>
+                <description>
+                    <![CDATA[
+                      <ul>
+                        <li>bug fixes</li>
+                      </ul>
+                    ]]>
+                </description>
+    			<pubDate>Sat, 02 Jan 2015 22:11:43 -0800</pubDate>
+    			<enclosure
+    				url="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.7.1.zip"
+    				sparkle:version="31"
+    				sparkle:shortVersionString="0.7.1"
+    				type="application/octet-stream"
+    				length="3728195"
+    				sparkle:dsaSignature="MCwCFCGl+ivim1VPGFxoEUh7VL5AjuOZAhRan71HLYpq2iI0opm59oDRt8Pbeg=="
+    			/>
+    		</item>
         <item>
     			<title>Version 0.7.0</title>
                 <description>
