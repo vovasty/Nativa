@@ -18,6 +18,16 @@ struct _Formatter {
         )
     }
     
+    func stringForTimeInterval(interval: Double) -> String {
+        let formatter = NSDateComponentsFormatter()
+        formatter.unitsStyle = NSDateComponentsFormatterUnitsStyle.Abbreviated
+        formatter.includesApproximationPhrase = false
+        formatter.includesTimeRemainingPhrase = true
+        formatter.allowedUnits = [NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second]
+        // Use the configured formatter to generate the string.
+        return formatter.stringFromTimeInterval(interval)!
+    }
+    
     func stringForSpeed(speed: Double, kb: String, mb: String, gb: String) -> String
     {
         var speed = speed / 1000

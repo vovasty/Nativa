@@ -152,7 +152,7 @@ class DownloadCell: NSTableCellView
         switch download.state
         {
         case .Downloading(let dl, _):
-            speedPart = dl > 0 ? "\(Formatter.stringForSpeed(dl))" : nil
+            speedPart = dl > 0 ? "\(Formatter.stringForSpeed(dl)), \(Formatter.stringForTimeInterval((download.size - download.complete)/(dl)))" : nil
         case .Seeding(let ul):
             speedPart = ul > 0 ? "\(Formatter.stringForSpeed(ul))" : nil
         case .Checking:
