@@ -43,6 +43,7 @@ class Download
     var peersNotConnected: Int?
     var peersCompleted: Int?
     var processId: String?
+    private var allFiles: [String: FileListNode] = [:]
     
     init?(_ torrent: [String: AnyObject]) {
         guard let info = torrent["info"] as? [String: AnyObject],
@@ -189,7 +190,12 @@ class Download
                     let path = "\(parent.path)/\(pe)"
                     if pe == fileName
                     {
-                        let file = FileListNode(name: fileName, path: path, folder: false, size: fileSize)
+                        var file: FileListNode! = allFiles[path]
+                        if file == nil {
+                            file = FileListNode(name: fileName, path: path, folder: false, size: fileSize)
+                            allFiles[path] = file
+                        }
+                        
                         file.index = fileIndex
                         file.priority = priority
                         file.parent = parent
@@ -224,8 +230,19 @@ class Download
                             parent = folder
                         }
                         else {
-                            let folder = FileListNode(name: pe, path: path, folder: true, size: 0)
-                            
+                            var folder: FileListNode! = allFiles[path]
+                            if folder == nil {
+                                folder = FileListNode(name: pe, path: path, folder: true, size: 0)
+                                allFiles[path] = folder
+                            }
+                            else {
+                                //reset stat for folder
+                                folder.children = nil
+                                folder.size = 0
+                                folder.sizeChunks = 0
+                                folder.completedChunks = 0
+                            }
+
                             if parent.children == nil {
                                 parent.children = [folder]
                             }

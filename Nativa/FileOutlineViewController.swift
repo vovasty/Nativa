@@ -12,7 +12,17 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
     @IBOutlet weak var outlineView: NSOutlineView!
     var filePriorities: [FileListNode: (priority: DownloadPriority, state: Int)] = [:]
     var flatPriorities: [FileListNode: Int]?
+    private var expandedNodes: Set<FileListNode>?
+    
     var download: Download? {
+        willSet {
+            guard newValue != download else {
+                return
+            }
+            
+            self.expandedNodes = Set<FileListNode>()
+        }
+        
         didSet {
             if let files = download?.flatFileList where files.count > 0 {
                 filePriorities = files.reduce([FileListNode: (priority: DownloadPriority, state: Int)](), combine: { (var dict, file) -> [FileListNode: (priority: DownloadPriority, state: Int)] in
@@ -26,7 +36,17 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
             }
             
             self.outlineView?.reloadData()
+            
+            if let expandedNodes = expandedNodes {
+                for node in expandedNodes {
+                    outlineView.expandItem(node)
+                }
+            }
         }
+    }
+    
+    func expand(node: FileListNode) {
+        outlineView.expandItem(node)
     }
     
     override func viewDidLoad() {
@@ -100,6 +120,10 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
     
     // Delegate methods
     
+    func outlineView(outlineView: NSOutlineView, shouldShowOutlineCellForItem item: AnyObject) -> Bool {
+        return true
+    }
+    
     func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
         if let file = item as? FileListNode {
             if file.folder {
@@ -163,6 +187,15 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         }
         
         return result
+    }
+    
+    func outlineViewItemDidExpand(notification: NSNotification) {
+        let obj = notification.userInfo?["NSObject"] as! FileListNode
+        expandedNodes?.insert(obj)
+    }
+    func outlineViewItemDidCollapse(notification: NSNotification) {
+        let obj = notification.userInfo?["NSObject"] as! FileListNode
+        expandedNodes?.remove(obj)
     }
     
     @IBAction func fileChecked(sender: AnyObject?)
