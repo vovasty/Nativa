@@ -38,7 +38,7 @@ class MainViewController: NSSplitViewController {
             self.showConnectionState(state.state)
         }
         
-        if (NSUserDefaults.standardUserDefaults()[kAccountsKey] as? [[String: AnyObject]])?.count == 0 {
+        if ((NSUserDefaults.standardUserDefaults()[kAccountsKey] as? [[String: AnyObject]])?.count ?? 0) == 0 {
             let controller = storyboard?.instantiateControllerWithIdentifier("Preferences")
             presentViewControllerAsModalWindow(controller as! NSViewController)
         }
