@@ -78,7 +78,7 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
         }
         
         datasourceObserver = Datasource.instance.downloads.addObserver{ (downloadChanges: [(object: Download, index: Int, type: ChangeType)]) -> Void in
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            dispatch_main() {
                 for downloadChange in downloadChanges {
                     switch downloadChange.type {
                     case .Delete:

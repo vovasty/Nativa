@@ -61,3 +61,7 @@ extension NSView {
         return nil
     }
 }
+
+func dispatch_main( closure: ()-> Void) {
+    dispatch_async(dispatch_get_main_queue()) { closure() }
+}

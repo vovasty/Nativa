@@ -224,9 +224,7 @@ class Datasource: ConnectionEventListener {
         }
 
         process.downloader.version { (version, error) -> Void in
-            dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                response(version, error)
-            }
+            dispatch_main { response(version, error) }
         }
     }
     
@@ -283,14 +281,14 @@ class Datasource: ConnectionEventListener {
         process.downloader.update { (result, error) -> Void in
             guard let result = result where error == nil else {
                 logger.error("unable to update torrents list \(error)")
-                closure?(error)
+                dispatch_main { closure?(error) }
                 return
             }
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            dispatch_main {
                 process.downloads.update(result, strategy: SyncStrategy.Replace)
                 closure?(nil)
-            })
+            }
         }
     }
     
@@ -301,16 +299,14 @@ class Datasource: ConnectionEventListener {
         
         process.downloader.update(download.id) {(result, error)->Void in
             guard let result = result where error == nil else {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    handler(nil, error)
-                })
+                dispatch_main() { handler(nil, error) }
                 return
             }
 
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            dispatch_main() {
                 process.downloads.update(result)
                 handler(download, nil)
-            })
+            }
         }
     }
     
@@ -325,7 +321,9 @@ class Datasource: ConnectionEventListener {
             return (file.index!, priority)
         }
         
-        process.downloader.setFilePriority(download.id, priorities: pr, handler: handler)
+        process.downloader.setFilePriority(download.id, priorities: pr) { (error) in
+            dispatch_main() { handler(error) }
+        }
     }
     
     func parseTorrents(files:[NSURL], handler: ([(path: NSURL, download: Download)]?, NSError?)->Void){
@@ -341,7 +339,9 @@ class Datasource: ConnectionEventListener {
             }
             
             guard let downloader = process else {
-                handler(nil, NSError(domain: "net.aramzamzam.Nativa", code: -1, userInfo: [NSLocalizedDescriptionKey: "no one service is connected"]))
+                dispatch_main() {
+                    handler(nil, NSError(domain: "net.aramzamzam.Nativa", code: -1, userInfo: [NSLocalizedDescriptionKey: "no one service is connected"]))
+                }
                 return
             }
             
@@ -354,14 +354,14 @@ class Datasource: ConnectionEventListener {
                 }
             }
             catch {
-                handler(nil, NSError(error))
+                dispatch_main() { handler(nil, NSError(error)) }
                 return
             }
             
             downloader.parseTorrent(torrentDatas) { (parsed, error) -> Void in
                 
                 guard let parsed = parsed where error == nil else {
-                    handler(nil, error)
+                    dispatch_main() { handler(nil, error) }
                     return
                 }
                 
@@ -375,7 +375,7 @@ class Datasource: ConnectionEventListener {
                         return (path: e.path, download: e.download!)
                     })
                 
-                handler(result, nil)
+                dispatch_main() { handler(result, nil) }
             }
         }
     }
@@ -418,7 +418,7 @@ class Datasource: ConnectionEventListener {
                 }
             }
             
-            handler()
+            dispatch_main() { handler() }
         }
     }
     
@@ -428,7 +428,9 @@ class Datasource: ConnectionEventListener {
         }
 
         process.downloads.remove(download)
-        process.downloader.removeTorrent(download.id, path: download.dataPath, removeData: removeData, response: response)
+        process.downloader.removeTorrent(download.id, path: download.dataPath, removeData: removeData) { (error) in
+            dispatch_main() { response(error) }
+        }
     }
 
     //MARK: ConnectionEventListener
