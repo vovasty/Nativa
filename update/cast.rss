@@ -14,16 +14,16 @@
                       </ul>
                     ]]>
                 </description>
-    			<pubDate>Sat, 02 Jan 2015 22:11:43 -0800</pubDate>
+    			<pubDate>Sat, 02 Dec 2016 22:52:40 -0800</pubDate>
     			<enclosure
     				url="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.7.1.zip"
     				sparkle:version="31"
     				sparkle:shortVersionString="0.7.1"
     				type="application/octet-stream"
-    				length="3728195"
-    				sparkle:dsaSignature="MCwCFCGl+ivim1VPGFxoEUh7VL5AjuOZAhRan71HLYpq2iI0opm59oDRt8Pbeg=="
+    				length="3786199"
+    				sparkle:dsaSignature="MC0CFG2nFtjyrVNU249D9YKQaX6CwduGAhUAvrcBo+bLw5nNEtUvdeYzM9Ta87w="
     			/>
-    		</item>
+        </item>
         <item>
     			<title>Version 0.7.0</title>
                 <description>
