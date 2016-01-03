@@ -19,9 +19,13 @@ class InspectorViewController: NSTabViewController {
     @IBOutlet weak var downloadIcon: NSImageView!
     var stateView = StateView(frame: CGRectZero)
     @IBOutlet var noSelectionView: NSView!
+    private var updateTimer: Timer?
     
     var downloads: [Download]? {
         didSet {
+            updateTimer?.stop()
+            updateTimer = nil
+            
             if let download = downloads?.first {
                 noSelectionView.hidden = true
                 self.title = download.title
@@ -43,30 +47,34 @@ class InspectorViewController: NSTabViewController {
                     self.loading = true
                 }
                 
-                Datasource.instance.update(download) { (dl, error) -> Void in
-                    guard let dl = dl, let flatFileList = dl.flatFileList where dl == self.downloads?.first && error == nil else {
-                        if let error = error {
-                            logger.error("unable to update torrent info: \(error)")
-                            
-                            self.stateView.state = StateViewContent.Error(message: error.localizedDescription, buttonTitle: "try again", handler: { (sender) -> Void in
-                                self.downloads = self.downloads
-                            })
-                            self.loading = true
+                updateTimer = Timer(timeout: Config.refreshTimeout) {
+                    Datasource.instance.update(download) { (dl, error) -> Void in
+                        guard let dl = dl, let flatFileList = dl.flatFileList where dl == self.downloads?.first && error == nil else {
+                            if let error = error {
+                                logger.error("unable to update torrent info: \(error)")
+                                
+                                self.stateView.state = StateViewContent.Error(message: error.localizedDescription, buttonTitle: "try again", handler: { (sender) -> Void in
+                                    self.downloads = self.downloads
+                                })
+                                self.loading = true
+                            }
+                            return
                         }
-                        return
+                        
+                        self.updateTabs(dl)
+                        
+                        if flatFileList.count == 1 {
+                            self.downloadStatus.stringValue = Formatter.stringForSize(download.size)
+                        }
+                        else {
+                            self.downloadStatus.stringValue = "\(flatFileList.count) files, \(Formatter.stringForSize(download.size))"
+                        }
+                        
+                        self.loading = false
                     }
-                    
-                    self.updateTabs(dl)
-                    
-                    if flatFileList.count == 1 {
-                        self.downloadStatus.stringValue = Formatter.stringForSize(download.size)
                     }
-                    else {
-                        self.downloadStatus.stringValue = "\(flatFileList.count) files, \(Formatter.stringForSize(download.size))"
-                    }
-                    
-                    self.loading = false
-                }
+                
+                updateTimer?.start(true)
             }
             else {
                 noSelectionView.hidden = false

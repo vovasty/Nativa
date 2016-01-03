@@ -22,9 +22,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     
     var reconnectCounter = 0
-    var maxReconnectCounter = 4
-    var reconnectTimeout = 1
-    var refreshTimeout = 5
     
     func reconnect() {
         reconnectCounter = 0
@@ -36,7 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         Datasource.instance.closeAllConnections()
         self.reconnectCounter++
 
-        guard reconnectCounter <= maxReconnectCounter else {
+        guard reconnectCounter <= Config.maxReconnectCounter else {
             let center = NSUserNotificationCenter.defaultUserNotificationCenter()
             center.removeAllDeliveredNotifications()
             let note = NSUserNotification()
@@ -98,7 +95,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             switch state.state {
             case .Disconnected(_):
                 //reconnect after a delay
-                dispatch_after(dispatch_time (DISPATCH_TIME_NOW , Int64(UInt64(self.reconnectTimeout) * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () in
+                dispatch_after(dispatch_time (DISPATCH_TIME_NOW , Int64(UInt64(Config.reconnectTimeout) * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () in
                     self.connect()
                 }
             default:
@@ -106,7 +103,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             }
         }
         
-        refreshTimer = Timer(timeout: refreshTimeout) { (Void) -> Void in
+        refreshTimer = Timer(timeout: Config.refreshTimeout) { (Void) -> Void in
                 Datasource.instance.update()
         }
 

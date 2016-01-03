@@ -28,9 +28,8 @@ class Timer
         }
     }
     
-    func start(){
+    func start(callImmediately: Bool = false){
         if timer == nil {
-            
             // create our timer source
             timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
             
@@ -44,6 +43,9 @@ class Timer
             dispatch_source_set_event_handler(timer, {
                 self.block()
             })
+            if callImmediately {
+                block()
+            }
             dispatch_resume(timer)
         }
     }
