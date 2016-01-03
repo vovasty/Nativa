@@ -26,7 +26,7 @@ class InspectorViewController: NSTabViewController {
             updateTimer?.stop()
             updateTimer = nil
             
-            if let download = downloads?.first {
+            if let download = downloads?.first where (downloads?.count ?? 0) == 1 {
                 noSelectionView.hidden = true
                 self.title = download.title
                 self.downloadName.stringValue = download.title
