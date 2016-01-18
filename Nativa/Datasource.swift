@@ -102,7 +102,7 @@ class Datasource: ConnectionEventListener {
             }
         }
         
-        return establishing ? DatasourceConnectionStatus.Establishing :  DatasourceConnectionStatus.Disconnected(error: NSError(domain: "net.aramzamzam.Nativa", code: -1, userInfo: [NSLocalizedDescriptionKey: "no one service is connected"]))
+        return establishing ? DatasourceConnectionStatus.Establishing :  DatasourceConnectionStatus.Disconnected(error: NSError(domain: "net.aramzamzam.Nativa", code: -1, userInfo: [NSLocalizedDescriptionKey: "all services are failed to connect"]))
         
     }
     
@@ -340,7 +340,7 @@ class Datasource: ConnectionEventListener {
             
             guard let downloader = process else {
                 dispatch_main() {
-                    handler(nil, NSError(domain: "net.aramzamzam.Nativa", code: -1, userInfo: [NSLocalizedDescriptionKey: "no one service is connected"]))
+                    handler(nil, NSError(domain: "net.aramzamzam.Nativa", code: -1, userInfo: [NSLocalizedDescriptionKey: "all services are failed to connect"]))
                 }
                 return
             }
