@@ -8,6 +8,18 @@
 
 import Foundation
 
+let TimeIntervalFormatter: NSDateComponentsFormatter = {
+    let formatter = NSDateComponentsFormatter()
+    formatter.unitsStyle = NSDateComponentsFormatterUnitsStyle.Abbreviated
+    formatter.includesApproximationPhrase = false
+    formatter.includesTimeRemainingPhrase = true
+    formatter.collapsesLargestUnit = true
+    formatter.maximumUnitCount = 2
+    formatter.allowedUnits = [NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second]
+
+    return formatter
+}()
+
 struct _Formatter {
     func stringForSpeed(speed: Double) -> String
     {
@@ -19,13 +31,7 @@ struct _Formatter {
     }
     
     func stringForTimeInterval(interval: Double) -> String {
-        let formatter = NSDateComponentsFormatter()
-        formatter.unitsStyle = NSDateComponentsFormatterUnitsStyle.Abbreviated
-        formatter.includesApproximationPhrase = false
-        formatter.includesTimeRemainingPhrase = true
-        formatter.allowedUnits = [NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second]
-        // Use the configured formatter to generate the string.
-        return formatter.stringFromTimeInterval(interval)!
+        return TimeIntervalFormatter.stringFromTimeInterval(interval)!
     }
     
     func stringForSpeed(speed: Double, kb: String, mb: String, gb: String) -> String
