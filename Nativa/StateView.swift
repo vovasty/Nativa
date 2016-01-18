@@ -9,20 +9,6 @@
 import Cocoa
 import SnapKit
 
-private class VerticallyAlignedTextFieldCell: NSTextFieldCell {
-    override func titleRectForBounds(frame: NSRect) -> NSRect {
-        let stringHeight = self.attributedStringValue.size().height
-        var titleRect = super.titleRectForBounds(frame)
-        titleRect.origin.y = frame.origin.y + (frame.size.height - stringHeight) / 2.0
-        return titleRect
-    }
-    
-    override func drawInteriorWithFrame(cellFrame: NSRect, inView controlView: NSView) {
-        super.drawInteriorWithFrame(self.titleRectForBounds(cellFrame), inView: controlView)
-    }
-}
-
-
 enum StateViewContent {
     case Progress
     case Error(message: String, buttonTitle: String, handler: (AnyObject?)->Void)
@@ -65,20 +51,6 @@ class StateView: NSView {
                 button.hidden  = true
                 progress.hidden = false
                 progress.startAnimation(nil)
-                
-                message.snp_remakeConstraints { (make) -> Void in
-                    let attributes = message.attributedStringValue.attributesAtIndex(0, effectiveRange: nil)
-                    var size = message.stringValue.sizeWithAttributes(attributes)
-                    size.width = size.width + 8
-                    
-                    make.size.equalTo(size)
-                    make.centerY.equalTo(self)
-                    make.centerX.equalTo(self).offset(progress.bounds.size.width/2)
-                }
-                
-                progress.snp_remakeConstraints { (make) -> Void in
-                    make.center.equalTo(self)
-                }
             case .Error(let msg, let buttonTitle, let handler):
                 message.hidden = false
                 progress.hidden = true
@@ -89,27 +61,6 @@ class StateView: NSView {
                 message.stringValue = msg
                 button.title = buttonTitle
                 button.sizeToFit()
-                button.target = self
-                button.action = "buttonClicked:"
-                
-                message.snp_remakeConstraints { (make) -> Void in
-                    let attributes = message.attributedStringValue.attributesAtIndex(0, effectiveRange: nil)
-                    var size = message.stringValue.sizeWithAttributes(attributes)
-                    size.width = size.width + 8
-                    
-                    make.size.equalTo(size)
-                    make.centerX.equalTo(self)
-                    make.centerY.equalTo(self).offset(-size.height/2)
-                }
-                
-                button.snp_remakeConstraints { (make) -> Void in
-                    let size = button.bounds.size
-                    make.size.equalTo(size)
-                    make.centerX.equalTo(self)
-                    make.centerY.equalTo(self).offset(size.height/2 + 3)
-                }
-                
-                break
             case .Unknown:
                 break
             }
@@ -129,13 +80,29 @@ class StateView: NSView {
         progress.style = NSProgressIndicatorStyle.SpinningStyle
         progress.controlSize = .RegularControlSize
         progress.sizeToFit()
-        
+        progress.snp_makeConstraints { (make) -> Void in
+            make.center.equalTo(self)
+        }
+
         message.editable = false
-        message.selectable = false
-        message.cell = VerticallyAlignedTextFieldCell()
+        message.bezeled = false
+        message.drawsBackground = false
+        message.alignment = .Center
         
+        message.snp_makeConstraints { (make) -> Void in
+            make.left.equalTo(20)
+            make.right.equalTo(-20)
+            make.centerY.equalTo(self)
+        }
+        
+        button.target = self
+        button.action = "buttonClicked:"
         button.bezelStyle = .TexturedSquareBezelStyle
         button.setButtonType(NSButtonType.MomentaryPushInButton)
+        button.snp_makeConstraints { (make) -> Void in
+            make.centerX.equalTo(self)
+            make.centerY.equalTo(message.snp_centerY).offset(20)
+        }
     }
     
     override init(frame frameRect: NSRect) {

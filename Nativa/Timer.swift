@@ -28,7 +28,7 @@ class Timer
         }
     }
     
-    func start(callImmediately: Bool = false){
+    func start(callImmediately: Bool = false, repeatable: Bool = true){
         if timer == nil {
             // create our timer source
             timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
@@ -37,15 +37,16 @@ class Timer
             // so just fill in the initial time).
             
             let interval = UInt64(timeout) * NSEC_PER_SEC
-            dispatch_source_set_timer(timer, dispatch_walltime(nil, 0), interval, 0);
+            dispatch_source_set_timer(timer, dispatch_walltime(nil, Int64(callImmediately ? 0 : interval)), interval, 0);
             
             // Hey, let's actually do something when the timer fires!
             dispatch_source_set_event_handler(timer, {
+                if !repeatable {
+                    self.stop()
+                }
                 self.block()
             })
-            if callImmediately {
-                block()
-            }
+
             dispatch_resume(timer)
         }
     }
