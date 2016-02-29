@@ -360,6 +360,7 @@
 		CD01C72B1991627100D5B8A6 /* Nativa */ = {
 			isa = PBXGroup;
 			children = (
+				CD5AA8601B9796DA00517F47 /* lib */,
 				CDFFC20919DB74260072EEAD /* Model */,
 				CD01C7301991627100D5B8A6 /* AppDelegate.swift */,
 				CD01C7321991627100D5B8A6 /* Images.xcassets */,
@@ -379,7 +380,6 @@
 				CDFE78A11B9F7E730001E8F9 /* NotificationCenter.swift */,
 				CD9E103E1C18E99D00C390B3 /* NSFileManager.swift */,
 				CD78F5541C38C82A0045F056 /* Config.swift */,
-				CD5AA8601B9796DA00517F47 /* lib */,
 				CD01C72C1991627100D5B8A6 /* Supporting Files */,
 			);
 			path = Nativa;

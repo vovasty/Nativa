@@ -175,10 +175,12 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                 torrent["info"] = info
                 result.append(torrent)
             }
-            catch let e {
-                handler(nil, NSError(e))
+            catch{
+                handler(nil, NSError(error))
+                return
             }
         }
+
         handler(result, nil)
     }
     

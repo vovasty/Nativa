@@ -14,7 +14,8 @@ class FolderNameCell: NSTableCellView
     {
         let ssize = String(format: "%.2f%%", complete*100) + " of " + Formatter.stringForSize(size)
         let title = NSMutableAttributedString(string: "\(name) \(ssize)")
-        let sizeRange = NSRange(location: name.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)+" ".lengthOfBytesUsingEncoding(NSUTF8StringEncoding), length: ssize.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
+        //count in characters, not in .lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        let sizeRange = NSRange(location: (name + " ").characters.count, length: ssize.characters.count)
         
         title.addAttribute(NSFontAttributeName, value: NSFont.systemFontOfSize(NSFont.smallSystemFontSize()), range: sizeRange)
         title.addAttribute(NSForegroundColorAttributeName, value: NSColor.darkGrayColor(), range: sizeRange)

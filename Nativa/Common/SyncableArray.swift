@@ -169,7 +169,16 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
         
         return nil
     }
-    
+
+    public func removeAll() {
+        var changes: [(object: D.ObjectType, index: Int, type: ChangeType)] = []
+        for o in order {
+            guard let result = _remove(o) else { continue }
+            changes.append(result)
+        }
+        notifyObservers(changes)
+    }
+
     private func _update(dict: D.RawType)->[(object: D.ObjectType, index: Int, type: ChangeType)]? {
         guard let id = delegate?.idFromRaw(dict) else { return nil }
         
