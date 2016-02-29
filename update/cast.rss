@@ -7,7 +7,14 @@
     <language>en</language>
 		<item>
 			<title>Version 0.7.2</title>
-			<sparkle:releaseNotesLink>http://www.aramzamzam.net/nativa/release_notes.html#0.7.2</sparkle:releaseNotesLink>
+      <description>
+          <![CDATA[
+            <a href="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.7.2.zip">download</a><br/>
+            <ul>
+              <li>bug fixes</li>
+            </ul>
+          ]]>
+      </description>
 			<pubDate>Sun, 28 Feb 2016 23:24:59 -0800</pubDate>
 			<enclosure
 				url="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.7.2.zip"
@@ -22,7 +29,6 @@
     			<title>Version 0.7.1</title>
                 <description>
                     <![CDATA[
-                      <a href="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.7.2.zip">download</a><br/>
                       <ul>
                         <li>bug fixes</li>
                       </ul>
