@@ -11,7 +11,7 @@ import Foundation
 
 private extension NSMutableData {
     final func appendString(string: String, encoding: UInt) -> Self {
-        appendBytes(string.cStringUsingEncoding(NSASCIIStringEncoding)!, length: string.lengthOfBytesUsingEncoding(NSASCIIStringEncoding))
+        appendBytes(string.cStringUsingEncoding(encoding)!, length: Int(string.lengthOfBytesUsingEncoding(encoding)))
         return self
     }
     
