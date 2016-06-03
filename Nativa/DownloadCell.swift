@@ -11,7 +11,6 @@ import Cocoa
 class DownloadCell: NSTableCellView
 {
     @IBOutlet weak var controlButton: NSButton!
-    @IBOutlet weak var actionButton: NSButton!
     @IBOutlet weak var statusText: NSTextField!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
     internal var progressIndicatorConstraints: [NSLayoutConstraint]?
@@ -82,8 +81,6 @@ class DownloadCell: NSTableCellView
         case .Seeding, .Downloading, .Checking:
             self.addTrackingAreaForView(controlButton, userInfo:["hint": NSLocalizedString("Stop", comment: "")])
         }
-        
-        self.addTrackingAreaForView(actionButton, userInfo:["hint": NSLocalizedString("Options", comment: "")])
     }
     
     

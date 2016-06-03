@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15F34" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="10116"/>
         <capability name="stacking Non-gravity area distributions on NSStackView" minToolsVersion="7.0" minSystemVersion="10.11"/>
     </dependencies>
     <scenes>
@@ -377,7 +377,7 @@ CA
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSApplicationIcon" id="0Wj-Bu-dft"/>
                                                                 </imageView>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DpJ-DP-z2c">
-                                                                    <rect key="frame" x="41" y="42" width="384" height="17"/>
+                                                                    <rect key="frame" x="41" y="42" width="394" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Ubuntu.iso" id="saU-U2-2xE">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -385,18 +385,18 @@ CA
                                                                     </textFieldCell>
                                                                 </textField>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4vy-Ns-1hv">
-                                                                    <rect key="frame" x="41" y="11" width="384" height="11"/>
+                                                                    <rect key="frame" x="41" y="11" width="394" height="11"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="0 of 942.4 MB (0.00%)" id="hAr-3E-hQ4">
                                                                         <font key="font" metaFont="miniSystem"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <progressIndicator maxValue="100" indeterminate="YES" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="vrM-eo-fWt">
-                                                                    <rect key="frame" x="43" y="26" width="380" height="12"/>
+                                                                <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="vrM-eo-fWt">
+                                                                    <rect key="frame" x="43" y="26" width="390" height="12"/>
                                                                 </progressIndicator>
                                                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="sM2-8g-Jgq">
-                                                                    <rect key="frame" x="431" y="26" width="14" height="13"/>
+                                                                    <rect key="frame" x="441" y="26" width="14" height="13"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="13" id="dO7-Y4-1qH"/>
                                                                         <constraint firstAttribute="width" constant="14" id="k5O-lr-448"/>
@@ -409,26 +409,13 @@ CA
                                                                         <action selector="controlAction:" target="XfG-lQ-9wD" id="kZd-7a-fRb"/>
                                                                     </connections>
                                                                 </button>
-                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="MHZ-aG-f8C">
-                                                                    <rect key="frame" x="455" y="25" width="14" height="15"/>
-                                                                    <constraints>
-                                                                        <constraint firstAttribute="height" constant="15" id="04O-IF-eeE"/>
-                                                                        <constraint firstAttribute="width" constant="14" id="awZ-o9-3od"/>
-                                                                    </constraints>
-                                                                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSActionTemplate" imagePosition="overlaps" alignment="center" imageScaling="proportionallyDown" inset="2" id="26q-d1-8c7">
-                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                    </buttonCell>
-                                                                </button>
                                                             </subviews>
                                                             <constraints>
                                                                 <constraint firstItem="sM2-8g-Jgq" firstAttribute="leading" secondItem="vrM-eo-fWt" secondAttribute="trailing" constant="8" symbolic="YES" id="1Cy-QH-LU0"/>
                                                                 <constraint firstItem="sM2-8g-Jgq" firstAttribute="leading" secondItem="4vy-Ns-1hv" secondAttribute="trailing" constant="8" symbolic="YES" id="3ya-98-UVW"/>
-                                                                <constraint firstAttribute="centerY" secondItem="MHZ-aG-f8C" secondAttribute="centerY" constant="1" id="4LN-ZH-r8g"/>
                                                                 <constraint firstAttribute="centerY" secondItem="sM2-8g-Jgq" secondAttribute="centerY" constant="1" id="8l5-3s-gUU"/>
                                                                 <constraint firstItem="Vdt-2O-6PL" firstAttribute="leading" secondItem="Tu7-Vc-Wdy" secondAttribute="leading" constant="3" id="Kji-7X-o2z"/>
-                                                                <constraint firstAttribute="trailing" secondItem="MHZ-aG-f8C" secondAttribute="trailing" constant="6" id="Ncx-LC-8HQ"/>
-                                                                <constraint firstItem="MHZ-aG-f8C" firstAttribute="leading" secondItem="sM2-8g-Jgq" secondAttribute="trailing" constant="10" id="QGe-LX-8Pd"/>
+                                                                <constraint firstAttribute="trailing" secondItem="sM2-8g-Jgq" secondAttribute="trailing" constant="20" symbolic="YES" id="P6F-IM-cCJ"/>
                                                                 <constraint firstItem="vrM-eo-fWt" firstAttribute="leading" secondItem="Vdt-2O-6PL" secondAttribute="trailing" constant="8" symbolic="YES" id="RI9-7N-h0W"/>
                                                                 <constraint firstAttribute="bottom" secondItem="4vy-Ns-1hv" secondAttribute="bottom" priority="1" constant="11" id="Trr-rn-fWj"/>
                                                                 <constraint firstAttribute="centerY" secondItem="Vdt-2O-6PL" secondAttribute="centerY" id="boD-fW-p7n"/>
@@ -439,7 +426,6 @@ CA
                                                                 <constraint firstAttribute="centerY" secondItem="vrM-eo-fWt" secondAttribute="centerY" id="nvB-kg-4Um"/>
                                                             </constraints>
                                                             <connections>
-                                                                <outlet property="actionButton" destination="MHZ-aG-f8C" id="Ed4-Vh-kWS"/>
                                                                 <outlet property="controlButton" destination="sM2-8g-Jgq" id="KCj-Qj-qji"/>
                                                                 <outlet property="imageView" destination="Vdt-2O-6PL" id="3iA-x5-Ite"/>
                                                                 <outlet property="progressIndicator" destination="vrM-eo-fWt" id="cjQ-B9-4XJ"/>
@@ -1102,7 +1088,7 @@ CA
                                         </customSpacing>
                                     </stackView>
                                     <textField verticalHuggingPriority="750" fixedFrame="YES" preferredMaxLayoutWidth="246" translatesAutoresizingMaskIntoConstraints="NO" id="pHA-03-idz">
-                                        <rect key="frame" x="71" y="151.5" width="177" height="14.5"/>
+                                        <rect key="frame" x="71" y="152" width="177" height="14"/>
                                         <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" title="find this value in your .rtorrent.rc" id="CFv-zG-SsM">
                                             <font key="font" metaFont="smallSystem"/>
                                             <color key="textColor" name="disabledControlTextColor" catalog="System" colorSpace="catalog"/>
@@ -1112,7 +1098,7 @@ CA
                                 </beginningViews>
                                 <middleViews>
                                     <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bTv-8w-dKJ">
-                                        <rect key="frame" x="126" y="129.5" width="120" height="14"/>
+                                        <rect key="frame" x="126" y="130" width="120" height="14"/>
                                         <beginningViews>
                                             <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W5D-QP-13Y">
                                                 <rect key="frame" x="-2" y="-2" width="124" height="18"/>
@@ -1138,7 +1124,7 @@ CA
                                         </customSpacing>
                                     </stackView>
                                     <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cX4-0P-YUG">
-                                        <rect key="frame" x="0.0" y="99.5" width="246" height="22"/>
+                                        <rect key="frame" x="0.0" y="100" width="246" height="22"/>
                                         <beginningViews>
                                             <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NVE-sd-V5e">
                                                 <rect key="frame" x="-2" y="2.5" width="37" height="17"/>
@@ -1179,7 +1165,7 @@ CA
                                         </customSpacing>
                                     </stackView>
                                     <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qSq-D4-LzV">
-                                        <rect key="frame" x="0.0" y="69.5" width="246" height="22"/>
+                                        <rect key="frame" x="0.0" y="70" width="246" height="22"/>
                                         <beginningViews>
                                             <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lBn-2v-3cr">
                                                 <rect key="frame" x="-2" y="2.5" width="37" height="17"/>
@@ -1220,7 +1206,7 @@ CA
                                         </customSpacing>
                                     </stackView>
                                     <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="250" verticalStackHuggingPriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="p5f-dR-cl1">
-                                        <rect key="frame" x="0.0" y="39.5" width="246" height="22"/>
+                                        <rect key="frame" x="0.0" y="40" width="246" height="22"/>
                                         <beginningViews>
                                             <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Rz-sq-K5e">
                                                 <rect key="frame" x="-2" y="2.5" width="66" height="17"/>
@@ -1354,7 +1340,7 @@ Gw
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="sequential" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="hcJ-Yg-EEO" id="ocw-Hp-MCR">
-                                            <rect key="frame" x="0.0" y="0.0" width="438" height="327"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="438" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
