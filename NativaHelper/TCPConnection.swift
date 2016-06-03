@@ -41,7 +41,7 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
             super.init()
             
             dispatch_async(queue) { () -> Void in
-                self.performSelector("_open", onThread: TCPConnection.networkRequestThread(), withObject: nil, waitUntilDone: false, modes: self.runLoopModes)
+                self.performSelector(#selector(TCPConnection.open), onThread: TCPConnection.networkRequestThread(), withObject: nil, waitUntilDone: false, modes: self.runLoopModes)
             }
     }
     
@@ -59,7 +59,7 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
             self.responseBuffer = Array(count: self.maxPacket, repeatedValue: 0)
             
             if self.connected {
-                self.performSelector("_open", onThread: TCPConnection.networkRequestThread(), withObject: nil, waitUntilDone: false, modes: self.runLoopModes)
+                self.performSelector(#selector(TCPConnection.open), onThread: TCPConnection.networkRequestThread(), withObject: nil, waitUntilDone: false, modes: self.runLoopModes)
             }
             else if self.oStream?.streamStatus == .Open {
                 self.stream(self.oStream!, handleEvent: NSStreamEvent.HasSpaceAvailable)
@@ -67,7 +67,8 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
         }
     }
     
-    func _open() {
+    @objc
+    private func open() {
         NSStream.getStreamsToHostWithName(self.host, port: Int(self.port), inputStream: &self.iStream, outputStream: &self.oStream)
         iStream?.delegate = self
         oStream?.delegate = self
@@ -214,7 +215,8 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
     }
     
     //MARK: Thread
-    class func networkRequestThreadEntryPoint(object: AnyObject) {
+    @objc
+    private class func networkRequestThreadEntryPoint(object: AnyObject) {
         autoreleasepool {
             NSThread.currentThread().name = "Nativa"
     
@@ -229,7 +231,7 @@ class TCPConnection: NSObject, Connection, NSStreamDelegate {
 
     private class func networkRequestThread()->NSThread {
         dispatch_once(&_oncePredicate) { () -> Void in
-            _networkRequestThread = NSThread(target: self, selector: "networkRequestThreadEntryPoint:", object: nil)
+            _networkRequestThread = NSThread(target: self, selector: #selector(TCPConnection.networkRequestThreadEntryPoint(_:)), object: nil)
             _networkRequestThread.start()
         }
         return _networkRequestThread

@@ -21,10 +21,13 @@ public enum RTorrentError: ErrorType, CustomStringConvertible{
 
 public extension NSError {
     convenience init?(_ error: ErrorType?) {
-        guard let error = error else {
+        if let error = error {
+            self.init(domain: error._domain, code: error._code, userInfo: [NSLocalizedDescriptionKey: "\(error)"])
+        }
+        else {
+            //FIXME: must call initializer
+            self.init(domain: "none", code: -1, userInfo: nil)
             return nil
         }
-        
-        self.init(domain: error._domain, code: error._code, userInfo: [NSLocalizedDescriptionKey: "\(error)"])
     }
 }

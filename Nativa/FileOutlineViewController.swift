@@ -172,7 +172,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
             case "FileCheckColumn":
                 if let cell = outlineView.makeViewWithIdentifier("FileCheckCell", owner:self) as? NSTableCellView {
                     if let button: NSButton = cell.findSubview() {
-                        button.action = "fileChecked:"
+                        button.action = #selector(fileChecked(_:))
                         button.target = self
                         button.allowsMixedState = file.folder
                         button.state = stateForFile(file)
@@ -271,10 +271,10 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
             }
             
             if state == NSOnState {
-                checked++
+                checked += 1
             }
             else if state == NSOffState{
-                skipped++
+                skipped += 1
             }
         }
         

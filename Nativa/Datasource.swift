@@ -109,8 +109,8 @@ class Datasource: ConnectionEventListener {
     private func createDownloader(erroHandler: (NSError)->Void) throws -> (NSXPCConnection, NativaHelperProtocol) {
         let downloaderService = NSXPCConnection(serviceName: "\(NSBundle.mainBundle().bundleIdentifier!).NativaHelper")
         
-        downloaderService.remoteObjectInterface = NSXPCInterface(`withProtocol`: NativaHelperProtocol.self)
-        downloaderService.exportedInterface = NSXPCInterface(`withProtocol`: ConnectionEventListener.self)
+        downloaderService.remoteObjectInterface = NSXPCInterface(withProtocol:NativaHelperProtocol.self)
+        downloaderService.exportedInterface = NSXPCInterface(withProtocol: ConnectionEventListener.self)
         downloaderService.exportedObject = self
         downloaderService.resume()
         

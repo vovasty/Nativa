@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     private func connect() {
         refreshTimer.stop()
         Datasource.instance.closeAllConnections()
-        self.reconnectCounter++
+        self.reconnectCounter += 1
 
         guard reconnectCounter <= Config.maxReconnectCounter else {
             let center = NSUserNotificationCenter.defaultUserNotificationCenter()

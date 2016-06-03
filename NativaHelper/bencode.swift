@@ -30,12 +30,12 @@ private class Tokenizer: GeneratorType {
             case 100, 101, 105, 108: //d e i l
                 let token = String(Character(UnicodeScalar(byte)))
                 values.append((token, bytes - begin))
-                bytes++
+                bytes += 1
             case 48 ... 57: //0...9
                 break
             default:
                  //skip junk
-                 bytes++
+                 bytes += 1
                  continue
             }
             
@@ -44,8 +44,8 @@ private class Tokenizer: GeneratorType {
             //numbers
             //0...9
             while case 48 ... 57 = numberPtr[0] where numberPtr < bytesEnd {
-                numberPtr++
-                numberLength++
+                numberPtr += 1
+                numberLength += 1
             }
             
             guard numberPtr <= bytesEnd else {
@@ -84,7 +84,11 @@ private class Tokenizer: GeneratorType {
     }
     
     func next() -> (String, Int)? {
-        return index < values.count ? values[index++] : nil
+        guard index < values.count else { return nil }
+        
+        let value = values[index]
+        index += 1
+        return value
     }
 }
 
@@ -125,7 +129,7 @@ private func bdecode(gen: Tokenizer, token: (String, Int), findInfoRange: Bool =
                     if index % 2 == 0 && v.0 as? String == "info" {
                         infoBegin = tok.1
                     }
-                    index++
+                    index += 1
                 }
             }
             

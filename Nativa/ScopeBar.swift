@@ -27,7 +27,7 @@ class ScopeBar: NSStackView {
         for v in subviews {
             guard let button  = v as? NSButton  else { continue }
             button.target = self
-            button.action = "buttonClicked:"
+            button.action = #selector(buttonClicked(_:))
             button.showsBorderOnlyWhileMouseInside = true
             button.cell?.backgroundStyle = .Raised
         }

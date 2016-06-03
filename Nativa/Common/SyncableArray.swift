@@ -60,9 +60,9 @@ public class ObservableArray<T> {
 }
 
 public protocol SyncableArrayDelegate: class {
-    typealias RawType: Any
-    typealias ObjectType: Equatable
-    typealias KeyType: Hashable
+    associatedtype RawType: Any
+    associatedtype ObjectType: Equatable
+    associatedtype KeyType: Hashable
     
     func idFromRaw(_: RawType) -> KeyType?
     func idFromObject(_: ObjectType) -> KeyType
@@ -196,7 +196,7 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
                     order.removeAtIndex(idx)
                     
                     if newIndex > idx {
-                        newIndex--
+                        newIndex -= 1
                     }
                     
                     order.insert(o, atIndex: newIndex)

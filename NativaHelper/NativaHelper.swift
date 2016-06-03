@@ -47,7 +47,9 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                                     password: password,
                                  serviceHost: serviceHost,
                                  servicePort: servicePort,
-                                     connect: { (error)->Void in connect(NSError(error)) },
+                                     connect: { (error)->Void in
+                                        connect(NSError(error))
+                                  },
                                   disconnect:{
                                     (error)->Void in
                                     (self.xpcConnection!.remoteObjectProxy as? ConnectionEventListener)?.connectionDropped(NSError(error))

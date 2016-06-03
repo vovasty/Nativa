@@ -96,7 +96,7 @@ class StateView: NSView {
         }
         
         button.target = self
-        button.action = "buttonClicked:"
+        button.action = #selector(buttonClicked(_:))
         button.bezelStyle = .TexturedSquareBezelStyle
         button.setButtonType(NSButtonType.MomentaryPushInButton)
         button.snp_makeConstraints { (make) -> Void in

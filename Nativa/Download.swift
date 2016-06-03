@@ -256,7 +256,7 @@ class Download
                         }
                     }
                 }
-                fileIndex++;
+                fileIndex += 1;
             }
             self.flatFileList = flatFiles
             self.size = torrentSize
