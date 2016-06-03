@@ -43,7 +43,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             note.actionButtonTitle = "Try again"
             note.userInfo = ["action": NotificationActions.Reconnect.rawValue]
             
-            dispatch_main() { center.scheduleNotification(note) }
+            dispatch_main { center.scheduleNotification(note) }
             return
         }
         
