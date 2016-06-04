@@ -66,29 +66,25 @@ class DownloadCell: NSTableCellView
         
         for area in self.trackingAreas as [NSTrackingArea]
         {
-            if let userInfo = area.userInfo {
-                if area.owner as! NSObject == self && userInfo["hint"] != nil
-                {
-                    self.removeTrackingArea(area)
-                }
+            if area.owner === self
+            {
+                self.removeTrackingArea(area)
             }
         }
         
-        switch download.state
-        {
-        case .Stopped, .Paused, .Unknown:
-            self.addTrackingAreaForView(controlButton, userInfo:["hint": NSLocalizedString("Resume", comment: "")])
-        case .Seeding, .Downloading, .Checking:
-            self.addTrackingAreaForView(controlButton, userInfo:["hint": NSLocalizedString("Stop", comment: "")])
-        }
+        self.addTrackingAreaForView(controlButton)
     }
     
     
     override func mouseEntered(theEvent: NSEvent){
-        if let userInfo = theEvent.trackingArea?.userInfo {
-            tracking = true
-            let hint: AnyObject? = userInfo["hint"]
-            setHint( hint as! String)
+        tracking = true
+        
+        switch download.state
+        {
+        case .Stopped, .Paused, .Unknown:
+            setHint( NSLocalizedString("Resume", comment: "") )
+        case .Seeding, .Downloading, .Checking:
+            setHint( NSLocalizedString("Stop", comment: "") )
         }
     }
     
@@ -105,13 +101,13 @@ class DownloadCell: NSTableCellView
         statusText.stringValue = statusString
     }
     
-    func addTrackingAreaForView(view: NSView, userInfo:[NSObject : AnyObject]!) {
+    func addTrackingAreaForView(view: NSView, userInfo:[NSObject : AnyObject]? = nil) {
         
         let options: NSTrackingAreaOptions = [NSTrackingAreaOptions.MouseEnteredAndExited, NSTrackingAreaOptions.ActiveAlways];
         
         let rect: NSRect = view.frame
         
-        let area: NSTrackingArea = NSTrackingArea(rect:rect, options:options, owner:self, userInfo:userInfo)
+        let area: NSTrackingArea = NSTrackingArea(rect: rect, options: options, owner: self, userInfo: userInfo)
         
         self.addTrackingArea(area)
     }
