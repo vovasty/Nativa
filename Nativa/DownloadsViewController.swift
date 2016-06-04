@@ -251,7 +251,7 @@ class DownloadsViewController: NSViewController, NSOutlineViewDataSource, NSOutl
         return object
     }
     
-    @IBAction func removeDownload(sender: AnyObject) {
+    @IBAction func remove(sender: AnyObject) {
         for index in outlineView.selectedRowIndexes {
             if let download = outlineView.itemAtRow(index) as? Download {
                 Datasource.instance.removeTorrent(download, removeData: false, response: { (error) -> Void in

@@ -24,7 +24,7 @@ class MainViewController: NSSplitViewController {
         item.collapsed = !item.collapsed
 
     }
-    
+
     override func viewWillAppear() {
         super.viewWillAppear()
         

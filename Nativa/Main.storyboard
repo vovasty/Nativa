@@ -162,7 +162,7 @@
 CA
 </string>
                                             <connections>
-                                                <action selector="removeDownload:" target="Ady-hI-5gd" id="mB8-IN-uiO"/>
+                                                <action selector="remove:" target="Ady-hI-5gd" id="Mrp-m3-Zll"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Remove with data" id="rXl-OQ-toe">
@@ -271,9 +271,26 @@ CA
                                         <action selector="showInspector:" target="Oky-zY-oP4" id="hbI-De-2ZG"/>
                                     </connections>
                                 </toolbarItem>
+                                <toolbarItem implicitItemIdentifier="60D46333-F1BA-47F1-9CC6-0B6B586D205F" label="Remove" paletteLabel="Remove" image="NSRemoveTemplate" id="tXq-8v-gz5">
+                                    <nil key="toolTip"/>
+                                    <size key="minSize" width="30" height="25"/>
+                                    <size key="maxSize" width="30" height="25"/>
+                                    <button key="view" verticalHuggingPriority="750" id="prw-jT-LLz">
+                                        <rect key="frame" x="10" y="14" width="30" height="25"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <buttonCell key="cell" type="roundTextured" title="Textured Rounded" bezelStyle="texturedRounded" image="NSRemoveTemplate" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="g3E-db-NgC">
+                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                    </button>
+                                    <connections>
+                                        <action selector="remove:" target="Oky-zY-oP4" id="9Kz-eX-jQc"/>
+                                    </connections>
+                                </toolbarItem>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
                                 <toolbarItem reference="ZFK-th-IOy"/>
+                                <toolbarItem reference="tXq-8v-gz5"/>
                                 <toolbarItem reference="HFO-Dw-dFS"/>
                                 <toolbarItem reference="zhh-iT-qPx"/>
                             </defaultToolbarItems>
@@ -530,7 +547,7 @@ CA
                         <menuItem title="Remove" id="gF3-3W-wQw">
                             <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
-                                <action selector="removeDownload:" target="XfG-lQ-9wD" id="kKR-He-8Wx"/>
+                                <action selector="remove:" target="rPt-NT-nkU" id="bb0-tQ-PwZ"/>
                             </connections>
                         </menuItem>
                         <menuItem title="Remove With Data" id="T3q-vD-dPS">
