@@ -92,7 +92,9 @@ struct DMultiCommand: Command, CommandWithResult {
                 //process each command result
             return data.map({(row) -> [String: AnyObject] in
                 let simpleDict = row.enumerate().reduce([String:AnyObject]()) {
-                    (var dict, field) in
+                    (d, field) in
+                    
+                    var dict = d
                     
                     let command = commands[field.index]
                     if let value  = command.transform(field.element) {
@@ -126,7 +128,9 @@ struct FMultiCommand: Command, CommandWithResult {
             //process each command result
             return data.map({(row) -> [String: AnyObject] in
                 let simpleDict = row.enumerate().reduce([String:AnyObject]()) {
-                    (var dict, field) in
+                    (d, field) in
+                    
+                    var dict = d
                     
                     let command = commands[field.index]
                     if let value  = command.transform(field.element) {

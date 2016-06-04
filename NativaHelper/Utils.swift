@@ -36,3 +36,13 @@ func += <KeyType, ValueType> (inout left: Dictionary<KeyType, ValueType>, right:
         left.updateValue(v, forKey: k)
     }
 }
+
+func + <KeyType, ValueType> (left: Dictionary<KeyType, ValueType>, right: Dictionary<KeyType, ValueType>) -> Dictionary<KeyType, ValueType> {
+    
+    var res = left
+    for (k, v) in right {
+        res.updateValue(v, forKey: k)
+    }
+    
+    return res
+}

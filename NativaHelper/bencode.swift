@@ -136,7 +136,7 @@ private func bdecode(gen: Tokenizer, token: (String, Int), findInfoRange: Bool =
             if token.0 == "d" {
                 var dict = [String: AnyObject]()
                 
-                for var i = array.startIndex; i < array.count; i += 2 {
+                for i in array.startIndex.stride(to: array.count, by: 2) {
                     let k = array[i] as! String
                     let v = array[i + 1]
                     

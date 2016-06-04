@@ -133,9 +133,8 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                     return
                 }
 
-                let transformedResponse = response.reduce([String: AnyObject]()) { (var dict, value) -> [String: AnyObject]  in
-                    dict += value
-                    return dict
+                let transformedResponse = response.reduce([String: AnyObject]()) { (dict, value) -> [String: AnyObject]  in
+                    return dict + value
                 }
                 
                 let result = ["info": transformedResponse]
@@ -233,9 +232,8 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                     return
                 }
                 
-                let result = response.reduce([String: AnyObject]()) { (var dict, value) -> [String: AnyObject]  in
-                    dict += value
-                    return dict
+                let result = response.reduce([String: AnyObject]()) { (dict, value) -> [String: AnyObject]  in
+                    return dict + value
                 }
                 
                 handler(["info": result], nil)
@@ -265,9 +263,8 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                     return
                 }
                 
-                let result = response.reduce([String: AnyObject]()) { (var dict, value) -> [String: AnyObject]  in
-                    dict += value
-                    return dict
+                let result = response.reduce([String: AnyObject]()) { (dict, value) -> [String: AnyObject]  in
+                    return dict + value
                 }
                 
                 handler(["info": result], nil)
