@@ -1696,7 +1696,7 @@ Gw
                                                                 <outlet property="textField" destination="ktW-DS-MI2" id="E28-KI-plN"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView id="L7O-MS-mD3" customClass="SpeedLimitCell" customModule="Nativa" customModuleProvider="target">
+                                                        <tableCellView identifier="UploadCell" id="L7O-MS-mD3" customClass="SpeedLimitCell" customModule="Nativa" customModuleProvider="target">
                                                             <rect key="frame" x="1" y="17" width="271" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -1713,7 +1713,7 @@ Gw
                                                                 <outlet property="textField" destination="UpS-Eg-gaJ" id="27E-Bw-dv0"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView id="Ttp-1p-58H" customClass="SpeedLimitCell" customModule="Nativa" customModuleProvider="target">
+                                                        <tableCellView identifier="DownloadCell" id="Ttp-1p-58H" customClass="SpeedLimitCell" customModule="Nativa" customModuleProvider="target">
                                                             <rect key="frame" x="1" y="34" width="271" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>

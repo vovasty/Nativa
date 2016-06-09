@@ -172,6 +172,7 @@ extension SpeedLimitViewController: NSOutlineViewDelegate {
             return result
         case let item as DownloadStatistics:
             let result = outlineView.makeViewWithIdentifier("DownloadCell", owner:self) as? SpeedLimitCell
+            result?.checkBox.title = "Download limit"
             result?.value = Int(item.stat.maxDownloadSpeed / 1024)
             result?.checked = item.stat.downloadLimited
             result?.handler = { (checked, value) in
@@ -185,6 +186,7 @@ extension SpeedLimitViewController: NSOutlineViewDelegate {
             return result
         case let item as UploadStatistics:
             let result = outlineView.makeViewWithIdentifier("UploadCell", owner:self) as? SpeedLimitCell
+            result?.checkBox.title = "Upload limit"
             result?.value = Int(item.stat.maxUploadSpeed / 1024)
             result?.checked = item.stat.uploadLimited
             result?.handler = { (checked, value) in

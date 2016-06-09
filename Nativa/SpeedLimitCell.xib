@@ -20,6 +20,7 @@
                             <rect key="frame" x="-2" y="8" width="121" height="18"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="117" id="96C-td-XFk"/>
+                                <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="117" id="aAn-S2-HKo"/>
                             </constraints>
                             <buttonCell key="cell" type="check" title="Limit Download:" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="4UO-tI-hRT">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
