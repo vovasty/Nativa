@@ -225,7 +225,9 @@ class DownloadsViewController: NSViewController
         }
         
         self.downloadSpeed.title = Formatter.stringForSpeed(stats.downloadSpeed)
+        self.downloadSpeed.toolTip = stats.downloadLimited ? "Global download limit: \(Formatter.stringForSpeed(stats.maxDownloadSpeed)) (Speed Limit)" : "Download is unlimited"
         self.uploadSpeed.title = Formatter.stringForSpeed(stats.uploadSpeed)
+        self.uploadSpeed.toolTip = stats.uploadLimited ? "Global upload limit: \(Formatter.stringForSpeed(stats.maxUploadSpeed)) (Speed Limit)" : "Upload is unlimited"
     }
 
     override func validateMenuItem(menuItem: NSMenuItem) -> Bool {

@@ -239,8 +239,7 @@ CA
                             <allowedToolbarItems>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="3du-sj-3oH"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="HFO-Dw-dFS"/>
-                                <toolbarItem implicitItemIdentifier="B3D05D58-82A5-4915-B5D9-3F64507935B3" label="Open" paletteLabel="Open" image="Folder" id="ZFK-th-IOy">
-                                    <nil key="toolTip"/>
+                                <toolbarItem implicitItemIdentifier="B3D05D58-82A5-4915-B5D9-3F64507935B3" label="Open" paletteLabel="Open" toolTip="Open torrent files" image="Folder" id="ZFK-th-IOy">
                                     <size key="minSize" width="30" height="25"/>
                                     <size key="maxSize" width="30" height="25"/>
                                     <button key="view" verticalHuggingPriority="750" id="JhC-3N-mdh">
@@ -255,8 +254,7 @@ CA
                                         <action selector="openDocument:" target="Oky-zY-oP4" id="nrn-CB-q1X"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="990B0634-ADC8-4618-A7EF-11937888F653" label="Info" paletteLabel="Info" image="Info" id="zhh-iT-qPx">
-                                    <nil key="toolTip"/>
+                                <toolbarItem implicitItemIdentifier="990B0634-ADC8-4618-A7EF-11937888F653" label="Info" paletteLabel="Info" toolTip="Toggle the download inspector" image="Info" id="zhh-iT-qPx">
                                     <size key="minSize" width="30" height="25"/>
                                     <size key="maxSize" width="30" height="25"/>
                                     <button key="view" verticalHuggingPriority="750" id="jV2-9v-f8P">
@@ -271,8 +269,7 @@ CA
                                         <action selector="showInspector:" target="Oky-zY-oP4" id="hbI-De-2ZG"/>
                                     </connections>
                                 </toolbarItem>
-                                <toolbarItem implicitItemIdentifier="60D46333-F1BA-47F1-9CC6-0B6B586D205F" label="Remove" paletteLabel="Remove" image="NSRemoveTemplate" id="tXq-8v-gz5">
-                                    <nil key="toolTip"/>
+                                <toolbarItem implicitItemIdentifier="60D46333-F1BA-47F1-9CC6-0B6B586D205F" label="Remove" paletteLabel="Remove" toolTip="Remove selected downloads" image="NSRemoveTemplate" id="tXq-8v-gz5">
                                     <size key="minSize" width="30" height="25"/>
                                     <size key="maxSize" width="30" height="25"/>
                                     <button key="view" verticalHuggingPriority="750" id="prw-jT-LLz">
@@ -529,7 +526,7 @@ CA
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="3ND-eJ-29S">
                                         <rect key="frame" x="0.0" y="0.0" width="480" height="23"/>
                                         <subviews>
-                                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FLM-rJ-KdC">
+                                            <button toolTip="Shortcuts for changing global settings." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FLM-rJ-KdC">
                                                 <rect key="frame" x="6" y="2" width="30" height="19"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="30" id="WLl-md-kmL"/>
@@ -1663,7 +1660,7 @@ Gw
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" columnReordering="NO" columnResizing="NO" multipleSelection="NO" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="24" viewBased="YES" indentationPerLevel="16" outlineTableColumn="dwh-oA-FQ0" id="Q1E-1r-Sqq" customClass="EditableOutlineView" customModule="Nativa" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="274" height="119"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="274" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="0.0"/>
                                             <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>

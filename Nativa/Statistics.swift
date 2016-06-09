@@ -15,6 +15,15 @@ class Statistics {
     var uploadSpeed: Double = 0
     var maxUploadSpeed: Double = 0
     
+    var uploadLimited: Bool {
+        return maxUploadSpeed > 0
+    }
+    
+    var downloadLimited: Bool {
+        return maxDownloadSpeed > 0
+    }
+
+    
     init (id: String) {
         self.id = id
     }
