@@ -12,31 +12,31 @@ class NativaHelper : NSObject, NativaHelperProtocol {
     weak var xpcConnection: NSXPCConnection?
     private var rtorrent: RTorrent?
     private let fullDownloadsList = DMultiCommand("main", field: "list", commands: [
-        ResultCommand("d.get_hash=", parameters: nil, field: "id") { (v) -> AnyObject? in return v as? String },
-        ResultCommand("d.get_name=", parameters: nil, field: "name") { (v) -> AnyObject? in return v as? String },
-        ResultCommand("d.get_size_bytes=", parameters: nil, field: "length") { (v) -> AnyObject? in return v as? Int },
-        ResultCommand("d.get_bytes_done=", parameters: nil, field: "complete") { (v) -> AnyObject? in return v as? Double },
-        ResultCommand("d.get_state=", parameters: nil, field: "state") { (v) -> AnyObject? in return v as? Int },
-        ResultCommand("d.is_open=", parameters: nil, field: "opened") { (v) -> AnyObject? in return v as? Bool },
-        ResultCommand("d.get_down_rate=", parameters: nil, field: "downloadSpeed") { (v) -> AnyObject? in return v as? Double },
-        ResultCommand("d.get_up_rate=", parameters: nil, field: "uploadSpeed") { (v) -> AnyObject? in return v as? Double },
-        ResultCommand("d.get_up_total=", parameters: nil, field: "uploadTotal") { (v) -> AnyObject? in return v as? Int },
-        ResultCommand("d.get_base_path=", parameters: nil, field: "path") { (v) -> AnyObject? in return v as? String },
-        ResultCommand("d.get_peers_connected=", parameters: nil, field: "peersConnected") { (v) -> AnyObject? in return v as? Int },
-        ResultCommand("d.get_peers_not_connected=", parameters: nil, field: "peersNotConnected") { (v) -> AnyObject? in return v as? Int },
-        ResultCommand("d.get_peers_complete=", parameters: nil, field: "peersCompleted") { (v) -> AnyObject? in return v as? Int },
-        ResultCommand("d.get_priority=", parameters: nil, field: "priority") { (v) -> AnyObject? in return v as? Int },
-        ResultCommand("d.is_multi_file=", parameters: nil, field: "folder") { (v) -> AnyObject? in
+        ResultCommand("d.get_hash=", field: "id") { (v) -> AnyObject? in return v as? String },
+        ResultCommand("d.get_name=", field: "name") { (v) -> AnyObject? in return v as? String },
+        ResultCommand("d.get_size_bytes=", field: "length") { (v) -> AnyObject? in return v as? Int },
+        ResultCommand("d.get_bytes_done=", field: "complete") { (v) -> AnyObject? in return v as? Double },
+        ResultCommand("d.get_state=", field: "state") { (v) -> AnyObject? in return v as? Int },
+        ResultCommand("d.is_open=", field: "opened") { (v) -> AnyObject? in return v as? Bool },
+        ResultCommand("d.get_down_rate=", field: "downloadSpeed") { (v) -> AnyObject? in return v as? Double },
+        ResultCommand("d.get_up_rate=", field: "uploadSpeed") { (v) -> AnyObject? in return v as? Double },
+        ResultCommand("d.get_up_total=", field: "uploadTotal") { (v) -> AnyObject? in return v as? Int },
+        ResultCommand("d.get_base_path=", field: "path") { (v) -> AnyObject? in return v as? String },
+        ResultCommand("d.get_peers_connected=", field: "peersConnected") { (v) -> AnyObject? in return v as? Int },
+        ResultCommand("d.get_peers_not_connected=", field: "peersNotConnected") { (v) -> AnyObject? in return v as? Int },
+        ResultCommand("d.get_peers_complete=", field: "peersCompleted") { (v) -> AnyObject? in return v as? Int },
+        ResultCommand("d.get_priority=", field: "priority") { (v) -> AnyObject? in return v as? Int },
+        ResultCommand("d.is_multi_file=", field: "folder") { (v) -> AnyObject? in
             if let v = v as? Bool{
                 return v
             }
             
             return false
         },
-        ResultCommand("d.get_message=", parameters: nil, field: "message") { (v) -> AnyObject? in return v as? String },
-        ResultCommand("d.is_hash_checking=", parameters: nil, field: "hashChecking") { (v) -> AnyObject? in return v as? Bool },
-        ResultCommand("d.get_complete=", parameters: nil, field: "completed") { (v) -> AnyObject? in return v as? Bool },
-        ResultCommand("d.is_active=", parameters: nil, field: "active") { (v) -> AnyObject? in return v as? Bool }
+        ResultCommand("d.get_message=", field: "message") { (v) -> AnyObject? in return v as? String },
+        ResultCommand("d.is_hash_checking=", field: "hashChecking") { (v) -> AnyObject? in return v as? Bool },
+        ResultCommand("d.get_complete=", field: "completed") { (v) -> AnyObject? in return v as? Bool },
+        ResultCommand("d.is_active=", field: "active") { (v) -> AnyObject? in return v as? Bool }
         ])
     
     func connect(user: String, host: String, port: UInt16, password: String, serviceHost: String, servicePort: UInt16, connect: (NSError?)->Void) {
@@ -68,14 +68,18 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         rtorrent = RTorrent(connection: connection)
     }
     
-    func version(response: (String?, NSError?)->Void) {
-        rtorrent?.send("system.api_version", parameters: nil, response: { (version, error) -> Void in
+    func version(handler: (String?, NSError?)->Void) {
+        let command = ResultCommand("system.api_version", field: "version") { (v) -> AnyObject? in return v as? String }
+        
+        
+        rtorrent?.send(command){ (response, error) -> Void in
             guard error == nil else {
-                response(nil, NSError(error!))
+                handler(nil, NSError(error!))
                 return
             }
-            response(version as? String, nil)
-        })
+            
+            handler(response?["version"] as? String, nil)
+        }
     }
     
     func update(handler:([[String:AnyObject]]?, NSError?)->Void) {
@@ -121,11 +125,11 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             ResultCommand("d.is_active", parameters: [id], field: "active") { (v) -> AnyObject? in return v as? Bool },
             
             FMultiCommand(id, index: nil, field: "files", commands: [
-                ResultCommand("f.get_path=", parameters: nil, field: "path") { (v) -> AnyObject? in return (v as? String)?.characters.split("/").map{String($0)} as? AnyObject },
-                ResultCommand("f.get_size_bytes=", parameters: nil, field: "length") { (v) -> AnyObject? in return v as? Double },
-                ResultCommand("f.get_priority=", parameters: nil, field: "priority") { (v) -> AnyObject? in return v as? Int },
-                ResultCommand("f.get_completed_chunks=", parameters: nil, field: "completed_chunks") { (v) -> AnyObject? in return v as? Int },
-                ResultCommand("f.get_size_chunks=", parameters: nil, field: "size_chunks") { (v) -> AnyObject? in return v as? Int }
+                ResultCommand("f.get_path=", field: "path") { (v) -> AnyObject? in return (v as? String)?.characters.split("/").map{String($0)} as? AnyObject },
+                ResultCommand("f.get_size_bytes=", field: "length") { (v) -> AnyObject? in return v as? Double },
+                ResultCommand("f.get_priority=", field: "priority") { (v) -> AnyObject? in return v as? Int },
+                ResultCommand("f.get_completed_chunks=", field: "completed_chunks") { (v) -> AnyObject? in return v as? Int },
+                ResultCommand("f.get_size_chunks=", field: "size_chunks") { (v) -> AnyObject? in return v as? Int }
                 ])
             ]) { (response, error) -> Void in
                 guard let response = response where error == nil else{
@@ -133,11 +137,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                     return
                 }
 
-                let transformedResponse = response.reduce([String: AnyObject]()) { (dict, value) -> [String: AnyObject]  in
-                    return dict + value
-                }
-                
-                let result = ["info": transformedResponse]
+                let result = ["info": response]
 
                 handler(result, nil)
         }
@@ -232,11 +232,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                     return
                 }
                 
-                let result = response.reduce([String: AnyObject]()) { (dict, value) -> [String: AnyObject]  in
-                    return dict + value
-                }
-                
-                handler(["info": result], nil)
+                handler(["info": response], nil)
         }
     }
     
@@ -263,11 +259,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                     return
                 }
                 
-                let result = response.reduce([String: AnyObject]()) { (dict, value) -> [String: AnyObject]  in
-                    return dict + value
-                }
-                
-                handler(["info": result], nil)
+                handler(["info": response], nil)
         }
     }
     
@@ -298,4 +290,32 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             })
         }
     }
+    
+    func getStats(handler:([String:AnyObject]?, NSError?)->Void) {
+        let commands: [Command] = [
+            ResultCommand("get_down_rate", field: "downloadSpeed") { (v) -> AnyObject? in return v as? Double },
+            ResultCommand("get_up_rate", field: "uploadSpeed") { (v) -> AnyObject? in return v as? Double },
+            ResultCommand("get_download_rate", field: "maxDownloadSpeed") { (v) -> AnyObject? in return v as? Double },
+            ResultCommand("get_upload_rate", field: "maxUploadSpeed") { (v) -> AnyObject? in return v as? Double },
+        ]
+        
+        rtorrent?.send(commands) { (rsp, error) -> Void in
+            handler(rsp, NSError(error))
+        }
+    }
+    
+    func setMaxDownloadSpeed(speed: Int, handler:(NSError?)->Void) {
+        let command = ResultCommand("set_download_rate", parameters: [speed], field: "downloadSpeed") { (v) -> AnyObject? in return v }
+        rtorrent?.send(command, response: { (_, error) in
+            handler(NSError(error))
+        })
+    }
+    
+    func setMaxUploadSpeed(speed: Int, handler:(NSError?)->Void) {
+        let command = ResultCommand("set_upload_rate", parameters: [speed], field: "uploadSpeed") { (v) -> AnyObject? in return v }
+        rtorrent?.send(command, response: { (_, error) in
+            handler(NSError(error))
+        })
+    }
+
 }

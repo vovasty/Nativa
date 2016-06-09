@@ -3,3 +3,4 @@ syntax: glob
 *.orig
 xcuserdata
 build
+.vagrant/machines/default/virtualbox

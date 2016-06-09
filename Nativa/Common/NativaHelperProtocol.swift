@@ -20,6 +20,9 @@ import Foundation
     func stopTorrent(id:String, handler:([String:AnyObject]?, NSError?)->Void)
     func removeTorrent(id: String, path: String?, removeData: Bool, response: (NSError?) -> Void)
     func setFilePriority(id: String, priorities:[Int: Int], handler: (NSError?)->Void)
+    func getStats(handler:([String:AnyObject]?, NSError?)->Void)
+    func setMaxDownloadSpeed(speed: Int, handler:(NSError?)->Void)
+    func setMaxUploadSpeed(speed: Int, handler:(NSError?)->Void)
 }
 
 @objc public protocol ConnectionEventListener {

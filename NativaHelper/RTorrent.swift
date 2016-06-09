@@ -16,7 +16,7 @@ class RTorrent {
         self.connection = connection
     }
     
-    func send(method: String, parameters:[AnyObject]?, response: (AnyObject?, ErrorType?) -> Void) {
+    func send(method: String, parameters: [AnyObject]?, response: (AnyObject?, ErrorType?) -> Void) {
         let sMethod: String
         do {
             sMethod = try XMLRPCEncode(method, parameters: parameters)
@@ -66,7 +66,7 @@ struct ResultCommand: Command, CommandWithResult {
     let transform: (AnyObject)->AnyObject?
     
 
-    init(_ command: String, parameters: [AnyObject]?, field: String, transform: (AnyObject)->AnyObject?) {
+    init(_ command: String, parameters: [AnyObject]? = nil, field: String, transform: (AnyObject)->AnyObject?) {
         self.command = command
         self.parameters = parameters
         self.transform = transform
@@ -147,7 +147,7 @@ struct FMultiCommand: Command, CommandWithResult {
 }
 
 extension RTorrent {
-    func send(commands: [Command], response: ([[String: AnyObject]]?, ErrorType?)  -> Void) {
+    func send(commands: [Command], response: ([String: AnyObject]?, ErrorType?)  -> Void) {
         let parameters = commands.map { (command) -> [String: AnyObject] in
             return ["methodName": command.command, "params": command.parameters ?? []]
         }
@@ -163,9 +163,9 @@ extension RTorrent {
                 return
             }
             
-            let resultCommands = commands.filter({ (command) -> Bool in
+            let resultCommands = commands.filter{ (command) -> Bool in
                 return command is CommandWithResult
-            })
+            }
             
             if resultCommands.count  == 0 {
                 response(nil, nil)
@@ -173,7 +173,7 @@ extension RTorrent {
             }
             
             do {
-                let transformedResult = try result.enumerate().map({ (i, commandResult) throws -> [String: AnyObject] in
+                let transformedResult = try result.enumerate().map{ (i, commandResult) throws -> [String: AnyObject] in
                     if let errorDict = commandResult as? [String: AnyObject] {
                         guard let code = errorDict["faultCode"] as? Int, let message = errorDict["faultString"] as? String else {
                             throw XMLRPCDecoderError.Unknown
@@ -187,7 +187,13 @@ extension RTorrent {
                     }
                     
                     return [:]
-                })
+                }
+                .flatMap { $0 }
+                .reduce([String: AnyObject]()) { (d, tuple) in
+                    var dict = d
+                    dict.updateValue(tuple.1, forKey: tuple.0)
+                    return dict
+                }
                 
                 response(transformedResult, nil)
             }

@@ -71,6 +71,8 @@
 		CD9E103F1C18E99D00C390B3 /* NSFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9E103E1C18E99D00C390B3 /* NSFileManager.swift */; };
 		CD9E104C1C1A096800C390B3 /* ScopeBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9E104B1C1A096800C390B3 /* ScopeBar.swift */; };
 		CD9E104E1C1A417300C390B3 /* SyncableArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9E104D1C1A417300C390B3 /* SyncableArrayTests.swift */; };
+		CDA132541D078BE200CF22D8 /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA132531D078BE200CF22D8 /* Statistics.swift */; };
+		CDA132611D07E3E700CF22D8 /* SpeedLimitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDA132601D07E3E700CF22D8 /* SpeedLimitViewController.swift */; };
 		CDB2614D19F85F8B00DE168C /* FileNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB2614C19F85F8B00DE168C /* FileNameCell.swift */; };
 		CDB2614F19F860B600DE168C /* FileName.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDB2614E19F860B600DE168C /* FileName.xib */; };
 		CDB54D7C19A13F7100D777D5 /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54D7B19A13F7100D777D5 /* GroupCell.swift */; };
@@ -83,6 +85,8 @@
 		CDC7E3971B9A449700AB022E /* multi.torrent in Resources */ = {isa = PBXBuildFile; fileRef = CDC7E3961B9A449700AB022E /* multi.torrent */; };
 		CDCCFA511B77EDE60028EDCB /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCCFA501B77EDE60028EDCB /* Utils.swift */; };
 		CDDFC50319996D9B00F5F6B7 /* ButtonToolbarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */; };
+		CDE485741D08B13B0090FA39 /* SpeedLimitCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE485731D08B13B0090FA39 /* SpeedLimitCell.xib */; };
+		CDE485761D08EADE0090FA39 /* ColorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE485751D08EADE0090FA39 /* ColorTextField.swift */; };
 		CDE929C61B94E054007AE485 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE929C51B94E054007AE485 /* StateView.swift */; };
 		CDEE44DE1991E1EE00FB76AC /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */; };
 		CDF3D97F199ECED5002B91C8 /* NativaHelper.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -285,6 +289,8 @@
 		CD9E103E1C18E99D00C390B3 /* NSFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFileManager.swift; sourceTree = "<group>"; };
 		CD9E104B1C1A096800C390B3 /* ScopeBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScopeBar.swift; sourceTree = "<group>"; };
 		CD9E104D1C1A417300C390B3 /* SyncableArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncableArrayTests.swift; sourceTree = "<group>"; };
+		CDA132531D078BE200CF22D8 /* Statistics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
+		CDA132601D07E3E700CF22D8 /* SpeedLimitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeedLimitViewController.swift; sourceTree = "<group>"; };
 		CDB2614C19F85F8B00DE168C /* FileNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileNameCell.swift; sourceTree = "<group>"; };
 		CDB2614E19F860B600DE168C /* FileName.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileName.xib; sourceTree = "<group>"; };
 		CDB54D7B19A13F7100D777D5 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
@@ -298,6 +304,8 @@
 		CDC7E3961B9A449700AB022E /* multi.torrent */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = multi.torrent; sourceTree = "<group>"; };
 		CDCCFA501B77EDE60028EDCB /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonToolbarItem.swift; sourceTree = "<group>"; };
+		CDE485731D08B13B0090FA39 /* SpeedLimitCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeedLimitCell.xib; sourceTree = "<group>"; };
+		CDE485751D08EADE0090FA39 /* ColorTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorTextField.swift; sourceTree = "<group>"; };
 		CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SnapKit.xcodeproj; path = ../lib/SnapKit/SnapKit.xcodeproj; sourceTree = "<group>"; };
 		CDE929C51B94E054007AE485 /* StateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
 		CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
@@ -372,6 +380,7 @@
 				CD03055E19AE9B1100E8BF42 /* Timer.swift */,
 				CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */,
 				CD90A79D1B8E5CF000889705 /* MainViewController.swift */,
+				CDE485751D08EADE0090FA39 /* ColorTextField.swift */,
 				CDE929C51B94E054007AE485 /* StateView.swift */,
 				CD1E616B19F5C1C5006C23CA /* Main.storyboard */,
 				CD0062CC1B82E14E005BAE46 /* Preferences.swift */,
@@ -495,8 +504,10 @@
 				CDB54D7B19A13F7100D777D5 /* GroupCell.swift */,
 				CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */,
 				CD01C74D199162EB00D5B8A6 /* DownloadsViewController.swift */,
+				CDE485731D08B13B0090FA39 /* SpeedLimitCell.xib */,
 				CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */,
 				CD9E104B1C1A096800C390B3 /* ScopeBar.swift */,
+				CDA132601D07E3E700CF22D8 /* SpeedLimitViewController.swift */,
 			);
 			name = DownloadsViewController;
 			sourceTree = "<group>";
@@ -548,6 +559,7 @@
 				CD526BA71992C2A9003D8671 /* Datasource.swift */,
 				CD69F4FF19A6ADD80056BA62 /* Group.swift */,
 				CD69F4FE19A6ADD80056BA62 /* Download.swift */,
+				CDA132531D078BE200CF22D8 /* Statistics.swift */,
 				CDFFC20A19DB747F0072EEAD /* FileListNode.swift */,
 			);
 			name = Model;
@@ -770,6 +782,7 @@
 				CD5AA8B61B97B89E00517F47 /* dsa_pub.pem in Resources */,
 				CD7EFCB019F87378001AE5E9 /* FolderName.xib in Resources */,
 				CD1E616C19F5C1C5006C23CA /* Main.storyboard in Resources */,
+				CDE485741D08B13B0090FA39 /* SpeedLimitCell.xib in Resources */,
 				CDB2614F19F860B600DE168C /* FileName.xib in Resources */,
 				CD01C7331991627100D5B8A6 /* Images.xcassets in Resources */,
 			);
@@ -824,11 +837,14 @@
 				CD6851A41B90CB7600A810F1 /* Error.swift in Sources */,
 				CDCCFA511B77EDE60028EDCB /* Utils.swift in Sources */,
 				CD9E104C1C1A096800C390B3 /* ScopeBar.swift in Sources */,
+				CDA132611D07E3E700CF22D8 /* SpeedLimitViewController.swift in Sources */,
 				CDFFC20B19DB747F0072EEAD /* FileListNode.swift in Sources */,
+				CDE485761D08EADE0090FA39 /* ColorTextField.swift in Sources */,
 				CD78F5551C38C82A0045F056 /* Config.swift in Sources */,
 				CD0D45551B8ABEA7004DB8E1 /* InspectorViewController.swift in Sources */,
 				CD526BA81992C2A9003D8671 /* Datasource.swift in Sources */,
 				CD9E103F1C18E99D00C390B3 /* NSFileManager.swift in Sources */,
+				CDA132541D078BE200CF22D8 /* Statistics.swift in Sources */,
 				CDFFC20819DB6D2E0072EEAD /* AddTorrentViewController.swift in Sources */,
 				CD23AEE719E1E6C80027A47D /* DownloadDropView.swift in Sources */,
 				CDB54D7C19A13F7100D777D5 /* GroupCell.swift in Sources */,
