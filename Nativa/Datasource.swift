@@ -270,12 +270,12 @@ class Datasource: ConnectionEventListener {
         for id in processes.keys {
             guard let process = getProcess(id) else { continue }
             update(process)
-            updateStats(process)
         }
     }
     
-    private func updateStats(process: ProcessDescriptor) {
+    private func updateStats(process: ProcessDescriptor, closure: ()->Void) {
         process.downloader.getStats({ (result, error) in
+            closure()
             dispatch_main() {
                 let stat = self.statistics[process.id]!
                 stat.downloadSpeed = result?["downloadSpeed"] as? Double ?? 0
@@ -289,17 +289,18 @@ class Datasource: ConnectionEventListener {
 
     private func update(process: ProcessDescriptor, closure: ((NSError?)->Void)? = nil)
     {
-        updateStats(process)
-        process.downloader.update { (result, error) -> Void in
-            guard let result = result where error == nil else {
-                logger.error("unable to update torrents list \(error)")
-                dispatch_main { closure?(error) }
-                return
-            }
-            
-            dispatch_main {
-                process.downloads.update(result, strategy: SyncStrategy.Replace)
-                closure?(nil)
+        updateStats(process) {
+            process.downloader.update { (result, error) -> Void in
+                guard let result = result where error == nil else {
+                    logger.error("unable to update torrents list \(error)")
+                    dispatch_main { closure?(error) }
+                    return
+                }
+                
+                dispatch_main {
+                    process.downloads.update(result, strategy: SyncStrategy.Replace)
+                    closure?(nil)
+                }
             }
         }
     }
