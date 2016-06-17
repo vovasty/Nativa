@@ -38,9 +38,7 @@
 		CD23AEE719E1E6C80027A47D /* DownloadDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */; };
 		CD4C13D91BABC31B00D02AED /* InspectorDownloadInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD4C13D81BABC31B00D02AED /* InspectorDownloadInfoViewController.swift */; };
 		CD526BA81992C2A9003D8671 /* Datasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD526BA71992C2A9003D8671 /* Datasource.swift */; };
-		CD5AA8871B97975C00517F47 /* SnapKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD5AA87E1B97972400517F47 /* SnapKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD5AA8881B97976F00517F47 /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD5AA86C1B9796E000517F47 /* Sparkle.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CD5AA8891B97977B00517F47 /* SnapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5AA87E1B97972400517F47 /* SnapKit.framework */; };
 		CD5AA88A1B97978000517F47 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5AA86C1B9796E000517F47 /* Sparkle.framework */; };
 		CD5AA88B1B97978D00517F47 /* SwiftySSH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5AA8591B9795F200517F47 /* SwiftySSH.framework */; };
 		CD5AA8B61B97B89E00517F47 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = CD5AA8B51B97B89E00517F47 /* dsa_pub.pem */; };
@@ -88,6 +86,7 @@
 		CDE485741D08B13B0090FA39 /* SpeedLimitCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDE485731D08B13B0090FA39 /* SpeedLimitCell.xib */; };
 		CDE485761D08EADE0090FA39 /* ColorTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE485751D08EADE0090FA39 /* ColorTextField.swift */; };
 		CDE929C61B94E054007AE485 /* StateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDE929C51B94E054007AE485 /* StateView.swift */; };
+		CDEB367B1D148E150042F02E /* ConstraintUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEB367A1D148E150042F02E /* ConstraintUtils.swift */; };
 		CDEE44DE1991E1EE00FB76AC /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */; };
 		CDF3D97F199ECED5002B91C8 /* NativaHelper.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CDFE78A21B9F7E730001E8F9 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFE78A11B9F7E730001E8F9 /* NotificationCenter.swift */; };
@@ -159,34 +158,6 @@
 			remoteGlobalIDString = 55C14BB7136EEF1500649790;
 			remoteInfo = Autoupdate;
 		};
-		CD5AA87B1B97972400517F47 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EEBCC9D819CC627D0083B827;
-			remoteInfo = "SnapKit iOS";
-		};
-		CD5AA87D1B97972400517F47 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EECDB37A1AC0C9D4006BBC11;
-			remoteInfo = "SnapKit OSX";
-		};
-		CD5AA87F1B97972400517F47 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EEBCC9E219CC627E0083B827;
-			remoteInfo = "SnapKit iOS Tests";
-		};
-		CD5AA8811B97972400517F47 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = EECDB3841AC0C9D4006BBC11;
-			remoteInfo = "SnapKit OSX Tests";
-		};
 		CD5AA8831B97974200517F47 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = CD5AA8341B963D2C00517F47 /* Sparkle.xcodeproj */;
@@ -194,12 +165,12 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = Sparkle;
 		};
-		CD5AA8851B97974200517F47 /* PBXContainerItemProxy */ = {
+		CD6E7CB01D14A1F60015D6D3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = EECDB3791AC0C9D4006BBC11;
-			remoteInfo = "SnapKit OSX";
+			containerPortal = CD5AA8341B963D2C00517F47 /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 726B2B5D1C645FC900388755;
+			remoteInfo = "UI Tests";
 		};
 		CDF3D97D199ECED5002B91C8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -225,7 +196,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				CD5AA8B71B9808B400517F47 /* SwiftySSH.framework in CopyFiles */,
-				CD5AA8871B97975C00517F47 /* SnapKit.framework in CopyFiles */,
 				CD5AA8881B97976F00517F47 /* Sparkle.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,8 +276,8 @@
 		CDDFC50219996D9B00F5F6B7 /* ButtonToolbarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonToolbarItem.swift; sourceTree = "<group>"; };
 		CDE485731D08B13B0090FA39 /* SpeedLimitCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeedLimitCell.xib; sourceTree = "<group>"; };
 		CDE485751D08EADE0090FA39 /* ColorTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorTextField.swift; sourceTree = "<group>"; };
-		CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SnapKit.xcodeproj; path = ../lib/SnapKit/SnapKit.xcodeproj; sourceTree = "<group>"; };
 		CDE929C51B94E054007AE485 /* StateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateView.swift; sourceTree = "<group>"; };
+		CDEB367A1D148E150042F02E /* ConstraintUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstraintUtils.swift; sourceTree = "<group>"; };
 		CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
 		CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = NativaHelper.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDF3D976199ECED5002B91C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -321,7 +291,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD5AA8891B97977B00517F47 /* SnapKit.framework in Frameworks */,
 				CD5AA88A1B97978000517F47 /* Sparkle.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,6 +316,7 @@
 		CD01C7201991627100D5B8A6 = {
 			isa = PBXGroup;
 			children = (
+				CD5AA8601B9796DA00517F47 /* lib */,
 				CD01C72B1991627100D5B8A6 /* Nativa */,
 				CDF3D974199ECED5002B91C8 /* NativaHelper */,
 				CD68519E1B90CB7600A810F1 /* Common */,
@@ -368,7 +338,6 @@
 		CD01C72B1991627100D5B8A6 /* Nativa */ = {
 			isa = PBXGroup;
 			children = (
-				CD5AA8601B9796DA00517F47 /* lib */,
 				CDFFC20919DB74260072EEAD /* Model */,
 				CD01C7301991627100D5B8A6 /* AppDelegate.swift */,
 				CD01C7321991627100D5B8A6 /* Images.xcassets */,
@@ -382,6 +351,7 @@
 				CD90A79D1B8E5CF000889705 /* MainViewController.swift */,
 				CDE485751D08EADE0090FA39 /* ColorTextField.swift */,
 				CDE929C51B94E054007AE485 /* StateView.swift */,
+				CDEB367A1D148E150042F02E /* ConstraintUtils.swift */,
 				CD1E616B19F5C1C5006C23CA /* Main.storyboard */,
 				CD0062CC1B82E14E005BAE46 /* Preferences.swift */,
 				CDCCFA501B77EDE60028EDCB /* Utils.swift */,
@@ -457,9 +427,9 @@
 			isa = PBXGroup;
 			children = (
 				CD5AA8341B963D2C00517F47 /* Sparkle.xcodeproj */,
-				CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */,
 			);
 			name = lib;
+			path = Nativa;
 			sourceTree = "<group>";
 		};
 		CD5AA8611B9796E000517F47 /* Products */ = {
@@ -470,17 +440,7 @@
 				CD5AA8701B9796E000517F47 /* Sparkle Unit Tests.xctest */,
 				CD5AA8721B9796E000517F47 /* BinaryDelta */,
 				CD5AA8741B9796E000517F47 /* Autoupdate.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		CD5AA8751B97972400517F47 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CD5AA87C1B97972400517F47 /* SnapKit.framework */,
-				CD5AA87E1B97972400517F47 /* SnapKit.framework */,
-				CD5AA8801B97972400517F47 /* SnapKit iOS Tests.xctest */,
-				CD5AA8821B97972400517F47 /* SnapKit OSX Tests.xctest */,
+				CD6E7CB11D14A1F60015D6D3 /* UI Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -582,7 +542,6 @@
 			);
 			dependencies = (
 				CD5AA8841B97974200517F47 /* PBXTargetDependency */,
-				CD5AA8861B97974200517F47 /* PBXTargetDependency */,
 				CDF3D97E199ECED5002B91C8 /* PBXTargetDependency */,
 				CDF3D981199ECED5002B91C8 /* PBXTargetDependency */,
 			);
@@ -673,10 +632,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = CD5AA8751B97972400517F47 /* Products */;
-					ProjectRef = CDE929B21B94DE44007AE485 /* SnapKit.xcodeproj */;
-				},
-				{
 					ProductGroup = CD5AA8611B9796E000517F47 /* Products */;
 					ProjectRef = CD5AA8341B963D2C00517F47 /* Sparkle.xcodeproj */;
 				},
@@ -744,32 +699,11 @@
 			remoteRef = CD5AA8731B9796E000517F47 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		CD5AA87C1B97972400517F47 /* SnapKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SnapKit.framework;
-			remoteRef = CD5AA87B1B97972400517F47 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CD5AA87E1B97972400517F47 /* SnapKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SnapKit.framework;
-			remoteRef = CD5AA87D1B97972400517F47 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CD5AA8801B97972400517F47 /* SnapKit iOS Tests.xctest */ = {
+		CD6E7CB11D14A1F60015D6D3 /* UI Tests.xctest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "SnapKit iOS Tests.xctest";
-			remoteRef = CD5AA87F1B97972400517F47 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		CD5AA8821B97972400517F47 /* SnapKit OSX Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "SnapKit OSX Tests.xctest";
-			remoteRef = CD5AA8811B97972400517F47 /* PBXContainerItemProxy */;
+			path = "UI Tests.xctest";
+			remoteRef = CD6E7CB01D14A1F60015D6D3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -848,6 +782,7 @@
 				CDFFC20819DB6D2E0072EEAD /* AddTorrentViewController.swift in Sources */,
 				CD23AEE719E1E6C80027A47D /* DownloadDropView.swift in Sources */,
 				CDB54D7C19A13F7100D777D5 /* GroupCell.swift in Sources */,
+				CDEB367B1D148E150042F02E /* ConstraintUtils.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -916,11 +851,6 @@
 			isa = PBXTargetDependency;
 			name = Sparkle;
 			targetProxy = CD5AA8831B97974200517F47 /* PBXContainerItemProxy */;
-		};
-		CD5AA8861B97974200517F47 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "SnapKit OSX";
-			targetProxy = CD5AA8851B97974200517F47 /* PBXContainerItemProxy */;
 		};
 		CDF3D97E199ECED5002B91C8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

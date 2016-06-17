@@ -107,36 +107,26 @@ class InspectorViewController: NSTabViewController {
         stateView.state = .Progress
         stateView.hidden = true
         
-        let tabView = view.subviews[0]
+        let tabView = view.subviews.first!
         let segmentedControl = view.subviews[1]
         
         view.addSubview(headerView, positioned: .Above, relativeTo: nil)
         view.addSubview(stateView, positioned: .Above, relativeTo: nil)
         view.addSubview(noSelectionView, positioned: .Above, relativeTo: nil)
         
-        headerView.snp_makeConstraints { (make) -> Void in
-            make.width.equalTo(view.snp_width)
-            make.height.equalTo(50)
-            make.left.right.equalTo(0)
-            make.top.equalTo(3)
-        }
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        headerView.constraintsMakeWholeView(3, bottom: nil)
+        headerView.heightAnchor.constraintEqualToConstant(50).active = true
         
-        segmentedControl.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(headerView.snp_bottom).offset(3)
-        }
         
-        stateView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(segmentedControl.snp_bottom)
-            make.left.right.bottom.equalTo(0)
-        }
+        segmentedControl.topAnchor.constraintEqualToAnchor(headerView.bottomAnchor, constant: 3).active = true
         
-        tabView.snp_makeConstraints { (make) -> Void in
-            make.top.equalTo(segmentedControl.snp_bottom).offset(3)
-        }
+        stateView.constraintsMakeWholeView(nil)
+        stateView.topAnchor.constraintEqualToAnchor(headerView.bottomAnchor).active = true
+        tabView.topAnchor.constraintEqualToAnchor(segmentedControl.bottomAnchor).active = true
         
-        noSelectionView.snp_makeConstraints { (make) -> Void in
-            make.top.left.right.bottom.equalTo(0)
-        }
+        noSelectionView.translatesAutoresizingMaskIntoConstraints = false
+        noSelectionView.constraintsMakeWholeView()
         
         notificationCenter.add(self) { [weak self] (note: SelectedDownloadsNotification) -> Void in
             self?.downloads = note.downloads

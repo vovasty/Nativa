@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import SnapKit
 
 enum StateViewContent {
     case Progress
@@ -77,32 +76,34 @@ class StateView: NSView {
         self.addSubview(message)
         self.addSubview(button)
         
+        self.translatesAutoresizingMaskIntoConstraints = false
+        
         progress.style = NSProgressIndicatorStyle.SpinningStyle
         progress.controlSize = .RegularControlSize
         progress.sizeToFit()
-        progress.snp_makeConstraints { (make) -> Void in
-            make.center.equalTo(self)
-        }
+        
+        progress.translatesAutoresizingMaskIntoConstraints = false
+        progress.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
+        progress.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
 
         message.editable = false
         message.bezeled = false
         message.drawsBackground = false
         message.alignment = .Center
         
-        message.snp_makeConstraints { (make) -> Void in
-            make.left.equalTo(20)
-            make.right.equalTo(-20)
-            make.centerY.equalTo(self)
-        }
+        message.translatesAutoresizingMaskIntoConstraints = false
+        message.leftAnchor.constraintEqualToAnchor(leftAnchor, constant: 20).active = true
+        message.rightAnchor.constraintEqualToAnchor(rightAnchor, constant: -20).active = true
+        message.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
         
         button.target = self
         button.action = #selector(buttonClicked(_:))
         button.bezelStyle = .TexturedSquareBezelStyle
         button.setButtonType(NSButtonType.MomentaryPushInButton)
-        button.snp_makeConstraints { (make) -> Void in
-            make.centerX.equalTo(self)
-            make.centerY.equalTo(message.snp_centerY).offset(20)
-        }
+
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
+        button.centerYAnchor.constraintEqualToAnchor(message.centerYAnchor, constant: 20).active = true
     }
     
     override init(frame frameRect: NSRect) {
@@ -113,15 +114,5 @@ class StateView: NSView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
-    }
-    
-    func addToView(view: NSView, hidden: Bool) -> Void {
-        view.addSubview(self, positioned: .Above, relativeTo: nil)
-        
-        self.snp_makeConstraints { (make) -> Void in
-            make.left.right.top.bottom.equalTo(0)
-        }
-        
-        self.hidden = hidden
     }
 }

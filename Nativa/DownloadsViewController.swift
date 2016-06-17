@@ -103,6 +103,13 @@ class DownloadsViewController: NSViewController
         updateStatistics()
     }
     
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        
+        downloadSpeed.toolTip = downloadSpeed.toolTip
+        uploadSpeed.toolTip = uploadSpeed.toolTip
+    }
+    
     @IBAction func controlAction(sender: AnyObject) {
         let row = self.outlineView.rowForView(sender as! NSView)
         let download = self.outlineView.itemAtRow(row) as! Download

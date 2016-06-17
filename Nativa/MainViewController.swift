@@ -30,7 +30,9 @@ class MainViewController: NSSplitViewController {
         
         self.view.window?.titleVisibility = .Hidden
         
-        stateView.addToView(view, hidden: true)
+        view.addSubview(stateView)
+        stateView.constraintsMakeWholeView()
+        stateView.hidden = true
         
         showConnectionState(Datasource.instance.connectionState)
         
