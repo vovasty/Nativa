@@ -12,6 +12,7 @@ class InspectorDownloadInfoViewController: NSViewController, InspectorViewContro
     @IBOutlet weak var processId: NSTextField!
     @IBOutlet weak var downloadId: NSTextField!
     @IBOutlet weak var state: NSTextField!
+    @IBOutlet weak var freeSpace: NSTextField!
     
     var download: Download? {
         didSet {
@@ -29,6 +30,7 @@ class InspectorDownloadInfoViewController: NSViewController, InspectorViewContro
         
         self.processId.stringValue = download.processId ?? "unknown"
         self.downloadId.stringValue = download.id.lowercaseString
+        freeSpace.stringValue = Formatter.stringForSize(download.freeDiskspace)
         switch download.state
         {
         case .Downloading(_, _):

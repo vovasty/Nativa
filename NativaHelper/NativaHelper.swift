@@ -123,6 +123,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             ResultCommand("d.is_hash_checking", parameters: [id], field: "hashChecking") { (v) -> AnyObject? in return v as? Bool },
             ResultCommand("d.get_complete", parameters: [id], field: "completed") { (v) -> AnyObject? in return v as? Bool },
             ResultCommand("d.is_active", parameters: [id], field: "active") { (v) -> AnyObject? in return v as? Bool },
+            ResultCommand("d.get_free_diskspace", parameters: [id], field: "freediskspace") { (v) -> AnyObject? in return v as? Bool },
             
             FMultiCommand(id, index: nil, field: "files", commands: [
                 ResultCommand("f.get_path=", field: "path") { (v) -> AnyObject? in return (v as? String)?.characters.split("/").map{String($0)} as? AnyObject },

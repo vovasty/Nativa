@@ -55,7 +55,8 @@ class AddTorrentViewController: FileOutlineViewController {
         title = download.title
     }
     
-    @IBAction func add(sender: AnyObject) {
+    @objc
+    @IBAction private func add(sender: AnyObject) {
         if let processId = processId {
             //to prevent capturing self
             guard let path = self.path else { return }
@@ -77,8 +78,8 @@ class AddTorrentViewController: FileOutlineViewController {
         }
     }
     
-    
-    @IBAction func cancelAdd(sender: AnyObject) {
+    @objc
+    @IBAction private func cancelAdd(sender: AnyObject) {
         if let window = self.view.window {
             window.performClose(sender)
         }

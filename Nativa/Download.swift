@@ -32,6 +32,7 @@ class Download
     var state = DownloadState.Unknown
     var size: Double = 0
     var complete: Double = 0
+    var freeDiskspace: Double = 0
     let comment: String?
     var flatFileList: [FileListNode]?
     var file: FileListNode
@@ -102,7 +103,10 @@ class Download
         if let priorityRaw = info["priority"] as? Int,  let priority = DownloadPriority(rawValue: priorityRaw){
             self.priority = priority
         }
-
+        
+        if let freeDiskspace = info["freeDiskspace"] as? Double {
+            self.freeDiskspace = freeDiskspace
+        }
         
         if let active = info["active"] as? Bool, let opened = info["opened"] as? Bool, let state = info["state"] as? Int, let completed = info["completed"] as? Bool, let hashChecking = info["hashChecking"] as? Bool {
             if hashChecking {

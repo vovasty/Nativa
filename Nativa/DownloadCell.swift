@@ -18,19 +18,11 @@ class DownloadCell: NSTableCellView
     private var tracking = false
     private var statusString: String = ""
     private var initialVerticalSpace: CGFloat = 0
-    private var initialized = false
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        guard !initialized else { return }
-        
         initialVerticalSpace = verticalSpaceConstraint.constant
-        
-        controlButton.image = NSImage(named:NSImageNameStopProgressFreestandingTemplate)
-        controlButton.alternateImage = NSImage(named:NSImageNameRefreshFreestandingTemplate)
-        
-        initialized = true
     }
     
     var download: Download! { didSet {
