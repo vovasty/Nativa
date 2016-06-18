@@ -390,19 +390,19 @@ CA
                                                                     </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="NSApplicationIcon" id="0Wj-Bu-dft"/>
                                                                 </imageView>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DpJ-DP-z2c">
-                                                                    <rect key="frame" x="41" y="42" width="394" height="17"/>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DpJ-DP-z2c">
+                                                                    <rect key="frame" x="41" y="42" width="396" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Ubuntu.iso" id="saU-U2-2xE">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KMY-Qc-hma">
-                                                                    <rect key="frame" x="43" y="22" width="390" height="20"/>
+                                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="KMY-Qc-hma">
+                                                                    <rect key="frame" x="43" y="22" width="392" height="20"/>
                                                                     <subviews>
-                                                                        <progressIndicator wantsLayer="YES" misplaced="YES" maxValue="100" indeterminate="YES" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="vrM-eo-fWt">
-                                                                            <rect key="frame" x="0.0" y="4" width="390" height="12"/>
+                                                                        <progressIndicator wantsLayer="YES" maxValue="100" indeterminate="YES" controlSize="small" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="vrM-eo-fWt">
+                                                                            <rect key="frame" x="0.0" y="4" width="392" height="12"/>
                                                                         </progressIndicator>
                                                                     </subviews>
                                                                     <constraints>
@@ -412,16 +412,16 @@ CA
                                                                         <constraint firstItem="vrM-eo-fWt" firstAttribute="centerY" secondItem="KMY-Qc-hma" secondAttribute="centerY" id="oaT-aj-mBm"/>
                                                                     </constraints>
                                                                 </customView>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4vy-Ns-1hv">
-                                                                    <rect key="frame" x="41" y="11" width="394" height="11"/>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4vy-Ns-1hv">
+                                                                    <rect key="frame" x="41" y="11" width="396" height="11"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="0 of 942.4 MB (0.00%)" id="hAr-3E-hQ4">
                                                                         <font key="font" metaFont="miniSystem"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <button misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sM2-8g-Jgq">
-                                                                    <rect key="frame" x="441" y="26" width="14" height="13"/>
+                                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="sM2-8g-Jgq">
+                                                                    <rect key="frame" x="443" y="26" width="14" height="13"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="13" id="dO7-Y4-1qH"/>
                                                                         <constraint firstAttribute="width" constant="14" id="k5O-lr-448"/>
@@ -2082,16 +2082,16 @@ Gw
                                                                     </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="ZWm-SH-r7E"/>
                                                                 </imageView>
-                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C5W-Do-u6p">
-                                                                    <rect key="frame" x="25" y="18" width="238" height="17"/>
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C5W-Do-u6p">
+                                                                    <rect key="frame" x="25" y="18" width="240" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="MYQ-6a-3z3">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qRx-jE-R3L">
-                                                                    <rect key="frame" x="25" y="3" width="238" height="11"/>
+                                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qRx-jE-R3L">
+                                                                    <rect key="frame" x="25" y="3" width="240" height="11"/>
                                                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title=" 0.00% of 942.4 MB" id="D9r-Ll-Kff">
                                                                         <font key="font" metaFont="miniSystem"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
