@@ -14,8 +14,24 @@ class DownloadCell: NSTableCellView
     @IBOutlet weak var statusText: NSTextField!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
     internal var progressIndicatorConstraints: [NSLayoutConstraint]?
+    @IBOutlet weak var verticalSpaceConstraint: NSLayoutConstraint!
     private var tracking = false
     private var statusString: String = ""
+    private var initialVerticalSpace: CGFloat = 0
+    private var initialized = false
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        guard !initialized else { return }
+        
+        initialVerticalSpace = verticalSpaceConstraint.constant
+        
+        controlButton.image = NSImage(named:NSImageNameStopProgressFreestandingTemplate)
+        controlButton.alternateImage = NSImage(named:NSImageNameRefreshFreestandingTemplate)
+        
+        initialized = true
+    }
     
     var download: Download! { didSet {
         update()
@@ -34,30 +50,12 @@ class DownloadCell: NSTableCellView
         }
         
         set {
+            guard newValue != progressIndicatorHidden else { return }
+
             progressIndicator.hidden = newValue
-            if newValue {
-                
-                if progressIndicatorConstraints == nil
-                {
-                    let progressIndicatorHeight = progressIndicator.frame.height / 2;
-                    
-                    if let textField = self.textField {
-                        let views: [String : AnyObject] = ["title":textField, "status":self.statusText]
-                        progressIndicatorConstraints =
-                            NSLayoutConstraint.constraintsWithVisualFormat("V:|-(h1)-[title]-[status]-(h2)-|", options: NSLayoutFormatOptions.AlignAllCenterX, metrics: ["h1":progressIndicatorHeight + 4, "h2":progressIndicatorHeight + 11], views: views)
-                    }
-                    
-                }
-                if let constraints = progressIndicatorConstraints {
-                    self.addConstraints(constraints)
-                    self.needsLayout = true
-                }
-            }
-            else {
-                if progressIndicatorConstraints != nil {
-                    self.removeConstraints(progressIndicatorConstraints!)
-                }
-            }
+            verticalSpaceConstraint.constant = newValue ? 0 : initialVerticalSpace
+            progressIndicator.hidden = newValue
+            layoutSubtreeIfNeeded()
         }
     }
     
@@ -126,13 +124,13 @@ class DownloadCell: NSTableCellView
         case .Seeding:
             progressIndicator.indeterminate = true
             progressIndicatorHidden = true
-            controlButton.image = NSImage(named:NSImageNameStopProgressFreestandingTemplate)
+            controlButton.state = NSOffState
         case .Stopped, .Paused, .Unknown:
-            controlButton.image = NSImage(named:NSImageNameRefreshFreestandingTemplate)
+            controlButton.state = NSOnState
             progressIndicator.indeterminate = true
             progressIndicatorHidden = true
         case .Downloading, .Checking:
-            controlButton.image = NSImage(named:NSImageNameStopProgressFreestandingTemplate)
+            controlButton.state = NSOffState
             progressIndicator.indeterminate = false
             progressIndicatorHidden = false
             let progress = 100 * (download.complete/download.size)
