@@ -105,7 +105,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 Datasource.instance.update()
         }
 
-        
         connect()
     }
     
@@ -133,10 +132,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     //hide window instead of close
     //http://iswwwup.com/t/4904b499b7a1/osx-how-to-handle-applicationshouldhandlereopen-in-a-non-document-based-st.html
     func applicationShouldHandleReopen(sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-        if !flag{
-            for window in sender.windows {
+        guard !flag else { return true }
+
+        for window in sender.windows {
                 window.makeKeyAndOrderFront(self)
-            }
         }
         
         return true

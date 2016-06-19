@@ -10,8 +10,11 @@ import Cocoa
 
 class MainViewController: NSSplitViewController {
     let stateView = StateView(frame: CGRectZero)
+    var prevSize: CGSize?
 
-    @IBAction func showInspector(sender: AnyObject) {
+    @IBAction
+    @objc
+    private func showInspector(sender: AnyObject) {
         let item = splitViewItems.last!
         
         if let downloadsViewController = splitViewItems.first?.viewController as? DownloadsViewController,
@@ -19,10 +22,24 @@ class MainViewController: NSSplitViewController {
                 inspectorViewController.downloads = downloadsViewController.selectedDownloads
         }
         
+        if item.collapsed {
+            prevSize = view.window?.frame.size
+        }
+        
         //animated
-        //item.animator().collapsed = !item.collapsed
+//        item.animator().collapsed = !item.collapsed
+        
         item.collapsed = !item.collapsed
-
+        
+        if item.collapsed {
+            if let prevSize = prevSize {
+                if var frame = view.window?.frame {
+                    frame.size = prevSize
+                    view.window?.setFrame(frame, display: true, animate: false)
+                }
+            }
+        }
+        
     }
 
     override func viewWillAppear() {

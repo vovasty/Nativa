@@ -61,6 +61,7 @@
 		CD69F50019A6ADD80056BA62 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD69F4FE19A6ADD80056BA62 /* Download.swift */; };
 		CD69F50119A6ADD80056BA62 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD69F4FF19A6ADD80056BA62 /* Group.swift */; };
 		CD703F9E1D16348600618A7F /* BorderedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD703F9D1D16348600618A7F /* BorderedView.swift */; };
+		CD703FAA1D1659A500618A7F /* WindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD703FA81D1659A500618A7F /* WindowController.swift */; };
 		CD78F5551C38C82A0045F056 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD78F5541C38C82A0045F056 /* Config.swift */; };
 		CD7EC18D19E5AEB700C09042 /* FileOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */; };
 		CD7EFCB019F87378001AE5E9 /* FolderName.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7EFCAF19F87378001AE5E9 /* FolderName.xib */; };
@@ -252,6 +253,7 @@
 		CD69F4FE19A6ADD80056BA62 /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		CD69F4FF19A6ADD80056BA62 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		CD703F9D1D16348600618A7F /* BorderedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedView.swift; sourceTree = "<group>"; };
+		CD703FA81D1659A500618A7F /* WindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WindowController.swift; sourceTree = "<group>"; };
 		CD78F5541C38C82A0045F056 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileOutlineViewController.swift; sourceTree = "<group>"; };
 		CD7EFCAF19F87378001AE5E9 /* FolderName.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FolderName.xib; sourceTree = "<group>"; };
@@ -342,6 +344,7 @@
 			children = (
 				CDFFC20919DB74260072EEAD /* Model */,
 				CD01C7301991627100D5B8A6 /* AppDelegate.swift */,
+				CD703FA81D1659A500618A7F /* WindowController.swift */,
 				CD01C7321991627100D5B8A6 /* Images.xcassets */,
 				CD90A7A01B8E694D00889705 /* DownloadsViewController */,
 				CD0D45561B8ABEAC004DB8E1 /* Inspector */,
@@ -783,6 +786,7 @@
 				CD9E103F1C18E99D00C390B3 /* NSFileManager.swift in Sources */,
 				CDA132541D078BE200CF22D8 /* Statistics.swift in Sources */,
 				CDFFC20819DB6D2E0072EEAD /* AddTorrentViewController.swift in Sources */,
+				CD703FAA1D1659A500618A7F /* WindowController.swift in Sources */,
 				CD23AEE719E1E6C80027A47D /* DownloadDropView.swift in Sources */,
 				CDB54D7C19A13F7100D777D5 /* GroupCell.swift in Sources */,
 				CDEB367B1D148E150042F02E /* ConstraintUtils.swift in Sources */,

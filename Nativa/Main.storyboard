@@ -229,7 +229,7 @@ CA
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
+                <windowController id="B8D-0N-5wS" customClass="WindowController" customModule="Nativa" customModuleProvider="target" sceneMemberID="viewController">
                     <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" showsToolbarButton="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -472,7 +472,6 @@ CA
                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </clipView>
                                 <constraints>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="1000" id="9dI-1e-8Nb"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="400" id="J4S-z0-U7Y"/>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="226" id="Tz5-WV-dIM"/>
                                 </constraints>
@@ -570,14 +569,14 @@ CA
                                                 <rect key="frame" x="0.0" y="0.0" width="86" height="19"/>
                                                 <buttonCell key="cell" type="roundRect" title="0.0KB/s" bezelStyle="roundedRect" image="DownArrowTemplate" imagePosition="left" alignment="left" state="on" imageScaling="proportionallyDown" inset="2" id="5dk-vv-rcu">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                    <font key="font" metaFont="cellTitle"/>
+                                                    <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
                                             </button>
                                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UuD-jj-7h7">
                                                 <rect key="frame" x="94" y="0.0" width="86" height="19"/>
                                                 <buttonCell key="cell" type="roundRect" title="0.0KB/s" bezelStyle="roundedRect" image="UpArrowTemplate" imagePosition="left" alignment="left" state="on" imageScaling="proportionallyDown" inset="2" id="HZh-Ad-190">
                                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                    <font key="font" metaFont="cellTitle"/>
+                                                    <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
                                             </button>
                                         </subviews>
