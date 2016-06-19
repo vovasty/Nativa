@@ -337,7 +337,7 @@ CA
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowHeight="63" rowSizeStyle="automatic" viewBased="YES" indentationMarkerFollowsCell="NO" autoresizesOutlineColumn="YES" outlineTableColumn="RzK-N8-SJ9" id="StL-6A-5Yx">
-                                            <rect key="frame" x="0.0" y="0.0" width="480" height="0.0"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="480" height="227"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -485,56 +485,69 @@ CA
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XHn-Rx-KgF" customClass="ScopeBar" customModule="Nativa" customModuleProvider="target">
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="hHU-PM-XYf" customClass="BorderedView" customModule="Nativa" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="249" width="480" height="23"/>
-                                <beginningViews>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="1001" translatesAutoresizingMaskIntoConstraints="NO" id="E2C-WE-kbH">
-                                        <rect key="frame" x="0.0" y="2.5" width="29" height="17"/>
-                                        <buttonCell key="cell" type="recessed" title="All" bezelStyle="recessed" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HHy-Hl-ATH">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                            <font key="font" metaFont="cellTitle"/>
-                                        </buttonCell>
-                                    </button>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="1002" translatesAutoresizingMaskIntoConstraints="NO" id="yrK-K3-N8n">
-                                        <rect key="frame" x="37" y="2.5" width="88" height="17"/>
-                                        <buttonCell key="cell" type="recessed" title="Downloading" bezelStyle="recessed" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ciu-3g-9Fi">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                            <font key="font" metaFont="cellTitle"/>
-                                        </buttonCell>
-                                    </button>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="1003" translatesAutoresizingMaskIntoConstraints="NO" id="WAm-Me-qWt">
-                                        <rect key="frame" x="133" y="2.5" width="60" height="17"/>
-                                        <buttonCell key="cell" type="recessed" title="Seeding" bezelStyle="recessed" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="r3o-q1-ryV">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                            <font key="font" metaFont="cellTitle"/>
-                                        </buttonCell>
-                                    </button>
-                                    <button verticalHuggingPriority="750" fixedFrame="YES" tag="1004" translatesAutoresizingMaskIntoConstraints="NO" id="stN-gp-e2w">
-                                        <rect key="frame" x="201" y="2.5" width="56" height="17"/>
-                                        <buttonCell key="cell" type="recessed" title="Paused" bezelStyle="recessed" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f7E-eg-zr9">
-                                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                            <font key="font" metaFont="cellTitle"/>
-                                        </buttonCell>
-                                    </button>
-                                </beginningViews>
+                                <subviews>
+                                    <stackView orientation="horizontal" alignment="centerY" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XHn-Rx-KgF" customClass="ScopeBar" customModule="Nativa" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="480" height="23"/>
+                                        <beginningViews>
+                                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="1001" translatesAutoresizingMaskIntoConstraints="NO" id="E2C-WE-kbH">
+                                                <rect key="frame" x="0.0" y="2.5" width="29" height="17"/>
+                                                <buttonCell key="cell" type="recessed" title="All" bezelStyle="recessed" alignment="center" controlSize="small" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="HHy-Hl-ATH">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                                    <font key="font" metaFont="cellTitle"/>
+                                                </buttonCell>
+                                            </button>
+                                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="1002" translatesAutoresizingMaskIntoConstraints="NO" id="yrK-K3-N8n">
+                                                <rect key="frame" x="37" y="2.5" width="88" height="17"/>
+                                                <buttonCell key="cell" type="recessed" title="Downloading" bezelStyle="recessed" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ciu-3g-9Fi">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                                    <font key="font" metaFont="cellTitle"/>
+                                                </buttonCell>
+                                            </button>
+                                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="1003" translatesAutoresizingMaskIntoConstraints="NO" id="WAm-Me-qWt">
+                                                <rect key="frame" x="133" y="2.5" width="60" height="17"/>
+                                                <buttonCell key="cell" type="recessed" title="Seeding" bezelStyle="recessed" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="r3o-q1-ryV">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                                    <font key="font" metaFont="cellTitle"/>
+                                                </buttonCell>
+                                            </button>
+                                            <button verticalHuggingPriority="750" fixedFrame="YES" tag="1004" translatesAutoresizingMaskIntoConstraints="NO" id="stN-gp-e2w">
+                                                <rect key="frame" x="201" y="2.5" width="56" height="17"/>
+                                                <buttonCell key="cell" type="recessed" title="Paused" bezelStyle="recessed" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="f7E-eg-zr9">
+                                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
+                                                    <font key="font" metaFont="cellTitle"/>
+                                                </buttonCell>
+                                            </button>
+                                        </beginningViews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="23" id="opU-WP-6Sb"/>
+                                        </constraints>
+                                        <visibilityPriorities>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                            <integer value="1000"/>
+                                        </visibilityPriorities>
+                                        <customSpacing>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                            <real value="3.4028234663852886e+38"/>
+                                        </customSpacing>
+                                    </stackView>
+                                </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="23" id="opU-WP-6Sb"/>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="23" id="yOx-u0-JTL"/>
+                                    <constraint firstItem="XHn-Rx-KgF" firstAttribute="top" secondItem="hHU-PM-XYf" secondAttribute="top" id="HVS-5U-Ivh"/>
+                                    <constraint firstAttribute="trailing" secondItem="XHn-Rx-KgF" secondAttribute="trailing" id="eqp-ih-5YQ"/>
+                                    <constraint firstAttribute="bottom" secondItem="XHn-Rx-KgF" secondAttribute="bottom" id="nYM-AB-Zl1"/>
+                                    <constraint firstItem="XHn-Rx-KgF" firstAttribute="leading" secondItem="hHU-PM-XYf" secondAttribute="leading" id="oSX-65-cjb"/>
                                 </constraints>
-                                <visibilityPriorities>
-                                    <integer value="1000"/>
-                                    <integer value="1000"/>
-                                    <integer value="1000"/>
-                                    <integer value="1000"/>
-                                </visibilityPriorities>
-                                <customSpacing>
-                                    <real value="3.4028234663852886e+38"/>
-                                    <real value="3.4028234663852886e+38"/>
-                                    <real value="3.4028234663852886e+38"/>
-                                    <real value="3.4028234663852886e+38"/>
-                                </customSpacing>
-                            </stackView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="3ND-eJ-29S">
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottom" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="3ND-eJ-29S" customClass="BorderedView" customModule="Nativa" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="480" height="23"/>
                                 <subviews>
                                     <button toolTip="Shortcuts for changing global settings." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FLM-rJ-KdC">
@@ -588,19 +601,22 @@ CA
                                     <constraint firstItem="FLM-rJ-KdC" firstAttribute="centerY" secondItem="3ND-eJ-29S" secondAttribute="centerY" id="Tbq-b6-53c"/>
                                     <constraint firstItem="FLM-rJ-KdC" firstAttribute="leading" secondItem="3ND-eJ-29S" secondAttribute="leading" constant="6" id="j3Q-s5-vTO"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="top" value="YES"/>
+                                </userDefinedRuntimeAttributes>
                             </customView>
                         </subviews>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="XHn-Rx-KgF" secondAttribute="trailing" id="56o-Zr-Phg"/>
-                            <constraint firstItem="XHn-Rx-KgF" firstAttribute="leading" secondItem="MaP-Gr-LjK" secondAttribute="leading" id="8bL-Br-5E2"/>
-                            <constraint firstItem="XHn-Rx-KgF" firstAttribute="top" secondItem="MaP-Gr-LjK" secondAttribute="top" id="JsG-y4-w5P"/>
+                            <constraint firstItem="hHU-PM-XYf" firstAttribute="top" secondItem="MaP-Gr-LjK" secondAttribute="top" id="DTa-ob-1gn"/>
+                            <constraint firstItem="hHU-PM-XYf" firstAttribute="leading" secondItem="MaP-Gr-LjK" secondAttribute="leading" id="Vty-2X-awr"/>
                             <constraint firstAttribute="trailing" secondItem="Pcu-4l-3jM" secondAttribute="trailing" id="YCx-CJ-ny5"/>
                             <constraint firstItem="3ND-eJ-29S" firstAttribute="leading" secondItem="MaP-Gr-LjK" secondAttribute="leading" id="ZJg-3o-sIl"/>
                             <constraint firstAttribute="bottom" secondItem="3ND-eJ-29S" secondAttribute="bottom" id="eWF-kc-xhG"/>
-                            <constraint firstItem="Pcu-4l-3jM" firstAttribute="top" secondItem="XHn-Rx-KgF" secondAttribute="bottom" constant="-1" id="fIW-hM-yYk"/>
                             <constraint firstItem="Pcu-4l-3jM" firstAttribute="leading" secondItem="MaP-Gr-LjK" secondAttribute="leading" id="miO-Um-6ga"/>
                             <constraint firstItem="3ND-eJ-29S" firstAttribute="top" secondItem="Pcu-4l-3jM" secondAttribute="bottom" id="op3-Ez-0OV"/>
+                            <constraint firstItem="Pcu-4l-3jM" firstAttribute="top" secondItem="hHU-PM-XYf" secondAttribute="bottom" constant="-1" id="sg8-pJ-R73"/>
                             <constraint firstAttribute="trailing" secondItem="3ND-eJ-29S" secondAttribute="trailing" id="vRu-p8-ZgO"/>
+                            <constraint firstAttribute="trailing" secondItem="hHU-PM-XYf" secondAttribute="trailing" id="vbM-rK-FPm"/>
                         </constraints>
                     </customView>
                     <connections>

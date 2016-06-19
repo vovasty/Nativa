@@ -60,6 +60,7 @@
 		CD6851B21B90CB7600A810F1 /* Synchronized.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6851A31B90CB7600A810F1 /* Synchronized.swift */; };
 		CD69F50019A6ADD80056BA62 /* Download.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD69F4FE19A6ADD80056BA62 /* Download.swift */; };
 		CD69F50119A6ADD80056BA62 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD69F4FF19A6ADD80056BA62 /* Group.swift */; };
+		CD703F9E1D16348600618A7F /* BorderedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD703F9D1D16348600618A7F /* BorderedView.swift */; };
 		CD78F5551C38C82A0045F056 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD78F5541C38C82A0045F056 /* Config.swift */; };
 		CD7EC18D19E5AEB700C09042 /* FileOutlineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */; };
 		CD7EFCB019F87378001AE5E9 /* FolderName.xib in Resources */ = {isa = PBXBuildFile; fileRef = CD7EFCAF19F87378001AE5E9 /* FolderName.xib */; };
@@ -250,6 +251,7 @@
 		CD6851A31B90CB7600A810F1 /* Synchronized.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Synchronized.swift; sourceTree = "<group>"; };
 		CD69F4FE19A6ADD80056BA62 /* Download.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Download.swift; sourceTree = "<group>"; };
 		CD69F4FF19A6ADD80056BA62 /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		CD703F9D1D16348600618A7F /* BorderedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedView.swift; sourceTree = "<group>"; };
 		CD78F5541C38C82A0045F056 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		CD7EC18C19E5AEB700C09042 /* FileOutlineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileOutlineViewController.swift; sourceTree = "<group>"; };
 		CD7EFCAF19F87378001AE5E9 /* FolderName.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FolderName.xib; sourceTree = "<group>"; };
@@ -355,6 +357,7 @@
 				CD1E616B19F5C1C5006C23CA /* Main.storyboard */,
 				CD0062CC1B82E14E005BAE46 /* Preferences.swift */,
 				CDCCFA501B77EDE60028EDCB /* Utils.swift */,
+				CD703F9D1D16348600618A7F /* BorderedView.swift */,
 				CDC7E37B1B990CEB00AB022E /* BackgroundView.swift */,
 				CDFE78A11B9F7E730001E8F9 /* NotificationCenter.swift */,
 				CD9E103E1C18E99D00C390B3 /* NSFileManager.swift */,
@@ -783,6 +786,7 @@
 				CD23AEE719E1E6C80027A47D /* DownloadDropView.swift in Sources */,
 				CDB54D7C19A13F7100D777D5 /* GroupCell.swift in Sources */,
 				CDEB367B1D148E150042F02E /* ConstraintUtils.swift in Sources */,
+				CD703F9E1D16348600618A7F /* BorderedView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
