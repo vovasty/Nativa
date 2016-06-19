@@ -8,6 +8,9 @@
 
 import Cocoa
 
+private let kMaxUploadSpeedKey = "maxUploadSpeed"
+private let kMaxDownloadSpeed = "maxDownloadSpeed"
+
 //http://www.corbinstreehouse.com/blog/2014/04/nstableview-tips-not-delaying-the-first-responder/
 class EditableOutlineView: NSOutlineView {
     override func validateProposedFirstResponder(responder: NSResponder, forEvent event: NSEvent?) -> Bool {
@@ -106,12 +109,22 @@ class SpeedLimitViewController: NSViewController {
     }
 
     private func update() {
-        stats = Datasource.instance.statistics.values
+        let stats = Datasource.instance.statistics.values
         .sort{ (lhs, rhs) -> Bool in
             lhs.id > rhs.id
         }
-        .map { ProcessStatistics($0) }
-         ?? []
+        
+        for stat in stats {
+            if stat.maxDownloadSpeed != 0 {
+                self.setSpeed(stat.id, key: kMaxDownloadSpeed, value: Int(stat.maxDownloadSpeed))
+            }
+            
+            if stat.maxUploadSpeed != 0 {
+                self.setSpeed(stat.id, key: kMaxUploadSpeedKey, value: Int(stat.maxUploadSpeed))
+            }
+        }
+        
+        self.stats = stats.map { ProcessStatistics($0) } ?? []
         
         outlineView.reloadData()
         outlineView.expandItem(nil, expandChildren: true)
@@ -173,10 +186,16 @@ extension SpeedLimitViewController: NSOutlineViewDelegate {
         case let item as DownloadStatistics:
             let result = outlineView.makeViewWithIdentifier("DownloadCell", owner:self) as? SpeedLimitCell
             result?.checkBox.title = "Download limit"
-            result?.value = Int(item.stat.maxDownloadSpeed / 1024)
+            result?.value = (item.stat.maxDownloadSpeed == 0 ? getSpeed(item.stat.id, key: kMaxDownloadSpeed) : Int(item.stat.maxDownloadSpeed)) / 1024
             result?.checked = item.stat.downloadLimited
             result?.handler = { (checked, value) in
+
                 let speed = (checked ? value : 0) * 1024
+
+                if speed != 0 {
+                    self.setSpeed(item.stat.id, key: kMaxDownloadSpeed, value: speed)
+                }
+                
                 Datasource.instance.setMaxDownloadSpeed(item.stat.id, speed: speed) { (error) in
                     if let error = error {
                         logger.error("unable to set max download speed: \(error)")
@@ -187,12 +206,17 @@ extension SpeedLimitViewController: NSOutlineViewDelegate {
         case let item as UploadStatistics:
             let result = outlineView.makeViewWithIdentifier("UploadCell", owner:self) as? SpeedLimitCell
             result?.checkBox.title = "Upload limit"
-            result?.value = Int(item.stat.maxUploadSpeed / 1024)
+            result?.value = (item.stat.maxUploadSpeed == 0 ? getSpeed(item.stat.id, key: kMaxUploadSpeedKey) : Int(item.stat.maxUploadSpeed)) / 1024
             result?.checked = item.stat.uploadLimited
             result?.handler = { (checked, value) in
+                
                 let speed = (checked ? value : 0) * 1024
+                
+                if speed != 0 {
+                    self.setSpeed(item.stat.id, key: kMaxUploadSpeedKey, value: speed)
+                }
+                
                 Datasource.instance.setMaxUploadSpeed(item.stat.id, speed: speed) { (error) in
-                    
                     if let error = error {
                         logger.error("unable to set max upload speed: \(error)")
                     }
@@ -212,4 +236,59 @@ extension SpeedLimitViewController: NSOutlineViewDelegate {
     func outlineView(outlineView: NSOutlineView, shouldSelectItem item: AnyObject) -> Bool {
         return false
     }
+    
+    private func setSpeed(id: String, key: String, value: Int) {
+        let sd = NSUserDefaults.standardUserDefaults()
+        
+        guard let info = getAccount(id) else {
+            assert(false, "no accounts")
+            return
+        }
+        
+        print(id, key, value)
+        
+        var accounts = info.accounts
+        var account = info.account
+        let index = info.index
+        
+        account[key] = value
+        accounts[index] = account
+        
+        sd[kAccountsKey] = accounts
+        sd.synchronize()
+    }
+    
+    private func getSpeed(id: String, key: String) -> Int {
+        
+        guard let info = getAccount(id) else {
+            assert(false, "no accounts")
+            return 0
+        }
+
+        
+        return info.account[key] as? Int ?? 0
+    }
+    
+    private func getAccount(id: String) -> (accounts: [[String: AnyObject]], account: [String: AnyObject], index: Int)? {
+        let sd = NSUserDefaults.standardUserDefaults()
+        
+        guard var accounts = sd[kAccountsKey] as? [[String: AnyObject]] else { return nil }
+        
+        var index: Int!
+        var account: [String: AnyObject]!
+        
+        for i in 0..<accounts.count {
+            let d = accounts[i]
+            if d["name"] as? String ?? "" == id {
+                index = i
+                account = d
+                break
+            }
+        }
+        
+        guard index != nil && account != nil else { return nil }
+        
+        return (accounts, account, index)
+    }
+
 }
