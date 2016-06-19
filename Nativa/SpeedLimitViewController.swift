@@ -152,7 +152,10 @@ extension SpeedLimitViewController: NSOutlineViewDataSource {
     
     func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool
     {
-        guard let item = item as? TreeNode else { precondition(false, "wrong object type") }
+        guard let item = item as? TreeNode else {
+            precondition(false, "wrong object type")
+            return false
+        }
         
         return item.children != nil
     }
@@ -168,7 +171,10 @@ extension SpeedLimitViewController: NSOutlineViewDataSource {
             }
         }
 
-        guard let item = item as? TreeNode else { precondition(false, "wrong object type") }
+        guard let item = item as? TreeNode else {
+            precondition(false, "wrong object type")
+            return ""
+        }
         
         return item.children![index]
     }
