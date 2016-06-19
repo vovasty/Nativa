@@ -63,6 +63,7 @@ class DownloadsViewController: NSViewController
         downloads.update(Datasource.instance.downloads.orderedArray, strategy: .Replace)
         updateStatistics()
         
+        //FIXME: statistics won't be updated when no downloads
         downloadsObserver = downloads.addObserver{ (downloadChanges: [(object: Download, index: Int, type: ChangeType)]) -> Void in
             self.updateStatistics()
             

@@ -251,8 +251,6 @@ extension SpeedLimitViewController: NSOutlineViewDelegate {
             return
         }
         
-        print(id, key, value)
-        
         var accounts = info.accounts
         var account = info.account
         let index = info.index
