@@ -10,6 +10,12 @@ import Cocoa
 
 class WindowController: NSWindowController {
 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        windowFrameAutosaveName = "autosaveMainWindow"
+    }
+    
     override func windowDidLoad() {
         super.windowDidLoad()
 
