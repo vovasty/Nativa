@@ -18,7 +18,9 @@ class RTorrentProcessPreferences: NSViewController{
     dynamic var sshUser: String?
     dynamic var sshPassword: String?
     
-    @IBAction func saveChanges(sender: AnyObject) {
+    @objc
+    @IBAction
+    private func saveChanges(_ sender: AnyObject) {
         commitEditing()
         
         guard let processName = processName else{
@@ -27,7 +29,7 @@ class RTorrentProcessPreferences: NSViewController{
             return
         }
         
-        let defaults = NSUserDefaults.standardUserDefaults()
+        let defaults = UserDefaults.standard
         var processes = defaults[kAccountsKey] as? [[String: AnyObject]] ?? []
         
         var dict: [String: AnyObject] = [
@@ -39,7 +41,7 @@ class RTorrentProcessPreferences: NSViewController{
             processes.append(dict)
             defaults[kAccountsKey] = processes
             defaults.synchronize()
-            dismissController(nil)
+            dismiss(nil)
         }
         
         guard useSSH else {
@@ -75,7 +77,7 @@ class Processes: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
         super.viewDidAppear()
         
         if arrayController.arrangedObjects.count == 0 {
-            performSegueWithIdentifier("addAccount", sender: nil)
+            performSegue(withIdentifier: "addAccount", sender: nil)
         }
     }
     
@@ -90,28 +92,30 @@ class Processes: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
     }
     
     //MARK :NSTableViewDelegate
-    func tableView(tableView: NSTableView, viewForTableColumn tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let cell = tableView.makeViewWithIdentifier("NameCell", owner: self) as? NSTableCellView
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+        let cell = tableView.make(withIdentifier: "NameCell", owner: self) as? NSTableCellView
         return cell
     }
     
-    @IBAction func removeProcess(sender: AnyObject) {
+    @objc
+    @IBAction
+    private func removeProcess(_ sender: AnyObject) {
         guard self.tableView.selectedRow != -1 else {
             return
         }
         
         let alert = NSAlert()
-        alert.addButtonWithTitle("OK")
-        alert.addButtonWithTitle("Cancel")
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: "Cancel")
         alert.messageText = "Delete the record?"
         alert.informativeText = "Deleted records cannot be restored."
-        alert.alertStyle = NSAlertStyle.WarningAlertStyle
-        alert.beginSheetModalForWindow(self.view.window!) {
+        alert.alertStyle = .warning
+        alert.beginSheetModal(for: self.view.window!) {
             guard $0 == NSAlertFirstButtonReturn else {
                 return
             }
             
-            self.arrayController.removeObjectAtArrangedObjectIndex(self.arrayController.selectionIndex)
+            self.arrayController.remove(atArrangedObjectIndex: self.arrayController.selectionIndex)
         }
     }
 }

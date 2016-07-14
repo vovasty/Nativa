@@ -12,8 +12,8 @@ enum NotificationActions: Int {
     case Reconnect = 0
 }
 
-struct DownloadFilesAddedNotification: Notification {
-    let downloads: [(path: NSURL, download: Download)]
+struct DownloadFilesAddedNotification: NotificationProtocol {
+    let downloads: [(path: URL, download: Download)]
 }
 
 @NSApplicationMain
@@ -34,7 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         self.reconnectCounter += 1
 
         guard reconnectCounter <= Config.maxReconnectCounter else {
-            let center = NSUserNotificationCenter.defaultUserNotificationCenter()
+            let center = NSUserNotificationCenter.default
             center.removeAllDeliveredNotifications()
             let note = NSUserNotification()
             note.title = "Error"
@@ -47,7 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             return
         }
         
-        guard let processes = NSUserDefaults.standardUserDefaults()[kAccountsKey] as? [[String: AnyObject]] else {
+        guard let processes = UserDefaults.standard[kAccountsKey] as? [[String: AnyObject]] else {
             logger.error("no settings")
             return
         }
@@ -63,37 +63,38 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         }
         
         for process in processes {
-            guard let scgi = (process["scgiPort"] as? String)?.hosAndPort(5000), let name = process["name"] as? String else {
+            guard let scgi = (process["scgiPort"] as? String)?.host(port: 5000), let name = process["name"] as? String else {
                 logger.error("invalid process entry \(process)")
                 continue
             }
             guard let useSSH = process["useSSH"] as? Bool where useSSH else {
-                Datasource.instance.addConnection(name, host: scgi.host, port: scgi.port, connect: connectHandler)
+                Datasource.instance.addConnection(id: name, host: scgi.host, port: scgi.port, connect: connectHandler)
                 continue
             }
             
-            guard let sshHost = (process["sshHost"] as? String)?.hosAndPort(22),
+            guard let sshHost = (process["sshHost"] as? String)?.host(port: 22),
                   let sshUser = process["sshUser"] as? String,
                   let sshPassword = process["sshPassword"] as? String else {
                     logger.error("invalid process entry \(process)")
                     continue
             }
             
-            Datasource.instance.addConnection(name, user: sshUser, host: sshHost.host, port: sshHost.port, password: sshPassword, serviceHost: scgi.host, servicePort: scgi.port, connect: connectHandler)
+            Datasource.instance.addConnection(id: name, user: sshUser, host: sshHost.host, port: sshHost.port, password: sshPassword, serviceHost: scgi.host, servicePort: scgi.port, connect: connectHandler)
         }
     }
     
-    func applicationDidFinishLaunching(aNotification: NSNotification)
-    {
-        NSUserDefaults.standardUserDefaults().setValue(true, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
-        NSUserNotificationCenter.defaultUserNotificationCenter().delegate = self
+    
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        UserDefaults.standard.setValue(true, forKey: "NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints")
+        NSUserNotificationCenter.default.delegate = self
         
-        notificationCenter.add(self){ (state: DatasourceConnectionStateDidChange) -> Void in
-            
+        notificationCenter.add(owner: self){ (state: DatasourceConnectionStateDidChange) -> Void in
             switch state.state {
             case .Disconnected(_):
                 //reconnect after a delay
-                dispatch_after(dispatch_time (DISPATCH_TIME_NOW , Int64(UInt64(Config.reconnectTimeout) * NSEC_PER_SEC)), dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { () in
+                let q = DispatchQueue.global(attributes: DispatchQueue.GlobalAttributes.qosBackground)
+                
+                q.after(when: DispatchTime.now() + Config.reconnectTimeout) {
                     self.connect()
                 }
             default:
@@ -108,8 +109,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         connect()
     }
     
-    private func addDownloadsFromUrls(urls: [NSURL]) {
-        Datasource.instance.parseTorrents(urls) { (parsed, error) -> Void in
+    private func addDownloads(fromURL: [URL]) {
+        Datasource.instance.parse(urls: fromURL) { (parsed, error) -> Void in
             guard let parsed = parsed where error == nil else {
                 logger.error("unable to open files: \(error)")
                 return
@@ -120,18 +121,18 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
 
     }
     
-    func application(sender: NSApplication,
+    func application(_ sender: NSApplication,
         openFiles filenames: [String]) {
-            
-            let filenames = filenames.map { (s) -> NSURL in return NSURL(fileURLWithPath: s) }
-            addDownloadsFromUrls(filenames)
-            sender.replyToOpenOrPrint(.Success)
+        
+            let filenames = filenames.map { (s) -> URL in return URL(fileURLWithPath: s) }
+            addDownloads(fromURL: filenames)
+            sender.reply(toOpenOrPrint: .success)
     }
 
     
     //hide window instead of close
     //http://iswwwup.com/t/4904b499b7a1/osx-how-to-handle-applicationshouldhandlereopen-in-a-non-document-based-st.html
-    func applicationShouldHandleReopen(sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         guard !flag else { return true }
 
         for window in sender.windows {
@@ -141,24 +142,26 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         return true
     }
     
-    @IBAction func openDocument(sender: AnyObject) {
+    @objc
+    @IBAction
+    private func openDocument(_ sender: AnyObject) {
         let panel = NSOpenPanel()
         
         panel.allowsMultipleSelection = true
         panel.canChooseFiles = true
         panel.canChooseDirectories = false
         panel.allowedFileTypes = ["org.bittorrent.torrent", "torrent"]
-        panel.beginSheetModalForWindow(NSApp.mainWindow!) { (flag) -> Void in
+        panel.beginSheetModal(for: NSApp.mainWindow!) { (flag) -> Void in
             
             guard flag == NSFileHandlingPanelOKButton else { return }
             
-            self.addDownloadsFromUrls(panel.URLs)
+            self.addDownloads(fromURL: panel.urls)
         }
     }
     
     //MARK: NSUserNotificationCenterDelegate
-    func userNotificationCenter(center: NSUserNotificationCenter,
-        didActivateNotification notification: NSUserNotification) {
+    func userNotificationCenter(_ center: NSUserNotificationCenter,
+                                didActivate notification: NSUserNotification) {
             center.removeDeliveredNotification(notification)
             guard let actionRaw = notification.userInfo?["action"] as? Int, let action = NotificationActions(rawValue: actionRaw) else {
                 return

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SwiftySSH
 
 class RTorrent {
     let connection: Connection
@@ -16,7 +15,7 @@ class RTorrent {
         self.connection = connection
     }
     
-    func send(method: String, parameters: [AnyObject]?, response: (AnyObject?, ErrorType?) -> Void) {
+    func send(_ method: String, parameters: [AnyObject]?, response: (AnyObject?, ErrorProtocol?) -> Void) {
         let sMethod: String
         do {
             sMethod = try XMLRPCEncode(method, parameters: parameters)
@@ -91,12 +90,12 @@ struct DMultiCommand: Command, CommandWithResult {
             guard let data = data as? [[AnyObject]] where commands.count > 0 else { return [[:]] }
                 //process each command result
             return data.map({(row) -> [String: AnyObject] in
-                let simpleDict = row.enumerate().reduce([String:AnyObject]()) {
+                let simpleDict = row.enumerated().reduce([String:AnyObject]()) {
                     (d, field) in
                     
                     var dict = d
                     
-                    let command = commands[field.index]
+                    let command = commands[field.offset]
                     if let value  = command.transform(field.element) {
                         dict[command.field] = value
                     }
@@ -127,12 +126,12 @@ struct FMultiCommand: Command, CommandWithResult {
             guard let data = data as? [[AnyObject]] where commands.count > 0 else { return [[:]] }
             //process each command result
             return data.map({(row) -> [String: AnyObject] in
-                let simpleDict = row.enumerate().reduce([String:AnyObject]()) {
+                let simpleDict = row.enumerated().reduce([String:AnyObject]()) {
                     (d, field) in
                     
                     var dict = d
                     
-                    let command = commands[field.index]
+                    let command = commands[field.offset]
                     if let value  = command.transform(field.element) {
                         dict[command.field] = value
                     }
@@ -147,7 +146,7 @@ struct FMultiCommand: Command, CommandWithResult {
 }
 
 extension RTorrent {
-    func send(commands: [Command], response: ([String: AnyObject]?, ErrorType?)  -> Void) {
+    func send(_ commands: [Command], response: ([String: AnyObject]?, ErrorProtocol?)  -> Void) {
         let parameters = commands.map { (command) -> [String: AnyObject] in
             return ["methodName": command.command, "params": command.parameters ?? []]
         }
@@ -159,7 +158,7 @@ extension RTorrent {
             }
             
             guard let result = result as? [AnyObject] else{
-                response(nil, RTorrentError.Unknown(message: "invalid response"))
+                response(nil, RTorrentError.unknown(message: "invalid response"))
                 return
             }
             
@@ -173,12 +172,12 @@ extension RTorrent {
             }
             
             do {
-                let transformedResult = try result.enumerate().map{ (i, commandResult) throws -> [String: AnyObject] in
+                let transformedResult = try result.enumerated().map{ (i, commandResult) throws -> [String: AnyObject] in
                     if let errorDict = commandResult as? [String: AnyObject] {
                         guard let code = errorDict["faultCode"] as? Int, let message = errorDict["faultString"] as? String else {
-                            throw XMLRPCDecoderError.Unknown
+                            throw XMLRPCDecoderError.unknown
                         }
-                        throw XMLRPCDecoderError.Fault(code: code, message: message)
+                        throw XMLRPCDecoderError.fault(code: code, message: message)
                     }
                     
                     let command = resultCommands[i] as! CommandWithResult
@@ -203,7 +202,7 @@ extension RTorrent {
         }
     }
     
-    func send(command: Command, response: (AnyObject?, ErrorType?) -> Void) {
+    func send(_ command: Command, response: (AnyObject?, ErrorProtocol?) -> Void) {
         self.send(command.command, parameters: command.parameters, response: { (rsp, error) -> Void in
             guard let rsp = rsp where error == nil else {
                 response(nil, error)

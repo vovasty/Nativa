@@ -9,14 +9,14 @@
 import Foundation
 
 class ServiceDelegate : NSObject, NSXPCListenerDelegate {
-    func listener(listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {
+    func listener(_ listener: NSXPCListener, shouldAcceptNewConnection newConnection: NSXPCConnection) -> Bool {
 
-        newConnection.exportedInterface = NSXPCInterface(withProtocol: NativaHelperProtocol.self)
+        newConnection.exportedInterface = NSXPCInterface(with: NativaHelperProtocol.self)
         
         let exportedObject = NativaHelper()
         
         newConnection.exportedObject = exportedObject
-        newConnection.remoteObjectInterface = NSXPCInterface(withProtocol: ConnectionEventListener.self)
+        newConnection.remoteObjectInterface = NSXPCInterface(with: ConnectionEventListener.self)
 
         exportedObject.xpcConnection = newConnection;
 
@@ -30,6 +30,6 @@ class ServiceDelegate : NSObject, NSXPCListenerDelegate {
 // Create the listener and resume it:
 //
 let delegate = ServiceDelegate()
-let listener = NSXPCListener.serviceListener()
+let listener = NSXPCListener.service()
 listener.delegate = delegate;
 listener.resume()

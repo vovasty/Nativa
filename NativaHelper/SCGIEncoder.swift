@@ -10,35 +10,38 @@ import Foundation
 
 
 private extension NSMutableData {
-    final func appendString(string: String, encoding: UInt) -> Self {
-        appendBytes(string.cStringUsingEncoding(encoding)!, length: Int(string.lengthOfBytesUsingEncoding(encoding)))
+    
+    @discardableResult
+    final func appendString(_ string: String, encoding: String.Encoding = String.Encoding.ascii) -> Self {
+        append(string.cString(using: encoding)!, length: string.lengthOfBytes(using: encoding))
         return self
     }
     
+    @discardableResult
     final func appendZero() -> Self {
-        appendBytes(UnsafePointer<Void>([0]), length: 1)
+        append(UnsafePointer<Void>([0]), length: 1)
         return self
     }
 }
 
-public func encodeSCGI(string: String) -> NSData
+public func encodeSCGI(_ string: String) -> Data
 {
-    let sLength = String(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))
-    let lengthOfLength = String(sLength).lengthOfBytesUsingEncoding(NSASCIIStringEncoding)
+    let sLength = String(string.lengthOfBytes(using: String.Encoding.utf8))
+    let lengthOfLength = String(sLength).lengthOfBytes(using: String.Encoding.ascii)
     let headerLength = 23 + lengthOfLength //23 = 14(CONTENT_LENGTH)+4(\0)+4(SCGI)+1(1)
     
     let result = NSMutableData()
-    result.appendString("\(headerLength):", encoding: NSASCIIStringEncoding)
-        .appendString("CONTENT_LENGTH", encoding: NSASCIIStringEncoding)
+    result.appendString("\(headerLength):")
+        .appendString("CONTENT_LENGTH")
         .appendZero()
-        .appendString(sLength, encoding: NSASCIIStringEncoding)
+        .appendString(sLength)
         .appendZero()
-        .appendString("SCGI", encoding: NSASCIIStringEncoding)
+        .appendString("SCGI")
         .appendZero()
-        .appendString("1", encoding: NSASCIIStringEncoding)
+        .appendString("1")
         .appendZero()
-        .appendString(",", encoding: NSASCIIStringEncoding)
-        .appendString(string, encoding: NSUTF8StringEncoding)
+        .appendString(",")
+        .appendString(string, encoding: String.Encoding.utf8)
     
-    return result;
+    return result as Data;
 }

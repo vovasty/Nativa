@@ -1,0 +1,21 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure(2) do |config|
+  config.vm.box = "relativkreativ/centos-7-minimal"
+
+  config.vm.network "forwarded_port", guest: 5000, host: 5000
+
+  config.vm.provision "file", source: "rtorrent.rc", destination: ".rtorrent.rc"
+  config.vm.provision "shell", inline: <<-SHELL
+#    sudo yum update -y
+    sudo yum install epel-release -y
+    sudo yum install rtorrent -y
+    sudo yum install tmux -y
+    sudo yum install nmap-ncat -y
+    systemctl stop firewalld
+    systemctl disable firewalld
+    sed -i s/SELINUX=enforcing/SELINUX=permissive/g /etc/selinux/config
+    setenforce 0
+  SHELL
+end

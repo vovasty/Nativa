@@ -13,8 +13,8 @@ extension String {
         return NSString(string: self).pathExtension
     }
     
-    func hosAndPort(port: UInt16) -> (host: String, port: UInt16) {
-        let hp = self.characters.split(":")
+    func host(port: UInt16) -> (host: String, port: UInt16) {
+        let hp = self.characters.split(separator: ":", maxSplits: 2, omittingEmptySubsequences: true)
         if hp.count == 2 {
             return (host: String(hp[0]), port: UInt16(String(hp[1])) ?? port)
         }
@@ -24,10 +24,10 @@ extension String {
     }
 }
 
-extension NSUserDefaults {
+extension UserDefaults {
     public subscript(keypath : String) -> AnyObject? {
-        get { return self.valueForKey(keypath) }
-        set { self.setObject(newValue, forKey: keypath) }
+        get { return self.value(forKey: keypath) }
+        set { self.set(newValue, forKey: keypath) }
     }
 }
 
@@ -41,11 +41,11 @@ extension Dictionary {
     }
 }
 extension Dictionary {
-    func map<OutKey: Hashable, OutValue>(transform: Element -> (OutKey, OutValue)) -> [OutKey: OutValue] {
+    func map<OutKey: Hashable, OutValue>(transform: (Element) -> (OutKey, OutValue)) -> [OutKey: OutValue] {
         return Dictionary<OutKey, OutValue>(self.map(transform))
     }
     
-    func filter(includeElement: Element -> Bool) -> [Key: Value] {
+    func filter(includeElement: (Element) -> Bool) -> [Key: Value] {
         return Dictionary(self.filter(includeElement))
     }
 }
@@ -63,5 +63,5 @@ extension NSView {
 }
 
 func dispatch_main( closure: ()-> Void) {
-    dispatch_async(dispatch_get_main_queue()) { closure() }
+    DispatchQueue.main.async(execute: closure)
 }

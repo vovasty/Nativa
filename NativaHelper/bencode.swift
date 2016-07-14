@@ -8,18 +8,18 @@
 
 import Foundation
 
-enum BencodeError: ErrorType {
-    case Failure(msg: String)
+enum BencodeError: ErrorProtocol {
+    case failure(msg: String)
 }
 
-private class Tokenizer: GeneratorType {
+private class Tokenizer: IteratorProtocol {
     private var values = [(String, Int)]()
     private var index = 0
     
-    init(_ data: NSData) throws {
-        let begin = UnsafePointer<UInt8>(data.bytes)
+    init(_ data: Data) throws {
+        let begin = UnsafePointer<UInt8>((data as NSData).bytes)
         var bytes = begin
-        let bytesEnd = bytes + data.length
+        let bytesEnd = bytes + data.count
         
         while bytes < bytesEnd
         {
@@ -49,12 +49,12 @@ private class Tokenizer: GeneratorType {
             }
             
             guard numberPtr <= bytesEnd else {
-                throw BencodeError.Failure(msg: "buffer overflow")
+                throw BencodeError.failure(msg: "buffer overflow")
             }
             
             if numberLength > 0
             {
-                let number = NSString(bytes: bytes, length: numberLength, encoding: NSUTF8StringEncoding)!
+                let number = NSString(bytes: bytes, length: numberLength, encoding: String.Encoding.utf8.rawValue)!
                 
                 //:
                 if bytes[numberLength] == 58
@@ -63,11 +63,11 @@ private class Tokenizer: GeneratorType {
                     {
                         values.append(("s", bytes - begin))
                         
-                        if let string  = NSString(bytes: numberPtr + 1, length: stringLength, encoding: NSUTF8StringEncoding) {
+                        if let string  = NSString(bytes: numberPtr + 1, length: stringLength, encoding: String.Encoding.utf8.rawValue) {
                             values.append((string as String, numberPtr + 1 - begin))
                         }
                         else {
-                            values.append((String(count: stringLength, repeatedValue: Character("?")), numberPtr + 1 - begin))
+                            values.append((String(repeating: Character("?"), count: stringLength), numberPtr + 1 - begin))
                         }
                         
                         bytes = numberPtr + 1 + stringLength
@@ -93,7 +93,7 @@ private class Tokenizer: GeneratorType {
 }
 
 
-private func bdecode(gen: Tokenizer, token: (String, Int), findInfoRange: Bool = false) throws -> (AnyObject,  Int?, Int?)?
+private func bdecode(_ gen: Tokenizer, token: (String, Int), findInfoRange: Bool = false) throws -> (AnyObject,  Int?, Int?)?
 {
     var data: AnyObject?
     var infoBegin: Int?
@@ -105,7 +105,7 @@ private func bdecode(gen: Tokenizer, token: (String, Int), findInfoRange: Bool =
         if let number = gen.next(){
             let nextToken = gen.next()
             guard nextToken?.0 == "e" else {
-                throw BencodeError.Failure(msg: "no end token")
+                throw BencodeError.failure(msg: "no end token")
             }
             data = (number.0 as NSString).doubleValue
         }
@@ -136,7 +136,7 @@ private func bdecode(gen: Tokenizer, token: (String, Int), findInfoRange: Bool =
             if token.0 == "d" {
                 var dict = [String: AnyObject]()
                 
-                for i in array.startIndex.stride(to: array.count, by: 2) {
+                for i in stride(from: array.startIndex, to: array.count, by: 2) {
                     let k = array[i] as! String
                     let v = array[i + 1]
                     
@@ -151,13 +151,13 @@ private func bdecode(gen: Tokenizer, token: (String, Int), findInfoRange: Bool =
             }
         }
     default:
-        throw BencodeError.Failure(msg: "invalid token")
+        throw BencodeError.failure(msg: "invalid token")
     }
     
     return data == nil ? nil : (data!, infoBegin, infoEnd)
 }
 
-public func bdecode<T>(data: NSData) throws -> (T, String?)? {
+public func bdecode<T>(_ data: Data) throws -> (T, String?)? {
     let gen = try Tokenizer(data)
 
     guard let token = gen.next() else {
@@ -169,8 +169,8 @@ public func bdecode<T>(data: NSData) throws -> (T, String?)? {
     }
     var infoHash: String?
     if let infoBegin = torrent.1, let infoEnd = torrent.2 {
-        var digest = [UInt8](count:Int(CC_SHA1_DIGEST_LENGTH), repeatedValue: 0)
-        CC_SHA1(data.bytes + infoBegin, CC_LONG(infoEnd - infoBegin), &digest)
+        var digest = [UInt8](repeating: 0, count: Int(CC_SHA1_DIGEST_LENGTH))
+        CC_SHA1((data as NSData).bytes + infoBegin, CC_LONG(infoEnd - infoBegin), &digest)
         let output = NSMutableString(capacity: Int(CC_SHA1_DIGEST_LENGTH))
         for byte in digest {
             output.appendFormat("%02x", byte)

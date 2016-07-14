@@ -9,29 +9,29 @@
 import Cocoa
 
 class MainViewController: NSSplitViewController {
-    let stateView = StateView(frame: CGRectZero)
+    let stateView = StateView(frame: CGRect.zero)
     var prevSize: CGSize?
 
     @IBAction
     @objc
-    private func showInspector(sender: AnyObject) {
+    private func showInspector(_ sender: AnyObject) {
         let item = splitViewItems.last!
         
         if let downloadsViewController = splitViewItems.first?.viewController as? DownloadsViewController,
-            let inspectorViewController = splitViewItems.last?.viewController as? InspectorViewController where item.collapsed {
+            let inspectorViewController = splitViewItems.last?.viewController as? InspectorViewController where item.isCollapsed {
                 inspectorViewController.downloads = downloadsViewController.selectedDownloads
         }
         
-        if item.collapsed {
+        if item.isCollapsed {
             prevSize = view.window?.frame.size
         }
         
         //animated
 //        item.animator().collapsed = !item.collapsed
         
-        item.collapsed = !item.collapsed
+        item.isCollapsed = !item.isCollapsed
         
-        if item.collapsed {
+        if item.isCollapsed {
             if let prevSize = prevSize {
                 if var frame = view.window?.frame {
                     frame.size = prevSize
@@ -45,20 +45,20 @@ class MainViewController: NSSplitViewController {
     override func viewWillAppear() {
         super.viewWillAppear()
         
-        self.view.window?.titleVisibility = .Hidden
+        self.view.window?.titleVisibility = .hidden
         
         view.addSubview(stateView)
         stateView.constraintsMakeWholeView()
-        stateView.hidden = true
+        stateView.isHidden = true
         
-        showConnectionState(Datasource.instance.connectionState)
+        showConnectionState(state: Datasource.instance.connectionState)
         
-        notificationCenter.add(self) {(state: DatasourceConnectionStateDidChange) -> Void in
-            self.showConnectionState(state.state)
+        notificationCenter.add(owner: self) {(state: DatasourceConnectionStateDidChange) -> Void in
+            self.showConnectionState(state: state.state)
         }
         
-        if ((NSUserDefaults.standardUserDefaults()[kAccountsKey] as? [[String: AnyObject]])?.count ?? 0) == 0 {
-            let controller = storyboard?.instantiateControllerWithIdentifier("Preferences")
+        if ((UserDefaults.standard[kAccountsKey] as? [[String: AnyObject]])?.count ?? 0) == 0 {
+            let controller = storyboard?.instantiateController(withIdentifier: "Preferences")
             presentViewControllerAsModalWindow(controller as! NSViewController)
         }
     }
@@ -66,12 +66,12 @@ class MainViewController: NSSplitViewController {
     private func showConnectionState (state: DatasourceConnectionStatus) {
         switch state {
         case .Establishing:
-            self.stateView.hidden = false
-            self.splitView.hidden = true
+            self.stateView.isHidden = false
+            self.splitView.isHidden = true
             self.stateView.state = StateViewContent.Progress
         case .Disconnected(let error):
-            self.stateView.hidden = false
-            self.splitView.hidden = true
+            self.stateView.isHidden = false
+            self.splitView.isHidden = true
             let msg = error?.localizedDescription ?? "Unknwown Error"
             self.stateView.state = StateViewContent.Error(message: msg, buttonTitle: "try again", handler: { (sender) -> Void in
                 if let appDelegate = NSApp.delegate as? AppDelegate {
@@ -79,8 +79,8 @@ class MainViewController: NSSplitViewController {
                 }
             })
         case .Established:
-            self.stateView.hidden = true
-            self.splitView.hidden = false
+            self.stateView.isHidden = true
+            self.splitView.isHidden = false
         }
     }
 }

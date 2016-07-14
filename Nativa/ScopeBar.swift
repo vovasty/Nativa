@@ -21,15 +21,15 @@ class ScopeBar: NSStackView {
     weak var scopeBarDelegate: ScopeBarDelegate?
     
     private func setup() {
-        orientation = NSUserInterfaceLayoutOrientation.Horizontal
-        alignment = NSLayoutAttribute.CenterY
-        edgeInsets = NSEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        orientation = NSUserInterfaceLayoutOrientation.horizontal
+        alignment = NSLayoutAttribute.centerY
+        edgeInsets = EdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
         for v in subviews {
             guard let button  = v as? NSButton  else { continue }
             button.target = self
             button.action = #selector(buttonClicked(_:))
             button.showsBorderOnlyWhileMouseInside = true
-            button.cell?.backgroundStyle = .Raised
+            button.cell?.backgroundStyle = .raised
         }
     }
     
@@ -43,7 +43,9 @@ class ScopeBar: NSStackView {
         setup()
     }
 
-    @IBAction func buttonClicked(sender: NSButton){
+    @objc
+    @IBAction
+    private func buttonClicked(_ sender: NSButton){
         for button in subviews {
             guard let button  = button as? NSButton  else { return }
             button.state = NSOffState
@@ -51,7 +53,7 @@ class ScopeBar: NSStackView {
         
         sender.state = NSOnState
         
-        scopeBarDelegate?.scopeBar(self, buttonClicked: sender)
+        scopeBarDelegate?.scopeBar(scopeBar: self, buttonClicked: sender)
     }
     
     var selectedButton: NSButton? {

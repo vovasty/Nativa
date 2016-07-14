@@ -16,16 +16,16 @@ enum StateViewContent {
 
 @IBDesignable
 class StateView: NSView {
-    let progress = NSProgressIndicator(frame: CGRectMake(0, 0, 40, 40))
-    let message = NSTextField(frame: CGRectZero)
-    let button = NSButton(frame: CGRectZero)
+    let progress = NSProgressIndicator(frame: NSRect(x: 0, y:0, width: 40, height: 40))
+    let message = NSTextField(frame: NSRect.zero)
+    let button = NSButton(frame: NSRect.zero)
     var buttonHandler: ((AnyObject?)->Void)?
     
-    override var hidden: Bool {
+    override var isHidden: Bool {
         didSet {
             switch state {
             case .Progress(_):
-                if hidden {
+                if isHidden {
                     progress.stopAnimation(nil)
                 }
                 else {
@@ -46,15 +46,15 @@ class StateView: NSView {
         didSet {
             switch state {
             case .Progress:
-                message.hidden = true
-                button.hidden  = true
-                progress.hidden = false
+                message.isHidden = true
+                button.isHidden  = true
+                progress.isHidden = false
                 progress.startAnimation(nil)
             case .Error(let msg, let buttonTitle, let handler):
-                message.hidden = false
-                progress.hidden = true
+                message.isHidden = false
+                progress.isHidden = true
                 progress.stopAnimation(nil)
-                button.hidden  = false
+                button.isHidden  = false
                 buttonHandler = handler
                 
                 message.stringValue = msg
@@ -66,7 +66,9 @@ class StateView: NSView {
         }
     }
     
-    @IBAction func buttonClicked(sender: AnyObject?) {
+    @objc
+    @IBAction
+    private func buttonClicked(_ sender: AnyObject?) {
         buttonHandler?(sender)
     }
     
@@ -78,32 +80,32 @@ class StateView: NSView {
         
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        progress.style = NSProgressIndicatorStyle.SpinningStyle
-        progress.controlSize = .RegularControlSize
+        progress.style = .spinningStyle
+        progress.controlSize = .regular
         progress.sizeToFit()
         
         progress.translatesAutoresizingMaskIntoConstraints = false
-        progress.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
-        progress.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
+        progress.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        progress.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
 
-        message.editable = false
-        message.bezeled = false
+        message.isEditable = false
+        message.isBezeled = false
         message.drawsBackground = false
-        message.alignment = .Center
+        message.alignment = .center
         
         message.translatesAutoresizingMaskIntoConstraints = false
-        message.leftAnchor.constraintEqualToAnchor(leftAnchor, constant: 20).active = true
-        message.rightAnchor.constraintEqualToAnchor(rightAnchor, constant: -20).active = true
-        message.centerYAnchor.constraintEqualToAnchor(centerYAnchor).active = true
+        message.leftAnchor.constraint(equalTo: leftAnchor, constant: 20).isActive = true
+        message.rightAnchor.constraint(equalTo: rightAnchor, constant: -20).isActive = true
+        message.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         
         button.target = self
         button.action = #selector(buttonClicked(_:))
-        button.bezelStyle = .TexturedSquareBezelStyle
-        button.setButtonType(NSButtonType.MomentaryPushInButton)
+        button.bezelStyle = .texturedSquare
+        button.setButtonType(.momentaryPushIn)
 
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.centerXAnchor.constraintEqualToAnchor(centerXAnchor).active = true
-        button.centerYAnchor.constraintEqualToAnchor(message.centerYAnchor, constant: 20).active = true
+        button.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        button.centerYAnchor.constraint(equalTo: message.centerYAnchor, constant: 20).isActive = true
     }
     
     override init(frame frameRect: NSRect) {

@@ -16,17 +16,17 @@ class BackgroundView: NSView {
             self.needsDisplay = true
         }
     }
-    override var opaque: Bool {
+    override var isOpaque: Bool {
         get {
             return backgroundColor != nil
         }
     }
     
-    override func drawRect(dirtyRect: NSRect){
+    override func draw(_ dirtyRect: NSRect){
         if let backgroundColor = backgroundColor {
             backgroundColor.setFill()
             NSRectFill(dirtyRect)
         }
-        super.drawRect(dirtyRect)
+        super.draw(dirtyRect)
     }
 }

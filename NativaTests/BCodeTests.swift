@@ -10,19 +10,19 @@ import XCTest
 
 class BCodeTests: XCTestCase {
 
-    private func multiTorrentData() -> NSData {
-        let path = NSBundle(forClass: self.classForCoder).resourcePath!.stringByAppendingString("/multi.torrent")
-        return NSData(contentsOfFile: path)!
+    private func multiTorrentData() -> Data {
+        let path = Bundle(for: self.classForCoder).resourcePath! + "/multi.torrent"
+        return (try! Data(contentsOf: URL(fileURLWithPath: path)))
     }
     
-    private func singleTorrentData() -> NSData {
-        let path = NSBundle(forClass: self.classForCoder).resourcePath!.stringByAppendingString("/single.torrent")
-        return NSData(contentsOfFile: path)!
+    private func singleTorrentData() -> Data {
+        let path = Bundle(for: self.classForCoder).resourcePath! + "/single.torrent"
+        return (try! Data(contentsOf: URL(fileURLWithPath: path)))
     }
     
-    private func badTorrentData() -> NSData {
-        let path = NSBundle(forClass: self.classForCoder).resourcePath!.stringByAppendingString("/bad.torrent")
-        return NSData(contentsOfFile: path)!
+    private func badTorrentData() -> Data {
+        let path = Bundle(for: self.classForCoder).resourcePath! + "/bad.torrent"
+        return (try! Data(contentsOf: URL(fileURLWithPath: path)))
     }
 
     

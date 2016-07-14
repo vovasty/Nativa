@@ -27,31 +27,31 @@ class Group
         }
         
         if let downloads = dict["downloads"] as? [[String: AnyObject]] {
-            self.downloads.update(downloads, strategy: SyncStrategy.Replace)
+            self.downloads.update(downloads, strategy: .replace)
         }
     }
 }
 
 extension Group: SyncableArrayDelegate {
-    func idFromRaw(dict: [String: AnyObject]) -> String? {
-        guard let info = dict["info"] as? [String: AnyObject], let id = info["id"] as? String else {
+    func id(fromRaw raw: [String: AnyObject]) -> String? {
+        guard let info = raw["info"] as? [String: AnyObject], let id = info["id"] as? String else {
             return nil
         }
         
         return id
     }
     
-    func idFromObject(o: Download) -> String {
-        return o.id
+    func id(fromObject object: Download) -> String {
+        return object.id
     }
     
-    func updateObject(dictionary: [String: AnyObject], object: Download) -> Download {
-        object.update(dictionary)
+    func update(fromRaw raw: [String: AnyObject], object: Download) -> Download {
+        object.update(torrent: raw)
         return object
     }
     
-    func createObject(dict: [String: AnyObject]) -> Download? {
-        return Download(dict)
+    func create(fromRaw raw: [String: AnyObject]) -> Download? {
+        return Download(raw)
     }
 }
 

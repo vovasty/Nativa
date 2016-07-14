@@ -10,13 +10,13 @@ import Foundation
 
 class Timer
 {
-    private var timer: dispatch_source_t!
+    private var timer: DispatchSourceTimer!
     private let block: (Void)->Void
     private let timeout: Int
-    private let queue: dispatch_queue_t
+    private let queue: DispatchQueue
     var running: Bool { get { return timer == nil } }
     
-    init(timeout: Int, queue: dispatch_queue_t = dispatch_get_main_queue(), block:(Void)->Void) {
+    init(timeout: Int, queue: DispatchQueue = DispatchQueue.main, block:(Void)->Void) {
         self.block = block
         self.timeout = timeout
         self.queue = queue
@@ -24,37 +24,32 @@ class Timer
     
     deinit {
         if let timer = timer {
-            dispatch_source_cancel(timer)
+            timer.cancel()
         }
     }
     
-    func start(callImmediately: Bool = false, repeatable: Bool = true){
+    func start(immediately: Bool = false, repeatable: Bool = true){
         if timer == nil {
             // create our timer source
-            timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
+            timer = DispatchSource.timer(queue: queue)
             
-            // set the time to fire (we're only going to fire once,
-            // so just fill in the initial time).
+            let startTime = DispatchTime.now() + (immediately ? 0.0 : Double(timeout))
             
-            let interval = UInt64(timeout) * NSEC_PER_SEC
-            dispatch_source_set_timer(timer, dispatch_walltime(nil, Int64(callImmediately ? 0 : interval)), interval, 0);
+            if repeatable {
+                timer.scheduleRepeating(deadline: startTime, interval: DispatchTimeInterval.seconds(timeout))
+            }
+            else {
+                timer.scheduleOneshot(deadline: startTime)
+            }
             
-            // Hey, let's actually do something when the timer fires!
-            dispatch_source_set_event_handler(timer, {
-                if !repeatable {
-                    self.stop()
-                }
-                self.block()
-            })
-
-            dispatch_resume(timer)
+            timer.setEventHandler(handler: block)
+            
+            timer.resume()
         }
     }
 
     func stop() {
-        if let t = timer {
-            dispatch_source_cancel(t)
-            timer = nil
-        }
+        timer?.cancel()
+        timer = nil
     }
 }

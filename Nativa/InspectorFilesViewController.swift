@@ -10,7 +10,7 @@ import Cocoa
 
 class InspectorFilesViewController: FileOutlineViewController, InspectorViewControllerPanel {
     override func filePrioritiesDidChange(priorities: [FileListNode: Int]) {
-        Datasource.instance.setFilePriority(download!, priorities: priorities) { (error) -> Void in
+        Datasource.instance.setFilePriority(download: download!, priorities: priorities) { (error) -> Void in
             guard let error = error else {
                 return
             }

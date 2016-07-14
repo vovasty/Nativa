@@ -12,13 +12,13 @@ class FolderNameCell: NSTableCellView
 {
     func setName(name: String, size: Double, complete: Float)
     {
-        let ssize = String(format: "%.2f%%", complete*100) + " of " + Formatter.stringForSize(size)
+        let ssize = String(format: "%.2f%%", complete*100) + " of " + Formatter.string(fromSize: size)
         let title = NSMutableAttributedString(string: "\(name) \(ssize)")
         //count in characters, not in .lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
         let sizeRange = NSRange(location: (name + " ").characters.count, length: ssize.characters.count)
         
-        title.addAttribute(NSFontAttributeName, value: NSFont.systemFontOfSize(NSFont.smallSystemFontSize()), range: sizeRange)
-        title.addAttribute(NSForegroundColorAttributeName, value: NSColor.darkGrayColor(), range: sizeRange)
+        title.addAttribute(NSFontAttributeName, value: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize()), range: sizeRange)
+        title.addAttribute(NSForegroundColorAttributeName, value: NSColor.darkGray(), range: sizeRange)
 
         
         self.textField?.attributedStringValue = title

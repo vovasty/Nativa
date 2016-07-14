@@ -48,7 +48,7 @@ class Download
     
     init?(_ torrent: [String: AnyObject]) {
         guard let info = torrent["info"] as? [String: AnyObject],
-            let name = info["name"] as? String, let id = (info["id"] as? String)?.uppercaseString else {
+            let name = info["name"] as? String, let id = (info["id"] as? String)?.uppercased() else {
             size = 0
             comment = nil
             flatFileList = []
@@ -78,13 +78,13 @@ class Download
         file = FileListNode(name: title, path: title, folder: folder, size: size)
         file.index = 0
         
-        update(torrent)
+        update(torrent: torrent)
     }
     
      var icon: NSImage? {
         if _icon == nil
         {
-            _icon = NSWorkspace.sharedWorkspace().iconForFileType(file.folder ? NSFileTypeForHFSTypeCode(OSType(kGenericFolderIcon)) :title.pathExtension)
+            _icon = NSWorkspace.shared().icon(forFileType: file.folder ? NSFileTypeForHFSTypeCode(OSType(kGenericFolderIcon)) :title.pathExtension)
         }
             
         return _icon

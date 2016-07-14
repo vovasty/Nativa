@@ -1,3 +1,4 @@
+
 //
 //  AddTorrentViewController.swift
 //  Nativa
@@ -12,7 +13,7 @@ class AddTorrentViewController: FileOutlineViewController {
     @IBOutlet weak var torrentName: NSTextField!
     @IBOutlet weak var torrentIcon: NSImageView!
     @IBOutlet weak var processesButton: NSPopUpButton!
-    private var path: NSURL?
+    private var path: URL?
     @objc var processId: String?
     @objc var hideProcessList: Bool {
         return Datasource.instance.processes.count == 1
@@ -27,17 +28,17 @@ class AddTorrentViewController: FileOutlineViewController {
         processesButton.removeAllItems()
         processesButton.autoenablesItems = false
         for process in Datasource.instance.processes {
-            processesButton.addItemWithTitle(process.0)
+            processesButton.addItem(withTitle: process.0)
             
             if case DatasourceConnectionStatus.Established = process.1.state {
-                processesButton.itemArray.last?.enabled = true
+                processesButton.itemArray.last?.isEnabled = true
                 if processId == nil { //select first available process
                     processId = process.0
-                    processesButton.selectItemWithTitle(processId!)
+                    processesButton.selectItem(withTitle: processId!)
                 }
             }
             else {
-                processesButton.itemArray.last?.enabled = false
+                processesButton.itemArray.last?.isEnabled = false
             }
         }
     }
@@ -46,7 +47,7 @@ class AddTorrentViewController: FileOutlineViewController {
         NSApp.activateIgnoringOtherApps(true)
     }
     
-    func setDownload(download: Download, path: NSURL)
+    func setDownload(download: Download, path: URL)
     {
         self.download = download
         self.path = path
@@ -56,15 +57,16 @@ class AddTorrentViewController: FileOutlineViewController {
     }
     
     @objc
-    @IBAction private func add(sender: AnyObject) {
+    @IBAction
+    private func add(_ sender: AnyObject) {
         if let processId = processId {
             //to prevent capturing self
             guard let path = self.path else { return }
-            let start = NSUserDefaults.standardUserDefaults().boolForKey("downloadStartWhenAdded")
-            Datasource.instance.addTorrentFiles(processId, files: [(path: path, download: download!, start: start, group: nil, folder: nil, priorities: flatPriorities)]) {
-                if NSUserDefaults.standardUserDefaults().boolForKey("downloadTrashTorrentFile") {
+            let start = UserDefaults.standard.bool(forKey: "downloadStartWhenAdded")
+            Datasource.instance.addTorrentFiles(processId: processId, files: [(path: path, download: download!, start: start, group: nil, folder: nil, priorities: flatPriorities)]) {
+                if UserDefaults.standard.bool(forKey: "downloadTrashTorrentFile") {
                     do {
-                        try NSFileManager.defaultManager().trashPath(path)
+                        try FileManager.default.trashPath(path: path)
                     }
                     catch {
                         logger.error("unable to remove torrent file: \(error)")
@@ -79,7 +81,8 @@ class AddTorrentViewController: FileOutlineViewController {
     }
     
     @objc
-    @IBAction private func cancelAdd(sender: AnyObject) {
+    @IBAction
+    private func cancelAdd(_ sender: AnyObject) {
         if let window = self.view.window {
             window.performClose(sender)
         }

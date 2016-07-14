@@ -28,7 +28,7 @@ class SyncableArrayTests: XCTestCase, SyncableArrayDelegate {
     func testFilter() {
         let array = SyncableArray<SyncableArrayTests>(delegate: self)
         array.filterHandler { (s) -> Bool in
-            return s.compare("4") == .OrderedDescending
+            return s.compare("4") == .orderedDescending
         }
         
         array.update("1")
@@ -65,19 +65,19 @@ class SyncableArrayTests: XCTestCase, SyncableArrayDelegate {
     
     
     //MARK: SyncableArrayDelegate
-    func idFromRaw(object: String) -> String? {
+    func idFromRaw(_ object: String) -> String? {
         return object
     }
     
-    func idFromObject(object: String) -> String {
+    func idFromObject(_ object: String) -> String {
         return object
     }
     
-    func updateObject(source: String, object: String) -> String {
+    func updateObject(_ source: String, object: String) -> String {
         return object
     }
     
-    func createObject(object: String) -> String? {
+    func createObject(_ object: String) -> String? {
         return object
     }
 }

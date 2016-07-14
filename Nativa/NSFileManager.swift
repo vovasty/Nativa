@@ -8,11 +8,11 @@
 
 import Foundation
 
-enum FileManagerError: ErrorType {
+enum FileManagerError: ErrorProtocol {
     case UnableToMoveToTrash(message: String)
 }
 
-extension NSFileManager {
+extension FileManager {
     func trashPath(path: NSURL) throws{
         let script =
         "with timeout 15 seconds\n" +
@@ -26,7 +26,7 @@ extension NSFileManager {
         appleScript?.executeAndReturnError(&errorInfo)
         
         if let errorInfo = errorInfo {
-            let localizedDescription = errorInfo[NSAppleScriptErrorBriefMessage] as! String
+            let localizedDescription = errorInfo[NSAppleScript.errorBriefMessage] as? String ?? "Unknown error"
             throw FileManagerError.UnableToMoveToTrash(message: localizedDescription)
         }
     }

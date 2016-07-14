@@ -17,7 +17,7 @@ class InspectorViewController: NSTabViewController {
     @IBOutlet weak var downloadName: NSTextField!
     @IBOutlet weak var downloadStatus: NSTextField!
     @IBOutlet weak var downloadIcon: NSImageView!
-    var stateView = StateView(frame: CGRectZero)
+    var stateView = StateView(frame: CGRect.zero)
     @IBOutlet var noSelectionView: NSView!
     private var updateTimer: Timer?
     
@@ -27,28 +27,28 @@ class InspectorViewController: NSTabViewController {
             updateTimer = nil
             
             if let download = downloads?.first where (downloads?.count ?? 0) == 1 {
-                noSelectionView.hidden = true
+                noSelectionView.isHidden = true
                 self.title = download.title
                 self.downloadName.stringValue = download.title
                 self.downloadIcon.image = download.icon
                 
                 if let flatFileList = download.flatFileList{
                     if flatFileList.count == 1 {
-                        self.downloadStatus.stringValue = Formatter.stringForSize(download.size)
+                        self.downloadStatus.stringValue = Formatter.string(fromSize: download.size)
                     }
                     else {
-                        self.downloadStatus.stringValue = "\(flatFileList.count) files, \(Formatter.stringForSize(download.size))"
+                        self.downloadStatus.stringValue = "\(flatFileList.count) files, \(Formatter.string(fromSize: download.size))"
                     }
-                    self.updateTabs(download)
+                    self.updateTabs(download: download)
                     self.loading = false
                 }
                 else {
-                    self.downloadStatus.stringValue = Formatter.stringForSize(download.size)
+                    self.downloadStatus.stringValue = Formatter.string(fromSize: download.size)
                     self.loading = true
                 }
                 
                 updateTimer = Timer(timeout: Config.refreshTimeout) {
-                    Datasource.instance.update(download) { (dl, error) -> Void in
+                    Datasource.instance.update(download: download) { (dl, error) -> Void in
                         guard let dl = dl, let flatFileList = dl.flatFileList where dl == self.downloads?.first && error == nil else {
                             if let error = error {
                                 logger.error("unable to update torrent info: \(error)")
@@ -61,30 +61,30 @@ class InspectorViewController: NSTabViewController {
                             return
                         }
                         
-                        self.updateTabs(dl)
+                        self.updateTabs(download: dl)
                         
                         if flatFileList.count == 1 {
-                            self.downloadStatus.stringValue = Formatter.stringForSize(download.size)
+                            self.downloadStatus.stringValue = Formatter.string(fromSize: download.size)
                         }
                         else {
-                            self.downloadStatus.stringValue = "\(flatFileList.count) files, \(Formatter.stringForSize(download.size))"
+                            self.downloadStatus.stringValue = "\(flatFileList.count) files, \(Formatter.string(fromSize: download.size))"
                         }
                         
                         self.loading = false
                     }
                     }
                 
-                updateTimer?.start(true)
+                updateTimer?.start(immediately: true)
             }
             else {
-                noSelectionView.hidden = false
+                noSelectionView.isHidden = false
             }
         }
     }
     
     private var loading: Bool {
         get {
-            return !stateView.hidden
+            return !stateView.isHidden
         }
         
         set {
@@ -93,9 +93,9 @@ class InspectorViewController: NSTabViewController {
                 case noSelectionView, headerView:
                     break
                 case stateView:
-                    stateView.hidden = !newValue
+                    stateView.isHidden = !newValue
                 default:
-                    v.hidden = newValue
+                    v.isHidden = newValue
                 }
             }
         }
@@ -105,30 +105,30 @@ class InspectorViewController: NSTabViewController {
         super.viewDidLoad()
         
         stateView.state = .Progress
-        stateView.hidden = true
+        stateView.isHidden = true
         
         let tabView = view.subviews.first!
         let segmentedControl = view.subviews[1]
         
-        view.addSubview(headerView, positioned: .Above, relativeTo: nil)
-        view.addSubview(stateView, positioned: .Above, relativeTo: nil)
-        view.addSubview(noSelectionView, positioned: .Above, relativeTo: nil)
+        view.addSubview(headerView, positioned: .above, relativeTo: nil)
+        view.addSubview(stateView, positioned: .above, relativeTo: nil)
+        view.addSubview(noSelectionView, positioned: .above, relativeTo: nil)
         
         headerView.translatesAutoresizingMaskIntoConstraints = false
-        headerView.constraintsMakeWholeView(3, bottom: nil)
-        headerView.heightAnchor.constraintEqualToConstant(50).active = true
+        headerView.constraintsMakeWholeView(top: 3, bottom: nil)
+        headerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         
         
-        segmentedControl.topAnchor.constraintEqualToAnchor(headerView.bottomAnchor, constant: 3).active = true
+        segmentedControl.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 3).isActive = true
         
-        stateView.constraintsMakeWholeView(nil)
-        stateView.topAnchor.constraintEqualToAnchor(headerView.bottomAnchor).active = true
-        tabView.topAnchor.constraintEqualToAnchor(segmentedControl.bottomAnchor).active = true
+        stateView.constraintsMakeWholeView(top: nil)
+        stateView.topAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
+        tabView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor).isActive = true
         
         noSelectionView.translatesAutoresizingMaskIntoConstraints = false
         noSelectionView.constraintsMakeWholeView()
         
-        notificationCenter.add(self) { [weak self] (note: SelectedDownloadsNotification) -> Void in
+        notificationCenter.add(owner: self) { [weak self] (note: SelectedDownloadsNotification) -> Void in
             self?.downloads = note.downloads
         }
         

@@ -8,7 +8,7 @@
 
 import Cocoa
 
-struct SelectedDownloadsNotification: Notification {
+struct SelectedDownloadsNotification: NotificationProtocol {
     let downloads: [Download]
 }
 
@@ -20,7 +20,7 @@ class DownloadsViewController: NSViewController
 {
     @IBOutlet weak var filterBar: ScopeBar!
     @IBOutlet weak var outlineView: NSOutlineView!
-    var torrents: IndexingGenerator<Array<(path: NSURL, download: Download)>>?
+    var torrents: IndexingIterator<Array<(path: URL, download: Download)>>?
     private var datasourceObserver: String?
     private var downloadsObserver: String?
     private var downloads: SyncableArray<DownloadsViewController>!
@@ -33,7 +33,7 @@ class DownloadsViewController: NSViewController
         
         return self.outlineView.selectedRowIndexes
             .map{ (e) -> Download? in
-                return outlineView.itemAtRow(e) as? Download
+                return outlineView.item(atRow: e) as? Download
                 }
             .filter{ (e) -> Bool in
                     e != nil
@@ -60,7 +60,7 @@ class DownloadsViewController: NSViewController
             return d1.title < d2.title
         }
         
-        downloads.update(Datasource.instance.downloads.orderedArray, strategy: .Replace)
+        downloads.update(Datasource.instance.downloads.orderedArray, strategy: .replace)
         updateStatistics()
         
         //FIXME: statistics won't be updated when no downloads
@@ -69,16 +69,16 @@ class DownloadsViewController: NSViewController
             
             self.outlineView.beginUpdates()
             for downloadChange in downloadChanges {
-                let indexes = NSIndexSet(index: downloadChange.index)
+                let indexes = IndexSet(integer: downloadChange.index)
                 switch downloadChange.type {
-                case .Delete:
-                    self.outlineView.removeItemsAtIndexes(indexes, inParent: nil, withAnimation: NSTableViewAnimationOptions.SlideUp)
-                case .Insert:
-                    self.outlineView.insertItemsAtIndexes(indexes, inParent: nil, withAnimation: NSTableViewAnimationOptions.SlideDown)
-                case .Update:
+                case .delete:
+                    self.outlineView.removeItems(at: indexes, inParent: nil, withAnimation: .slideUp)
+                case .insert:
+                    self.outlineView.insertItems(at: indexes, inParent: nil, withAnimation: .slideDown)
+                case .update:
                     //cause reloadItem is not working...
-                    let row = self.outlineView.rowForItem(downloadChange.object)
-                    self.outlineView.setNeedsDisplayInRect(self.outlineView.rectOfRow(row))
+                    let row = self.outlineView.row(forItem: downloadChange.object)
+                    self.outlineView.setNeedsDisplay(self.outlineView.rect(ofRow: row))
                 }
             }
             self.outlineView.endUpdates()
@@ -88,17 +88,17 @@ class DownloadsViewController: NSViewController
             dispatch_main {
                 for downloadChange in downloadChanges {
                     switch downloadChange.type {
-                    case .Delete:
+                    case .delete:
                         self.downloads.remove(downloadChange.object)
-                    case .Insert, .Update:
+                    case .insert, .update:
                         self.downloads.update(downloadChange.object)
                     }
                 }
             }
         }
         
-        notificationCenter.add(self) { [weak self] (note: DownloadFilesAddedNotification) -> Void in
-            self?.addTorrents(note.downloads)
+        notificationCenter.add(owner: self) { [weak self] (note: DownloadFilesAddedNotification) -> Void in
+            self?.add(torrents: note.downloads)
         }
         
         updateStatistics()
@@ -111,48 +111,52 @@ class DownloadsViewController: NSViewController
         uploadSpeed.toolTip = uploadSpeed.toolTip
     }
     
-    @IBAction func controlAction(sender: AnyObject) {
-        let row = self.outlineView.rowForView(sender as! NSView)
-        let download = self.outlineView.itemAtRow(row) as! Download
+    @objc
+    @IBAction
+    private func controlAction(_ sender: AnyObject) {
+        let row = self.outlineView.row(for: sender as! NSView)
+        let download = self.outlineView.item(atRow: row) as! Download
 
         switch (download.state)
         {
         case .Stopped, .Paused:
             download.state = .Downloading(dl: 0, ul: 0)
-            Datasource.instance.startDownload(download)
+            Datasource.instance.startDownload(download: download)
         default:
-            Datasource.instance.stopDownload(download)
+            Datasource.instance.stopDownload(download: download)
         }
     }
     
     //MARK: NSSeguePerforming
-    override func prepareForSegue(segue: NSStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: NSStoryboardSegue, sender: AnyObject?) {
         guard let identifier = segue.identifier else { return }
         
         switch identifier{
         case "showAddTorrent":
             if  let torrent = torrents?.next(),
                 let vc = segue.destinationController as? AddTorrentViewController {
-                    vc.setDownload(torrent.download, path: torrent.path)
+                    vc.setDownload(download: torrent.download, path: torrent.path)
             }
         default:
             break
         }
     }
     
-    private func addTorrents(torrents: [(path: NSURL, download: Download)]) {
+    private func add(torrents: [(path: URL, download: Download)]) {
         guard torrents.count > 0 else { return }
         
-        self.torrents = torrents.generate()
+        self.torrents = torrents.makeIterator()
         for _ in 0 ... torrents.count - 1 {
-            self.performSegueWithIdentifier("showAddTorrent", sender: nil)
+            self.performSegue(withIdentifier: "showAddTorrent", sender: nil)
         }
     }
     
-    @IBAction func remove(sender: AnyObject) {
+    @objc
+    @IBAction
+    private func remove(_ sender: AnyObject) {
         for index in outlineView.selectedRowIndexes {
-            if let download = outlineView.itemAtRow(index) as? Download {
-                Datasource.instance.removeTorrent(download, removeData: false, response: { (error) -> Void in
+            if let download = outlineView.item(atRow: index) as? Download {
+                Datasource.instance.remove(download: download, removeData: false, response: { (error) -> Void in
                     if let error = error {
                         logger.error("unable to remove torrent: \(error)")
                     }
@@ -161,23 +165,25 @@ class DownloadsViewController: NSViewController
         }
     }
     
-    @IBAction func removeDownloadWithData(sender: AnyObject) {
+    @objc
+    @IBAction
+    private func removeDownloadWithData(_ sender: AnyObject) {
         
-        let selectedDownloads: [Download] = outlineView.selectedRowIndexes.map { outlineView.itemAtRow($0) as! Download }
+        let selectedDownloads: [Download] = outlineView.selectedRowIndexes.map { outlineView.item(atRow: $0) as! Download }
         
         let alert = NSAlert()
-        alert.addButtonWithTitle("OK")
-        alert.addButtonWithTitle("Cancel")
+        alert.addButton(withTitle: "OK")
+        alert.addButton(withTitle: "Cancel")
         alert.messageText = "Delete the selected downloads?"
         alert.informativeText = "This operation can not be undone."
-        alert.alertStyle = NSAlertStyle.WarningAlertStyle
-        alert.beginSheetModalForWindow(self.view.window!) {
+        alert.alertStyle = NSAlertStyle.warning
+        alert.beginSheetModal(for: self.view.window!) {
             guard $0 == NSAlertFirstButtonReturn else {
                 return
             }
             
             for download in selectedDownloads {
-                Datasource.instance.removeTorrent(download, removeData: true, response: { (error) -> Void in
+                Datasource.instance.remove(download: download, removeData: true, response: { (error) -> Void in
                     if let error = error {
                         logger.error("unable to remove torrent: \(error)")
                     }
@@ -186,8 +192,8 @@ class DownloadsViewController: NSViewController
         }
     }
     
-    private func applyFilter(value: FilterValue) {
-        switch value {
+    private func apply(filter: FilterValue) {
+        switch filter {
         case .All:
             downloads.filterHandler(nil)
         case .Seeding:
@@ -219,7 +225,7 @@ class DownloadsViewController: NSViewController
             }
         }
         
-        downloads.update(Datasource.instance.downloads.orderedArray, strategy: SyncStrategy.Replace)
+        downloads.update(Datasource.instance.downloads.orderedArray, strategy: .replace)
     }
     
     private func updateStatistics() {
@@ -232,18 +238,18 @@ class DownloadsViewController: NSViewController
                 return res
         }
         
-        self.downloadSpeed.title = Formatter.stringForSpeed(stats.downloadSpeed)
-        self.downloadSpeed.toolTip = stats.downloadLimited ? "Global download limit: \(Formatter.stringForSpeed(stats.maxDownloadSpeed)) (Speed Limit)" : "Download is unlimited"
-        self.uploadSpeed.title = Formatter.stringForSpeed(stats.uploadSpeed)
-        self.uploadSpeed.toolTip = stats.uploadLimited ? "Global upload limit: \(Formatter.stringForSpeed(stats.maxUploadSpeed)) (Speed Limit)" : "Upload is unlimited"
+        self.downloadSpeed.title = Formatter.string(fromSpeed: stats.downloadSpeed)
+        self.downloadSpeed.toolTip = stats.downloadLimited ? "Global download limit: \(Formatter.string(fromSpeed: stats.maxDownloadSpeed)) (Speed Limit)" : "Download is unlimited"
+        self.uploadSpeed.title = Formatter.string(fromSpeed: stats.uploadSpeed)
+        self.uploadSpeed.toolTip = stats.uploadLimited ? "Global upload limit: \(Formatter.string(fromSpeed: stats.maxUploadSpeed)) (Speed Limit)" : "Upload is unlimited"
     }
 
-    override func validateMenuItem(menuItem: NSMenuItem) -> Bool {
+    override func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         return outlineView.selectedRowIndexes.count > 0
     }
     
     
-    override func validateToolbarItem(theItem: NSToolbarItem) -> Bool {
+    override func validateToolbarItem(_ theItem: NSToolbarItem) -> Bool {
         return outlineView.selectedRowIndexes.count > 0
     }
     
@@ -260,7 +266,7 @@ class DownloadsViewController: NSViewController
 
 //MARK: NSOutlineViewDataSource
 extension DownloadsViewController: NSOutlineViewDataSource {
-    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int
     {
         if let group = item as? Group {
             return group.downloads.count
@@ -270,12 +276,12 @@ extension DownloadsViewController: NSOutlineViewDataSource {
             return downloads.count
         }
     }
-    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool
     {
         return item is Group
     }
     
-    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject
     {
         if let group = item as? Group {
             return group.downloads[index]
@@ -288,15 +294,15 @@ extension DownloadsViewController: NSOutlineViewDataSource {
 
 //MARK: NSOutlineViewDelegate
 extension DownloadsViewController: NSOutlineViewDelegate {
-    func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView?
+    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: AnyObject) -> NSView?
     {
         if let group = item as? Group {
-            let result: GroupCell! = outlineView.makeViewWithIdentifier("GroupCell", owner:self) as? GroupCell;
+            let result: GroupCell! = outlineView.make(withIdentifier: "GroupCell", owner:self) as? GroupCell;
             result.group = group
             return result;
         }
         else if let download = item as? Download{
-            let result: DownloadCell! = outlineView.makeViewWithIdentifier("DownloadCell", owner:self) as? DownloadCell;
+            let result: DownloadCell! = outlineView.make(withIdentifier: "DownloadCell", owner:self) as? DownloadCell;
             result.download = download
             return result;
         }
@@ -304,7 +310,7 @@ extension DownloadsViewController: NSOutlineViewDelegate {
         return nil
     }
     
-    func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat
+    func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat
     {
         if item is Group {
             return 20
@@ -314,34 +320,34 @@ extension DownloadsViewController: NSOutlineViewDelegate {
         }
     }
     
-    func outlineViewSelectionDidChange(notification: NSNotification) {
+    func outlineViewSelectionDidChange(_ notification: Foundation.Notification) {
         notificationCenter.post(SelectedDownloadsNotification(downloads: self.selectedDownloads))
     }
 }
 
 //MARK: SyncableArrayDelegate
 extension DownloadsViewController: SyncableArrayDelegate {
-    func idFromRaw(object: Download) -> String? {
+    func id(fromRaw raw: Download) -> String? {
+        return raw.id
+    }
+    
+    func id(fromObject object: Download) -> String {
         return object.id
     }
     
-    func idFromObject(object: Download) -> String {
-        return object.id
-    }
-    
-    func updateObject(source: Download, object: Download) -> Download {
+    func update(fromRaw raw: Download, object: Download) -> Download {
         return object
     }
     
-    func createObject(object: Download) -> Download? {
-        return object
+    func create(fromRaw raw: Download) -> Download? {
+        return raw
     }
 }
 
 //MARK: DropViewDelegate
 extension DownloadsViewController: DropViewDelegate {
-    func completeDragToView(view: DownloadDropView, torrents: [(path: NSURL, download: Download)]) {
-        addTorrents(torrents)
+    func completeDrag(toView view: DownloadDropView, torrents: [(path: URL, download: Download)]) {
+        add(torrents: torrents)
     }
 }
 
@@ -350,6 +356,6 @@ extension DownloadsViewController: ScopeBarDelegate {
     func scopeBar(scopeBar: ScopeBar, buttonClicked button: NSButton) {
         let button = filterBar.selectedButton!
         let value = FilterValue(rawValue: button.tag)!
-        applyFilter(value)
+        apply(filter: value)
     }
 }

@@ -16,7 +16,7 @@ class ButtonToolbarItem: NSToolbarItem
     override func validate()
     {
         if let target: AnyObject = self.target {
-            self.enabled = target.validateToolbarItem(self)
+            self.isEnabled = target.validateToolbarItem(self)
         }
     }
     
@@ -29,7 +29,7 @@ class ButtonToolbarItem: NSToolbarItem
                 _menuFormRepresentation?.target = self.target
                 
                 if let target: AnyObject = self.target {
-                    _menuFormRepresentation?.enabled = target.validateToolbarItem(self)
+                    _menuFormRepresentation?.isEnabled = target.validateToolbarItem(self)
                 }
             }
             

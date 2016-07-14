@@ -20,15 +20,15 @@ class GroupCell: NSTableCellView
         textField!.stringValue = group.title
     }
     
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         if let textField = self.textField {
-            let color: NSColor = NSColor(SRGBRed:0.80, green:0.80, blue:0.80, alpha:1)
+            let color: NSColor = NSColor(srgbRed:0.80, green:0.80, blue:0.80, alpha:1)
             
             var rect = self.bounds
             rect.origin = NSPoint(x:NSMinX(textField.frame), y:0)
             rect.size.height = 1.0
             
-            color.drawSwatchInRect(rect)
+            color.drawSwatch(in: rect)
         }
         update()
     }

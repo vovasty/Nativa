@@ -20,8 +20,8 @@ class WindowController: NSWindowController {
         super.windowDidLoad()
 
         guard let window = window else { return }
-        window.excludedFromWindowsMenu = true
-        window.movableByWindowBackground = true
+        window.isExcludedFromWindowsMenu = true
+        window.isMovableByWindowBackground = true
     }
     
 }

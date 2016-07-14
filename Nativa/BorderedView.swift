@@ -11,40 +11,39 @@ import Cocoa
 extension NSBezierPath {
     // Adapted from : https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/CocoaDrawingGuide/Paths/Paths.html#//apple_ref/doc/uid/TP40003290-CH206-SW2
     // See also: http://www.dreamincode.net/forums/topic/370959-nsbezierpath-to-cgpathref-in-swift/
-    func CGPath(forceClose forceClose:Bool) -> CGPathRef? {
-        var cgPath:CGPathRef? = nil
+    func CGPath(forceClose:Bool) -> CGPath? {
+        var cgPath:CGPath? = nil
         
         let numElements = self.elementCount
         if numElements > 0 {
-            let newPath = CGPathCreateMutable()
-            let points = NSPointArray.alloc(3)
+            let newPath = CGMutablePath()
+            var points = [NSPoint](repeating: NSPoint.zero, count: 3)
             var bDidClosePath:Bool = true
             
             for i in 0 ..< numElements {
-                
-                switch elementAtIndex(i, associatedPoints:points) {
+                switch element(at: i, associatedPoints: &points) {
                     
-                case NSBezierPathElement.MoveToBezierPathElement:
-                    CGPathMoveToPoint(newPath, nil, points[0].x, points[0].y )
+                case .moveToBezierPathElement:
+                    newPath.moveTo(nil, x: points[0].x, y: points[0].y )
                     
-                case NSBezierPathElement.LineToBezierPathElement:
-                    CGPathAddLineToPoint(newPath, nil, points[0].x, points[0].y )
+                case .lineToBezierPathElement:
+                    newPath.addLineTo(nil, x: points[0].x, y: points[0].y )
                     bDidClosePath = false
                     
-                case NSBezierPathElement.CurveToBezierPathElement:
-                    CGPathAddCurveToPoint(newPath, nil, points[0].x, points[0].y, points[1].x, points[1].y, points[2].x, points[2].y )
+                case .curveToBezierPathElement:
+                    newPath.addCurve(nil, cp1x: points[0].x, cp1y: points[0].y, cp2x: points[1].x, cp2y: points[1].y, endingAtX: points[2].x, y: points[2].y )
                     bDidClosePath = false
                     
-                case NSBezierPathElement.ClosePathBezierPathElement:
-                    CGPathCloseSubpath(newPath)
+                case NSBezierPathElement.closePathBezierPathElement:
+                    newPath.closeSubpath()
                     bDidClosePath = true
                 }
                 
                 if forceClose && !bDidClosePath {
-                    CGPathCloseSubpath(newPath)
+                    newPath.closeSubpath()
                 }
             }
-            cgPath = CGPathCreateCopy(newPath)
+            cgPath = newPath.copy()
         }
         return cgPath
     }
@@ -84,9 +83,9 @@ class BorderedView: NSView {
     }
     
     @IBInspectable
-    var backgroundColor: NSColor = NSColor.clearColor() {
+    var backgroundColor: NSColor = NSColor.clear() {
         didSet {
-            backgroundColorLayer.backgroundColor = backgroundColor.CGColor
+            backgroundColorLayer.backgroundColor = backgroundColor.cgColor
             needsLayout = true
         }
     }
@@ -130,39 +129,40 @@ class BorderedView: NSView {
         
         if left { // left border
             let startPoint = CGPoint(x: halfBorderWidth, y: 0)
-            let endPoint = CGPoint(x: halfBorderWidth, y: CGRectGetMaxY(self.bounds))
-            path.moveToPoint(startPoint)
-            path.lineToPoint(endPoint)
+            let endPoint = CGPoint(x: halfBorderWidth, y: self.bounds.maxY)
+            path.move(to: startPoint)
+            path.line(to: endPoint)
         }
         
         if right { // right border
-            let startPoint = CGPoint(x: CGRectGetMaxX(self.bounds) - halfBorderWidth, y: 0)
-            let endPoint = CGPoint(x: CGRectGetMaxX(self.bounds) - halfBorderWidth, y: CGRectGetMaxY(self.bounds))
-            path.moveToPoint(startPoint)
-            path.lineToPoint(endPoint)
+            let startPoint = CGPoint(x: self.bounds.maxX - halfBorderWidth, y: 0)
+            let endPoint = CGPoint(x: self.bounds.maxX - halfBorderWidth, y: self.bounds.maxY)
+            path.move(to: startPoint)
+            path.line(to: endPoint)
         }
         
         if bottom { // bottom border
-            let startPoint = CGPointMake(0, 0 + halfBorderWidth)
-            let endPoint = CGPointMake(CGRectGetMaxX(self.bounds), 0 + halfBorderWidth)
-            path.moveToPoint(startPoint)
-            path.lineToPoint(endPoint)
+            let startPoint = CGPoint(x: 0, y:
+                0 + halfBorderWidth)
+            let endPoint = CGPoint(x: self.bounds.maxX, y: 0 + halfBorderWidth)
+            path.move(to: startPoint)
+            path.line(to: endPoint)
         }
         
         if top { // top border
-            let startPoint = CGPoint(x: 0, y: CGRectGetMaxY(self.bounds) - halfBorderWidth)
-            let endPoint = CGPoint(x: CGRectGetMaxX(self.bounds), y: CGRectGetMaxY(self.bounds) - halfBorderWidth)
-            path.moveToPoint(startPoint)
-            path.lineToPoint(endPoint)
+            let startPoint = CGPoint(x: 0, y: self.bounds.maxY - halfBorderWidth)
+            let endPoint = CGPoint(x: self.bounds.maxX, y: self.bounds.maxY - halfBorderWidth)
+            path.move(to: startPoint)
+            path.line(to: endPoint)
         }
         
-        path.closePath()
+        path.close()
         
         borderLayer.frame = bounds
         backgroundColorLayer.frame = bounds
         borderLayer.path = path.CGPath(forceClose: false)
         
-        borderLayer.strokeColor = borderColor.CGColor
+        borderLayer.strokeColor = borderColor.cgColor
         borderLayer.lineWidth = borderWidth
     }
 }

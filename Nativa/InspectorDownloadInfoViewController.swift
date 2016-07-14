@@ -29,8 +29,8 @@ class InspectorDownloadInfoViewController: NSViewController, InspectorViewContro
         guard let download = download where processId != nil && downloadId != nil && state != nil else { return }
         
         self.processId.stringValue = download.processId ?? "unknown"
-        self.downloadId.stringValue = download.id.lowercaseString
-        freeSpace.stringValue = Formatter.stringForSize(download.freeDiskspace)
+        self.downloadId.stringValue = download.id.lowercased()
+        freeSpace.stringValue = Formatter.string(fromSize: download.freeDiskspace)
         switch download.state
         {
         case .Downloading(_, _):

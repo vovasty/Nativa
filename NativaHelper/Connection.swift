@@ -9,5 +9,5 @@
 import Foundation
 
 protocol Connection {
-    func request(data: NSData, response: (NSData?, ErrorType?) -> Void)
+    func request(_ data: Data, response: (Data?, ErrorProtocol?) -> Void)
 }

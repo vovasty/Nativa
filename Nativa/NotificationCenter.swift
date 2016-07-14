@@ -66,6 +66,7 @@ class EventEmitter {
     init () {
     }
     
+    @discardableResult
     func add<T>(owner: AnyObject? = nil, listener: (T) -> Void) -> AnyObject {
         let cmd = ClosurePointer{(arg) in
             if let arg = arg as? T {
@@ -94,7 +95,7 @@ class EventEmitter {
         listeners = []
     }
 
-    func emit(value: Any) {
+    func emit(_ value: Any) {
         listeners = listeners.filter{
             $0.valid()
         }
@@ -107,23 +108,23 @@ class EventEmitter {
 
 
 extension EventEmitter {
-    func emitOnMain<T>(arg: T) {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] () -> Void in
-            self?.emit(arg)
+    func emitOnMain<T>(_ arg: T) {
+        DispatchQueue.main.async { 
+            self.emit(arg)
         }
     }
 }
 
-protocol Notification {
+protocol NotificationProtocol {
     
 }
 
 extension EventEmitter{
-    func post(note: Notification) {
+    func post(_ note: NotificationProtocol) {
         emit(note)
     }
     
-    func postOnMain(note: Notification) {
+    func postOnMain(_ note: NotificationProtocol) {
         emitOnMain(note)
     }
 }

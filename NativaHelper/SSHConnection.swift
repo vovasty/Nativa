@@ -20,8 +20,8 @@ class SSHConnection: Connection {
         password: String,
         serviceHost: String,
         servicePort: UInt16,
-        connect: (ErrorType?)->Void,
-        disconnect:(ErrorType?)->Void) {
+        connect: (ErrorProtocol?)->Void,
+        disconnect:(ErrorProtocol?)->Void) {
         session = SwiftySSH.Session(user, host: host, port: port)
         self.serviceHost = serviceHost
         self.servicePort = servicePort
@@ -29,7 +29,7 @@ class SSHConnection: Connection {
         session!.onDisconnect { (session, error) -> Void in
                 disconnect(error)
             }
-            .authenticate(.Password(password: password))
+            .authenticate(.password(password: password))
             .onConnect({ (Session, error) -> Void in
                 connect(error)
             })
@@ -37,9 +37,9 @@ class SSHConnection: Connection {
     }
     
     
-    func request(data: NSData, response: (NSData?, ErrorType?) -> Void) {
+    func request(_ data: Data, response: (Data?, ErrorProtocol?) -> Void) {
         guard let session = session else{
-            response(nil, RTorrentError.Unknown(message: "not connected"))
+            response(nil, RTorrentError.unknown(message: "not connected"))
             return
         }
         

@@ -53,12 +53,12 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
     override func viewDidLoad() {
         super.viewDidLoad()
         let fileNameNib = NSNib(nibNamed: "FileName", bundle: nil)
-        self.outlineView.registerNib(fileNameNib!, forIdentifier: "FileNameCell")
+        self.outlineView.register(fileNameNib!, forIdentifier: "FileNameCell")
         let folderNameNib = NSNib(nibNamed: "FolderName", bundle: nil)
-        self.outlineView.registerNib(folderNameNib!, forIdentifier: "FolderNameCell")
+        self.outlineView.register(folderNameNib!, forIdentifier: "FolderNameCell")
     }
     
-    func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int
     {
         if let file = item as? FileListNode {
             if let children = file.children {
@@ -79,7 +79,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         }
     }
     
-    func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool
     {
         if let file = item as? FileListNode {
             if let children = file.children {
@@ -90,7 +90,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         return false
     }
     
-    func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject
     {
         if let file = item as? FileListNode {
             if let children = file.children {
@@ -110,7 +110,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         return NSNotFound
     }
     
-    func outlineView(outlineView: NSOutlineView, objectValueForTableColumn tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject?
+    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject?
     {
         if let file = item as? FileListNode {
             return file
@@ -121,11 +121,11 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
     
     // Delegate methods
     
-    func outlineView(outlineView: NSOutlineView, shouldShowOutlineCellForItem item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, shouldShowOutlineCellForItem item: AnyObject) -> Bool {
         return true
     }
     
-    func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
+    func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
         if let file = item as? FileListNode {
             if file.folder {
                 return 17
@@ -138,7 +138,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         return 0;
     }
     
-    func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView?
+    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: AnyObject) -> NSView?
     {
         var result: NSView?
         
@@ -147,21 +147,21 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
             switch ci {
             case "FileNameColumn":
                 if file.folder {
-                    if let cell = outlineView.makeViewWithIdentifier("FolderNameCell", owner:self) as? NSTableCellView {
+                    if let cell = outlineView.make(withIdentifier: "FolderNameCell", owner:self) as? NSTableCellView {
                         cell.imageView?.image = file.icon
                         cell.textField?.stringValue = file.name
                         
                         if let c = cell as? FolderNameCell {
-                            c.setName(file.name, size: file.size, complete: file.percentCompleted)
+                            c.setName(name: file.name, size: file.size, complete: file.percentCompleted)
                         }
                         
                         result = cell
                     }
                 }
                 else {
-                    if let cell = outlineView.makeViewWithIdentifier("FileNameCell", owner:self) as? NSTableCellView {
+                    if let cell = outlineView.make(withIdentifier: "FileNameCell", owner:self) as? NSTableCellView {
                         if let c = cell as? FileNameCell {
-                           c.statusText.stringValue = String(format: "%.2f%%", file.percentCompleted*100) + " of " + Formatter.stringForSize(file.size)
+                            c.statusText.stringValue = String(format: "%.2f%%", file.percentCompleted*100) + " of " + Formatter.string(fromSize: file.size)
                         }
                         
                         cell.imageView?.image = file.icon
@@ -171,13 +171,13 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
                     }
                 }
             case "FileCheckColumn":
-                if let cell = outlineView.makeViewWithIdentifier("FileCheckCell", owner:self) as? NSTableCellView {
+                if let cell = outlineView.make(withIdentifier: "FileCheckCell", owner:self) as? NSTableCellView {
                     if let button: NSButton = cell.findSubview() {
                         button.action = #selector(fileChecked(_:))
                         button.target = self
                         button.allowsMixedState = file.folder
-                        button.state = stateForFile(file)
-                        button.enabled = file.percentCompleted < 1 && download?.flatFileList?.count > 1
+                        button.state = state(fromFile: file)
+                        button.isEnabled = file.percentCompleted < 1 && download?.flatFileList?.count > 1
                     }
                     result = cell
                 }
@@ -190,42 +190,47 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         return result
     }
     
-    func outlineViewItemDidExpand(notification: NSNotification) {
+    func outlineViewItemDidExpand(_ notification: Foundation.Notification) {
         let obj = notification.userInfo?["NSObject"] as! FileListNode
         expandedNodes?.insert(obj)
     }
-    func outlineViewItemDidCollapse(notification: NSNotification) {
+    
+    func outlineViewItemDidCollapse(_ notification: Foundation.Notification) {
         let obj = notification.userInfo?["NSObject"] as! FileListNode
-        expandedNodes?.remove(obj)
+        _ = expandedNodes?.remove(obj)
     }
     
-    @IBAction func fileChecked(sender: AnyObject?)
+    @objc
+    @IBAction
+    private func fileChecked(_ sender: AnyObject?)
     {
         if let button = sender as? NSButton {
-            let rowNumber = self.outlineView.rowForView(button)
-            if let file = self.outlineView.itemAtRow(rowNumber) as? FileListNode {
+            let rowNumber = self.outlineView.row(for: button)
+            if let file = self.outlineView.item(atRow: rowNumber) as? FileListNode {
                 
                 if button.state == NSMixedState {
                     button.state = NSOnState
                 }
                 
-                setPriorityForFile(file, state: button.state)
+                setPriority(forFile: file, state: button.state)
                 outlineView.reloadData()
 
-                let filteredFiles = filePriorities.filter({ (file, priority) -> Bool in
-                    return !file.folder && file.priority != priority.priority
-                })
-                .map({ (file, priority) -> (FileListNode, Int) in
-                    return (file, priority.priority.rawValue)
-                })
+                var filteredFiles = [FileListNode: Int]()
+                
+                for (file, priority) in filePriorities {
+                    guard !file.folder && file.priority != priority.priority else { return }
+                    
+                    filteredFiles[file] = priority.priority.rawValue
+                }
                 
                 flatPriorities = filteredFiles.count > 0 ? filteredFiles : nil
-                filePrioritiesDidChange(filteredFiles)
+                
+                filePrioritiesDidChange(priorities: filteredFiles)
             }
         }
     }
     
-    func setPriorityForFile(file: FileListNode, state: Int) {
+    func setPriority(forFile file: FileListNode, state: Int) {
         guard file.percentCompleted < 1 else {
             return
         }
@@ -242,7 +247,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         if file.folder{
             if let children = file.children {
                 for child in children {
-                    setPriorityForFile(child, state: state)
+                    setPriority(forFile: child, state: state)
                 }
             }
         }
@@ -251,7 +256,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         }
     }
     
-    func stateForFile(file: FileListNode) -> Int {
+    func state(fromFile file: FileListNode) -> Int {
         guard file.folder else {
             return filePriorities[file]!.state
         }
@@ -263,18 +268,12 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         var skipped = 0
         var checked = 0
         for f in children {
-            let state: Int
-            if f.folder {
-                state = stateForFile(f)
-            }
-            else {
-                state = filePriorities[f]!.state
-            }
+            let st: Int = f.folder ? state(fromFile: f) : filePriorities[f]!.state
             
-            if state == NSOnState {
+            if st == NSOnState {
                 checked += 1
             }
-            else if state == NSOffState{
+            else if st == NSOffState{
                 skipped += 1
             }
         }

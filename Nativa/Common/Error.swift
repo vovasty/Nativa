@@ -8,19 +8,19 @@
 
 import Foundation
 
-public enum RTorrentError: ErrorType, CustomStringConvertible{
-    case Unknown(message: String)
+public enum RTorrentError: ErrorProtocol, CustomStringConvertible{
+    case unknown(message: String)
 
     public var description: String {
         switch self {
-        case Unknown(let message):
+        case unknown(let message):
             return message
         }
     }
 }
 
 public extension NSError {
-    convenience init?(_ error: ErrorType?) {
+    convenience init?(_ error: ErrorProtocol?) {
         if let error = error {
             self.init(domain: error._domain, code: error._code, userInfo: [NSLocalizedDescriptionKey: "\(error)"])
         }

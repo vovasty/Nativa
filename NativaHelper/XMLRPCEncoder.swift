@@ -8,12 +8,12 @@
 
 import Foundation
 
-public enum XMLRPCEncoderError: ErrorType {
-    case UnsupportedType
+public enum XMLRPCEncoderError: ErrorProtocol {
+    case unsupportedType
 }
 
 
-public func XMLRPCEncode(method: String, parameters: [AnyObject]?) throws -> String {
+public func XMLRPCEncode(_ method: String, parameters: [AnyObject]?) throws -> String {
     
     guard let parameters = parameters else {
         return   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -34,15 +34,15 @@ public func XMLRPCEncode(method: String, parameters: [AnyObject]?) throws -> Str
     "</methodCall>"
 }
 
-func iso8601DateFormatter() -> NSDateFormatter{
-    let enUSPosixLocale = NSLocale(localeIdentifier: "en_US_POSIX")
-    let dateFormatter = NSDateFormatter()
+func iso8601DateFormatter() -> DateFormatter{
+    let enUSPosixLocale = Locale(localeIdentifier: "en_US_POSIX")
+    let dateFormatter = DateFormatter()
     dateFormatter.locale = enUSPosixLocale
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
     return dateFormatter
 }
 
-private func encodedParametersFragment(parameters: [AnyObject]) throws -> String {
+private func encodedParametersFragment(_ parameters: [AnyObject]) throws -> String {
     var result = ""
     for parameter in parameters {
         
@@ -55,7 +55,7 @@ private func encodedParametersFragment(parameters: [AnyObject]) throws -> String
     return result
 }
 
-private func encode(array: [AnyObject]) throws -> String {
+private func encode(_ array: [AnyObject]) throws -> String {
     var buffer  = "<value><array><data>"
     
     for object in array {
@@ -66,7 +66,7 @@ private func encode(array: [AnyObject]) throws -> String {
     return buffer
 }
 
-private func encode(dictionary: [String: AnyObject]) throws -> String {
+private func encode(_ dictionary: [String: AnyObject]) throws -> String {
     var buffer = "<value><struct>"
     
     for (k, v) in dictionary {
@@ -81,47 +81,47 @@ private func encode(dictionary: [String: AnyObject]) throws -> String {
     return buffer
 }
 
-private func valueTag(tag: String, value: String) -> String {
+private func valueTag(_ tag: String, value: String) -> String {
     return "<value><\(tag)>\(value)</\(tag)></value>"
 }
 
 
-private func encode(boolean: Bool) -> String {
+private func encode(_ boolean: Bool) -> String {
     return valueTag("boolean", value: boolean ? "1" : "0")
 }
 
-private func encode(int: Int) -> String {
+private func encode(_ int: Int) -> String {
     return valueTag("i4", value: String(int))
 }
 
-private func encode(double: Double) -> String {
+private func encode(_ double: Double) -> String {
     return valueTag("double", value: String(double))
 }
 
 
-private func encode(string: String) -> String {
+private func encode(_ string: String) -> String {
     
     //escape only XML entities
     let s = NSMutableString(string: string)
-    s.replaceOccurrencesOfString("&", withString:"&amp;", options: .LiteralSearch, range:NSMakeRange(0, s.length))
-    s.replaceOccurrencesOfString("\"", withString:"&quot;", options: .LiteralSearch, range:NSMakeRange(0, s.length))
-    s.replaceOccurrencesOfString("'", withString:"&#x27;", options: .LiteralSearch, range:NSMakeRange(0, s.length))
-    s.replaceOccurrencesOfString(">", withString:"&gt;", options: .LiteralSearch, range:NSMakeRange(0, s.length))
-    s.replaceOccurrencesOfString("<", withString:"&lt;", options: .LiteralSearch, range:NSMakeRange(0, s.length))
+    s.replaceOccurrences(of: "&", with:"&amp;", options: .literal, range:NSMakeRange(0, s.length))
+    s.replaceOccurrences(of: "\"", with:"&quot;", options: .literal, range:NSMakeRange(0, s.length))
+    s.replaceOccurrences(of: "'", with:"&#x27;", options: .literal, range:NSMakeRange(0, s.length))
+    s.replaceOccurrences(of: ">", with:"&gt;", options: .literal, range:NSMakeRange(0, s.length))
+    s.replaceOccurrences(of: "<", with:"&lt;", options: .literal, range:NSMakeRange(0, s.length))
 
     return valueTag("string", value: s as String)
 }
 
-private func encode(date: NSDate) -> String {
-    return valueTag("dateTime.iso8601", value: iso8601DateFormatter().stringFromDate(date))
+private func encode(_ date: Date) -> String {
+    return valueTag("dateTime.iso8601", value: iso8601DateFormatter().string(from: date))
 }
 
-private func encode(data: NSData)  -> String {
-    let encoded = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+private func encode(_ data: Data)  -> String {
+    let encoded = data.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
     return valueTag("base64", value: encoded)
 }
 
-private func encode(object: AnyObject) throws -> String {
+private func encode(_ object: AnyObject) throws -> String {
     switch object {
     case let o as [AnyObject]:
         return try encode(o)
@@ -135,11 +135,11 @@ private func encode(object: AnyObject) throws -> String {
         return encode(object as! Bool)
     case let o as String:
         return encode(o)
-    case let o as NSDate:
+    case let o as Date:
         return encode(o)
-    case let o as NSData:
+    case let o as Data:
         return encode(o)
     default:
-        throw XMLRPCEncoderError.UnsupportedType
+        throw XMLRPCEncoderError.unsupportedType
     }
 }

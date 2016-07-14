@@ -8,33 +8,33 @@
 
 import Foundation
 
-let TimeIntervalFormatter: NSDateComponentsFormatter = {
-    let formatter = NSDateComponentsFormatter()
-    formatter.unitsStyle = NSDateComponentsFormatterUnitsStyle.Abbreviated
+let TimeIntervalFormatter: DateComponentsFormatter = {
+    let formatter = DateComponentsFormatter()
+    formatter.unitsStyle = DateComponentsFormatter.UnitsStyle.abbreviated
     formatter.includesApproximationPhrase = false
     formatter.includesTimeRemainingPhrase = true
     formatter.collapsesLargestUnit = true
     formatter.maximumUnitCount = 2
-    formatter.allowedUnits = [NSCalendarUnit.Hour, NSCalendarUnit.Minute, NSCalendarUnit.Second]
+    formatter.allowedUnits = [Calendar.Unit.hour, Calendar.Unit.minute, Calendar.Unit.second]
 
     return formatter
 }()
 
 struct _Formatter {
-    func stringForSpeed(speed: Double) -> String
+    func string(fromSpeed speed: Double) -> String
     {
-        return stringForSpeed(speed,
+        return string(fromSpeed: speed,
             kb: NSLocalizedString("KB/s", comment: "Transfer speed (kilobytes per second)"),
             mb: NSLocalizedString("MB/s", comment: "Transfer speed (megabytes per second)"),
             gb: NSLocalizedString("GB/s", comment: "Transfer speed (gigabytes per second)")
         )
     }
     
-    func stringForTimeInterval(interval: Double) -> String {
-        return TimeIntervalFormatter.stringFromTimeInterval(interval)!
+    func string(fromInterval interval: Double) -> String {
+        return TimeIntervalFormatter.string(from: interval)!
     }
     
-    func stringForSpeed(speed: Double, kb: String, mb: String, gb: String) -> String
+    func string(fromSpeed speed: Double, kb: String, mb: String, gb: String) -> String
     {
         var speed = speed / 1000
         
@@ -55,8 +55,8 @@ struct _Formatter {
         }
     }
     
-    func stringForSize(size: Double) -> String {
-        return NSByteCountFormatter.stringFromByteCount(Int64(size), countStyle: NSByteCountFormatterCountStyle.File)
+    func string(fromSize size: Double) -> String {
+        return ByteCountFormatter.string(fromByteCount: Int64(size), countStyle: ByteCountFormatter.CountStyle.file)
     }
 }
 

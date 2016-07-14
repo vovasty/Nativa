@@ -38,15 +38,15 @@ class DownloadCell: NSTableCellView
     
     var progressIndicatorHidden: Bool {
         get {
-            return progressIndicator.hidden
+            return progressIndicator.isHidden
         }
         
         set {
             guard newValue != progressIndicatorHidden else { return }
 
-            progressIndicator.hidden = newValue
+            progressIndicator.isHidden = newValue
             verticalSpaceConstraint.constant = newValue ? 0 : initialVerticalSpace
-            progressIndicator.hidden = newValue
+            progressIndicator.isHidden = newValue
             layoutSubtreeIfNeeded()
         }
     }
@@ -62,11 +62,11 @@ class DownloadCell: NSTableCellView
             }
         }
         
-        self.addTrackingAreaForView(controlButton)
+        self.addTrackingAreaForView(view: controlButton)
     }
     
     
-    override func mouseEntered(theEvent: NSEvent){
+    override func mouseEntered(_ theEvent: NSEvent){
         tracking = true
         
         switch download.state
@@ -78,12 +78,12 @@ class DownloadCell: NSTableCellView
         }
     }
     
-    override func mouseExited(theEvent: NSEvent){
+    override func mouseExited(_ theEvent: NSEvent){
         unsetHint()
         tracking = false
     }
     
-    func setHint(hint: String){
+    func setHint(_ hint: String){
         statusText.stringValue = hint
     }
     
@@ -93,11 +93,9 @@ class DownloadCell: NSTableCellView
     
     func addTrackingAreaForView(view: NSView, userInfo:[NSObject : AnyObject]? = nil) {
         
-        let options: NSTrackingAreaOptions = [NSTrackingAreaOptions.MouseEnteredAndExited, NSTrackingAreaOptions.ActiveAlways];
-        
-        let rect: NSRect = view.frame
-        
-        let area: NSTrackingArea = NSTrackingArea(rect: rect, options: options, owner: self, userInfo: userInfo)
+        let options: NSTrackingAreaOptions = [.mouseEnteredAndExited, .activeAlways];
+
+        let area: NSTrackingArea = NSTrackingArea(rect: view.frame, options: options, owner: self, userInfo: userInfo)
         
         self.addTrackingArea(area)
     }
@@ -114,16 +112,16 @@ class DownloadCell: NSTableCellView
         switch download.state
         {
         case .Seeding:
-            progressIndicator.indeterminate = true
+            progressIndicator.isIndeterminate = true
             progressIndicatorHidden = true
             controlButton.state = NSOffState
         case .Stopped, .Paused, .Unknown:
             controlButton.state = NSOnState
-            progressIndicator.indeterminate = true
+            progressIndicator.isIndeterminate = true
             progressIndicatorHidden = true
         case .Downloading, .Checking:
             controlButton.state = NSOffState
-            progressIndicator.indeterminate = false
+            progressIndicator.isIndeterminate = false
             progressIndicatorHidden = false
             let progress = 100 * (download.complete/download.size)
             progressIndicator.doubleValue = progress
@@ -135,9 +133,9 @@ class DownloadCell: NSTableCellView
         switch download.state
         {
         case .Downloading(let dl, _):
-            speedPart = dl > 0 ? "\(Formatter.stringForSpeed(dl)), \(Formatter.stringForTimeInterval((download.size - download.complete)/(dl)))" : nil
+            speedPart = dl > 0 ? "\(Formatter.string(fromSpeed: dl)), \(Formatter.string(fromInterval: (download.size - download.complete)/(dl)))" : nil
         case .Seeding(let ul):
-            speedPart = ul > 0 ? "\(Formatter.stringForSpeed(ul))" : nil
+            speedPart = ul > 0 ? "\(Formatter.string(fromSpeed: ul))" : nil
         case .Checking:
             let progress = 100 * (download.complete/download.size)
             statusString = String(format: "%.2f", progress)
@@ -168,10 +166,10 @@ class DownloadCell: NSTableCellView
             }
             
             if download.complete == download.size {
-                statusString = String.localizedStringWithFormat("%@ — %@", Formatter.stringForSize(download.size), peersPart) + (speedPart == nil ? "" : " (\(speedPart!))")
+                statusString = String.localizedStringWithFormat("%@ — %@", Formatter.string(fromSize: download.size), peersPart) + (speedPart == nil ? "" : " (\(speedPart!))")
             }
             else {
-                statusString = String.localizedStringWithFormat("%@ of %@ — %@", Formatter.stringForSize(download.complete), Formatter.stringForSize(download.size), peersPart) + (speedPart == nil ? "" : " (\(speedPart!))")
+                statusString = String.localizedStringWithFormat("%@ of %@ — %@", Formatter.string(fromSize: download.complete), Formatter.string(fromSize: download.size), peersPart) + (speedPart == nil ? "" : " (\(speedPart!))")
             }
         }
         
@@ -182,17 +180,17 @@ class DownloadCell: NSTableCellView
     }
     
     //draw delimiter
-    override func drawRect(dirtyRect: NSRect) {
+    override func draw(_ dirtyRect: NSRect) {
         
         if let textField = self.textField {
             
-            let color: NSColor = NSColor(SRGBRed:0.80, green:0.80, blue:0.80, alpha:1)
+            let color: NSColor = NSColor(srgbRed:0.80, green:0.80, blue:0.80, alpha:1)
             
             var rect = self.bounds
             rect.origin = NSPoint(x:NSMinX(textField.frame), y:0)
             rect.size.height = 1.0
             
-            color.drawSwatchInRect(rect)
+            color.drawSwatch(in: rect)
         }
         
         update()
