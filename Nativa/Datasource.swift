@@ -432,9 +432,7 @@ class Datasource: ConnectionEventListener {
     }
     
     func remove(download: Download, removeData: Bool, response:(NSError?) -> Void) {
-        guard let process = getProcess(id: download.processId) else{
-            return
-        }
+        guard let process = getProcess(id: download.processId) else { return }
 
         process.downloads?.remove(download)
         process.downloader?.removeTorrent(download.id, path: download.dataPath, removeData: removeData) { (error) in

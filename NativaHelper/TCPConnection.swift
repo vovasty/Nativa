@@ -19,7 +19,6 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
     var maxPacket = 4096
     var maxResponseSize = 1048576
     private let disconnect: (ErrorProtocol?)->Void
-    private let connect: (ErrorProtocol?)->Void
     private var response: ((Data?, ErrorProtocol?) -> Void)?
     let host: String
     let port: UInt16
@@ -27,7 +26,6 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
     let requestSemaphore = DispatchSemaphore(value: 1)
     var timeout: Double = 60
     var runLoopModes = [RunLoopMode.commonModes.rawValue]
-    private var connected: Bool = false
     
     init(host: String,
         port: UInt16,
@@ -36,13 +34,10 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
             self.disconnect = disconnect
             self.host = host
             self.port = port
-            self.connect = connect
-            
+        
             super.init()
             
-            queue.async { () -> Void in
-                self.perform(#selector(self.open), on: TCPConnection.networkRequestThread, with: nil, waitUntilDone: false, modes: self.runLoopModes)
-            }
+        connect(nil)
     }
     
     func request(_ data: Data, response: (Data?, ErrorProtocol?) -> Void) {
@@ -58,11 +53,11 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
             self.requestSent = false
             self.responseBuffer = Array(repeating: 0, count: self.maxPacket)
             
-            if self.connected {
-                self.perform(#selector(self.open), on: TCPConnection.networkRequestThread, with: nil, waitUntilDone: false, modes: self.runLoopModes)
-            }
-            else if self.oStream?.streamStatus == .open {
+            if self.oStream?.streamStatus == .open {
                 self.stream(self.oStream!, handle: Stream.Event.hasSpaceAvailable)
+            }
+            else {
+                self.perform(#selector(self.open), on: TCPConnection.networkRequestThread, with: nil, waitUntilDone: false, modes: self.runLoopModes)
             }
         }
     }
@@ -83,15 +78,6 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
         oStream?.open()
     }
     
-    private func streamOpened() {
-        guard !connected else {
-            return
-        }
-        
-        connected = true
-        connect(nil)
-    }
-    
     private func requestDidSent() {
         logger.debug("requestDidSent")
         requestSent = true
@@ -99,19 +85,13 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
     
     private func errorOccured(_ error: ErrorProtocol) {
         logger.debug("stream error: \(error)")
-        if connected {
-            disconnect(error)
-        }
-        else {
-            connect(error)
-        }
-        
+        disconnect(error)
         cleanup()
     }
     
     private func responseDidReceived() {
         logger.debug("responseDidReceived")
-        response?((requestData! as Data), nil)
+        response?((responseData! as Data), nil)
         cleanup()
     }
     
@@ -141,8 +121,6 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
     //MARK: NSStreamDelegate
     func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
         switch(eventCode) {
-        case Stream.Event.openCompleted:
-            streamOpened()
         case Stream.Event.hasSpaceAvailable:
             guard let stream = aStream as? NSOutputStream where stream == oStream else{
                 assert(false, "unexpected stream")
