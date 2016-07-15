@@ -18,7 +18,6 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
     private var requestSent: Bool = false
     var maxPacket = 4096
     var maxResponseSize = 1048576
-    private let disconnect: (ErrorProtocol?)->Void
     private var response: ((Data?, ErrorProtocol?) -> Void)?
     let host: String
     let port: UInt16
@@ -27,17 +26,11 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
     var timeout: Double = 60
     var runLoopModes = [RunLoopMode.commonModes.rawValue]
     
-    init(host: String,
-        port: UInt16,
-        connect: (ErrorProtocol?)->Void,
-        disconnect: (ErrorProtocol?)->Void) {
-            self.disconnect = disconnect
+    init(host: String, port: UInt16) {
             self.host = host
             self.port = port
         
             super.init()
-            
-        connect(nil)
     }
     
     func request(_ data: Data, response: (Data?, ErrorProtocol?) -> Void) {
@@ -85,7 +78,7 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
     
     private func errorOccured(_ error: ErrorProtocol) {
         logger.debug("stream error: \(error)")
-        disconnect(error)
+        response?(nil, error)
         cleanup()
     }
     

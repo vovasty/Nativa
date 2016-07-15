@@ -59,12 +59,8 @@ class NativaHelper : NSObject, NativaHelperProtocol {
     
     func connect(_ host: String, port: UInt16, connect: (NSError?)->Void) {
         
-        let connection = TCPConnection(host: host,
-            port: port,
-            connect: { (error)->Void in connect(NSError(error)) },
-            disconnect:{ (error)->Void in
-                (self.xpcConnection!.remoteObjectProxy as? ConnectionEventListener)?.connectionDropped(withError: NSError(error))
-        })
+        let connection = TCPConnection(host: host, port: port)
+        connect(nil)
         rtorrent = RTorrent(connection: connection)
     }
     
