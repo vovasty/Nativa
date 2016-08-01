@@ -26,7 +26,7 @@ class InspectorViewController: NSTabViewController {
             updateTimer?.stop()
             updateTimer = nil
             
-            if let download = downloads?.first where (downloads?.count ?? 0) == 1 {
+            if let download = downloads?.first, (downloads?.count ?? 0) == 1 {
                 noSelectionView.isHidden = true
                 self.title = download.title
                 self.downloadName.stringValue = download.title
@@ -49,7 +49,7 @@ class InspectorViewController: NSTabViewController {
                 
                 updateTimer = Timer(timeout: Config.refreshTimeout) {
                     Datasource.instance.update(download: download) { (dl, error) -> Void in
-                        guard let dl = dl, let flatFileList = dl.flatFileList where dl == self.downloads?.first && error == nil else {
+                        guard let dl = dl, let flatFileList = dl.flatFileList, dl == self.downloads?.first && error == nil else {
                             if let error = error {
                                 logger.error("unable to update torrent info: \(error)")
                                 

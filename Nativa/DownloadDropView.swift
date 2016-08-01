@@ -52,7 +52,7 @@ class DownloadDropView: NSView {
     
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
         Datasource.instance.parse(urls: torrentFiles){ (parsedTorrents, error) -> Void in
-            guard let parsedTorrents = parsedTorrents where error == nil else{
+            guard let parsedTorrents = parsedTorrents, error == nil else{
                 logger.error("unable to parse torrents \(error)")
                 return
             }

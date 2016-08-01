@@ -18,7 +18,7 @@ class MainViewController: NSSplitViewController {
         let item = splitViewItems.last!
         
         if let downloadsViewController = splitViewItems.first?.viewController as? DownloadsViewController,
-            let inspectorViewController = splitViewItems.last?.viewController as? InspectorViewController where item.isCollapsed {
+            let inspectorViewController = splitViewItems.last?.viewController as? InspectorViewController, item.isCollapsed {
                 inspectorViewController.downloads = downloadsViewController.selectedDownloads
         }
         

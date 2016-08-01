@@ -144,7 +144,7 @@ class DownloadCell: NSTableCellView
         }
 
         
-        if let message = download.message where message.utf8.count > 0 {
+        if let message = download.message, message.utf8.count > 0 {
             statusString = message
         }
         else {

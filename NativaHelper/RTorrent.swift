@@ -30,7 +30,7 @@ class RTorrent {
         let data = encodeSCGI(sMethod)
         
         connection.request(data) { (responseData, error) -> Void in
-            guard let responseData = responseData where error == nil else {
+            guard let responseData = responseData, error == nil else {
                 response(nil, error)
                 return
             }
@@ -87,7 +87,7 @@ struct DMultiCommand: Command, CommandWithResult {
         
         
         transform = { (data) in
-            guard let data = data as? [[AnyObject]] where commands.count > 0 else { return [[:]] }
+            guard let data = data as? [[AnyObject]], commands.count > 0 else { return [[:]] }
                 //process each command result
             return data.map({(row) -> [String: AnyObject] in
                 let simpleDict = row.enumerated().reduce([String:AnyObject]()) {
@@ -123,7 +123,7 @@ struct FMultiCommand: Command, CommandWithResult {
         
         
         transform = { (data) in
-            guard let data = data as? [[AnyObject]] where commands.count > 0 else { return [[:]] }
+            guard let data = data as? [[AnyObject]], commands.count > 0 else { return [[:]] }
             //process each command result
             return data.map({(row) -> [String: AnyObject] in
                 let simpleDict = row.enumerated().reduce([String:AnyObject]()) {
@@ -204,7 +204,7 @@ extension RTorrent {
     
     func send(_ command: Command, response: (AnyObject?, ErrorProtocol?) -> Void) {
         self.send(command.command, parameters: command.parameters, response: { (rsp, error) -> Void in
-            guard let rsp = rsp where error == nil else {
+            guard let rsp = rsp, error == nil else {
                 response(nil, error)
                 return
             }

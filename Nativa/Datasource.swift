@@ -236,7 +236,7 @@ class Datasource: ConnectionEventListener {
         
         process.downloads?.update(["info": ["id": download.id, "active": false, "opened": false, "state": 1, "completed": false, "hashChecking": false]])
         process.downloader?.stopTorrent(download.id) { (result, error) -> Void in
-            guard let result = result where error == nil else {
+            guard let result = result, error == nil else {
                 logger.error("failed to stop torrent \(error)")
                 let message = error == nil ? "unable to stop torrent" : error!.localizedDescription
                 process.downloads?.update(["info": ["id": download.id, "message": message]])
@@ -251,7 +251,7 @@ class Datasource: ConnectionEventListener {
         
         process.downloads?.update(["info": ["id": download.id, "active": true, "opened": true, "state": 1, "completed": false, "hashChecking": false]])
         process.downloader?.startTorrent(download.id) { (result, error) -> Void in
-            guard let result = result where error == nil else {
+            guard let result = result, error == nil else {
                 logger.error("failed to start torrent \(error)")
                 let message = error == nil ? "unable to start torrent" : error!.localizedDescription
                 process.downloads?.update(["info": ["id": download.id, "message": message]])
@@ -287,7 +287,7 @@ class Datasource: ConnectionEventListener {
     {
         updateStats(process: process) {
             process.downloader?.update { (result, error) -> Void in
-                guard let result = result where error == nil else {
+                guard let result = result, error == nil else {
                     logger.error("unable to update torrents list \(error)")
                     dispatch_main { closure?(error) }
                     return
@@ -307,7 +307,7 @@ class Datasource: ConnectionEventListener {
         }
         
         process.downloader?.update(download.id) {(result, error)->Void in
-            guard let result = result where error == nil else {
+            guard let result = result, error == nil else {
                 dispatch_main { handler(nil, error) }
                 return
             }
@@ -369,7 +369,7 @@ class Datasource: ConnectionEventListener {
             
             downloader.parseTorrent(torrentDatas) { (parsed, error) -> Void in
                 
-                guard let parsed = parsed where error == nil else {
+                guard let parsed = parsed, error == nil else {
                     dispatch_main { handler(nil, error) }
                     return
                 }

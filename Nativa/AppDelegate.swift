@@ -67,7 +67,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 logger.error("invalid process entry \(process)")
                 continue
             }
-            guard let useSSH = process["useSSH"] as? Bool where useSSH else {
+            guard let useSSH = process["useSSH"] as? Bool, useSSH else {
                 Datasource.instance.addConnection(id: name, host: scgi.host, port: scgi.port, connect: connectHandler)
                 continue
             }
@@ -111,7 +111,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     
     private func addDownloads(fromURL: [URL]) {
         Datasource.instance.parse(urls: fromURL) { (parsed, error) -> Void in
-            guard let parsed = parsed where error == nil else {
+            guard let parsed = parsed, error == nil else {
                 logger.error("unable to open files: \(error)")
                 return
             }

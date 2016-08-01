@@ -115,7 +115,7 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
     func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
         switch(eventCode) {
         case Stream.Event.hasSpaceAvailable:
-            guard let stream = aStream as? NSOutputStream where stream == oStream else{
+            guard let stream = aStream as? NSOutputStream, stream == oStream else{
                 assert(false, "unexpected stream")
                 return
             }
@@ -138,7 +138,7 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
                 requestDidSent()
             }
         case Stream.Event.hasBytesAvailable:
-            guard let stream = aStream as? InputStream where stream == iStream else{
+            guard let stream = aStream as? InputStream, stream == iStream else{
                 logger.debug("unexpected stream: aStream(\((aStream as? InputStream))) == iStream(\(iStream)) =\((aStream as? InputStream) == iStream)")
 //                assert(false, "unexpected stream")
                 return

@@ -139,7 +139,7 @@ class Download
             self.state = .Unknown
         }
         
-        if let path = info["path"] as? String where path.utf8.count > 0{
+        if let path = info["path"] as? String, path.utf8.count > 0{
             self.dataPath = path
         }
         

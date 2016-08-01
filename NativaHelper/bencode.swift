@@ -43,7 +43,7 @@ private class Tokenizer: IteratorProtocol {
             var numberLength = 0
             //numbers
             //0...9
-            while case 48 ... 57 = numberPtr[0] where numberPtr < bytesEnd {
+            while case 48 ... 57 = numberPtr[0], numberPtr < bytesEnd {
                 numberPtr += 1
                 numberLength += 1
             }

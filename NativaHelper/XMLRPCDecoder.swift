@@ -112,7 +112,7 @@ private func parseDictionary(_ element: XMLElement) throws -> [String: AnyObject
     }
     
     for ch in children {
-        guard let child = ch as? XMLElement where child.name == "member"  else {
+        guard let child = ch as? XMLElement, child.name == "member"  else {
             continue
         }
         

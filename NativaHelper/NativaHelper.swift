@@ -84,7 +84,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         }
         
         rtorrent.send(fullDownloadsList) { (response, error) -> Void in
-            guard let response = response as? [[String:AnyObject]] where error == nil else{
+            guard let response = response as? [[String:AnyObject]], error == nil else{
                 handler(nil, NSError(error))
                 return
             }
@@ -128,7 +128,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                 ResultCommand("f.get_size_chunks=", field: "size_chunks") { (v) -> AnyObject? in return v as? Int }
                 ])
             ]) { (response, error) -> Void in
-                guard let response = response where error == nil else{
+                guard let response = response, error == nil else{
                     handler(nil, NSError(error))
                     return
                 }
@@ -222,7 +222,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             ResultCommand("d.get_base_path", parameters: [id], field: "path") { (v) -> AnyObject? in return v as? [String] },
             ResultCommand("d.is_active", parameters: [id], field: "active") { (v) -> AnyObject? in return v as? Bool }
             ]) { (response, error) -> Void in
-                guard let response  = response where error == nil else {
+                guard let response  = response, error == nil else {
                     let err: NSError? = error == nil ? nil : NSError(error!)
                     handler(nil, err)
                     return
@@ -249,7 +249,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             ResultCommand("d.get_base_path", parameters: [id], field: "path") { (v) -> AnyObject? in return v as? [String] },
             ResultCommand("d.is_active", parameters: [id], field: "active") { (v) -> AnyObject? in return v as? Bool }
             ]) { (response, error) -> Void in
-                guard let response  = response where error == nil else {
+                guard let response  = response, error == nil else {
                     let err: NSError? = error == nil ? nil : NSError(error!)
                     handler(nil, err)
                     return

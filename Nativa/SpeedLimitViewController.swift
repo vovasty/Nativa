@@ -137,7 +137,7 @@ class SpeedLimitViewController: NSViewController {
 //MARK: NSOutlineViewDataSource
 extension SpeedLimitViewController: NSOutlineViewDataSource {
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
-        guard let stats = stats where stats.count > 0 else { return 0 }
+        guard let stats = stats, stats.count > 0 else { return 0 }
         
         if item == nil {
             if stats.count == 1 {

@@ -26,7 +26,7 @@ class InspectorDownloadInfoViewController: NSViewController, InspectorViewContro
     }
     
     private func update() {
-        guard let download = download where processId != nil && downloadId != nil && state != nil else { return }
+        guard let download = download, processId != nil && downloadId != nil && state != nil else { return }
         
         self.processId.stringValue = download.processId ?? "unknown"
         self.downloadId.stringValue = download.id.lowercased()
