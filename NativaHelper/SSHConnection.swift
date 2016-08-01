@@ -10,9 +10,9 @@ import Foundation
 import SwiftySSH
 
 class SSHConnection: Connection {
-    let serviceHost: String!
-    let servicePort: UInt16!
-    var session: Session?
+    private let serviceHost: String!
+    private let servicePort: UInt16!
+    private let manager: Manager
 
     init(user: String,
         host: String,
@@ -22,28 +22,29 @@ class SSHConnection: Connection {
         servicePort: UInt16,
         connect: (ErrorProtocol?)->Void,
         disconnect:(ErrorProtocol?)->Void) {
-        session = SwiftySSH.Session(user, host: host, port: port)
+        manager = Manager(user: user, host: host, port: port)
         self.serviceHost = serviceHost
         self.servicePort = servicePort
         
-        session!.onDisconnect { (session, error) -> Void in
+        
+        
+        manager.session.onDisconnect { (error) -> Void in
                 disconnect(error)
             }
-            .authenticate(.password(password: password))
-            .onConnect({ (Session, error) -> Void in
-                connect(error)
-            })
+            .onValidate { (fingerptint, handler) in
+                handler(allow: true)
+            }
+            .onAuthenticate{ (methods, handler) in
+                handler(authenticate: .password(password))
+            }
+            .onConnect {
+                connect(nil)
+            }
             .connect()
     }
     
     
     func request(_ data: Data, response: (Data?, ErrorProtocol?) -> Void) {
-        guard let session = session else{
-            response(nil, RTorrentError.unknown(message: "not connected"))
-            return
-        }
-        
-        let tunnel = Channel(session, remoteHost: serviceHost, remotePort: servicePort)
-        tunnel.send(data, response: response)
+        manager.request(host: serviceHost, port: servicePort, send: data, receive: response)
     }
 }
