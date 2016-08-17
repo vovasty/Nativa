@@ -13,7 +13,6 @@ class DownloadCell: NSTableCellView
     @IBOutlet weak var controlButton: NSButton!
     @IBOutlet weak var statusText: NSTextField!
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
-    internal var progressIndicatorConstraints: [NSLayoutConstraint]?
     @IBOutlet weak var verticalSpaceConstraint: NSLayoutConstraint!
     private var tracking = false
     private var statusString: String = ""

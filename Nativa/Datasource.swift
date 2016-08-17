@@ -230,34 +230,40 @@ class Datasource: ConnectionEventListener {
     }
     
     func stopDownload(download: Download){
-        guard let process = getProcess(id: download.processId) else{
+        guard let process = getProcess(id: download.processId),
+            let downloads = process.downloads,
+            let downloader = process.downloader else {
             return
         }
         
-        process.downloads?.update(["info": ["id": download.id, "active": false, "opened": false, "state": 1, "completed": false, "hashChecking": false]])
-        process.downloader?.stopTorrent(download.id) { (result, error) -> Void in
+        downloads.update(["info": ["id": download.id, "active": false, "opened": false, "state": 1, "completed": false, "hashChecking": false]])
+        downloader.stopTorrent(download.id) { (result, error) -> Void in
             guard let result = result, error == nil else {
                 logger.error("failed to stop torrent \(error)")
                 let message = error == nil ? "unable to stop torrent" : error!.localizedDescription
-                process.downloads?.update(["info": ["id": download.id, "message": message]])
+                downloads.update(["info": ["id": download.id, "message": message]])
                 return
             }
-            process.downloads?.update(result)
+            downloads.update(result)
         }
     }
 
     func startDownload(download: Download){
-        guard let process = getProcess(id: download.processId) else { return }
+        guard let process = getProcess(id: download.processId),
+            let downloads = process.downloads,
+            let downloader = process.downloader else {
+                return
+        }
         
-        process.downloads?.update(["info": ["id": download.id, "active": true, "opened": true, "state": 1, "completed": false, "hashChecking": false]])
-        process.downloader?.startTorrent(download.id) { (result, error) -> Void in
+        downloads.update(["info": ["id": download.id, "active": true, "opened": true, "state": 1, "completed": false, "hashChecking": false]])
+        downloader.startTorrent(download.id) { (result, error) -> Void in
             guard let result = result, error == nil else {
                 logger.error("failed to start torrent \(error)")
                 let message = error == nil ? "unable to start torrent" : error!.localizedDescription
-                process.downloads?.update(["info": ["id": download.id, "message": message]])
+                downloads.update(["info": ["id": download.id, "message": message]])
                 return
             }
-            process.downloads?.update(result)
+            downloads.update(result)
         }
     }
     
@@ -302,18 +308,20 @@ class Datasource: ConnectionEventListener {
     }
     
     func update(download: Download,  handler: (Download?, NSError?) -> Void) {
-        guard let process = getProcess(id: download.processId) else{
-            return
+        guard let process = getProcess(id: download.processId),
+            let downloads = process.downloads,
+            let downloader = process.downloader else {
+                return
         }
         
-        process.downloader?.update(download.id) {(result, error)->Void in
+        downloader.update(download.id) {(result, error)->Void in
             guard let result = result, error == nil else {
                 dispatch_main { handler(nil, error) }
                 return
             }
 
             dispatch_main {
-                process.downloads?.update(result)
+                downloads.update(result)
                 handler(download, nil)
             }
         }
@@ -403,6 +411,7 @@ class Datasource: ConnectionEventListener {
                 do {
                     let torrentData = try Data(contentsOf: file.path)
                     file.download.processId = processId
+                    file.download.state = file.start ? .Downloading(dl: 0, ul: 0) : .Stopped
                     process.downloads?.updateFromObject(file.download)
                     
                     var pr: [Int: Int]?
@@ -432,10 +441,14 @@ class Datasource: ConnectionEventListener {
     }
     
     func remove(download: Download, removeData: Bool, response:(NSError?) -> Void) {
-        guard let process = getProcess(id: download.processId) else { return }
+        guard let process = getProcess(id: download.processId),
+            let downloads = process.downloads,
+            let downloader = process.downloader else {
+                return
+        }
 
-        process.downloads?.remove(download)
-        process.downloader?.removeTorrent(download.id, path: download.dataPath, removeData: removeData) { (error) in
+        downloads.remove(download)
+        downloader.removeTorrent(download.id, path: download.dataPath, removeData: removeData) { (error) in
             dispatch_main { response(error) }
         }
     }

@@ -87,7 +87,7 @@ class Processes: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
         arrayController.commitEditing()
         
         if let app = NSApp.delegate as? AppDelegate {
-            app.reconnect()
+            app.connect()
         }
     }
     

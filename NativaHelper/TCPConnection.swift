@@ -181,7 +181,7 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
             
             errorOccured(RTorrentError.unknown(message: error))
         default:
-            logger.debug("skipped event event \(eventCode)")
+            logger.debug("skipped event \(eventCode)")
         }
     }
     

@@ -21,32 +21,10 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
     private var refreshTimer: Timer!
 
     
-    var reconnectCounter = 0
-    
-    func reconnect() {
-        reconnectCounter = 0
-        connect()
-    }
-    
-    private func connect() {
+    func connect() {
         refreshTimer.stop()
         Datasource.instance.closeAllConnections()
-        self.reconnectCounter += 1
 
-        guard reconnectCounter <= Config.maxReconnectCounter else {
-            let center = NSUserNotificationCenter.default
-            center.removeAllDeliveredNotifications()
-            let note = NSUserNotification()
-            note.title = "Error"
-            note.informativeText = "Unable to connect"
-            note.hasActionButton = true
-            note.actionButtonTitle = "Try again"
-            note.userInfo = ["action": NotificationActions.Reconnect.rawValue]
-            
-            dispatch_main { center.scheduleNotification(note) }
-            return
-        }
-        
         guard let processes = UserDefaults.standard[kAccountsKey] as? [[String: AnyObject]] else {
             logger.error("no settings")
             return
@@ -58,7 +36,6 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
                 return
             }
             
-            self.reconnectCounter = 0
             self.refreshTimer.start()
         }
         
@@ -91,12 +68,16 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         notificationCenter.add(owner: self){ (state: DatasourceConnectionStateDidChange) -> Void in
             switch state.state {
             case .Disconnected(_):
-                //reconnect after a delay
-                let q = DispatchQueue.global(attributes: DispatchQueue.GlobalAttributes.qosBackground)
+                let center = NSUserNotificationCenter.default
+                center.removeAllDeliveredNotifications()
+                let note = NSUserNotification()
+                note.title = "Error"
+                note.informativeText = "Unable to connect"
+                note.hasActionButton = true
+                note.actionButtonTitle = "Try again"
+                note.userInfo = ["action": NotificationActions.Reconnect.rawValue]
                 
-                q.after(when: DispatchTime.now() + Config.reconnectTimeout) {
-                    self.connect()
-                }
+                dispatch_main { center.scheduleNotification(note) }
             default:
                 break
             }
@@ -169,7 +150,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             
             switch action {
             case .Reconnect:
-                reconnect()
+                connect()
             }
     }
 }

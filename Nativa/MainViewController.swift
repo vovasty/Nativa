@@ -75,7 +75,7 @@ class MainViewController: NSSplitViewController {
             let msg = error?.localizedDescription ?? "Unknwown Error"
             self.stateView.state = StateViewContent.Error(message: msg, buttonTitle: "try again", handler: { (sender) -> Void in
                 if let appDelegate = NSApp.delegate as? AppDelegate {
-                    appDelegate.reconnect()
+                    appDelegate.connect()
                 }
             })
         case .Established:
