@@ -20,7 +20,7 @@ class RTorrentProcessPreferences: NSViewController{
     
     @objc
     @IBAction
-    private func saveChanges(_ sender: AnyObject) {
+    private func saveChanges(_ sender: AnyObject?) {
         commitEditing()
         
         guard let processName = processName else{
@@ -30,11 +30,11 @@ class RTorrentProcessPreferences: NSViewController{
         }
         
         let defaults = UserDefaults.standard
-        var processes = defaults[kAccountsKey] as? [[String: AnyObject]] ?? []
+        var processes = defaults[kAccountsKey] as? [[String: Any]] ?? []
         
-        var dict: [String: AnyObject] = [
-            "name": processName,
-            "scgiPort": scgiPort ?? "localhost:5000"
+        var dict: [String: Any] = [
+            "name": processName as Any,
+            "scgiPort": scgiPort as Any? ?? "localhost:5000" as Any
         ]
         
         func save() {
@@ -73,14 +73,6 @@ class Processes: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
     dynamic var sshUser: String?
     dynamic var sshPassword: String?
     
-    override func viewDidAppear() {
-        super.viewDidAppear()
-        
-        if arrayController.arrangedObjects.count == 0 {
-            performSegue(withIdentifier: "addAccount", sender: nil)
-        }
-    }
-    
     override func viewWillDisappear() {
         super.viewWillDisappear()
         //save on close
@@ -99,7 +91,7 @@ class Processes: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
     
     @objc
     @IBAction
-    private func removeProcess(_ sender: AnyObject) {
+    private func removeProcess(_ sender: AnyObject?) {
         guard self.tableView.selectedRow != -1 else {
             return
         }

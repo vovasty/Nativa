@@ -10,17 +10,17 @@ import XCTest
 
 class BCodeTests: XCTestCase {
 
-    private func multiTorrentData() -> Data {
+    fileprivate func multiTorrentData() -> Data {
         let path = Bundle(for: self.classForCoder).resourcePath! + "/multi.torrent"
         return (try! Data(contentsOf: URL(fileURLWithPath: path)))
     }
     
-    private func singleTorrentData() -> Data {
+    fileprivate func singleTorrentData() -> Data {
         let path = Bundle(for: self.classForCoder).resourcePath! + "/single.torrent"
         return (try! Data(contentsOf: URL(fileURLWithPath: path)))
     }
     
-    private func badTorrentData() -> Data {
+    fileprivate func badTorrentData() -> Data {
         let path = Bundle(for: self.classForCoder).resourcePath! + "/bad.torrent"
         return (try! Data(contentsOf: URL(fileURLWithPath: path)))
     }

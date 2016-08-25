@@ -45,10 +45,10 @@ private struct StrongEntry: Entry {
 
 
 private class ClosurePointer {
-    private let id = NSUUID()
+    let id = NSUUID()
     var value: ((Any) -> Void)?
     
-    init (_ value: (Any) -> Void) {
+    init (_ value: @escaping (Any) -> Void) {
         self.value = value
     }
 }
@@ -67,7 +67,7 @@ class EventEmitter {
     }
     
     @discardableResult
-    func add<T>(owner: AnyObject? = nil, listener: (T) -> Void) -> AnyObject {
+    func add<T>(owner: AnyObject? = nil, listener: @escaping (T) -> Void) -> AnyObject {
         let cmd = ClosurePointer{(arg) in
             if let arg = arg as? T {
                 listener(arg)

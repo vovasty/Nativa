@@ -30,7 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             return
         }
         
-        let connectHandler: (NSError?) -> Void = {(error) -> Void in
+        let connectHandler: (Error?) -> Void = {(error) -> Void in
             guard error == nil else {
                 logger.debug("unable to connect \(error)")
                 return

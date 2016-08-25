@@ -15,7 +15,7 @@ let TimeIntervalFormatter: DateComponentsFormatter = {
     formatter.includesTimeRemainingPhrase = true
     formatter.collapsesLargestUnit = true
     formatter.maximumUnitCount = 2
-    formatter.allowedUnits = [Calendar.Unit.hour, Calendar.Unit.minute, Calendar.Unit.second]
+    formatter.allowedUnits = [.hour, .minute, .second]
 
     return formatter
 }()

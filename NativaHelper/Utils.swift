@@ -10,7 +10,7 @@ import Foundation
 
 //throwable map for array
 extension Array {
-    func map<T>( _ transform: @noescape (Iterator.Element) throws -> T) rethrows -> [T] {
+    func map<T>( _ transform: (Iterator.Element) throws -> T) rethrows -> [T] {
         var result: [T] = []
         for x in self {
             result.append(try transform(x))
@@ -21,7 +21,7 @@ extension Array {
 
 //throwable map for dictionary
 extension EnumeratedSequence {
-    func map<T>( _ transform: @noescape (Iterator.Element) throws -> T) rethrows -> [T] {
+    func map<T>( _ transform: (Iterator.Element) throws -> T) rethrows -> [T] {
         var result: [T] = []
         for x in self {
             result.append(try transform(x))

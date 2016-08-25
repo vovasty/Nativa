@@ -25,7 +25,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         
         didSet {
             if let files = download?.flatFileList, files.count > 0 {
-                filePriorities = files.reduce([FileListNode: (priority: DownloadPriority, state: Int)](), combine: { (d, file) -> [FileListNode: (priority: DownloadPriority, state: Int)] in
+                filePriorities = files.reduce([FileListNode: (priority: DownloadPriority, state: Int)](), { (d, file) -> [FileListNode: (priority: DownloadPriority, state: Int)] in
                     
                     var dict = d
                     dict[file] = (priority: file.priority, state: (file.percentCompleted == 1 || file.priority != .Skip) ? NSOnState : NSOffState)
@@ -58,7 +58,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         self.outlineView.register(folderNameNib!, forIdentifier: "FolderNameCell")
     }
     
-    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int
     {
         if let file = item as? FileListNode {
             if let children = file.children {
@@ -79,7 +79,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         }
     }
     
-    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool
     {
         if let file = item as? FileListNode {
             if let children = file.children {
@@ -90,7 +90,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         return false
     }
     
-    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any
     {
         if let file = item as? FileListNode {
             if let children = file.children {
@@ -110,7 +110,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         return NSNotFound
     }
     
-    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: AnyObject?) -> AnyObject?
+    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any?
     {
         if let file = item as? FileListNode {
             return file
@@ -121,11 +121,11 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
     
     // Delegate methods
     
-    func outlineView(_ outlineView: NSOutlineView, shouldShowOutlineCellForItem item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, shouldShowOutlineCellForItem item: Any) -> Bool {
         return true
     }
     
-    func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
+    func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
         if let file = item as? FileListNode {
             if file.folder {
                 return 17
@@ -138,7 +138,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         return 0;
     }
     
-    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: AnyObject) -> NSView?
+    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView?
     {
         var result: NSView?
         
@@ -177,7 +177,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
                         button.target = self
                         button.allowsMixedState = file.folder
                         button.state = state(fromFile: file)
-                        button.isEnabled = file.percentCompleted < 1 && download?.flatFileList?.count > 1
+                        button.isEnabled = file.percentCompleted < 1 && download?.flatFileList?.count ?? 1 > 1
                     }
                     result = cell
                 }

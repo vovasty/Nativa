@@ -8,16 +8,16 @@
 
 import Foundation
 
-private let locksTable = MapTable<AnyObject, AnyObject>.weakToWeakObjects()
+private let locksTable = NSMapTable<AnyObject, NSRecursiveLock>.weakToWeakObjects()
 
 var locksTableLock = OS_SPINLOCK_INIT
 
 func synchronized(_ obj: AnyObject, f: (Void) -> Void) {
     OSSpinLockLock(&locksTableLock)
-    var lock = locksTable.object(forKey: obj) as! RecursiveLock?
+    var lock = locksTable.object(forKey: obj)
     if lock == nil {
-        lock = RecursiveLock()
-        locksTable.setObject(lock!, forKey: obj)
+        lock = NSRecursiveLock()
+        locksTable.setObject(lock, forKey: obj)
     }
     
     OSSpinLockUnlock(&locksTableLock)

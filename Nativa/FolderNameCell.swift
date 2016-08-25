@@ -18,7 +18,7 @@ class FolderNameCell: NSTableCellView
         let sizeRange = NSRange(location: (name + " ").characters.count, length: ssize.characters.count)
         
         title.addAttribute(NSFontAttributeName, value: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize()), range: sizeRange)
-        title.addAttribute(NSForegroundColorAttributeName, value: NSColor.darkGray(), range: sizeRange)
+        title.addAttribute(NSForegroundColorAttributeName, value: NSColor.darkGray, range: sizeRange)
 
         
         self.textField?.attributedStringValue = title

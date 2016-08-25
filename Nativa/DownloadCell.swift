@@ -65,7 +65,7 @@ class DownloadCell: NSTableCellView
     }
     
     
-    override func mouseEntered(_ theEvent: NSEvent){
+    override func mouseEntered(with theEvent: NSEvent){
         tracking = true
         
         switch download.state
@@ -77,7 +77,7 @@ class DownloadCell: NSTableCellView
         }
     }
     
-    override func mouseExited(_ theEvent: NSEvent){
+    override func mouseExited(with theEvent: NSEvent){
         unsetHint()
         tracking = false
     }

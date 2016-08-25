@@ -23,7 +23,7 @@ class DownloadsViewController: NSViewController
     var torrents: IndexingIterator<Array<(path: URL, download: Download)>>?
     private var datasourceObserver: String?
     private var downloadsObserver: String?
-    private var downloads: SyncableArray<DownloadsViewController>!
+    fileprivate var downloads: SyncableArray<DownloadsViewController>!
     @IBOutlet weak var downloadSpeed: NSButton!
     @IBOutlet weak var uploadSpeed: NSButton!
     
@@ -114,7 +114,7 @@ class DownloadsViewController: NSViewController
     
     @objc
     @IBAction
-    private func controlAction(_ sender: AnyObject) {
+    private func controlAction(_ sender: AnyObject?) {
         let row = self.outlineView.row(for: sender as! NSView)
         let download = self.outlineView.item(atRow: row) as! Download
 
@@ -129,7 +129,7 @@ class DownloadsViewController: NSViewController
     }
     
     //MARK: NSSeguePerforming
-    override func prepare(for segue: NSStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         guard let identifier = segue.identifier else { return }
         
         switch identifier{
@@ -143,7 +143,7 @@ class DownloadsViewController: NSViewController
         }
     }
     
-    private func add(torrents: [(path: URL, download: Download)]) {
+    fileprivate func add(torrents: [(path: URL, download: Download)]) {
         guard torrents.count > 0 else { return }
         
         self.torrents = torrents.makeIterator()
@@ -154,7 +154,7 @@ class DownloadsViewController: NSViewController
     
     @objc
     @IBAction
-    private func remove(_ sender: AnyObject) {
+    private func remove(_ sender: AnyObject?) {
         for index in outlineView.selectedRowIndexes {
             if let download = outlineView.item(atRow: index) as? Download {
                 Datasource.instance.remove(download: download, removeData: false, response: { (error) -> Void in
@@ -168,7 +168,7 @@ class DownloadsViewController: NSViewController
     
     @objc
     @IBAction
-    private func removeDownloadWithData(_ sender: AnyObject) {
+    private func removeDownloadWithData(_ sender: AnyObject?) {
         
         let selectedDownloads: [Download] = outlineView.selectedRowIndexes.map { outlineView.item(atRow: $0) as! Download }
         
@@ -193,7 +193,7 @@ class DownloadsViewController: NSViewController
         }
     }
     
-    private func apply(filter: FilterValue) {
+    fileprivate func apply(filter: FilterValue) {
         switch filter {
         case .All:
             downloads.filterHandler(nil)
@@ -267,7 +267,7 @@ class DownloadsViewController: NSViewController
 
 //MARK: NSOutlineViewDataSource
 extension DownloadsViewController: NSOutlineViewDataSource {
-    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int
     {
         if let group = item as? Group {
             return group.downloads.count
@@ -277,12 +277,12 @@ extension DownloadsViewController: NSOutlineViewDataSource {
             return downloads.count
         }
     }
-    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool
     {
         return item is Group
     }
     
-    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any
     {
         if let group = item as? Group {
             return group.downloads[index]
@@ -295,7 +295,7 @@ extension DownloadsViewController: NSOutlineViewDataSource {
 
 //MARK: NSOutlineViewDelegate
 extension DownloadsViewController: NSOutlineViewDelegate {
-    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: AnyObject) -> NSView?
+    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView?
     {
         if let group = item as? Group {
             let result: GroupCell! = outlineView.make(withIdentifier: "GroupCell", owner:self) as? GroupCell;
@@ -311,7 +311,7 @@ extension DownloadsViewController: NSOutlineViewDelegate {
         return nil
     }
     
-    func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat
+    func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat
     {
         if item is Group {
             return 20

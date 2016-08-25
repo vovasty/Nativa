@@ -10,9 +10,9 @@ import Foundation
 import SwiftySSH
 
 class SSHConnection: Connection {
-    private let serviceHost: String!
-    private let servicePort: UInt16!
-    private let manager: Manager
+    fileprivate let serviceHost: String!
+    fileprivate let servicePort: UInt16!
+    fileprivate let manager: Manager
 
     init(user: String,
         host: String,
@@ -20,8 +20,8 @@ class SSHConnection: Connection {
         password: String,
         serviceHost: String,
         servicePort: UInt16,
-        connect: (ErrorProtocol?)->Void,
-        disconnect:(ErrorProtocol?)->Void) {
+        connect: @escaping (Error?)->Void,
+        disconnect:@escaping (Error?)->Void) {
         manager = Manager(user: user, host: host, port: port)
         self.serviceHost = serviceHost
         self.servicePort = servicePort
@@ -32,10 +32,10 @@ class SSHConnection: Connection {
                 disconnect(error)
             }
             .onValidate { (fingerptint, handler) in
-                handler(allow: true)
+                handler(true)
             }
             .onAuthenticate{ (methods, handler) in
-                handler(authenticate: .password(password))
+                handler(.password(password))
             }
             .onConnect {
                 connect(nil)
@@ -44,7 +44,7 @@ class SSHConnection: Connection {
     }
     
     
-    func request(_ data: Data, response: (Data?, ErrorProtocol?) -> Void) {
-        manager.request(host: serviceHost, port: servicePort, send: data, receive: response)
+    func request(_ data: Data, response: @escaping (Data?, Error?) -> Void) {
+        manager.request(serviceHost, port: servicePort, send: data, receive: response)
     }
 }

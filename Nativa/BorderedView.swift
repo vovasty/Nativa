@@ -24,14 +24,14 @@ extension NSBezierPath {
                 switch element(at: i, associatedPoints: &points) {
                     
                 case .moveToBezierPathElement:
-                    newPath.moveTo(nil, x: points[0].x, y: points[0].y )
+                    newPath.move(to: points[0])
                     
                 case .lineToBezierPathElement:
-                    newPath.addLineTo(nil, x: points[0].x, y: points[0].y )
+                    newPath.addLine(to: points[0])
                     bDidClosePath = false
                     
                 case .curveToBezierPathElement:
-                    newPath.addCurve(nil, cp1x: points[0].x, cp1y: points[0].y, cp2x: points[1].x, cp2y: points[1].y, endingAtX: points[2].x, y: points[2].y )
+                    newPath.addCurve(to: points[2], control1: points[0], control2: points[1])
                     bDidClosePath = false
                     
                 case NSBezierPathElement.closePathBezierPathElement:
@@ -83,7 +83,7 @@ class BorderedView: NSView {
     }
     
     @IBInspectable
-    var backgroundColor: NSColor = NSColor.clear() {
+    var backgroundColor: NSColor = NSColor.clear {
         didSet {
             backgroundColorLayer.backgroundColor = backgroundColor.cgColor
             needsLayout = true

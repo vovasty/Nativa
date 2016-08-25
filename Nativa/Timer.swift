@@ -16,7 +16,7 @@ class Timer
     private let queue: DispatchQueue
     var running: Bool { get { return timer == nil } }
     
-    init(timeout: Int, queue: DispatchQueue = DispatchQueue.main, block:(Void)->Void) {
+    init(timeout: Int, queue: DispatchQueue = DispatchQueue.main, block:@escaping (Void)->Void) {
         self.block = block
         self.timeout = timeout
         self.queue = queue
@@ -31,7 +31,7 @@ class Timer
     func start(immediately: Bool = false, repeatable: Bool = true){
         if timer == nil {
             // create our timer source
-            timer = DispatchSource.timer(queue: queue)
+            timer = DispatchSource.makeTimerSource(queue: queue)
             
             let startTime = DispatchTime.now() + (immediately ? 0.0 : Double(timeout))
             

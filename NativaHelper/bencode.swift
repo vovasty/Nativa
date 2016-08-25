@@ -8,16 +8,16 @@
 
 import Foundation
 
-enum BencodeError: ErrorProtocol {
+enum BencodeError: Error {
     case failure(msg: String)
 }
 
 private class Tokenizer: IteratorProtocol {
-    private var values = [(String, Int)]()
-    private var index = 0
+    fileprivate var values = [(String, Int)]()
+    fileprivate var index = 0
     
     init(_ data: Data) throws {
-        let begin = UnsafePointer<UInt8>((data as NSData).bytes)
+        let begin: UnsafePointer<UInt8> = data.withUnsafeBytes{ $0 }
         var bytes = begin
         let bytesEnd = bytes + data.count
         
@@ -67,7 +67,7 @@ private class Tokenizer: IteratorProtocol {
                             values.append((string as String, numberPtr + 1 - begin))
                         }
                         else {
-                            values.append((String(repeating: Character("?"), count: stringLength), numberPtr + 1 - begin))
+                            values.append((String(repeating: "?", count: stringLength), numberPtr + 1 - begin))
                         }
                         
                         bytes = numberPtr + 1 + stringLength
@@ -93,9 +93,9 @@ private class Tokenizer: IteratorProtocol {
 }
 
 
-private func bdecode(_ gen: Tokenizer, token: (String, Int), findInfoRange: Bool = false) throws -> (AnyObject,  Int?, Int?)?
+private func bdecode(_ gen: Tokenizer, token: (String, Int), findInfoRange: Bool = false) throws -> (Any,  Int?, Int?)?
 {
-    var data: AnyObject?
+    var data: Any?
     var infoBegin: Int?
     var infoEnd: Int?
 
@@ -107,13 +107,13 @@ private func bdecode(_ gen: Tokenizer, token: (String, Int), findInfoRange: Bool
             guard nextToken?.0 == "e" else {
                 throw BencodeError.failure(msg: "no end token")
             }
-            data = (number.0 as NSString).doubleValue
+            data = Double(number.0)
         }
     case "s":
         data = gen.next()!.0
     case "l", "d":
         if var tok = gen.next(){
-            var array = [AnyObject]()
+            var array = [Any]()
             
             var index = 0
             while tok.0 != "e"{
@@ -134,7 +134,7 @@ private func bdecode(_ gen: Tokenizer, token: (String, Int), findInfoRange: Bool
             }
             
             if token.0 == "d" {
-                var dict = [String: AnyObject]()
+                var dict = [String: Any]()
                 
                 for i in stride(from: array.startIndex, to: array.count, by: 2) {
                     let k = array[i] as! String

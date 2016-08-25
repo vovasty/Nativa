@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum NativaError: ErrorProtocol {
+enum NativaError: Error {
     case UnknownError(message: String)
 }
 
@@ -18,7 +18,7 @@ struct DatasourceConnectionStateDidChange: NotificationProtocol {
 }
 
 enum DatasourceConnectionStatus {
-    case Disconnected(error: NSError?)
+    case Disconnected(error: Error?)
     case Establishing
     case Established
 }
@@ -31,8 +31,8 @@ class DownloadsSyncableArrayDelegate: SyncableArrayDelegate {
         self.processId = processId
     }
     
-    func id(fromRaw raw: [String: AnyObject]) -> String? {
-        guard let info = raw["info"] as? [String: AnyObject], let id = (info["id"] as? String)?.uppercased() else {
+    func id(fromRaw raw: [String: Any]) -> String? {
+        guard let info = raw["info"] as? [String: Any], let id = (info["id"] as? String)?.uppercased() else {
             return nil
         }
         
@@ -43,13 +43,13 @@ class DownloadsSyncableArrayDelegate: SyncableArrayDelegate {
         return object.id
     }
     
-    func update(fromRaw raw: [String: AnyObject], object: Download) -> Download {
+    func update(fromRaw raw: [String: Any], object: Download) -> Download {
         object.update(torrent: raw)
         object.processId = processId
         return object
     }
     
-    func create(fromRaw raw: [String: AnyObject]) -> Download? {
+    func create(fromRaw raw: [String: Any]) -> Download? {
         let object = Download(raw)
         object?.processId = processId
         return object
@@ -75,7 +75,7 @@ class CompoundDownloadsSyncableArrayDelegate: SyncableArrayDelegate {
 }
 
 class Datasource: ConnectionEventListener {
-    typealias ProcessDescriptor = (id: String, xpc: NSXPCConnection?, downloader: NativaHelperProtocol?, downloads: SyncableArray<DownloadsSyncableArrayDelegate>?, state: DatasourceConnectionStatus, observer: AnyObject?, delegate: DownloadsSyncableArrayDelegate?)
+    typealias ProcessDescriptor = (id: String, xpc: NSXPCConnection?, downloader: NativaHelperProtocol?, downloads: SyncableArray<DownloadsSyncableArrayDelegate>?, state: DatasourceConnectionStatus, observer: Any?, delegate: DownloadsSyncableArrayDelegate?)
     var processes: [String: ProcessDescriptor] = [:]
     let downloads: SyncableArray<CompoundDownloadsSyncableArrayDelegate>
     let queue = OperationQueue()
@@ -103,11 +103,11 @@ class Datasource: ConnectionEventListener {
             }
         }
         
-        return establishing ? DatasourceConnectionStatus.Establishing :  DatasourceConnectionStatus.Disconnected(error: NSError(domain: "net.aramzamzam.Nativa", code: -1, userInfo: [NSLocalizedDescriptionKey: "all services are failed to connect"]))
+        return establishing ? DatasourceConnectionStatus.Establishing :  DatasourceConnectionStatus.Disconnected(error: NativaError.UnknownError(message: "all services are failed to connect"))
         
     }
     
-    private func createDownloader(erroHandler: (NSError)->Void) throws -> (NSXPCConnection, NativaHelperProtocol) {
+    private func createDownloader(erroHandler: @escaping (Error)->Void) throws -> (NSXPCConnection, NativaHelperProtocol) {
         let downloaderService = NSXPCConnection(serviceName: "\(Bundle.main.bundleIdentifier!).NativaHelper")
         
         downloaderService.remoteObjectInterface = NSXPCInterface(with: NativaHelperProtocol.self)
@@ -131,14 +131,14 @@ class Datasource: ConnectionEventListener {
         return process
     }
     
-    private func addConnection(id: String, handler: (NSError?)->Void, connect: @noescape (NativaHelperProtocol, (NSError?)->Void)->Void) {
+    private func addConnection(id: String, handler: @escaping (Error?)->Void, connect: @escaping (NativaHelperProtocol, @escaping (Error?) -> Void) -> Void) {
         statistics[id] = Statistics(id: id)
         processes[id] = (id: id, xpc: nil, downloader: nil, downloads: nil, state: .Establishing, observer: nil, delegate: nil)
         
         do {
             let result = try createDownloader{(error)->Void in
                 self.processes[id] = (id: id, xpc: nil, downloader: nil, downloads: nil, state: .Disconnected(error: error), observer: nil, delegate: nil)
-                handler(NSError(error))
+                handler(error)
                 notificationCenter.postOnMain(DatasourceConnectionStateDidChange(state: self.connectionState))
                 return
             }
@@ -146,7 +146,7 @@ class Datasource: ConnectionEventListener {
             processes[id] = (id: id, xpc: result.0, downloader: result.1, downloads: nil, state: .Establishing, observer: nil, delegate: nil)
         }
         catch {
-            let err = NSError(error)
+            let err = error
             self.processes[id] = (id: id, xpc: nil, downloader: nil, downloads: nil, state: .Disconnected(error: err), observer: nil, delegate: nil)
             handler(err)
             notificationCenter.postOnMain(DatasourceConnectionStateDidChange(state: self.connectionState))
@@ -192,14 +192,14 @@ class Datasource: ConnectionEventListener {
         }
     }
     
-    func addConnection(id: String, user: String, host: String, port: UInt16, password: String, serviceHost: String, servicePort: UInt16, connect: (NSError?)->Void) {
+    func addConnection(id: String, user: String, host: String, port: UInt16, password: String, serviceHost: String, servicePort: UInt16, connect: @escaping (Error?)->Void) {
         addConnection(id: id, handler: connect){ (downloader, handler) -> Void in
             downloader.connect(user, host: host, port: port, password: password, serviceHost: serviceHost, servicePort: servicePort, connect: handler)
         }
     }
     
     
-    func addConnection(id: String, host: String, port: UInt16, connect: (NSError?)->Void) {
+    func addConnection(id: String, host: String, port: UInt16, connect: @escaping (Error?)->Void) {
         addConnection(id: id, handler: connect){ (downloader, handler) -> Void in
             downloader.connect(host, port: port, connect: handler)
         }
@@ -219,7 +219,7 @@ class Datasource: ConnectionEventListener {
         statistics = [:]
     }
 
-    func version(id: String, response: (String?, NSError?)->Void) {
+    func version(id: String, response: @escaping (String?, Error?)->Void) {
         guard let process = getProcess(id: id) else{
             return
         }
@@ -275,7 +275,7 @@ class Datasource: ConnectionEventListener {
         }
     }
     
-    private func updateStats(process: ProcessDescriptor, closure: ()->Void) {
+    private func updateStats(process: ProcessDescriptor, closure: @escaping ()->Void) {
         process.downloader?.getStats({ (result, error) in
             closure()
             dispatch_main() {
@@ -289,7 +289,7 @@ class Datasource: ConnectionEventListener {
     }
 
 
-    private func update(process: ProcessDescriptor, closure: ((NSError?)->Void)? = nil)
+    private func update(process: ProcessDescriptor, closure: (@escaping (Error?) -> Void)? = nil)
     {
         updateStats(process: process) {
             process.downloader?.update { (result, error) -> Void in
@@ -307,7 +307,7 @@ class Datasource: ConnectionEventListener {
         }
     }
     
-    func update(download: Download,  handler: (Download?, NSError?) -> Void) {
+    func update(download: Download,  handler: @escaping (Download?, Error?) -> Void) {
         guard let process = getProcess(id: download.processId),
             let downloads = process.downloads,
             let downloader = process.downloader else {
@@ -327,7 +327,7 @@ class Datasource: ConnectionEventListener {
         }
     }
     
-    func setFilePriority(download: Download, priorities:[FileListNode: Int], handler: (NSError?)->Void) {
+    func setFilePriority(download: Download, priorities:[FileListNode: Int], handler: @escaping (Error?)->Void) {
         guard let process = getProcess(id: download.processId) else{
             return
         }
@@ -343,7 +343,7 @@ class Datasource: ConnectionEventListener {
         }
     }
     
-    func parse(urls:[URL], handler: ([(path: URL, download: Download)]?, NSError?)->Void){
+    func parse(urls:[URL], handler: @escaping ([(path: URL, download: Download)]?, Error?)->Void){
         queue.addOperation { () -> Void in
             
             var process: NativaHelperProtocol?
@@ -357,7 +357,7 @@ class Datasource: ConnectionEventListener {
             
             guard let downloader = process else {
                 dispatch_main {
-                    handler(nil, NSError(domain: "net.aramzamzam.Nativa", code: -1, userInfo: [NSLocalizedDescriptionKey: "all services are failed to connect"]))
+                    handler(nil, NativaError.UnknownError(message: "all services are failed to connect"))
                 }
                 return
             }
@@ -371,7 +371,7 @@ class Datasource: ConnectionEventListener {
                 }
             }
             catch {
-                dispatch_main { handler(nil, NSError(error)) }
+                dispatch_main { handler(nil, error) }
                 return
             }
             
@@ -397,7 +397,7 @@ class Datasource: ConnectionEventListener {
         }
     }
     
-    func addTorrentFiles(processId: String, files: [(path: URL, download: Download, start: Bool, group: Group?, folder: String?, priorities: [FileListNode: Int]?)], handler: ()->Void) {
+    func addTorrentFiles(processId: String, files: [(path: URL, download: Download, start: Bool, group: Group?, folder: String?, priorities: [FileListNode: Int]?)], handler: @escaping ()->Void) {
         guard let process = getProcess(id: processId) else{
             return
         }
@@ -440,7 +440,7 @@ class Datasource: ConnectionEventListener {
         }
     }
     
-    func remove(download: Download, removeData: Bool, response:(NSError?) -> Void) {
+    func remove(download: Download, removeData: Bool, response: @escaping (Error?) -> Void) {
         guard let process = getProcess(id: download.processId),
             let downloads = process.downloads,
             let downloader = process.downloader else {
@@ -453,7 +453,7 @@ class Datasource: ConnectionEventListener {
         }
     }
     
-    func setMaxDownloadSpeed(processId: String, speed: Int, handler:(NSError?)->Void) {
+    func setMaxDownloadSpeed(processId: String, speed: Int, handler: @escaping (Error?)->Void) {
         guard let process = getProcess(id: processId) else { return }
         guard let stat = statistics[processId] else { return }
         
@@ -464,7 +464,7 @@ class Datasource: ConnectionEventListener {
         }
     }
     
-    func setMaxUploadSpeed(processId: String, speed: Int, handler:(NSError?)->Void) {
+    func setMaxUploadSpeed(processId: String, speed: Int, handler: @escaping (Error?)->Void) {
         guard let process = getProcess(id: processId) else { return }
         guard let stat = statistics[processId] else { return }
         
@@ -476,7 +476,7 @@ class Datasource: ConnectionEventListener {
     }
 
     //MARK: ConnectionEventListener
-    @objc func connectionDropped(withError error: NSError?) {
+    @objc func connectionDropped(withError error: Error?) {
         logger.error("connection dropped \(error)")
         notificationCenter.postOnMain(DatasourceConnectionStateDidChange(state: .Disconnected(error: error)))
     }

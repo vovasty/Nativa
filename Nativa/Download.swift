@@ -46,8 +46,8 @@ class Download
     var processId: String?
     private var allFiles: [String: FileListNode] = [:]
     
-    init?(_ torrent: [String: AnyObject]) {
-        guard let info = torrent["info"] as? [String: AnyObject],
+    init?(_ torrent: [String: Any]) {
+        guard let info = torrent["info"] as? [String: Any],
             let name = info["name"] as? String, let id = (info["id"] as? String)?.uppercased() else {
             size = 0
             comment = nil
@@ -90,9 +90,9 @@ class Download
         return _icon
     }
     
-    func update(torrent: [String: AnyObject])
+    func update(torrent: [String: Any])
     {
-        guard let info = torrent["info"] as? [String: AnyObject] else {
+        guard let info = torrent["info"] as? [String: Any] else {
             return
         }
         
@@ -108,35 +108,36 @@ class Download
             self.freeDiskspace = freeDiskspace
         }
         
-        if let active = info["active"] as? Bool, let opened = info["opened"] as? Bool, let state = info["state"] as? Int, let completed = info["completed"] as? Bool, let hashChecking = info["hashChecking"] as? Bool {
-            if hashChecking {
-                self.state = .Checking
-            }
-            else if !active {
-                self.state = opened ? .Paused : .Stopped
-            }
-            else {
-                switch state {
-                case 1: //started
-                    if opened {
-                        
-                        let downloadSpeed = info["downloadSpeed"] as? Double ?? 0
-                        let uploadSpeed = info["uploadSpeed"] as? Double ?? 0
-                        
-                        self.state = (completed ? DownloadState.Seeding(ul: uploadSpeed) : DownloadState.Downloading(dl: downloadSpeed, ul: uploadSpeed))
-                    }
-                    else {
-                        self.state = .Stopped
-                    }
-                case 0: //stopped
-                    self.state = .Stopped
-                default:
-                    self.state = .Unknown
-                }
-            }
+        let active = info["active"] as? Bool ?? false
+        let opened = info["opened"] as? Bool ?? false
+        let state = info["state"] as? Int ?? 0
+        let completed = info["completed"] as? Bool ?? false
+        let hashChecking = info["hashChecking"] as? Bool ?? false
+        
+        if hashChecking {
+            self.state = .Checking
+        }
+        else if !active {
+            self.state = opened ? .Paused : .Stopped
         }
         else {
-            self.state = .Unknown
+            switch state {
+            case 0: //stopped
+                self.state = .Stopped
+            case 1: //started
+                if opened {
+                    
+                    let downloadSpeed = info["downloadSpeed"] as? Double ?? 0
+                    let uploadSpeed = info["uploadSpeed"] as? Double ?? 0
+                    
+                    self.state = (completed ? DownloadState.Seeding(ul: uploadSpeed) : DownloadState.Downloading(dl: downloadSpeed, ul: uploadSpeed))
+                }
+                else {
+                    self.state = .Stopped
+                }
+            default:
+                self.state = .Unknown
+            }
         }
         
         if let path = info["path"] as? String, path.utf8.count > 0{
@@ -155,7 +156,7 @@ class Download
         message = info["message"] as? String
         
         //parse size and files
-        if let tfiles = info["files"] as? [[String: AnyObject]] {
+        if let tfiles = info["files"] as? [[String: Any]] {
             var torrentSize: Double = 0
             if let size = info["length"] as? Double {
                 torrentSize = size

@@ -19,7 +19,7 @@ private extension NSMutableData {
     
     @discardableResult
     final func appendZero() -> Self {
-        append(UnsafePointer<Void>([0]), length: 1)
+        append(UnsafeRawPointer([0]), length: 1)
         return self
     }
 }

@@ -8,12 +8,12 @@
 
 import Foundation
 
-public enum XMLRPCEncoderError: ErrorProtocol {
+public enum XMLRPCEncoderError: Error {
     case unsupportedType
 }
 
 
-public func XMLRPCEncode(_ method: String, parameters: [AnyObject]?) throws -> String {
+public func XMLRPCEncode(_ method: String, parameters: [Any]?) throws -> String {
     
     guard let parameters = parameters else {
         return   "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
@@ -35,14 +35,14 @@ public func XMLRPCEncode(_ method: String, parameters: [AnyObject]?) throws -> S
 }
 
 func iso8601DateFormatter() -> DateFormatter{
-    let enUSPosixLocale = Locale(localeIdentifier: "en_US_POSIX")
+    let enUSPosixLocale = Locale(identifier: "en_US_POSIX")
     let dateFormatter = DateFormatter()
     dateFormatter.locale = enUSPosixLocale
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
     return dateFormatter
 }
 
-private func encodedParametersFragment(_ parameters: [AnyObject]) throws -> String {
+fileprivate func encodedParametersFragment(_ parameters: [Any]) throws -> String {
     var result = ""
     for parameter in parameters {
         
@@ -55,7 +55,7 @@ private func encodedParametersFragment(_ parameters: [AnyObject]) throws -> Stri
     return result
 }
 
-private func encode(_ array: [AnyObject]) throws -> String {
+fileprivate func encode(_ array: [Any]) throws -> String {
     var buffer  = "<value><array><data>"
     
     for object in array {
@@ -66,7 +66,7 @@ private func encode(_ array: [AnyObject]) throws -> String {
     return buffer
 }
 
-private func encode(_ dictionary: [String: AnyObject]) throws -> String {
+fileprivate func encode(_ dictionary: [String: Any]) throws -> String {
     var buffer = "<value><struct>"
     
     for (k, v) in dictionary {
@@ -81,25 +81,25 @@ private func encode(_ dictionary: [String: AnyObject]) throws -> String {
     return buffer
 }
 
-private func valueTag(_ tag: String, value: String) -> String {
+fileprivate func valueTag(_ tag: String, value: String) -> String {
     return "<value><\(tag)>\(value)</\(tag)></value>"
 }
 
 
-private func encode(_ boolean: Bool) -> String {
+fileprivate func encode(_ boolean: Bool) -> String {
     return valueTag("boolean", value: boolean ? "1" : "0")
 }
 
-private func encode(_ int: Int) -> String {
+fileprivate func encode(_ int: Int) -> String {
     return valueTag("i4", value: String(int))
 }
 
-private func encode(_ double: Double) -> String {
+fileprivate func encode(_ double: Double) -> String {
     return valueTag("double", value: String(double))
 }
 
 
-private func encode(_ string: String) -> String {
+fileprivate func encode(_ string: String) -> String {
     
     //escape only XML entities
     let s = NSMutableString(string: string)
@@ -112,20 +112,20 @@ private func encode(_ string: String) -> String {
     return valueTag("string", value: s as String)
 }
 
-private func encode(_ date: Date) -> String {
+fileprivate func encode(_ date: Date) -> String {
     return valueTag("dateTime.iso8601", value: iso8601DateFormatter().string(from: date))
 }
 
-private func encode(_ data: Data)  -> String {
-    let encoded = data.base64EncodedString(options: NSData.Base64EncodingOptions(rawValue: 0))
+fileprivate func encode(_ data: Data)  -> String {
+    let encoded = data.base64EncodedString(options: Data.Base64EncodingOptions(rawValue: 0))
     return valueTag("base64", value: encoded)
 }
 
-private func encode(_ object: AnyObject) throws -> String {
+fileprivate func encode(_ object: Any) throws -> String {
     switch object {
-    case let o as [AnyObject]:
+    case let o as [Any]:
         return try encode(o)
-    case let o as [String: AnyObject]:
+    case let o as [String: Any]:
         return try encode(o)
     case is Int:
         return encode(object as! Int)

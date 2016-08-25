@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum XMLRPCDecoderError: ErrorProtocol {
+public enum XMLRPCDecoderError: Error {
     case noElementName
     case unsupportedDataType(type: String)
     case unknown
@@ -17,8 +17,8 @@ public enum XMLRPCDecoderError: ErrorProtocol {
 
 //FIXME: replace NSXMLDocument (memory leaks) with libxml2
 //http://www.cocoawithlove.com/2008/10/using-libxml2-for-parsing-and-xpath.html
-public func XMLRPCDecode(_ data: Data) throws -> AnyObject? {
-    let document = try XMLDocument(data: data, options: Int(UInt(XMLNodeOptions.documentTidyXML.rawValue)))
+public func XMLRPCDecode(_ data: Data) throws -> Any? {
+    let document = try XMLDocument(data: data, options: Int(XMLNode.Options.documentTidyXML.rawValue))
     
     
     guard let root = document.rootElement() else {
@@ -54,7 +54,7 @@ public func XMLRPCDecode(_ data: Data) throws -> AnyObject? {
 }
 
 
-private func parseObject(_ object: XMLElement) throws -> AnyObject? {
+fileprivate func parseObject(_ object: XMLElement) throws -> Any? {
     guard object.childCount > 0 else {
         return nil
     }
@@ -89,7 +89,7 @@ private func parseObject(_ object: XMLElement) throws -> AnyObject? {
     }
 }
 
-private func parseArray(_ element: XMLElement) throws ->[AnyObject] {
+fileprivate func parseArray(_ element: XMLElement) throws ->[Any] {
     guard let parent = element.elements(forName: "data").first, let children = parent.children else {
         return []
     }
@@ -98,14 +98,14 @@ private func parseArray(_ element: XMLElement) throws ->[AnyObject] {
         return e.name == "value"
     }
     
-    return try filtered.map { (e) throws -> AnyObject in
+    return try filtered.map { (e) throws -> Any in
         return try parseObject(e as! XMLElement)!
     }
 }
 
 
-private func parseDictionary(_ element: XMLElement) throws -> [String: AnyObject] {
-    var result: [String: AnyObject] = [:]
+fileprivate func parseDictionary(_ element: XMLElement) throws -> [String: Any] {
+    var result: [String: Any] = [:]
     
     guard let children = element.children else {
         return result
@@ -133,7 +133,7 @@ private func parseDictionary(_ element: XMLElement) throws -> [String: AnyObject
     return result
 }
 
-private func parseInteger(_ element: XMLElement) -> Int? {
+fileprivate func parseInteger(_ element: XMLElement) -> Int? {
     guard let s = element.stringValue else {
         return nil
     }
@@ -141,7 +141,7 @@ private func parseInteger(_ element: XMLElement) -> Int? {
     return Int(s)
 }
 
-private func parseDouble(_ element: XMLElement) -> Double? {
+fileprivate func parseDouble(_ element: XMLElement) -> Double? {
     guard let s = element.stringValue else {
         return nil
     }
@@ -149,15 +149,15 @@ private func parseDouble(_ element: XMLElement) -> Double? {
     return Double(s)
 }
 
-private func parseBoolean(_ element: XMLElement) -> Bool {
+fileprivate func parseBoolean(_ element: XMLElement) -> Bool {
     return element.stringValue == "1"
 }
 
-private func parseString(_ element: XMLElement) -> String? {
+fileprivate func parseString(_ element: XMLElement) -> String? {
     return element.stringValue?.removingPercentEncoding
 }
 
-private func parseDate(_ element: XMLElement) -> Date? {
+fileprivate func parseDate(_ element: XMLElement) -> Date? {
     guard let s = element.stringValue else {
         return nil
     }

@@ -11,7 +11,7 @@ import Cocoa
 class ColorTextField: NSTextField {
     override var isEnabled: Bool {
         didSet {
-            textColor = isEnabled ? NSColor.controlTextColor() : NSColor.disabledControlTextColor()
+            textColor = isEnabled ? NSColor.controlTextColor : NSColor.disabledControlTextColor
         }
     }
 }

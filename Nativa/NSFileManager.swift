@@ -8,16 +8,16 @@
 
 import Foundation
 
-enum FileManagerError: ErrorProtocol {
+enum FileManagerError: Error {
     case UnableToMoveToTrash(message: String)
 }
 
 extension FileManager {
-    func trashPath(path: NSURL) throws{
+    func trashPath(path: URL) throws{
         let script =
         "with timeout 15 seconds\n" +
             "tell application \"Finder\"\n" +
-            "delete POSIX file \"\(path.path!)\"\n" +
+            "delete POSIX file \"\(path.path)\"\n" +
             "end tell\n" +
         "end timeout\n"
 

@@ -10,7 +10,7 @@ import Foundation
 
 class TCPConnection: NSObject, Connection, StreamDelegate {
     private var iStream: InputStream?
-    private var oStream: NSOutputStream?
+    private var oStream: OutputStream?
     private var requestData: Data?
     private var responseData: NSMutableData?
     private var responseBuffer: [UInt8]?
@@ -18,10 +18,10 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
     private var requestSent: Bool = false
     var maxPacket = 4096
     var maxResponseSize = 1048576
-    private var response: ((Data?, ErrorProtocol?) -> Void)?
+    private var response: ((Data?, Error?) -> Void)?
     let host: String
     let port: UInt16
-    let queue = DispatchQueue(label: "net.ararmzamzam.nativa.helper.TCPConnection", attributes: DispatchQueueAttributes.serial)
+    let queue = DispatchQueue(label: "net.ararmzamzam.nativa.helper.TCPConnection")
     let requestSemaphore = DispatchSemaphore(value: 1)
     var timeout: Double = 60
     var runLoopModes = [RunLoopMode.commonModes.rawValue]
@@ -33,9 +33,9 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
             super.init()
     }
     
-    func request(_ data: Data, response: (Data?, ErrorProtocol?) -> Void) {
+    func request(_ data: Data, response: @escaping (Data?, Error?) -> Void) {
         queue.async { () -> Void in
-            guard self.requestSemaphore.wait(timeout: DispatchTime.now() + self.timeout) == .Success else {
+            guard self.requestSemaphore.wait(timeout: DispatchTime.now() + self.timeout) == .success else {
                 response(nil, RTorrentError.unknown(message: "timeout"))
                 return
             }
@@ -76,7 +76,7 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
         requestSent = true
     }
     
-    private func errorOccured(_ error: ErrorProtocol) {
+    private func errorOccured(_ error: Error) {
         logger.debug("stream error: \(error)")
         response?(nil, error)
         cleanup()
@@ -115,7 +115,7 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
     func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
         switch(eventCode) {
         case Stream.Event.hasSpaceAvailable:
-            guard let stream = aStream as? NSOutputStream, stream == oStream else{
+            guard let stream = aStream as? OutputStream, stream == oStream else{
                 assert(false, "unexpected stream")
                 return
             }
@@ -129,9 +129,9 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
                 return
             }
             
-            let buf = (requestData as NSData).bytes.advanced(by: sentBytes)
+            let buf: UnsafePointer<UInt8> = requestData.withUnsafeBytes{ $0 }.advanced(by: sentBytes)
             let size = (requestData.count - sentBytes) > maxPacket ? maxPacket : (requestData.count - sentBytes)
-            let actuallySent = oStream!.write(UnsafePointer<UInt8>(buf), maxLength: size)
+            let actuallySent = stream.write(buf, maxLength: size)
             sentBytes += actuallySent
             
             if sentBytes == requestData.count {

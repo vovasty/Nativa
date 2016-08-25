@@ -20,7 +20,7 @@ class EditableOutlineView: NSOutlineView {
 
 private class TreeNode: NSObject {
     let stat: Statistics
-    private (set) var children: [TreeNode]? = nil
+    var children: [TreeNode]? = nil
     
     init(_ stat: Statistics) {
         self.stat = stat
@@ -62,7 +62,7 @@ class SpeedLimitCell: NSTableCellView, NSTextFieldDelegate {
 
     @objc
     @IBAction
-    private func setSpeedLimit(_ sender: AnyObject) {
+    private func setSpeedLimit(_ sender: AnyObject?) {
         handler?(checked, value)
     }
     
@@ -85,7 +85,7 @@ class SpeedLimitCell: NSTableCellView, NSTextFieldDelegate {
 }
 
 class SpeedLimitViewController: NSViewController {
-    private var stats: [ProcessStatistics]!
+    fileprivate var stats: [ProcessStatistics]!
     @IBOutlet weak var outlineView: NSOutlineView!
 
     override func viewDidLoad() {
@@ -127,7 +127,7 @@ class SpeedLimitViewController: NSViewController {
             }
         }
         
-        self.stats = stats.map { ProcessStatistics($0) } ?? []
+        self.stats = stats.map { ProcessStatistics($0) }
         
         outlineView.reloadData()
         outlineView.expandItem(nil, expandChildren: true)
@@ -136,7 +136,7 @@ class SpeedLimitViewController: NSViewController {
 
 //MARK: NSOutlineViewDataSource
 extension SpeedLimitViewController: NSOutlineViewDataSource {
-    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
+    func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
         guard let stats = stats, stats.count > 0 else { return 0 }
         
         if item == nil {
@@ -153,7 +153,7 @@ extension SpeedLimitViewController: NSOutlineViewDataSource {
         return item.children?.count ?? 0
     }
     
-    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool
+    func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool
     {
         guard let item = item as? TreeNode else {
             precondition(false, "wrong object type")
@@ -163,7 +163,7 @@ extension SpeedLimitViewController: NSOutlineViewDataSource {
         return item.children != nil
     }
     
-    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject
+    func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any
     {
         if item == nil {
             if stats.count == 1 {
@@ -185,7 +185,7 @@ extension SpeedLimitViewController: NSOutlineViewDataSource {
 
 //MARK: NSOutlineViewDelegate
 extension SpeedLimitViewController: NSOutlineViewDelegate {
-    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: AnyObject) -> NSView?
+    func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView?
     {
         switch item {
         case let item as ProcessStatistics:
@@ -238,15 +238,15 @@ extension SpeedLimitViewController: NSOutlineViewDelegate {
         }
     }
     
-    func outlineView(_ outlineView: NSOutlineView, shouldShowOutlineCellForItem item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, shouldShowOutlineCellForItem item: Any) -> Bool {
         return false
     }
     
-    func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: AnyObject) -> Bool {
+    func outlineView(_ outlineView: NSOutlineView, shouldSelectItem item: Any) -> Bool {
         return false
     }
     
-    private func setSpeed(id: String, key: String, value: Int) {
+    fileprivate func setSpeed(id: String, key: String, value: Int) {
         let sd = UserDefaults.standard
         
         guard let info = getAccount(id: id) else {
@@ -276,13 +276,13 @@ extension SpeedLimitViewController: NSOutlineViewDelegate {
         return info.account[key] as? Int ?? 0
     }
     
-    private func getAccount(id: String) -> (accounts: [[String: AnyObject]], account: [String: AnyObject], index: Int)? {
+    private func getAccount(id: String) -> (accounts: [[String: Any]], account: [String: Any], index: Int)? {
         let sd = UserDefaults.standard
         
-        guard var accounts = sd.array(forKey: kAccountsKey) as? [[String: AnyObject]] else { return nil }
+        guard var accounts = sd.array(forKey: kAccountsKey) as? [[String: Any]] else { return nil }
         
         var index: Int!
-        var account: [String: AnyObject]!
+        var account: [String: Any]!
         
         for i in 0..<accounts.count {
             let d = accounts[i]

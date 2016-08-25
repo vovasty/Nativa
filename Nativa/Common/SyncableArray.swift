@@ -31,12 +31,12 @@ public enum ChangeType {
     case update, insert, delete
 }
 
-public class ObservableArray<T> {
-    private var observers: [String: ([(object: T, index: Int, type: ChangeType)])->Void] = [:]
+open class ObservableArray<T> {
+    fileprivate var observers: [String: ([(object: T, index: Int, type: ChangeType)])->Void] = [:]
     
     init(){}
     
-    public func addObserver(_ observer: ([(object: T, index: Int, type: ChangeType)])->Void)->String {
+    open func addObserver(_ observer: @escaping ([(object: T, index: Int, type: ChangeType)])->Void)->String {
         let id = UUID().uuidString
         
         synchronized(self, f: {
@@ -46,7 +46,7 @@ public class ObservableArray<T> {
         return id
     }
     
-    public func removeObserver(_ id: String) {
+    open func removeObserver(_ id: String) {
         observers.removeValue(forKey: id)
     }
     
@@ -74,18 +74,18 @@ public enum SyncStrategy {
     case update, replace
 }
 
-public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectType> {
-    private var index: [D.KeyType: D.ObjectType] = [:]
-    private var order: [D.ObjectType] = []
-    public weak var delegate: D!
-    public var orderedArray: [D.ObjectType] {get {return order}}
-    private var _sorter: ((D.ObjectType, D.ObjectType) -> Bool)?
-    private var _filter: ((D.ObjectType) -> Bool)?
-    public func sorter(_ sorter: ((D.ObjectType, D.ObjectType) -> Bool)?) {
+open class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectType> {
+    fileprivate var index: [D.KeyType: D.ObjectType] = [:]
+    fileprivate var order: [D.ObjectType] = []
+    open weak var delegate: D!
+    open var orderedArray: [D.ObjectType] {get {return order}}
+    fileprivate var _sorter: ((D.ObjectType, D.ObjectType) -> Bool)?
+    fileprivate var _filter: ((D.ObjectType) -> Bool)?
+    open func sorter(_ sorter: ((D.ObjectType, D.ObjectType) -> Bool)?) {
         self._sorter = sorter
     }
     
-    public func filterHandler(_ filter: ((D.ObjectType) -> Bool)?) {
+    open func filterHandler(_ filter: ((D.ObjectType) -> Bool)?) {
         self._filter = filter
     }
     
@@ -94,19 +94,19 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
         self.delegate = delegate
     }
     
-    public subscript(id : D.KeyType) -> D.ObjectType? {
+    open subscript(id : D.KeyType) -> D.ObjectType? {
         get { return index[id] }
     }
     
-    public subscript(idx : Int) -> D.ObjectType {
+    open subscript(idx : Int) -> D.ObjectType {
         get { return order[idx] }
     }
     
-    public var count: Int {
+    open var count: Int {
         get { return order.count }
     }
     
-    private func _append(_ value: D.ObjectType)-> (object: D.ObjectType, index: Int, type: ChangeType)? {
+    fileprivate func _append(_ value: D.ObjectType)-> (object: D.ObjectType, index: Int, type: ChangeType)? {
         guard (_filter?(value) ?? true) else { return nil }
         
         let key = delegate.id(fromObject: value)
@@ -125,7 +125,7 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
         return (object: value, index: idx, type: .insert)
     }
     
-    public func indexOf(_ value: D.ObjectType?) -> Int? {
+    open func indexOf(_ value: D.ObjectType?) -> Int? {
         if let v  = value {
             return order.index(of: v)
         }
@@ -134,7 +134,7 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
         }
     }
     
-    public func updateFromObject(_ value: D.ObjectType) {
+    open func updateFromObject(_ value: D.ObjectType) {
         let key = delegate.id(fromObject: value)
         let change: (object: D.ObjectType, index: Int, type: ChangeType)?
         if index[key] == nil {
@@ -152,7 +152,7 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
         notifyObservers([chg])
     }
     
-    private func _remove(_ value: D.ObjectType) -> (object: D.ObjectType, index: Int, type: ChangeType)? {
+    fileprivate func _remove(_ value: D.ObjectType) -> (object: D.ObjectType, index: Int, type: ChangeType)? {
         index.removeValue(forKey: delegate.id(fromObject: value))
         if let idx = order.index(of: value) {
             return (object: order.remove(at: idx), index: idx, type: .delete)
@@ -162,7 +162,7 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
     }
     
     @discardableResult
-    public func remove(_ value: D.ObjectType) -> D.ObjectType? {
+    open func remove(_ value: D.ObjectType) -> D.ObjectType? {
         if let result = _remove(value) {
             notifyObservers([result])
             return result.object
@@ -171,7 +171,7 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
         return nil
     }
 
-    public func removeAll() {
+    open func removeAll() {
         var changes: [(object: D.ObjectType, index: Int, type: ChangeType)] = []
         for o in order {
             guard let result = _remove(o) else { continue }
@@ -180,7 +180,7 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
         notifyObservers(changes)
     }
 
-    private func _update(_ dict: D.RawType)->[(object: D.ObjectType, index: Int, type: ChangeType)]? {
+    fileprivate func _update(_ dict: D.RawType)->[(object: D.ObjectType, index: Int, type: ChangeType)]? {
         guard let id = delegate?.id(fromRaw: dict) else { return nil }
         
         if let object = index[id] {
@@ -222,7 +222,7 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
     }
     
     @discardableResult
-    public func update(_ raw: D.RawType)->D.ObjectType? {
+    open func update(_ raw: D.RawType)->D.ObjectType? {
         guard let change = _update(raw) else { return nil }
         
         notifyObservers(change)
@@ -230,7 +230,7 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
     }
     
     @discardableResult
-    public func update(_ raw: D.RawType, forId: D.KeyType)->D.ObjectType? {
+    open func update(_ raw: D.RawType, forId: D.KeyType)->D.ObjectType? {
         guard let object = index.removeValue(forKey: forId) else { return nil }
         guard let id = delegate.id(fromRaw: raw) else { return nil }
 
@@ -239,7 +239,7 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
     }
     
     @discardableResult
-    public func update(_ array: [D.RawType], strategy: SyncStrategy)->[D.ObjectType] {
+    open func update(_ array: [D.RawType], strategy: SyncStrategy)->[D.ObjectType] {
         var validIds: [D.KeyType: Bool] = [:]
         var result: [D.ObjectType] = []
         var changes: [(object: D.ObjectType, index: Int, type: ChangeType)] = []
@@ -276,7 +276,7 @@ public class SyncableArray<D: SyncableArrayDelegate>: ObservableArray<D.ObjectTy
         return result
     }
     
-    public func containsId(_ key: D.KeyType) -> Bool {
+    open func containsId(_ key: D.KeyType) -> Bool {
         return index[key] != nil
     }
 }

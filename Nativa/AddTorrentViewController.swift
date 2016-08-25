@@ -44,7 +44,7 @@ class AddTorrentViewController: FileOutlineViewController {
     }
 
     override func viewDidAppear() {
-        NSApp.activateIgnoringOtherApps(true)
+        NSApp.activate(ignoringOtherApps: true)
     }
     
     func setDownload(download: Download, path: URL)

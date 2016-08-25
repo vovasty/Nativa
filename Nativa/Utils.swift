@@ -25,7 +25,7 @@ extension String {
 }
 
 extension UserDefaults {
-    public subscript(keypath : String) -> AnyObject? {
+    public subscript(keypath : String) -> Any? {
         get { return self.value(forKey: keypath) }
         set { self.set(newValue, forKey: keypath) }
     }
@@ -62,6 +62,6 @@ extension NSView {
     }
 }
 
-func dispatch_main( closure: ()-> Void) {
+func dispatch_main( closure: @escaping ()-> Void) {
     DispatchQueue.main.async(execute: closure)
 }
