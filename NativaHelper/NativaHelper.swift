@@ -64,17 +64,21 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         rtorrent = RTorrent(connection: connection)
     }
     
-    func version(_ handler: @escaping (String?, Error?)->Void) {
+    public func version(_ response: @escaping (String?, Error?) -> Void) {
         let command = ResultCommand("system.api_version", field: "version") { $0 as? String }
         
-        
-        rtorrent?.send(command){ (response, error) -> Void in
-            guard error == nil else {
-                handler(nil, error)
-                return
+        rtorrent?.send(command){ (result: Result<[String: String]>) -> Void in
+            switch result {
+            case .failure(let error):
+                response(nil, error)
+            case .success(let data):
+                if let version = data["version"] {
+                    response(version, nil)
+                }
+                else {
+                    response(nil, RTorrentError.unknown(message: "invalid response") as NSError)
+                }
             }
-            
-            handler((response as? Dictionary)?["version"], nil)
         }
     }
     
@@ -83,16 +87,17 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             return
         }
         
-        rtorrent.send(fullDownloadsList) { (response, error) -> Void in
-            guard let response = response as? [[String:Any]], error == nil else{
+        rtorrent.send(fullDownloadsList) { (result: Result<[[String:Any]]>) -> Void in
+            switch result {
+            case .failure(let error):
                 handler(nil, error)
-                return
+            case .success(let data):
+                let res = data.map { (e) -> [String: Any] in
+                    return ["info": e]
+                }
+
+                handler(res, nil)
             }
-            
-            let result = response.map { (e) -> [String: Any] in
-                return ["info": e]
-            }
-            handler(result, nil)
         }
     }
     
@@ -102,7 +107,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             return
         }
         
-        let commands: [Command] = [
+        let commands: [CommandWithResult] = [
             ResultCommand("d.get_hash", parameters: [id], field: "id") { $0 as? String },
             ResultCommand("d.get_bytes_done", parameters: [id], field: "complete") { $0 as? Int },
             ResultCommand("d.get_state", parameters: [id], field: "state") { $0 as? Int },
@@ -128,15 +133,15 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                 ])
         ]
         
-        rtorrent.send(commands) { (response, error) -> Void in
-                guard let response = response, error == nil else{
-                    handler(nil, error)
-                    return
-                }
-
-                let result = ["info": response]
-
+        rtorrent.send(commands) { (result: Result<[String: Any]>) -> Void in
+            switch result {
+            case .failure(let error):
+                handler(nil, error)
+            case .success(let data):
+                let result = ["info": data]
+                
                 handler(result, nil)
+            }
         }
     }
     
@@ -145,23 +150,22 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             return
         }
         
-        var commmands: [Command] = priorities.map { (fileIndex, priority) -> Command in
+        var commmands: [CommandWithResult] = priorities.map { (fileIndex, priority) -> CommandWithResult in
             let params: [Any] = [id as Any, fileIndex as Any, priority as Any]
             return ResultCommand("f.set_priority", parameters: params, field: "result_set_priority") { Bool($0 as? Int ) }
         }
         
-        commmands.append(ResultCommand("d.update_priorities", parameters: [id as Any], field: "result_update_priority") { Bool($0 as? Int ) })
+        commmands.append(ResultCommand("d.update_priorities", parameters: [id as Any], field: "result_update_priority") { $0 as? Int })
         
-        rtorrent.send(commmands) { (result, error) -> Void in
-            handler(error)
+        rtorrent.send(commmands) { (result: Result<[String: Any]>) -> Void in
+            handler(result.error)
         }
     }
     
-    public func parseTorrent(_ data:[Data], handler: @escaping([[String:Any]]?, Error?)->Void) {
+    public func parseTorrent(_ data:[Data], handler: @escaping ([[String:Any]]?, Error?)->Void) {
         var result: [[String:Any]] = []
         
         for data in data {
-            
             do {
                 guard let parsed: ([String: Any], String?) = try bdecode(data), let infoHash = parsed.1 else {
                     handler(nil, nil)
@@ -186,24 +190,22 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         guard let rtorrent = rtorrent else {
             return
         }
+        
         let command =  start ? "load_raw_start" : "load_raw"
         var parameters: [Any] = [data as Any]
         if let folder = folder {
             parameters.append("d.set_directory_base=\(folder)")
         }
         
-        rtorrent.send(ResultCommand(command, parameters: parameters, field: "result") { Bool($0 as? Int ) }) { (response, error) -> Void in
-            guard error == nil else {
+        rtorrent.send(ResultCommand(command, parameters: parameters, field: "result") { $0 as? Int }) { (result: Result<Int>) -> Void in
+            switch result {
+            case .failure(let error):
                 handler(error)
-                return
+            case .success(_):
+                if let priorities = priorities {
+                    self.setFilePriority(id, priorities: priorities, handler: handler)
+                }
             }
-            
-            guard let priorities = priorities else{
-                handler(nil)
-                return
-            }
-            
-            self.setFilePriority(id, priorities:priorities, handler: handler)
         }
     }
     
@@ -222,13 +224,13 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             ResultCommand("d.get_complete", parameters: [id], field: "completed") { Bool($0 as? Int ) },
             ResultCommand("d.get_base_path", parameters: [id], field: "path") { $0 as? [String] },
             ResultCommand("d.is_active", parameters: [id], field: "active") { Bool($0 as? Int ) }
-            ]) { (response, error) -> Void in
-                guard let response  = response, error == nil else {
-                    handler(nil, error)
-                    return
-                }
-                
-                handler(["info": response], nil)
+        ]) { (result: Result<[String: Any]>) -> Void in
+            switch result {
+            case .failure(let error):
+                handler(nil, error)
+            case .success(let data):
+                handler(["info": data], nil)
+            }
         }
     }
     
@@ -248,13 +250,13 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             ResultCommand("d.get_complete", parameters: [id], field: "completed") { Bool($0 as? Int ) },
             ResultCommand("d.get_base_path", parameters: [id], field: "path") { $0 as? [String] },
             ResultCommand("d.is_active", parameters: [id], field: "active") { Bool($0 as? Int ) }
-            ]) { (response, error) -> Void in
-                guard let response  = response, error == nil else {
-                    handler(nil, error)
-                    return
-                }
-                
-                handler(["info": response], nil)
+        ]) { (result: Result<[String:Any]>) -> Void in
+            switch result {
+            case .failure(let error):
+                handler(nil, error)
+            case .success(let data):
+                handler(["info": data], nil)
+            }
         }
     }
     
@@ -265,7 +267,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
         }
         
         if removeData {
-            var commands: [Command] = [
+            var commands: [CommandWithResult] = [
                 ResultCommand("d.delete_tied", parameters: [id as Any], field: "result_erase_tied") { Bool($0 as? Int ) },
                 ResultCommand("d.erase", parameters: [id], field: "result_erase") { Bool($0 as? Int ) }
             ]
@@ -273,43 +275,43 @@ class NativaHelper : NSObject, NativaHelperProtocol {
                 commands.append(ResultCommand("execute", parameters: ["rm" as Any, "-r" as Any, path as Any], field: "result_execute") { $0 as? String })
             }
             
-            rtorrent.send(commands) { (rsp, error) -> Void in
-                response(error)
+            rtorrent.send(commands) { (result: Result<Any>) -> Void in
+                response(result.error)
             }
         }
         else {
             let cmd = ResultCommand("d.erase", parameters: [id as Any], field: "result_erase") { Bool($0 as? Int ) }
             
-            rtorrent.send(cmd, response: { (_, error) -> Void in
-                response(error)
+            rtorrent.send(cmd, response: { (result: Result<Any>) -> Void in
+                response(result.error)
             })
         }
     }
     
     func getStats(_ handler:@escaping ([String:Any]?, Error?)->Void) {
-        let commands: [Command] = [
+        let commands: [CommandWithResult] = [
             ResultCommand("get_down_rate", field: "downloadSpeed") { $0 as? Int },
             ResultCommand("get_up_rate", field: "uploadSpeed") { $0 as? Int },
             ResultCommand("get_download_rate", field: "maxDownloadSpeed") { $0 as? Int },
             ResultCommand("get_upload_rate", field: "maxUploadSpeed") { $0 as? Int },
         ]
         
-        rtorrent?.send(commands) { (rsp, error) -> Void in
-            handler(rsp, error)
+        rtorrent?.send(commands) { (result: Result<[String:Any]>) -> Void in
+            handler(result.value, result.error)
         }
     }
     
     func setMaxDownloadSpeed(_ speed: Int, handler:@escaping (Error?)->Void) {
         let command = ResultCommand("set_download_rate", parameters: [speed as Any], field: "downloadSpeed") { $0 }
-        rtorrent?.send(command, response: { (_, error) in
-            handler(error)
+        rtorrent?.send(command, response: { (result: Result<Any>) in
+            handler(result.error)
         })
     }
     
     func setMaxUploadSpeed(_ speed: Int, handler:@escaping (Error?)->Void) {
-        let command = ResultCommand("set_upload_rate", parameters: [speed as Any], field: "uploadSpeed") { $0 }
-        rtorrent?.send(command, response: { (_, error) in
-            handler(error)
+        let command = ResultCommand("set_upload_rate", parameters: [speed], field: "uploadSpeed") { $0 }
+        rtorrent?.send(command, response: { (result: Result<Any>) in
+            handler(result.error)
         })
     }
 

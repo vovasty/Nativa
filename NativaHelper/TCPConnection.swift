@@ -12,13 +12,13 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
     private var iStream: InputStream?
     private var oStream: OutputStream?
     private var requestData: Data?
-    private var responseData: NSMutableData?
+    private var responseData = Data()
     private var responseBuffer: [UInt8]?
     private var sentBytes: Int = 0
     private var requestSent: Bool = false
     var maxPacket = 4096
     var maxResponseSize = 1048576
-    private var response: ((Data?, Error?) -> Void)?
+    private var response: ((Result<Data>) -> Void)?
     let host: String
     let port: UInt16
     let queue = DispatchQueue(label: "net.ararmzamzam.nativa.helper.TCPConnection")
@@ -33,15 +33,15 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
             super.init()
     }
     
-    func request(_ data: Data, response: @escaping (Data?, Error?) -> Void) {
+    func request(_ data: Data, response: @escaping (Result<Data>) -> Void) {
         queue.async { () -> Void in
             guard self.requestSemaphore.wait(timeout: DispatchTime.now() + self.timeout) == .success else {
-                response(nil, RTorrentError.unknown(message: "timeout"))
+                response(.failure(RTorrentError.unknown(message: "timeout") as NSError))
                 return
             }
             
             self.requestData = data
-            self.responseData = NSMutableData()
+            self.responseData.removeAll()
             self.response = response
             self.requestSent = false
             self.responseBuffer = Array(repeating: 0, count: self.maxPacket)
@@ -78,13 +78,13 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
     
     private func errorOccured(_ error: Error) {
         logger.debug("stream error: \(error)")
-        response?(nil, error)
+        response?(.failure(error as NSError))
         cleanup()
     }
     
     private func responseDidReceived() {
         logger.debug("responseDidReceived")
-        response?((responseData! as Data), nil)
+        response?(.success(responseData))
         cleanup()
     }
     
@@ -102,7 +102,7 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
         iStream?.close()
         oStream?.close()
         requestData = nil
-        responseData = nil
+        responseData.removeAll()
         iStream = nil
         oStream = nil
         responseBuffer = nil
@@ -144,12 +144,7 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
                 return
             }
             
-            guard let responseData = responseData else {
-                logger.debug("no buffer to receive")
-                return
-            }
-            
-            guard responseData.length < maxResponseSize else {
+            guard responseData.count < maxResponseSize else {
                 errorOccured(RTorrentError.unknown(message: "response is too big"))
                 return
             }
@@ -160,7 +155,7 @@ class TCPConnection: NSObject, Connection, StreamDelegate {
                 return
             }
             
-            responseData.append(responseBuffer!, length: actuallyRead)
+            responseData.append(responseBuffer!, count: actuallyRead)
         case Stream.Event.endEncountered:
             if aStream === oStream {
                 if !requestSent {

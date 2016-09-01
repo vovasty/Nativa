@@ -66,23 +66,21 @@ class DownloadsViewController: NSViewController
         //FIXME: statistics won't be updated when no downloads
         downloadsObserver = downloads.addObserver{ (downloadChanges: [(object: Download, index: Int, type: ChangeType)]) -> Void in
             self.updateStatistics()
-//FIXME: progressindicaton plays not well with animation
-//            self.outlineView.beginUpdates()
-//            for downloadChange in downloadChanges {
-//                let indexes = IndexSet(integer: downloadChange.index)
-//                switch downloadChange.type {
-//                case .delete:
-//                    self.outlineView.removeItems(at: indexes, inParent: nil, withAnimation: .slideUp)
-//                case .insert:
-//                    self.outlineView.insertItems(at: indexes, inParent: nil, withAnimation: .slideDown)
-//                case .update:
-//                    //cause reloadItem is not working...
-//                    let row = self.outlineView.row(forItem: downloadChange.object)
-//                    self.outlineView.setNeedsDisplay(self.outlineView.rect(ofRow: row))
-//                }
-//            }
-//            self.outlineView.endUpdates()
-            self.outlineView.reloadData()
+            self.outlineView.beginUpdates()
+            for downloadChange in downloadChanges {
+                let indexes = IndexSet(integer: downloadChange.index)
+                switch downloadChange.type {
+                case .delete:
+                    self.outlineView.removeItems(at: indexes, inParent: nil, withAnimation: .slideUp)
+                case .insert:
+                    self.outlineView.insertItems(at: indexes, inParent: nil, withAnimation: .slideDown)
+                case .update:
+                    //cause reloadItem is not working...
+                    let row = self.outlineView.row(forItem: downloadChange.object)
+                    self.outlineView.setNeedsDisplay(self.outlineView.rect(ofRow: row))
+                }
+            }
+            self.outlineView.endUpdates()
         }
         
         datasourceObserver = Datasource.instance.downloads.addObserver{ (downloadChanges: [(object: Download, index: Int, type: ChangeType)]) -> Void in

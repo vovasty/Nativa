@@ -12,7 +12,7 @@ class DownloadCell: NSTableCellView
 {
     @IBOutlet weak var controlButton: NSButton!
     @IBOutlet weak var statusText: NSTextField!
-    @IBOutlet weak var progressIndicator: NSProgressIndicator!
+    @IBOutlet weak var progressIndicator: ProgressView!
     @IBOutlet weak var verticalSpaceConstraint: NSLayoutConstraint!
     private var tracking = false
     private var statusString: String = ""
@@ -111,22 +111,17 @@ class DownloadCell: NSTableCellView
         switch download.state
         {
         case .Seeding:
-            progressIndicator.isIndeterminate = true
             progressIndicatorHidden = true
             controlButton.state = NSOffState
         case .Stopped, .Paused, .Unknown:
             controlButton.state = NSOnState
-            progressIndicator.isIndeterminate = true
-            progressIndicatorHidden = true
+            progressIndicatorHidden = false
         case .Downloading, .Checking:
             controlButton.state = NSOffState
-            progressIndicator.isIndeterminate = false
             progressIndicatorHidden = false
-            let progress = 100 * (download.complete/download.size)
-            progressIndicator.doubleValue = progress
+            let progress = download.complete/download.size
+            progressIndicator.progress = progress
         }
-        
-        progressIndicator.stopAnimation(nil)
         
         var speedPart: String?
         switch download.state

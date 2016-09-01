@@ -44,7 +44,14 @@ class SSHConnection: Connection {
     }
     
     
-    func request(_ data: Data, response: @escaping (Data?, Error?) -> Void) {
-        manager.request(serviceHost, port: servicePort, send: data, receive: response)
+    func request(_ data: Data, response: @escaping (Result<Data>) -> Void) {
+        manager.request(serviceHost, port: servicePort, send: data) { (result) -> Void in
+            switch result {
+            case .success(let data):
+                response(.success(data))
+            case .failure(let error):
+                response(.failure(error))
+            }
+        }
     }
 }

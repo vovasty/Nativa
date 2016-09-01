@@ -202,32 +202,29 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
     
     @objc
     @IBAction
-    private func fileChecked(_ sender: AnyObject?)
+    private func fileChecked(_ sender: NSButton)
     {
-        if let button = sender as? NSButton {
-            let rowNumber = self.outlineView.row(for: button)
-            if let file = self.outlineView.item(atRow: rowNumber) as? FileListNode {
-                
-                if button.state == NSMixedState {
-                    button.state = NSOnState
-                }
-                
-                setPriority(forFile: file, state: button.state)
-                outlineView.reloadData()
+        let rowNumber = self.outlineView.row(for: sender)
+        guard let file = self.outlineView.item(atRow: rowNumber) as? FileListNode else { return }
 
-                var filteredFiles = [FileListNode: Int]()
-                
-                for (file, priority) in filePriorities {
-                    guard !file.folder && file.priority != priority.priority else { return }
-                    
-                    filteredFiles[file] = priority.priority.rawValue
-                }
-                
-                flatPriorities = filteredFiles.count > 0 ? filteredFiles : nil
-                
-                filePrioritiesDidChange(priorities: filteredFiles)
-            }
+        if sender.state == NSMixedState {
+            sender.state = NSOnState
         }
+        
+        setPriority(forFile: file, state: sender.state)
+        outlineView.reloadData()
+
+        var filteredFiles = [FileListNode: Int]()
+        
+        for (file, priority) in filePriorities {
+            guard !file.folder && file.priority != priority.priority else { continue }
+            
+            filteredFiles[file] = priority.priority.rawValue
+        }
+        
+        flatPriorities = filteredFiles.count > 0 ? filteredFiles : nil
+        
+        filePrioritiesDidChange(priorities: filteredFiles)
     }
     
     func setPriority(forFile file: FileListNode, state: Int) {

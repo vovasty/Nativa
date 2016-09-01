@@ -68,6 +68,7 @@
 		CD7EFCB219F87426001AE5E9 /* FolderNameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7EFCB119F87426001AE5E9 /* FolderNameCell.swift */; };
 		CD8EC6C51BB084C200A9F7AE /* bad.torrent in Resources */ = {isa = PBXBuildFile; fileRef = CD8EC6C41BB084C200A9F7AE /* bad.torrent */; };
 		CD90A79E1B8E5CF000889705 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD90A79D1B8E5CF000889705 /* MainViewController.swift */; };
+		CD9666251D78A5150030472A /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9666241D78A5150030472A /* ProgressView.swift */; };
 		CD9E103F1C18E99D00C390B3 /* NSFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9E103E1C18E99D00C390B3 /* NSFileManager.swift */; };
 		CD9E104C1C1A096800C390B3 /* ScopeBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9E104B1C1A096800C390B3 /* ScopeBar.swift */; };
 		CD9E104E1C1A417300C390B3 /* SyncableArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD9E104D1C1A417300C390B3 /* SyncableArrayTests.swift */; };
@@ -77,6 +78,8 @@
 		CDB2614F19F860B600DE168C /* FileName.xib in Resources */ = {isa = PBXBuildFile; fileRef = CDB2614E19F860B600DE168C /* FileName.xib */; };
 		CDB54D7C19A13F7100D777D5 /* GroupCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54D7B19A13F7100D777D5 /* GroupCell.swift */; };
 		CDB54D8019A155EC00D777D5 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDB54D7F19A155EC00D777D5 /* Formatter.swift */; };
+		CDC65CC51D70BC1000B31E13 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC65CC41D70BC1000B31E13 /* Result.swift */; };
+		CDC65CC61D70BC1000B31E13 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC65CC41D70BC1000B31E13 /* Result.swift */; };
 		CDC7E37C1B990CEB00AB022E /* BackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E37B1B990CEB00AB022E /* BackgroundView.swift */; };
 		CDC7E3891B9A314C00AB022E /* bencode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E3881B9A314C00AB022E /* bencode.swift */; };
 		CDC7E38A1B9A352700AB022E /* bencode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC7E3881B9A314C00AB022E /* bencode.swift */; };
@@ -260,6 +263,7 @@
 		CD7EFCB119F87426001AE5E9 /* FolderNameCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FolderNameCell.swift; sourceTree = "<group>"; };
 		CD8EC6C41BB084C200A9F7AE /* bad.torrent */ = {isa = PBXFileReference; lastKnownFileType = file; path = bad.torrent; sourceTree = "<group>"; };
 		CD90A79D1B8E5CF000889705 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		CD9666241D78A5150030472A /* ProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		CD9E103E1C18E99D00C390B3 /* NSFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSFileManager.swift; sourceTree = "<group>"; };
 		CD9E104B1C1A096800C390B3 /* ScopeBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScopeBar.swift; sourceTree = "<group>"; };
 		CD9E104D1C1A417300C390B3 /* SyncableArrayTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncableArrayTests.swift; sourceTree = "<group>"; };
@@ -269,6 +273,7 @@
 		CDB2614E19F860B600DE168C /* FileName.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FileName.xib; sourceTree = "<group>"; };
 		CDB54D7B19A13F7100D777D5 /* GroupCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupCell.swift; sourceTree = "<group>"; };
 		CDB54D7F19A155EC00D777D5 /* Formatter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		CDC65CC41D70BC1000B31E13 /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		CDC7E37B1B990CEB00AB022E /* BackgroundView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundView.swift; sourceTree = "<group>"; };
 		CDC7E3881B9A314C00AB022E /* bencode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = bencode.swift; path = NativaHelper/bencode.swift; sourceTree = SOURCE_ROOT; };
 		CDC7E38B1B9A355500AB022E /* BCodeTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BCodeTests.swift; sourceTree = "<group>"; };
@@ -455,6 +460,7 @@
 			isa = PBXGroup;
 			children = (
 				CD68519F1B90CB7600A810F1 /* Error.swift */,
+				CDC65CC41D70BC1000B31E13 /* Result.swift */,
 				CD6851A01B90CB7600A810F1 /* Logger.swift */,
 				CD6851A11B90CB7600A810F1 /* NativaHelperProtocol.swift */,
 				CD6851A21B90CB7600A810F1 /* SyncableArray.swift */,
@@ -474,6 +480,7 @@
 				CD23AEE619E1E6C80027A47D /* DownloadDropView.swift */,
 				CD9E104B1C1A096800C390B3 /* ScopeBar.swift */,
 				CDA132601D07E3E700CF22D8 /* SpeedLimitViewController.swift */,
+				CD9666241D78A5150030472A /* ProgressView.swift */,
 			);
 			name = DownloadsViewController;
 			sourceTree = "<group>";
@@ -765,6 +772,7 @@
 				CDB2614D19F85F8B00DE168C /* FileNameCell.swift in Sources */,
 				CD01C7311991627100D5B8A6 /* AppDelegate.swift in Sources */,
 				CD6851B01B90CB7600A810F1 /* Synchronized.swift in Sources */,
+				CDC65CC51D70BC1000B31E13 /* Result.swift in Sources */,
 				CD69F50019A6ADD80056BA62 /* Download.swift in Sources */,
 				CD69F50119A6ADD80056BA62 /* Group.swift in Sources */,
 				CD03055F19AE9B1100E8BF42 /* Timer.swift in Sources */,
@@ -773,6 +781,7 @@
 				CDEE44DE1991E1EE00FB76AC /* DownloadCell.swift in Sources */,
 				CD6851A71B90CB7600A810F1 /* Logger.swift in Sources */,
 				CD6851AD1B90CB7600A810F1 /* SyncableArray.swift in Sources */,
+				CD9666251D78A5150030472A /* ProgressView.swift in Sources */,
 				CD4C13D91BABC31B00D02AED /* InspectorDownloadInfoViewController.swift in Sources */,
 				CDB54D8019A155EC00D777D5 /* Formatter.swift in Sources */,
 				CD7EC18D19E5AEB700C09042 /* FileOutlineViewController.swift in Sources */,
@@ -844,6 +853,7 @@
 				CD10C2F81B8920EE00EF9284 /* SCGIEncoder.swift in Sources */,
 				CD6851B21B90CB7600A810F1 /* Synchronized.swift in Sources */,
 				CD10C2F51B8920EE00EF9284 /* main.swift in Sources */,
+				CDC65CC61D70BC1000B31E13 /* Result.swift in Sources */,
 				CDC7E3891B9A314C00AB022E /* bencode.swift in Sources */,
 				CD171F991B8F970B00014966 /* TCPConnection.swift in Sources */,
 			);
@@ -893,8 +903,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -937,8 +949,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";

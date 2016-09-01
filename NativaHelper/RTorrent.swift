@@ -15,13 +15,13 @@ class RTorrent {
         self.connection = connection
     }
     
-    func send(_ method: String, parameters: [Any]?, response: @escaping (Any?, Error?) -> Void) {
+    func send(_ method: String, parameters: [Any]?, response: @escaping (Result<Any>) -> Void) {
         let sMethod: String
         do {
             sMethod = try XMLRPCEncode(method, parameters: parameters)
         }
-        catch let e {
-            response(nil, e)
+        catch {
+            response(.failure(error as NSError))
             return
         }
         
@@ -29,21 +29,20 @@ class RTorrent {
         
         let data = encodeSCGI(sMethod)
         
-        connection.request(data) { (responseData, error) -> Void in
-            guard let responseData = responseData, error == nil else {
-                response(nil, error)
-                return
+        connection.request(data) { (result) -> Void in
+            switch result {
+            case .failure(let error):
+                response(.failure(error))
+            case .success(let data):
+                do {
+                    let result = try XMLRPCDecode(data)
+                    //                logger.debug("received: \(result)")
+                    response(.success(result))
+                }
+                catch {
+                    response(.failure(error as NSError))
+                }
             }
-            
-            do {
-                let result = try XMLRPCDecode(responseData)
-//                logger.debug("received: \(result)")
-                response(result, nil)
-            }
-            catch {
-                response(nil, error)
-            }
-
         }
     }
 }
@@ -53,12 +52,12 @@ protocol Command {
     var parameters: [Any]? { get }
 }
 
-protocol CommandWithResult {
+protocol CommandWithResult: Command {
     var transform: (Any)->Any? { get }
     var field: String { get }
 }
 
-struct ResultCommand: Command, CommandWithResult {
+struct ResultCommand: CommandWithResult {
     let command: String
     let parameters: [Any]?
     let field: String
@@ -73,7 +72,7 @@ struct ResultCommand: Command, CommandWithResult {
     }
 }
 
-struct DMultiCommand: Command, CommandWithResult {
+struct DMultiCommand: CommandWithResult {
     let command: String
     let parameters: [Any]?
     let field: String
@@ -109,7 +108,7 @@ struct DMultiCommand: Command, CommandWithResult {
     }
 }
 
-struct FMultiCommand: Command, CommandWithResult {
+struct FMultiCommand: CommandWithResult {
     let command: String
     let parameters: [Any]?
     let field: String
@@ -146,28 +145,19 @@ struct FMultiCommand: Command, CommandWithResult {
 }
 
 extension RTorrent {
-    func send(_ commands: [Command], response: @escaping ([String: Any]?, Error?)  -> Void) {
+    func send<T>(_ commands: [CommandWithResult], response: @escaping (Result<T>)  -> Void) {
         let parameters = commands.map { (command) -> [String: Any] in
             return ["methodName": command.command as Any, "params": command.parameters as Any? ?? []]
         }
         
-        self.send("system.multicall", parameters: [parameters] ) { (result, error) -> Void in
-            guard error == nil else{
-                response(nil, error)
+        self.send("system.multicall", parameters: [parameters] ) { (result) -> Void in
+            guard case .success(_) = result else {
+                response(.failure(result.error!))
                 return
             }
             
-            guard let result = result as? [Any] else{
-                response(nil, RTorrentError.unknown(message: "invalid response"))
-                return
-            }
-            
-            let resultCommands = commands.filter{ (command) -> Bool in
-                return command is CommandWithResult
-            }
-            
-            if resultCommands.count  == 0 {
-                response(nil, nil)
+            guard let result = result.value as? [Any] else {
+                response(.failure(RTorrentError.unknown(message: "invalid response") as NSError))
                 return
             }
             
@@ -180,7 +170,7 @@ extension RTorrent {
                         throw XMLRPCDecoderError.fault(code: code, message: message)
                     }
                     
-                    let command = resultCommands[i] as! CommandWithResult
+                    let command = commands[i]
                     if let v  = command.transform((commandResult as! [Any]).first!) {
                         return [command.field: v]
                     }
@@ -194,26 +184,31 @@ extension RTorrent {
                     return dict
                 }
                 
-                response(transformedResult, nil)
+                if let res = transformedResult as? T {
+                    response(.success(res))
+                }
+                else {
+                    response(.failure(RTorrentError.unknown(message: "invalid response type") as NSError))
+                }
             }
-            catch let e {
-                response(nil, e)
+            catch {
+                response(.failure(error as NSError))
             }
         }
     }
     
-    func send(_ command: Command, response: @escaping (Any?, Error?) -> Void) {
-        self.send(command.command, parameters: command.parameters, response: { (rsp, error) -> Void in
-            guard let rsp = rsp, error == nil else {
-                response(nil, error)
-                return
-            }
-            
-            if let command = command as? CommandWithResult {
-                response(command.transform(rsp), nil)
-            }
-            else {
-                response(rsp, nil)
+    func send<T>(_ command: CommandWithResult, response: @escaping (Result<T>) -> Void) {
+        self.send(command.command, parameters: command.parameters, response: { (result) -> Void in
+            switch result {
+            case .failure(let error):
+                response(.failure(error))
+            case .success(let data):
+                    if let res = command.transform(data) as? T {
+                        response(.success(res))
+                    }
+                    else {
+                        response(.failure(RTorrentError.unknown(message: "invalid response type") as NSError))
+                    }
             }
         })
     }

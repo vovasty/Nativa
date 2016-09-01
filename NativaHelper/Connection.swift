@@ -9,5 +9,5 @@
 import Foundation
 
 protocol Connection {
-    func request(_ data: Data, response: @escaping (Data?, Error?) -> Void)
+    func request(_ data: Data, response: @escaping (Result<Data>) -> Void)
 }
