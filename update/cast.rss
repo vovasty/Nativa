@@ -6,6 +6,25 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
+ 			<title>Version 0.8.1</title>
+      <description>
+          <![CDATA[
+            <ul>
+              <li>bug fixes</li>
+            </ul>
+          ]]>
+      </description>
+ 			<pubDate>Thu, 01 Sep 2016 11:52:41 -0700</pubDate>
+ 			<enclosure
+ 				url="http://bitbucket.org/vovasty/nativa/downloads/Nativa-0.8.1.zip"
+ 				sparkle:version="34"
+ 				sparkle:shortVersionString="0.8.1"
+ 				type="application/octet-stream"
+ 				length="5268481"
+ 				sparkle:dsaSignature="MC0CFAzsG2YcXXJJwKlW6zbuMw618RRkAhUAnYxOK091HJ3zMat7D3TIPl6v4gM="
+ 			/>
+ 		</item>
+    <item>
     			<title>Version 0.8.0</title>
     			<pubDate>Sun, 19 Jun 2016 10:59:22 -0700</pubDate>
           <description>
