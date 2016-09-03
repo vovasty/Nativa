@@ -115,7 +115,7 @@ class DownloadCell: NSTableCellView
             controlButton.state = NSOffState
         case .Stopped, .Paused, .Unknown:
             controlButton.state = NSOnState
-            progressIndicatorHidden = false
+            progressIndicatorHidden = true
         case .Downloading, .Checking:
             controlButton.state = NSOffState
             progressIndicatorHidden = false
