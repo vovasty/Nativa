@@ -289,7 +289,7 @@ class Datasource: ConnectionEventListener {
     }
 
 
-    private func update(process: ProcessDescriptor, closure: (@escaping (Error?) -> Void)? = nil)
+    private func update(process: ProcessDescriptor, closure: ((Error?) -> Void)? = nil)
     {
         updateStats(process: process) {
             process.downloader?.update { (result, error) -> Void in

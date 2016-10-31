@@ -191,7 +191,7 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             return
         }
         
-        let command =  start ? "load_raw_start" : "load_raw"
+        let command =  start && (priorities?.count ?? 0) == 0 ? "load_raw_start" : "load_raw"
         var parameters: [Any] = [data as Any]
         if let folder = folder {
             parameters.append("d.set_directory_base=\(folder)")
@@ -202,8 +202,19 @@ class NativaHelper : NSObject, NativaHelperProtocol {
             case .failure(let error):
                 handler(error)
             case .success(_):
-                if let priorities = priorities {
-                    self.setFilePriority(id, priorities: priorities, handler: handler)
+                if let priorities = priorities, priorities.count > 0 {
+                    self.setFilePriority(id, priorities: priorities) { (error) in
+                        guard error == nil else {
+                            handler (error)
+                            return
+                        }
+                        
+                        if start {
+                            self.startTorrent(id) { (_, error) in
+                                handler(error)
+                            }
+                        }
+                    }
                 }
             }
         }
