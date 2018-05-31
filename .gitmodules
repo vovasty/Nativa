@@ -1,0 +1,6 @@
+[submodule "lib/SwiftySSH"]
+	path = lib/SwiftySSH
+	url = https://github.com/vovasty/SwiftySSH.git
+[submodule "lib/Sparkle"]
+	path = lib/Sparkle
+	url = https://github.com/sparkle-project/Sparkle.git

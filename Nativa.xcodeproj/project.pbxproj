@@ -42,7 +42,6 @@
 		CD5AA88A1B97978000517F47 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5AA86C1B9796E000517F47 /* Sparkle.framework */; };
 		CD5AA88B1B97978D00517F47 /* SwiftySSH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CD5AA8591B9795F200517F47 /* SwiftySSH.framework */; };
 		CD5AA8B61B97B89E00517F47 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = CD5AA8B51B97B89E00517F47 /* dsa_pub.pem */; };
-		CD5AA8B71B9808B400517F47 /* SwiftySSH.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CD5AA8591B9795F200517F47 /* SwiftySSH.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CD6851A41B90CB7600A810F1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD68519F1B90CB7600A810F1 /* Error.swift */; };
 		CD6851A51B90CB7600A810F1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD68519F1B90CB7600A810F1 /* Error.swift */; };
 		CD6851A61B90CB7600A810F1 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD68519F1B90CB7600A810F1 /* Error.swift */; };
@@ -94,6 +93,8 @@
 		CDEB367B1D148E150042F02E /* ConstraintUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEB367A1D148E150042F02E /* ConstraintUtils.swift */; };
 		CDEE44DE1991E1EE00FB76AC /* DownloadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */; };
 		CDF3D97F199ECED5002B91C8 /* NativaHelper.xpc in Embed XPC Services */ = {isa = PBXBuildFile; fileRef = CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CDFADBB520C0A892006F7BBE /* SwiftySSH.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CDFADBAD20C0A87E006F7BBE /* SwiftySSH.framework */; };
+		CDFADBB620C0A892006F7BBE /* SwiftySSH.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = CDFADBAD20C0A87E006F7BBE /* SwiftySSH.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		CDFE78A21B9F7E730001E8F9 /* NotificationCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFE78A11B9F7E730001E8F9 /* NotificationCenter.swift */; };
 		CDFFC20819DB6D2E0072EEAD /* AddTorrentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */; };
 		CDFFC20B19DB747F0072EEAD /* FileListNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDFFC20A19DB747F0072EEAD /* FileListNode.swift */; };
@@ -191,6 +192,41 @@
 			remoteGlobalIDString = CDF3D972199ECED5002B91C8;
 			remoteInfo = DownloaderService;
 		};
+		CDFADBA220C0A864006F7BBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD5AA8341B963D2C00517F47 /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 722954B41D04ADAF00ECF9CA;
+			remoteInfo = fileop;
+		};
+		CDFADBA420C0A864006F7BBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CD5AA8341B963D2C00517F47 /* Sparkle.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5AE13FB31E0D9E07000D2C2C;
+			remoteInfo = generate_appcast;
+		};
+		CDFADBAC20C0A87E006F7BBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDFADBA720C0A87E006F7BBE /* SwiftySSH.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD849CC019F99A670074F98B;
+			remoteInfo = SwiftySSH;
+		};
+		CDFADBAE20C0A87E006F7BBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDFADBA720C0A87E006F7BBE /* SwiftySSH.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CD849CCB19F99A670074F98B;
+			remoteInfo = SwiftySSHTests;
+		};
+		CDFADBB720C0A892006F7BBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CDFADBA720C0A87E006F7BBE /* SwiftySSH.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = CD849CBF19F99A670074F98B;
+			remoteInfo = SwiftySSH;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -200,8 +236,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				CD5AA8B71B9808B400517F47 /* SwiftySSH.framework in CopyFiles */,
 				CD5AA8881B97976F00517F47 /* Sparkle.framework in CopyFiles */,
+				CDFADBB620C0A892006F7BBE /* SwiftySSH.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +326,7 @@
 		CDEE44DD1991E1EE00FB76AC /* DownloadCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DownloadCell.swift; sourceTree = "<group>"; };
 		CDF3D973199ECED5002B91C8 /* NativaHelper.xpc */ = {isa = PBXFileReference; explicitFileType = "wrapper.xpc-service"; includeInIndex = 0; path = NativaHelper.xpc; sourceTree = BUILT_PRODUCTS_DIR; };
 		CDF3D976199ECED5002B91C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CDFADBA720C0A87E006F7BBE /* SwiftySSH.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftySSH.xcodeproj; path = lib/SwiftySSH/SwiftySSH.xcodeproj; sourceTree = SOURCE_ROOT; };
 		CDFE78A11B9F7E730001E8F9 /* NotificationCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationCenter.swift; sourceTree = "<group>"; };
 		CDFFC20719DB6D2E0072EEAD /* AddTorrentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddTorrentViewController.swift; sourceTree = "<group>"; };
 		CDFFC20A19DB747F0072EEAD /* FileListNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileListNode.swift; sourceTree = "<group>"; };
@@ -301,6 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD5AA88A1B97978000517F47 /* Sparkle.framework in Frameworks */,
+				CDFADBB520C0A892006F7BBE /* SwiftySSH.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +475,7 @@
 		CD5AA8601B9796DA00517F47 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				CDFADBA720C0A87E006F7BBE /* SwiftySSH.xcodeproj */,
 				CD5AA8341B963D2C00517F47 /* Sparkle.xcodeproj */,
 			);
 			name = lib;
@@ -452,6 +491,8 @@
 				CD5AA8721B9796E000517F47 /* BinaryDelta */,
 				CD5AA8741B9796E000517F47 /* Autoupdate.app */,
 				CD6E7CB11D14A1F60015D6D3 /* UI Tests.xctest */,
+				CDFADBA320C0A864006F7BBE /* fileop */,
+				CDFADBA520C0A864006F7BBE /* generate_appcast */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -526,6 +567,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		CDFADBA820C0A87E006F7BBE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CDFADBAD20C0A87E006F7BBE /* SwiftySSH.framework */,
+				CDFADBAF20C0A87E006F7BBE /* SwiftySSHTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		CDFFC20919DB74260072EEAD /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -557,6 +607,7 @@
 				CD5AA8841B97974200517F47 /* PBXTargetDependency */,
 				CDF3D97E199ECED5002B91C8 /* PBXTargetDependency */,
 				CDF3D981199ECED5002B91C8 /* PBXTargetDependency */,
+				CDFADBB820C0A892006F7BBE /* PBXTargetDependency */,
 			);
 			name = Nativa;
 			productName = Nativa;
@@ -656,6 +707,10 @@
 					ProjectRef = CD5AA8341B963D2C00517F47 /* Sparkle.xcodeproj */;
 				},
 				{
+					ProductGroup = CDFADBA820C0A87E006F7BBE /* Products */;
+					ProjectRef = CDFADBA720C0A87E006F7BBE /* SwiftySSH.xcodeproj */;
+				},
+				{
 					ProductGroup = CD5AA8541B9795F200517F47 /* Products */;
 					ProjectRef = CD5AA8531B9795F200517F47 /* SwiftySSH.xcodeproj */;
 				},
@@ -724,6 +779,34 @@
 			fileType = wrapper.cfbundle;
 			path = "UI Tests.xctest";
 			remoteRef = CD6E7CB01D14A1F60015D6D3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CDFADBA320C0A864006F7BBE /* fileop */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = fileop;
+			remoteRef = CDFADBA220C0A864006F7BBE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CDFADBA520C0A864006F7BBE /* generate_appcast */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = generate_appcast;
+			remoteRef = CDFADBA420C0A864006F7BBE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CDFADBAD20C0A87E006F7BBE /* SwiftySSH.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwiftySSH.framework;
+			remoteRef = CDFADBAC20C0A87E006F7BBE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		CDFADBAF20C0A87E006F7BBE /* SwiftySSHTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SwiftySSHTests.xctest;
+			remoteRef = CDFADBAE20C0A87E006F7BBE /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -886,6 +969,11 @@
 			isa = PBXTargetDependency;
 			target = CDF3D972199ECED5002B91C8 /* NativaHelper */;
 			targetProxy = CDF3D980199ECED5002B91C8 /* PBXContainerItemProxy */;
+		};
+		CDFADBB820C0A892006F7BBE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftySSH;
+			targetProxy = CDFADBB720C0A892006F7BBE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
