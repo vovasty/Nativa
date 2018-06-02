@@ -271,6 +271,9 @@ class DownloadsViewController: NSViewController
 extension DownloadsViewController: NSOutlineViewDataSource {
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int
     {
+        // for some reason it called before VC is loaded
+        guard downloads != nil else { return 0 }
+        
         if let group = item as? Group {
             return group.downloads.count
         }
