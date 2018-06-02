@@ -73,7 +73,7 @@ class SpeedLimitCell: NSTableCellView, NSTextFieldDelegate {
     }
     
     func control(_ control: NSControl, didFailToFormatString string: String, errorDescription error: String?) -> Bool {
-        NSBeep()
+        NSSound.beep()
         
         if let initialString = initialString {
             control.stringValue = initialString
@@ -91,9 +91,9 @@ class SpeedLimitViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let speedLimitCellNib = NSNib(nibNamed: "SpeedLimitCell", bundle: nil)!
-        self.outlineView.register(speedLimitCellNib, forIdentifier: "DownloadCell")
-        self.outlineView.register(speedLimitCellNib, forIdentifier: "UploadCell")
+        let speedLimitCellNib = NSNib(nibNamed: NSNib.Name(rawValue: "SpeedLimitCell"), bundle: nil)!
+        self.outlineView.register(speedLimitCellNib, forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DownloadCell"))
+        self.outlineView.register(speedLimitCellNib, forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "UploadCell"))
 
         update()
         resize()
@@ -189,11 +189,11 @@ extension SpeedLimitViewController: NSOutlineViewDelegate {
     {
         switch item {
         case let item as ProcessStatistics:
-            let result = outlineView.make(withIdentifier: "HeaderCell", owner:self) as? NSTableCellView
+            let result = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderCell"), owner:self) as? NSTableCellView
             result?.textField?.stringValue = item.stat.id.uppercased()
             return result
         case let item as DownloadStatistics:
-            let result = outlineView.make(withIdentifier: "DownloadCell", owner:self) as? SpeedLimitCell
+            let result = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DownloadCell"), owner:self) as? SpeedLimitCell
             result?.checkBox.title = "Download limit"
             result?.value = (item.stat.maxDownloadSpeed == 0 ? getSpeed(id: item.stat.id, key: kMaxDownloadSpeed) : Int(item.stat.maxDownloadSpeed)) / 1024
             result?.checked = item.stat.downloadLimited
@@ -213,7 +213,7 @@ extension SpeedLimitViewController: NSOutlineViewDelegate {
             }
             return result
         case let item as UploadStatistics:
-            let result = outlineView.make(withIdentifier: "UploadCell", owner:self) as? SpeedLimitCell
+            let result = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "UploadCell"), owner:self) as? SpeedLimitCell
             result?.checkBox.title = "Upload limit"
             result?.value = (item.stat.maxUploadSpeed == 0 ? getSpeed(id: item.stat.id, key: kMaxUploadSpeedKey) : Int(item.stat.maxUploadSpeed)) / 1024
             result?.checked = item.stat.uploadLimited

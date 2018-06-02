@@ -11,12 +11,12 @@ import Cocoa
 let kAccountsKey = "accounts"
 
 class RTorrentProcessPreferences: NSViewController{
-    dynamic var processName: String?
-    dynamic var scgiPort: String?
-    dynamic var useSSH: Bool = false
-    dynamic var sshHost: String?
-    dynamic var sshUser: String?
-    dynamic var sshPassword: String?
+    @objc dynamic var processName: String?
+    @objc dynamic var scgiPort: String?
+    @objc dynamic var useSSH: Bool = false
+    @objc dynamic var sshHost: String?
+    @objc dynamic var sshUser: String?
+    @objc dynamic var sshPassword: String?
     
     @objc
     @IBAction
@@ -68,10 +68,10 @@ class Processes: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
     @IBOutlet weak var tableView: NSTableView!
     @IBOutlet var arrayController: NSArrayController!
     
-    dynamic var useSSH: Bool = false
-    dynamic var sshHost: String?
-    dynamic var sshUser: String?
-    dynamic var sshPassword: String?
+    @objc dynamic var useSSH: Bool = false
+    @objc dynamic var sshHost: String?
+    @objc dynamic var sshUser: String?
+    @objc dynamic var sshPassword: String?
     
     override func viewWillDisappear() {
         super.viewWillDisappear()
@@ -85,7 +85,7 @@ class Processes: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
     
     //MARK :NSTableViewDelegate
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
-        let cell = tableView.make(withIdentifier: "NameCell", owner: self) as? NSTableCellView
+        let cell = tableView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "NameCell"), owner: self) as? NSTableCellView
         return cell
     }
     
@@ -103,7 +103,7 @@ class Processes: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
         alert.informativeText = "Deleted records cannot be restored."
         alert.alertStyle = .warning
         alert.beginSheetModal(for: self.view.window!) {
-            guard $0 == NSAlertFirstButtonReturn else {
+            guard $0 == NSApplication.ModalResponse.alertFirstButtonReturn else {
                 return
             }
             

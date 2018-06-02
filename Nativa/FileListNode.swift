@@ -33,7 +33,7 @@ class FileListNode {
     var icon: NSImage? {
         if _icon == nil
         {
-            _icon = NSWorkspace.shared().icon(forFileType: folder == true ? NSFileTypeForHFSTypeCode(OSType(kGenericFolderIcon)) :name.pathExtension)
+            _icon = NSWorkspace.shared.icon(forFileType: folder == true ? NSFileTypeForHFSTypeCode(OSType(kGenericFolderIcon)) :name.pathExtension)
         }
         
         return _icon

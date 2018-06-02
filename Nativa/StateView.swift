@@ -24,7 +24,7 @@ class StateView: NSView {
     override var isHidden: Bool {
         didSet {
             switch state {
-            case .Progress(_):
+            case .Progress:
                 if isHidden {
                     progress.stopAnimation(nil)
                 }
@@ -41,7 +41,6 @@ class StateView: NSView {
     }
 
     
-    @IBInspectable
     var state: StateViewContent = StateViewContent.Unknown {
         didSet {
             switch state {
@@ -80,7 +79,7 @@ class StateView: NSView {
         
         self.translatesAutoresizingMaskIntoConstraints = false
         
-        progress.style = .spinningStyle
+        progress.style = .spinning
         progress.controlSize = .regular
         progress.sizeToFit()
         

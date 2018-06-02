@@ -92,7 +92,7 @@ class DownloadCell: NSTableCellView
     
     func addTrackingAreaForView(view: NSView, userInfo:[NSObject : AnyObject]? = nil) {
         
-        let options: NSTrackingAreaOptions = [.mouseEnteredAndExited, .activeAlways];
+        let options: NSTrackingArea.Options = [NSTrackingArea.Options.mouseEnteredAndExited, NSTrackingArea.Options.activeAlways];
 
         let area: NSTrackingArea = NSTrackingArea(rect: view.frame, options: options, owner: self, userInfo: userInfo)
         
@@ -112,12 +112,12 @@ class DownloadCell: NSTableCellView
         {
         case .Seeding:
             progressIndicatorHidden = true
-            controlButton.state = NSOffState
+            controlButton.state = .off
         case .Stopped, .Paused, .Unknown:
-            controlButton.state = NSOnState
+            controlButton.state = .off
             progressIndicatorHidden = true
         case .Downloading, .Checking:
-            controlButton.state = NSOffState
+            controlButton.state = .off
             progressIndicatorHidden = false
             let progress = download.complete/download.size
             progressIndicator.progress = progress

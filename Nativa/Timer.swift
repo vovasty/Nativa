@@ -11,12 +11,12 @@ import Foundation
 class Timer
 {
     private var timer: DispatchSourceTimer!
-    private let block: (Void)->Void
+    private let block: ()->Void
     private let timeout: Int
     private let queue: DispatchQueue
     var running: Bool { get { return timer == nil } }
     
-    init(timeout: Int, queue: DispatchQueue = DispatchQueue.main, block:@escaping (Void)->Void) {
+    init(timeout: Int, queue: DispatchQueue = DispatchQueue.main, block:@escaping ()->Void) {
         self.block = block
         self.timeout = timeout
         self.queue = queue

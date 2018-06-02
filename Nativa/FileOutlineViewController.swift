@@ -8,9 +8,14 @@
 
 import Cocoa
 
+extension NSUserInterfaceItemIdentifier {
+    static let FileNameColumn = NSUserInterfaceItemIdentifier("FileNameColumn")
+    static let FileCheckColumn = NSUserInterfaceItemIdentifier("FileCheckColumn")
+}
+
 class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate {
     @IBOutlet weak var outlineView: NSOutlineView!
-    var filePriorities: [FileListNode: (priority: DownloadPriority, state: Int)] = [:]
+    var filePriorities: [FileListNode: (priority: DownloadPriority, state: NSControl.StateValue)] = [:]
     var flatPriorities: [FileListNode: Int]?
     private var expandedNodes: Set<FileListNode>?
     
@@ -25,15 +30,15 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         
         didSet {
             if let files = download?.flatFileList, files.count > 0 {
-                filePriorities = files.reduce([FileListNode: (priority: DownloadPriority, state: Int)](), { (d, file) -> [FileListNode: (priority: DownloadPriority, state: Int)] in
+                filePriorities = files.reduce([FileListNode: (priority: DownloadPriority, state: NSControl.StateValue)](), { (d, file) -> [FileListNode: (priority: DownloadPriority, state: NSControl.StateValue)] in
                     
                     var dict = d
-                    dict[file] = (priority: file.priority, state: (file.percentCompleted == 1 || file.priority != .Skip) ? NSOnState : NSOffState)
+                    dict[file] = (priority: file.priority, state: (file.percentCompleted == 1 || file.priority != .Skip) ? .on : .off)
                     return dict
                 })
             }
             else if let file = download?.file{
-                filePriorities = [file: (priority: file.priority, state: file.priority == .Skip ? NSOffState : NSOnState)]
+                filePriorities = [file: (priority: file.priority, state: file.priority == .Skip ? .off : .on)]
             }
             
             self.outlineView?.reloadData()
@@ -52,10 +57,10 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let fileNameNib = NSNib(nibNamed: "FileName", bundle: nil)
-        self.outlineView.register(fileNameNib!, forIdentifier: "FileNameCell")
-        let folderNameNib = NSNib(nibNamed: "FolderName", bundle: nil)
-        self.outlineView.register(folderNameNib!, forIdentifier: "FolderNameCell")
+        let fileNameNib = NSNib(nibNamed: NSNib.Name(rawValue: "FileName"), bundle: nil)
+        self.outlineView.register(fileNameNib!, forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "FileNameCell"))
+        let folderNameNib = NSNib(nibNamed: NSNib.Name(rawValue: "FolderName"), bundle: nil)
+        self.outlineView.register(folderNameNib!, forIdentifier: NSUserInterfaceItemIdentifier(rawValue: "FolderNameCell"))
     }
     
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int
@@ -145,9 +150,9 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         if let file = item as? FileListNode, let ci = tableColumn?.identifier {
             
             switch ci {
-            case "FileNameColumn":
+            case .FileNameColumn:
                 if file.folder {
-                    if let cell = outlineView.make(withIdentifier: "FolderNameCell", owner:self) as? NSTableCellView {
+                    if let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "FolderNameCell"), owner:self) as? NSTableCellView {
                         cell.imageView?.image = file.icon
                         cell.textField?.stringValue = file.name
                         
@@ -159,7 +164,7 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
                     }
                 }
                 else {
-                    if let cell = outlineView.make(withIdentifier: "FileNameCell", owner:self) as? NSTableCellView {
+                    if let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "FileNameCell"), owner:self) as? NSTableCellView {
                         if let c = cell as? FileNameCell {
                             c.statusText.stringValue = String(format: "%.2f%%", file.percentCompleted*100) + " of " + Formatter.string(fromSize: file.size)
                         }
@@ -170,8 +175,8 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
                         result = cell
                     }
                 }
-            case "FileCheckColumn":
-                if let cell = outlineView.make(withIdentifier: "FileCheckCell", owner:self) as? NSTableCellView {
+            case .FileCheckColumn:
+                if let cell = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "FileCheckCell"), owner:self) as? NSTableCellView {
                     if let button: NSButton = cell.findSubview() {
                         button.action = #selector(fileChecked(_:))
                         button.target = self
@@ -207,8 +212,8 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         let rowNumber = self.outlineView.row(for: sender)
         guard let file = self.outlineView.item(atRow: rowNumber) as? FileListNode else { return }
 
-        if sender.state == NSMixedState {
-            sender.state = NSOnState
+        if sender.state == .mixed {
+            sender.state = .on
         }
         
         setPriority(forFile: file, state: sender.state)
@@ -227,14 +232,14 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         filePrioritiesDidChange(priorities: filteredFiles)
     }
     
-    func setPriority(forFile file: FileListNode, state: Int) {
+    func setPriority(forFile file: FileListNode, state: NSControl.StateValue) {
         guard file.percentCompleted < 1 else {
             return
         }
         
         let priority: DownloadPriority
         
-        if state == NSOnState || state == NSMixedState {
+        if state == .on || state == .mixed {
             priority = .Normal
         }
         else {
@@ -253,24 +258,24 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         }
     }
     
-    func state(fromFile file: FileListNode) -> Int {
+    func state(fromFile file: FileListNode) -> NSControl.StateValue {
         guard file.folder else {
             return filePriorities[file]!.state
         }
         
         guard let children = file.children else {
-            return NSOffState
+            return .off
         }
         
         var skipped = 0
         var checked = 0
         for f in children {
-            let st: Int = f.folder ? state(fromFile: f) : filePriorities[f]!.state
+            let st = f.folder ? state(fromFile: f) : filePriorities[f]!.state
             
-            if st == NSOnState {
+            if st == .on {
                 checked += 1
             }
-            else if st == NSOffState{
+            else if st == .off {
                 skipped += 1
             }
         }
@@ -278,12 +283,12 @@ class FileOutlineViewController: NSViewController, NSOutlineViewDataSource, NSOu
         let total = children.count
         
         if skipped == total {
-            return NSOffState
+            return .off
         }
         if checked == total {
-            return NSOnState
+            return .on
         }
-        return NSMixedState
+        return .mixed
     }
     
     func filePrioritiesDidChange(priorities: [FileListNode: Int]) {

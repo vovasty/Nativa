@@ -8,6 +8,20 @@
 
 import Cocoa
 
+private extension NSPasteboard.PasteboardType {
+    
+    static let backwardsCompatibleFileURL: NSPasteboard.PasteboardType = {
+        
+        if #available(OSX 10.13, *) {
+            return NSPasteboard.PasteboardType.fileURL
+        } else {
+            return NSPasteboard.PasteboardType(kUTTypeFileURL as String)
+        }
+        
+    } ()
+    
+}
+
 protocol DropViewDelegate {
     func completeDrag(toView view: DownloadDropView, torrents: [(path: URL, download: Download)])
 }
@@ -21,21 +35,21 @@ class DownloadDropView: NSView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.register(forDraggedTypes: [NSFilenamesPboardType])
+        self.registerForDraggedTypes([NSPasteboard.PasteboardType.backwardsCompatibleFileURL])
     }
     
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
-        self.register(forDraggedTypes: [NSFilenamesPboardType])
+        self.registerForDraggedTypes([NSPasteboard.PasteboardType.backwardsCompatibleFileURL])
     }
     
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
         let pboard = sender.draggingPasteboard()
-        guard let files = pboard.propertyList(forType: NSFilenamesPboardType) as? [String] else { return [] }
+        guard let files = pboard.propertyList(forType: NSPasteboard.PasteboardType.backwardsCompatibleFileURL) as? [String] else { return [] }
 
         torrentFiles = files.filter{
                 do {
-                    let t = try NSWorkspace.shared().type(ofFile: $0)
+                    let t = try NSWorkspace.shared.type(ofFile: $0)
                     return t ==  "org.bittorrent.torrent"
                     || $0.pathExtension.caseInsensitiveCompare("torrent") == .orderedSame
                 }

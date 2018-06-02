@@ -84,7 +84,7 @@ class Download
      var icon: NSImage? {
         if _icon == nil
         {
-            _icon = NSWorkspace.shared().icon(forFileType: file.folder ? NSFileTypeForHFSTypeCode(OSType(kGenericFolderIcon)) :title.pathExtension)
+            _icon = NSWorkspace.shared.icon(forFileType: file.folder ? NSFileTypeForHFSTypeCode(OSType(kGenericFolderIcon)) :title.pathExtension)
         }
             
         return _icon

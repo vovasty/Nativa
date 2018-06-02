@@ -25,7 +25,7 @@ class BackgroundView: NSView {
     override func draw(_ dirtyRect: NSRect){
         if let backgroundColor = backgroundColor {
             backgroundColor.setFill()
-            NSRectFill(dirtyRect)
+            dirtyRect.fill()
         }
         super.draw(dirtyRect)
     }

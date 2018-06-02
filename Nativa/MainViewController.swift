@@ -58,7 +58,7 @@ class MainViewController: NSSplitViewController {
         }
         
         if ((UserDefaults.standard[kAccountsKey] as? [[String: AnyObject]])?.count ?? 0) == 0 {
-            let controller = storyboard?.instantiateController(withIdentifier: "Preferences")
+            let controller = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier(rawValue: "Preferences"))
             presentViewControllerAsModalWindow(controller as! NSViewController)
         }
     }

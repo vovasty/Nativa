@@ -34,7 +34,7 @@ extension NSBezierPath {
                     newPath.addCurve(to: points[2], control1: points[0], control2: points[1])
                     bDidClosePath = false
                     
-                case NSBezierPathElement.closePathBezierPathElement:
+                case NSBezierPath.ElementType.closePathBezierPathElement:
                     newPath.closeSubpath()
                     bDidClosePath = true
                 }

@@ -83,7 +83,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
             }
         }
         
-        refreshTimer = Timer(timeout: Config.refreshTimeout) { (Void) -> Void in
+        refreshTimer = Timer(timeout: Config.refreshTimeout) { () -> Void in
                 Datasource.instance.update()
         }
 
@@ -134,7 +134,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSUserNotificationCenterDele
         panel.allowedFileTypes = ["org.bittorrent.torrent", "torrent"]
         panel.beginSheetModal(for: NSApp.mainWindow!) { (flag) -> Void in
             
-            guard flag == NSFileHandlingPanelOKButton else { return }
+            guard flag.rawValue == NSFileHandlingPanelOKButton else { return }
             
             self.addDownloads(fromURL: panel.urls)
         }

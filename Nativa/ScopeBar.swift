@@ -22,8 +22,8 @@ class ScopeBar: NSStackView {
     
     private func setup() {
         orientation = NSUserInterfaceLayoutOrientation.horizontal
-        alignment = NSLayoutAttribute.centerY
-        edgeInsets = EdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
+        alignment = NSLayoutConstraint.Attribute.centerY
+        edgeInsets = NSEdgeInsets(top: 0, left: 8, bottom: 0, right: 8)
         for v in subviews {
             guard let button  = v as? NSButton  else { continue }
             button.target = self
@@ -48,10 +48,10 @@ class ScopeBar: NSStackView {
     private func buttonClicked(_ sender: NSButton){
         for button in subviews {
             guard let button  = button as? NSButton  else { return }
-            button.state = NSOffState
+            button.state = .off
         }
         
-        sender.state = NSOnState
+        sender.state = .on
         
         scopeBarDelegate?.scopeBar(scopeBar: self, buttonClicked: sender)
     }
@@ -59,9 +59,8 @@ class ScopeBar: NSStackView {
     var selectedButton: NSButton? {
         for button in subviews {
             guard let button  = button as? NSButton  else { continue }
-            if button.state == NSOnState {
-                return button
-            }
+            guard button.state == .on else { continue }
+            return button
         }
         
         return nil

@@ -665,7 +665,7 @@
 						CreatedOnToolsVersion = 6.0;
 						DevelopmentTeam = QAKQ989T4B;
 						DevelopmentTeamName = "Vladimir Solomenchuk";
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0940;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 0;
@@ -1076,7 +1076,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_INCLUDE_PATHS = "$(SOURCE_ROOT)/Common";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -1095,7 +1096,8 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_INCLUDE_PATHS = "$(SOURCE_ROOT)/Common";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};

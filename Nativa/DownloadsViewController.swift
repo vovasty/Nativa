@@ -8,6 +8,10 @@
 
 import Cocoa
 
+private extension NSStoryboardSegue.Identifier {
+    static let showAddTorrent = NSStoryboardSegue.Identifier("showAddTorrent")
+}
+
 struct SelectedDownloadsNotification: NotificationProtocol {
     let downloads: [Download]
 }
@@ -71,9 +75,9 @@ class DownloadsViewController: NSViewController
                 let indexes = IndexSet(integer: downloadChange.index)
                 switch downloadChange.type {
                 case .delete:
-                    self.outlineView.removeItems(at: indexes, inParent: nil, withAnimation: .slideUp)
+                    self.outlineView.removeItems(at: indexes, inParent: nil, withAnimation: NSTableView.AnimationOptions.slideUp)
                 case .insert:
-                    self.outlineView.insertItems(at: indexes, inParent: nil, withAnimation: .slideDown)
+                    self.outlineView.insertItems(at: indexes, inParent: nil, withAnimation: NSTableView.AnimationOptions.slideDown)
                 case .update:
                     //cause reloadItem is not working...
                     let row = self.outlineView.row(forItem: downloadChange.object)
@@ -131,7 +135,7 @@ class DownloadsViewController: NSViewController
         guard let identifier = segue.identifier else { return }
         
         switch identifier{
-        case "showAddTorrent":
+        case .showAddTorrent:
             if  let torrent = torrents?.next(),
                 let vc = segue.destinationController as? AddTorrentViewController {
                     vc.setDownload(download: torrent.download, path: torrent.path)
@@ -146,7 +150,7 @@ class DownloadsViewController: NSViewController
         
         self.torrents = torrents.makeIterator()
         for _ in 0 ... torrents.count - 1 {
-            self.performSegue(withIdentifier: "showAddTorrent", sender: nil)
+            self.performSegue(withIdentifier: .showAddTorrent, sender: nil)
         }
     }
     
@@ -175,9 +179,9 @@ class DownloadsViewController: NSViewController
         alert.addButton(withTitle: "Cancel")
         alert.messageText = "Delete the selected downloads?"
         alert.informativeText = "This operation can not be undone."
-        alert.alertStyle = NSAlertStyle.warning
+        alert.alertStyle = NSAlert.Style.warning
         alert.beginSheetModal(for: self.view.window!) {
-            guard $0 == NSAlertFirstButtonReturn else {
+            guard $0 == NSApplication.ModalResponse.alertFirstButtonReturn else {
                 return
             }
             
@@ -296,12 +300,12 @@ extension DownloadsViewController: NSOutlineViewDelegate {
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView?
     {
         if let group = item as? Group {
-            let result: GroupCell! = outlineView.make(withIdentifier: "GroupCell", owner:self) as? GroupCell;
+            let result: GroupCell! = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "GroupCell"), owner:self) as? GroupCell;
             result.group = group
             return result;
         }
         else if let download = item as? Download{
-            let result: DownloadCell! = outlineView.make(withIdentifier: "DownloadCell", owner:self) as? DownloadCell;
+            let result: DownloadCell! = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DownloadCell"), owner:self) as? DownloadCell;
             result.download = download
             return result;
         }

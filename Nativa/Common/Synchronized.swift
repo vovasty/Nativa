@@ -12,7 +12,7 @@ private let locksTable = NSMapTable<AnyObject, NSRecursiveLock>.weakToWeakObject
 
 var locksTableLock = OS_SPINLOCK_INIT
 
-func synchronized(_ obj: AnyObject, f: (Void) -> Void) {
+func synchronized(_ obj: AnyObject, f: () -> Void) {
     OSSpinLockLock(&locksTableLock)
     var lock = locksTable.object(forKey: obj)
     if lock == nil {
