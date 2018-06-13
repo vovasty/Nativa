@@ -57,5 +57,25 @@
 	<string>alert</string>
 	<key>SUFeedURL</key>
 	<string>https://raw.githubusercontent.com/vovasty/Nativa/master/update/cast.rss</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeIdentifier</key>
+			<string>org.bittorrent.torrent</string>
+			<key>UTTypeDescription</key>
+			<string>BitTorrent Document</string>
+			<key>UTTypeIconFile</key>
+			<string>Appicon</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>torrent</string>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
