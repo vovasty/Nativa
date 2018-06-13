@@ -6,6 +6,23 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
 	<item>
+		<title>Version 0.8.4</title>
+        <description>
+            <![CDATA[
+            fixed torrent files association with the application
+            ]]>
+        </description>
+		<pubDate>Wed, 13 Jun 2018 11:42:12 -0700</pubDate>
+		<enclosure
+			url="https://github.com/vovasty/Nativa/releases/download/0.8.4(37)/Nativa-0.8.4.zip"
+			sparkle:version="37"
+			sparkle:shortVersionString="0.8.4"
+			type="application/octet-stream"
+			length="6511680"
+			sparkle:dsaSignature="MDQ3NzdmYzc4ZmM1ZjMwNzRhYTMzY2Q0NjE2ZjM0MjcxZDM4YzllZAo="
+		/>
+	</item>
+	<item>
 		<title>Version 0.8.3</title>
         <description>
             <![CDATA[
